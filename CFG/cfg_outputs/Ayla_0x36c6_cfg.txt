@@ -1,0 +1,647 @@
+Contract: Ayla
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admin = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _mint(admin,MAX_SUPPLY)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: currentRewardRate = INITIAL_REWARD_RATE
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lastHalvingTime = block.timestamp
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalSupply + amount <= MAX_SUPPLY,Max supply exceeded)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[account] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0),Invalid sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),Invalid recipient)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[sender] >= amount,Insufficient balance)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: burnAmount = (amount * burnRateBasisPoints) / 10000
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: sendAmount = amount - burnAmount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[sender] -= amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += sendAmount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= burnAmount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,sendAmount)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: burnAmount > 0
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,address(0),burnAmount)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[sender][msg.sender] >= amount,Allowance exceeded)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowance[sender][msg.sender] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: stake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount >= MIN_STAKE_AMOUNT,Amount too low)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: newStake = Stake({amount:amount,stakeStartTime:block.timestamp,stakeUnlockTime:block.timestamp + STAKE_LOCKUP_PERIOD,lastClaimedTime:block.timestamp})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: stakes[msg.sender].push(newStake)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Staked(msg.sender,amount,newStake.stakeUnlockTime)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: unstake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userStakes = stakes[msg.sender]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalUnstaked = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: len = userStakes.length
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(len > 0,No staked balance)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = len
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i > 0
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: index = i - 1
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: block.timestamp >= userStakes[index].stakeUnlockTime
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalUnstaked += userStakes[index].amount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: userStakes[index] = userStakes[userStakes.length - 1]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: userStakes.pop()
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalUnstaked > 0,No unlocked stake available)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] += totalUnstaked
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: Unstaked(msg.sender,totalUnstaked)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 16
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  10 -> 14
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 8
+  16 -> 17
+  17 -> 18
+
+Function: applyHalving
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: block.timestamp >= lastHalvingTime + HALVING_PERIOD
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: periods = (block.timestamp - lastHalvingTime) / HALVING_PERIOD
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: newRate = currentRewardRate >> periods
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: lastHalvingTime += periods * HALVING_PERIOD
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: newRate > 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: currentRewardRate = newRate
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: currentRewardRate = 1
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  3 -> 7
+  5 -> 6
+  7 -> 8
+  7 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 5
+
+Function: claimRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: applyHalving()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: userStakes = stakes[msg.sender]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: totalReward = 0
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: atLeastOneClaimed = false
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < userStakes.length
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: duration = block.timestamp - userStakes[i].lastClaimedTime
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: duration >= 86400
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: reward = (userStakes[i].amount * currentRewardRate * duration) / (100 * SECONDS_IN_YEAR)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: totalReward += reward
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: userStakes[i].lastClaimedTime = block.timestamp
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: atLeastOneClaimed = true
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(atLeastOneClaimed,Rewards can be claimed after 1 day)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalReward <= rewardPool,Insufficient reward pool)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[address(this)] >= totalReward,Contract balance insufficient)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: rewardPool -= totalReward
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] += totalReward
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(this),msg.sender,totalReward)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 17
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  10 -> 15
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 8
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  23 -> 1
+
+Function: depositRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Deposit amount must be greater than 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[address(this)] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: rewardPool += amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: setBurnRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newBurnRateBasisPoints >= 10 && newBurnRateBasisPoints <= 100,Burn rate must be between 0.1% and 1%)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: burnRateBasisPoints = newBurnRateBasisPoints
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Ayla
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = AYLA
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: burnRateBasisPoints = 100
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_SUPPLY = 31_000_000_000 * 10 ** 18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HALVING_PERIOD = 2 * 31536000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SECONDS_IN_YEAR = 31536000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INITIAL_REWARD_RATE = 10
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_STAKE_AMOUNT = 100 * 10 ** 18
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: STAKE_LOCKUP_PERIOD = 604800
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

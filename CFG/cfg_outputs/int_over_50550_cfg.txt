@@ -1,0 +1,56 @@
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: BitSongCrowdsale
+==================================================
+
+Function: startDistribution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: openingTime = block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: closingTime = openingTime.add(duration)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: closingTime
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

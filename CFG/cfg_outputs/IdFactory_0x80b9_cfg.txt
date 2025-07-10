@@ -1,0 +1,1366 @@
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner() == _msgSender(),Ownable: caller is not the owner)
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IdentityProxy
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_implementationAuthority != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(initialManagementKey != address(0),invalid argument - zero address)
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: sstore(uint256,uint256)(0x821f3e4d3d679f19eacc940c87acf846ea6eae24a63058ea750304437a62aafc,_implementationAuthority)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: logic = IImplementationAuthority(_implementationAuthority).getImplementation()
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = logic.delegatecall(abi.encodeWithSignature(initialize(address),initialManagementKey))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Initialization failed.)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: logic = IImplementationAuthority(implementationAuthority()).getImplementation()
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(0x0,0x0,calldatasize()())
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: success_fallback_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()() - 10000,logic,0x0,calldatasize()(),0,0)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: retSz_fallback_asm_0 = returndatasize()()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,retSz_fallback_asm_0)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_5570_163_0_fallback_asm_0 = success_fallback_asm_0
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: switch_expr_5570_163_0_fallback_asm_0 == 0
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,retSz_fallback_asm_0)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,retSz_fallback_asm_0)
+
+  ID: 15
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 13
+  11 -> 14
+  12 -> 15
+  13 -> 12
+  14 -> 12
+
+Function: implementationAuthority
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: implemAuth = sload(uint256)(0x821f3e4d3d679f19eacc940c87acf846ea6eae24a63058ea750304437a62aafc)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: implemAuth
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: IImplementationAuthority
+==================================================
+
+
+Contract: IERC734
+==================================================
+
+
+Contract: IIdFactory
+==================================================
+
+
+Contract: IdFactory
+==================================================
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner() == _msgSender(),Ownable: caller is not the owner)
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(__implementationAuthority != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _implementationAuthority = __implementationAuthority
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(_contractOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: addTokenFactory
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_factory != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isTokenFactory(_factory),already a factory)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _tokenFactories[_factory] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: TokenFactoryAdded(_factory)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: removeTokenFactory
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_factory != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isTokenFactory(_factory),not a factory)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _tokenFactories[_factory] = false
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: TokenFactoryRemoved(_factory)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: createIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_wallet != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keccak256(bytes)(abi.encode(_salt)) != keccak256(bytes)(abi.encode()),invalid argument - empty string)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: oidSalt = string.concat(OID,_salt)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _saltTaken[oidSalt],salt already taken)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_userIdentity[_wallet] == address(0),wallet already linked to an identity)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: identity = _deployIdentity(oidSalt,_implementationAuthority,_wallet)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _saltTaken[oidSalt] = true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _userIdentity[_wallet] = identity
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _wallets[identity].push(_wallet)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: WalletLinked(_wallet,identity)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: identity
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: batchCreateIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(wallets.length == _salts.length,input arrays must have the same length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: numWallets = wallets.length
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: identities = new address[](numWallets)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < numWallets
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: _wallet = wallets[i]
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: _salt = _salts[i]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_wallet != address(0),invalid argument - zero address)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keccak256(bytes)(abi.encode(_salt)) != keccak256(bytes)(abi.encode()),invalid argument - empty string)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: oidSalt = string.concat(OID,_salt)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _saltTaken[oidSalt],salt already taken)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_userIdentity[_wallet] == address(0),wallet already linked to an identity)
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: identity = _deployIdentity(oidSalt,_implementationAuthority,_wallet)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: _saltTaken[oidSalt] = true
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _userIdentity[_wallet] = identity
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _wallets[identity].push(_wallet)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: identities[i] = identity
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: WalletLinked(_wallet,identity)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: identities
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: identities
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 22
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 7
+  23 -> 1
+
+Function: getIdentityDeterministicAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_wallet != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keccak256(bytes)(abi.encode(_salt)) != keccak256(bytes)(abi.encode()),invalid argument - empty string)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: oidSalt = string.concat(OID,_salt)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: bytecode = abi.encodePacked(type()(IdentityProxy).creationCode,abi.encode(_implementationAuthority,_wallet))
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: bytecodeHash = keccak256(bytes)(bytecode)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: saltBytes = bytes32(keccak256(bytes)(abi.encodePacked(oidSalt)))
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: deployer = address(this)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: address(uint160(uint256(keccak256(bytes)(abi.encodePacked(bytes1(0xff),deployer,saltBytes,bytecodeHash)))))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: createIdentityWithManagementKeys
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_wallet != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keccak256(bytes)(abi.encode(_salt)) != keccak256(bytes)(abi.encode()),invalid argument - empty string)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: oidSalt = string.concat(OID,_salt)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _saltTaken[oidSalt],salt already taken)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_userIdentity[_wallet] == address(0),wallet already linked to an identity)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_managementKeys.length > 0,invalid argument - empty list of keys)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: identity = _deployIdentity(oidSalt,_implementationAuthority,address(this))
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: i < _managementKeys.length
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_managementKeys[i] != keccak256(bytes)(abi.encode(_wallet)),invalid argument - wallet is also listed in management keys)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: IERC734(identity).addKey(_managementKeys[i],1,1)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: IERC734(identity).removeKey(keccak256(bytes)(abi.encode(address(this))),1)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: _saltTaken[oidSalt] = true
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _userIdentity[_wallet] = identity
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _wallets[identity].push(_wallet)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: WalletLinked(_wallet,identity)
+
+  ID: 20
+  Type: NodeType.RETURN
+  Expression: identity
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 21
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 15
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  13 -> 14
+  14 -> 11
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  21 -> 1
+
+Function: createTokenIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isTokenFactory(msg.sender) || msg.sender == owner(),only Factory or owner can call)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_token != address(0),invalid argument - zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_tokenOwner != address(0),invalid argument - zero address)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keccak256(bytes)(abi.encode(_salt)) != keccak256(bytes)(abi.encode()),invalid argument - empty string)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: tokenIdSalt = string.concat(Token,_salt)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _saltTaken[tokenIdSalt],salt already taken)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_tokenIdentity[_token] == address(0),token already linked to an identity)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: identity = _deployIdentity(tokenIdSalt,_implementationAuthority,_tokenOwner)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _saltTaken[tokenIdSalt] = true
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIdentity[_token] = identity
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _tokenAddress[identity] = _token
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: TokenLinked(_token,identity)
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: identity
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: linkWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newWallet != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_userIdentity[msg.sender] != address(0),wallet not linked to an identity contract)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_userIdentity[_newWallet] == address(0),new wallet already linked)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_tokenIdentity[_newWallet] == address(0),invalid argument - token address)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: identity = _userIdentity[msg.sender]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_wallets[identity].length < 101,max amount of wallets per ID exceeded)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _userIdentity[_newWallet] = identity
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _wallets[identity].push(_newWallet)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: WalletLinked(_newWallet,identity)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: unlinkWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_oldWallet != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_oldWallet != msg.sender,cannot be called on sender address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_userIdentity[msg.sender] == _userIdentity[_oldWallet],only a linked wallet can unlink)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _identity = _userIdentity[_oldWallet]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete _userIdentity[_oldWallet]
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: length = _wallets[_identity].length
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < length
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: _wallets[_identity][i] == _oldWallet
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _wallets[_identity][i] = _wallets[_identity][length - 1]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _wallets[_identity].pop()
+
+  ID: 14
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: WalletUnlinked(_oldWallet,_identity)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 18
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 17
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  14 -> 8
+  15 -> 16
+  16 -> 10
+  18 -> 1
+
+Function: getIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _tokenIdentity[_wallet] != address(0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _tokenIdentity[_wallet]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _userIdentity[_wallet]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: isSaltTaken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _saltTaken[_salt]
+
+Edges:
+  0 -> 1
+
+Function: getWallets
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _wallets[_identity]
+
+Edges:
+  0 -> 1
+
+Function: getToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenAddress[_identity]
+
+Edges:
+  0 -> 1
+
+Function: isTokenFactory
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenFactories[_factory]
+
+Edges:
+  0 -> 1
+
+Function: implementationAuthority
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _implementationAuthority
+
+Edges:
+  0 -> 1
+
+Function: _deploy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: saltBytes = bytes32(keccak256(bytes)(abi.encodePacked(salt)))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: encoded_data__deploy_asm_0 = 0x20 + bytecode
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: encoded_size__deploy_asm_0 = mload(uint256)(bytecode)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: addr = create2(uint256,uint256,uint256,uint256)(0,encoded_data__deploy_asm_0,encoded_size__deploy_asm_0,saltBytes)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! extcodesize(uint256)(addr)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Deployed(addr)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: addr
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 11
+  9 -> 10
+  10 -> 12
+  11 -> 10
+  12 -> 13
+  13 -> 14
+
+Function: _deployIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _code = type()(IdentityProxy).creationCode
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _constructData = abi.encode(implementationAuthority,_wallet)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: bytecode = abi.encodePacked(_code,_constructData)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _deploy(_salt,bytecode)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

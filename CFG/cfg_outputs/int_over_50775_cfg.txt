@@ -1,0 +1,51 @@
+Contract: SafeMath
+==================================================
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: HODLWallet
+==================================================
+
+Function: doWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[from] >= amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[from] = balances[from].sub(amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: from.call.value(amount)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

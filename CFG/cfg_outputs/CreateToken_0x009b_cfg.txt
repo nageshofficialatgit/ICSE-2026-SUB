@@ -1,0 +1,2802 @@
+Contract: Address
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: size = extcodesize(uint256)(account)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: size > 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Address: insufficient balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Address: unable to send value, recipient may have reverted)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _functionCallWithValue(target,data,0,errorMessage)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _functionCallWithValue(target,data,value,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: call to non-contract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: weiValue}(data)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 8
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size__functionCallWithValue_asm_0 = mload(uint256)(returndata)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size__functionCallWithValue_asm_0)
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(errorMessage)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  7 -> 13
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 14
+  13 -> 14
+  14 -> 15
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b != 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a % b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Lockable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: locked
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _locked[_to]
+
+Edges:
+  0 -> 1
+
+Function: _lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Locked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _unlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Unlocked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: TimeLock
+==================================================
+
+Function: getEndTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _endTimestamp[to]
+
+Edges:
+  0 -> 1
+
+Function: _setTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(timestamp != uint256(0),Timelock: is the zero day)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = timestamp
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: SetTimeLock(to,timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _removeTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RemoveTimeLock(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: IERC20Metadata
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+Function: getEndTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _endTimestamp[to]
+
+Edges:
+  0 -> 1
+
+Function: _setTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(timestamp != uint256(0),Timelock: is the zero day)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = timestamp
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: SetTimeLock(to,timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _removeTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RemoveTimeLock(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: locked
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _locked[_to]
+
+Edges:
+  0 -> 1
+
+Function: _lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Locked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _unlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Unlocked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 18
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(owner,to,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _spendAllowance(from,spender,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,allowance(owner,spender) + addedValue)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - subtractedValue)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(locked(from) != true,ERC20: sender is locked)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)((getEndTime(from) <= block.timestamp) != false,ERC20: sender is Time locked)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: fromBalance = _balances[from]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(fromBalance >= amount,ERC20: transfer amount exceeds balance)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = fromBalance - amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += amount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),ERC20: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(address(0),account,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply.add(amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = _balances[account].add(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(account,address(0),amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply.sub(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(account,address(0),amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _spendAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currentAllowance != type()(uint256).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= amount,ERC20: insufficient allowance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - amount)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _beforeTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _afterTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+
+Contract: ERC20Pauser
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ERC20(name_,symbol_)
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 18
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(owner,to,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _spendAllowance(from,spender,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,allowance(owner,spender) + addedValue)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - subtractedValue)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(locked(from) != true,ERC20: sender is locked)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)((getEndTime(from) <= block.timestamp) != false,ERC20: sender is Time locked)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: fromBalance = _balances[from]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(fromBalance >= amount,ERC20: transfer amount exceeds balance)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = fromBalance - amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += amount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),ERC20: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(address(0),account,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply.add(amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = _balances[account].add(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(account,address(0),amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply.sub(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(account,address(0),amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _spendAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currentAllowance != type()(uint256).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= amount,ERC20: insufficient allowance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - amount)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _beforeTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _afterTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: getEndTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _endTimestamp[to]
+
+Edges:
+  0 -> 1
+
+Function: _setTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(timestamp != uint256(0),Timelock: is the zero day)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = timestamp
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: SetTimeLock(to,timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _removeTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RemoveTimeLock(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: locked
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _locked[_to]
+
+Edges:
+  0 -> 1
+
+Function: _lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Locked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _unlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Unlocked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(account,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _lock(account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _unlock(account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _burn(_msgSender(),amount * (10 ** uint256(decimals())))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setTimeLock(account,timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: removeTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _removeTimeLock(account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: CreateToken
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: mint(msg.sender,50 * (10 ** 7) * (10 ** uint256(decimals())))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Pauser(VMS Classic,VMC)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(account,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _lock(account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _unlock(account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _burn(_msgSender(),amount * (10 ** uint256(decimals())))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setTimeLock(account,timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: removeTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _removeTimeLock(account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 18
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(owner,to,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _spendAllowance(from,spender,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,allowance(owner,spender) + addedValue)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - subtractedValue)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(locked(from) != true,ERC20: sender is locked)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)((getEndTime(from) <= block.timestamp) != false,ERC20: sender is Time locked)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: fromBalance = _balances[from]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(fromBalance >= amount,ERC20: transfer amount exceeds balance)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = fromBalance - amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += amount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),ERC20: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(address(0),account,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply.add(amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = _balances[account].add(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(account,address(0),amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply.sub(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(account,address(0),amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _spendAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currentAllowance != type()(uint256).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= amount,ERC20: insufficient allowance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - amount)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _beforeTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _afterTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: getEndTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _endTimestamp[to]
+
+Edges:
+  0 -> 1
+
+Function: _setTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(timestamp != uint256(0),Timelock: is the zero day)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = timestamp
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: SetTimeLock(to,timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _removeTimeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Timelock: account is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _endTimestamp[to] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RemoveTimeLock(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: locked
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _locked[_to]
+
+Edges:
+  0 -> 1
+
+Function: _lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Locked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _unlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: lock to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _locked[to] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Unlocked(to)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

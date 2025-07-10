@@ -1,0 +1,23 @@
+Contract: OwnedUpgradeabilityProxy
+==================================================
+
+Function: upgradeToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(implementation.delegatecall(data))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+

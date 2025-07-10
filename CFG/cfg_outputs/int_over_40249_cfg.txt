@@ -1,0 +1,38 @@
+Contract: DaoAccount
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: price = tokens * tokenPrice
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenBalance -= price
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! owner.call.value(price)()
+
+  ID: 4
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+
+

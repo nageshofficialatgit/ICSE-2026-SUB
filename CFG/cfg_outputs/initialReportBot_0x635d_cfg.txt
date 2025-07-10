@@ -1,0 +1,865 @@
+Contract: IERC20
+==================================================
+
+
+Contract: AggregatorV3Interface
+==================================================
+
+
+Contract: IOpenOracle
+==================================================
+
+
+Contract: initialReportBot
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oracle = IOpenOracle(_oracle)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ethUsdPriceFeed = AggregatorV3Interface(ETH_USD_PRICE_FEED)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: usdcUsdPriceFeed = AggregatorV3Interface(USDC_USD_PRICE_FEED)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: gasPriceFeed = AggregatorV3Interface(FAST_GAS_PRICE_FEED)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: submitReport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: startGas = gasleft()()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: priceFeedData = _fetchPriceFeedData()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: nextId = oracle.nextReportId()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(nextId > 1,No reports created yet)
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = nextId - 1
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i >= startFromId
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: isReportSubmitted[i]
+
+  ID: 11
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: reportData = _fetchReportData(i)
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: _isValidForSubmission(reportData,priceFeedData)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _submitReportWithChainlinkPrice(i,reportData,priceFeedData,startGas)
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: i == 1
+
+  ID: 19
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(No valid reports found for submission)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: nextId > MAX_REPORTS_TO_CHECK
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: startFromId = nextId - MAX_REPORTS_TO_CHECK
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: startFromId = 1
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 24
+  6 -> 9
+  7 -> 22
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  10 -> 12
+  11 -> 21
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  19 -> 7
+  20 -> 21
+  21 -> 9
+  23 -> 1
+  24 -> 25
+  24 -> 26
+  25 -> 27
+  26 -> 27
+  27 -> 8
+
+Function: _fetchReportData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: (data.token1,data.token2,None,None,data.settlementTime,data.exactToken1Amount,data.fee,None,None,None,data.settlerReward) = oracle.reportMeta(reportId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,data.currentReporter,None,None,None,None,None,None,None,None) = oracle.reportStatus(reportId)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: data
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: data
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _fetchPriceFeedData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (roundId1,ethPrice,startedAt1,updatedAt1,answeredInRound1) = ethUsdPriceFeed.latestRoundData()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: data.ethUsdPrice = ethPrice
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: data.ethUsdUpdatedAt = updatedAt1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: data.ethDecimals = ethUsdPriceFeed.decimals()
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: (roundId2,usdcPrice,startedAt2,updatedAt2,answeredInRound2) = usdcUsdPriceFeed.latestRoundData()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: data.usdcUsdPrice = usdcPrice
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: data.usdcUsdUpdatedAt = updatedAt2
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: data.usdcDecimals = usdcUsdPriceFeed.decimals()
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 21
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 22
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 23
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: (roundId3,gasAnswer,startedAt3,updatedAt3,answeredInRound3) = gasPriceFeed.latestRoundData()
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: data.gasPriceUpdatedAt = updatedAt3
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: block.timestamp - data.gasPriceUpdatedAt < GAS_PRICE_STALENESS && gasAnswer > 0
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: data.gasPrice = uint256(gasAnswer)
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Cannot obtain reliable gas price)
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.RETURN
+  Expression: data
+
+  ID: 31
+  Type: NodeType.RETURN
+  Expression: data
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 30
+
+Function: _isValidForSubmission
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: data.currentReporter != address(0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: data.token1 != WETH || data.token2 != USDC
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: data.exactToken1Amount < MIN_ETH_AMOUNT
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: minRequiredFee = (2 * data.exactToken1Amount * MIN_REPORT_FEE_PERCENT) / 10000
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: data.fee < minRequiredFee
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: data.settlementTime > MAX_SETTLEMENT_TIME
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: ! _arePriceFeedsActive(priceFeedData)
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: estimatedSettleGasCost = SETTLE_GAS_ESTIMATE * priceFeedData.gasPrice
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: data.settlerReward < estimatedSettleGasCost
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 23
+  23 -> 24
+
+Function: _arePriceFeedsActive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (block.timestamp - data.ethUsdUpdatedAt < ETH_USD_MAX_PRICE_FEED_DELAY && block.timestamp - data.usdcUsdUpdatedAt < USDC_USD_MAX_PRICE_FEED_DELAY)
+
+Edges:
+  0 -> 1
+
+Function: getChainlinkPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(data.ethUsdPrice > 0,Invalid ETH/USD price)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(data.usdcUsdPrice > 0,Invalid USDC/USD price)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: scaledEthPrice = uint256(data.ethUsdPrice) * (10 ** (18 - data.ethDecimals))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: scaledUsdcPrice = uint256(data.usdcUsdPrice) * (10 ** (18 - data.usdcDecimals))
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: usdcAmount = (wethAmount * scaledEthPrice * (10 ** 6)) / (scaledUsdcPrice * (10 ** 18))
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: usdcAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _submitReportWithChainlinkPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: token2Amount = getChainlinkPrice(reportData.exactToken1Amount,priceFeedData)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(WETH).balanceOf(address(this)) >= reportData.exactToken1Amount,Insufficient WETH balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(USDC).balanceOf(address(this)) >= token2Amount,Insufficient USDC balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(WETH).approve(address(oracle),reportData.exactToken1Amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(USDC).approve(address(oracle),token2Amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: oracle.submitInitialReport(reportId,reportData.exactToken1Amount,token2Amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: isReportSubmitted[reportId] = true
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: finalGasCost = calculateGasCost(startGas,priceFeedData.gasPrice)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(reportData.fee > finalGasCost,Transaction no longer profitable)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: (sentETH,None) = address(msg.sender).call{value: finalGasCost}()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sentETH,ETH transfer failed)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: ReportSubmitted(reportId,msg.sender,reportData.exactToken1Amount,token2Amount,0,finalGasCost)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: withdrawTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: success = IERC20(token).transfer(msg.sender,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Token transfer failed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(msg.sender).call{value: amount}()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETH transfer failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: calculateGasCost
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: gasUsed = startGas - gasleft()() + FINALIZATION_GAS_ESTIMATE
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: gasCost = gasUsed * gasPrice
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalCost = (gasCost * (100 + GAS_PREMIUM_PERCENT)) / 100
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: totalCost
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_REPORT_FEE_PERCENT = 100
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_ETH_AMOUNT = 11111111111111111
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_USD_MAX_PRICE_FEED_DELAY = 3960
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDC_USD_MAX_PRICE_FEED_DELAY = 90000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_REPORTS_TO_CHECK = 3
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_SETTLEMENT_TIME = 120
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GAS_PREMIUM_PERCENT = 25
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FINALIZATION_GAS_ESTIMATE = 60000
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SETTLE_GAS_ESTIMATE = 400000
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GAS_PRICE_STALENESS = 1980
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_USD_PRICE_FEED = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDC_USD_PRICE_FEED = 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6
+
+  ID: 14
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FAST_GAS_PRICE_FEED = 0x169E633A2D1E6c10dD91238Ba11c4A708dfEF37C
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+

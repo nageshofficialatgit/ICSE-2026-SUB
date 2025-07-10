@@ -1,0 +1,422 @@
+Contract: IERC20
+==================================================
+
+
+Contract: SignatureVerifier
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenAddress = _tokenAddress
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: minTokenBalance = _minTokenBalance
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: verifySignature
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(tokenAddress).balanceOf(msg.sender) >= minTokenBalance,Solde de tokens insuffisant)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: messageHash = getEthSignedMessageHash(message)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: recoveredSigner = recoverSigner(messageHash,signature)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: isValid = (recoveredSigner == signer)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: isValid
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: signatures[signer].push(SignatureData({message:message,signature:signature,signer:signer,timestamp:block.timestamp}))
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: SignatureStored(signer,message,signature,block.timestamp)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: isValid
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: setTokenRequirement
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenAddress = _tokenAddress
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: minTokenBalance = _minTokenBalance
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: TokenRequirementUpdated(_tokenAddress,_minTokenBalance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Nouvelle adresse invalide)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(previousOwner,newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: getSignatureCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: signatures[signer].length
+
+Edges:
+  0 -> 1
+
+Function: getSignature
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index < signatures[signer].length,Index hors limites)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: sigData = signatures[signer][index]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (sigData.message,sigData.signature,sigData.signer,sigData.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getEthSignedMessageHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: messageBytes = bytes(message)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: prefix = string(abi.encodePacked(Ethereum Signed Message:
+,uintToString(messageBytes.length)))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked(prefix,message))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: recoverSigner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (v,r,s) = splitSignature(signature)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: ecrecover(bytes32,uint8,bytes32,bytes32)(messageHash,v,r,s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: splitSignature
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sig.length == 65,Invalid signature length)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: r = mload(uint256)(sig + 32)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: s = mload(uint256)(sig + 64)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: v = byte(uint256,uint256)(0,mload(uint256)(sig + 96))
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: v < 27
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: v += 27
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: (v,r,s)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (v,r,s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: uintToString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: v == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: maxlength = 100
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: reversed = new bytes(maxlength)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: v != 0
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: remainder = v % 10
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: v = v / 10
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: reversed[i ++] = bytes1(uint8(48 + remainder))
+
+  ID: 12
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: s = new bytes(i)
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: j < i
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: s[j] = reversed[i - 1 - j]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 20
+  Type: NodeType.RETURN
+  Expression: string(s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 12
+  9 -> 10
+  10 -> 11
+  11 -> 8
+  12 -> 13
+  13 -> 16
+  14 -> 17
+  15 -> 20
+  16 -> 14
+  17 -> 18
+  17 -> 15
+  18 -> 19
+  19 -> 17
+
+

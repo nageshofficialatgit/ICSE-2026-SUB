@@ -1,0 +1,246 @@
+Contract: SimpleERC20
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: symbol = _symbol
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = _decimals
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = initialSupply * 10 ** uint256(_decimals)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[msg.sender] = totalSupply
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[msg.sender] >= amount,ERC20: transfer amount exceeds balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,to,amount)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[from] >= amount,ERC20: transfer amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_allowances[from][msg.sender] >= amount,ERC20: transfer amount exceeds allowance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] -= amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[from][msg.sender] -= amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[msg.sender][spender] += addedValue
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,_allowances[msg.sender][spender])
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = _allowances[msg.sender][spender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[msg.sender][spender] = currentAllowance - subtractedValue
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,_allowances[msg.sender][spender])
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

@@ -1,0 +1,52 @@
+Contract: Escrow124
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payer = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: payee = _payee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: arbiter = msg.sender
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: amount = msg.value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: release
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == arbiter,Only arbiter can release funds)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(payee).transfer(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

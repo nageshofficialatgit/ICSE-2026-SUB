@@ -1,0 +1,63 @@
+Contract: EtheremonEnergy
+==================================================
+
+Function: getClaimableAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: energy = energyData[_trainer]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: period = block.timestamp + energy.lastClaim
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: energyAmount = (period / claimTime) * claimAmount
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: energyAmount > claimAmount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: energyAmount = claimAmount
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: energyAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: claimTime = 30 * 60
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: claimAmount = 1
+
+Edges:
+  0 -> 1
+
+

@@ -1,0 +1,127 @@
+Contract: IUniswapV2Router
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: SnipingBot
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: uniswapRouter = IUniswapV2Router(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: snipeToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == amountETH,Incorrect ETH amount sent)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(deadline >= block.timestamp,Deadline has passed)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = WETH
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = token
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: uniswapRouter.swapExactETHForTokens{value: amountETH}(minTokensOut,path,address(this),deadline)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).transfer(owner,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

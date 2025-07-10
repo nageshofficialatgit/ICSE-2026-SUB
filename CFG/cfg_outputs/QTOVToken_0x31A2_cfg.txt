@@ -1,0 +1,438 @@
+Contract: QTOVToken
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: bridgeInitialized = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setBridge
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_bridge != address(0),Zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: bridge = _bridge
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: bridgeInitialized = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: BridgeUpdated(_bridge)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,to,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[_owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _spendAllowance(from,msg.sender,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bridgeInitialized,Bridge not initialized)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyBridge()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == bridge,Unauthorized)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _burn(from,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: burnFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _spendAllowance(account,msg.sender,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _burn(account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),From zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),To zero address)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: fromBalance = _balances[from]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(fromBalance >= amount,Insufficient balance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = fromBalance - amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),Mint to zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),Burn from zero address)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: accountBalance = _balances[account]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(accountBalance >= amount,Burn amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = accountBalance - amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(account,address(0),amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_owner != address(0),Approve from zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),Approve to zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[_owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(_owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _spendAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(_owner,spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currentAllowance != type()(uint256).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= amount,Insufficient allowance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_owner,spender,currentAllowance - amount)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Quantova
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = QTOV
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

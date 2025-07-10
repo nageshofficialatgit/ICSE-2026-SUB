@@ -1,0 +1,2760 @@
+Contract: SafeMathInt
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(c != MIN_INT256 || (a & MIN_INT256) != (b & MIN_INT256))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((b == 0) || (c / b == a))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(b != - 1 || a != MIN_INT256)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a / b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((b >= 0 && c <= a) || (b < 0 && c > a))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((b >= 0 && c >= a) || (b < 0 && c < a))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: abs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(a != MIN_INT256)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: a < 0
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: - a
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: a
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_INT256 = int256(1) << 255
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_INT256 = ~ (int256(1) << 255)
+
+Edges:
+  0 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(b != 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a % b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: IPancakeSwapPair
+==================================================
+
+
+Contract: IPancakeSwapRouter
+==================================================
+
+
+Contract: IPancakeSwapFactory
+==================================================
+
+
+Contract: IDividendDistributor
+==================================================
+
+
+Contract: DividendDistributor
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _token = msg.sender
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _router != address(0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: router = IPancakeSwapRouter(_router)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: router = IPancakeSwapRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 2
+
+Function: setDistributionCriteria
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: minPeriod = _minPeriod
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: minDistribution = _minDistribution
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyToken()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setShare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: shares[shareholder].amount > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: distributeDividend(shareholder)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: amount > 0 && shares[shareholder].amount == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addShareholder(shareholder)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: amount == 0 && shares[shareholder].amount > 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: removeShareholder(shareholder)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: totalShares = totalShares.sub(shares[shareholder].amount).add(amount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: shares[shareholder].amount = amount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: shares[shareholder].totalExcluded = getCumulativeDividends(shares[shareholder].amount)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyToken()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 9
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  13 -> 1
+
+Function: rescueToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IERC20(tokenAddress).transfer(_receiver,tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyToken()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balanceBefore = UC.balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = router.WETH()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = address(UC)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: router.swapExactETHForTokensSupportingFeeOnTransferTokens{value: msg.value}(0,path,address(this),block.timestamp)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: amount = UC.balanceOf(address(this)).sub(balanceBefore)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalDividends = totalDividends.add(amount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: dividendsPerShare = dividendsPerShare.add(dividendsPerShareAccuracyFactor.mul(amount).div(totalShares))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyToken()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: process
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: shareholderCount = shareholders.length
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: shareholderCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: gasUsed = 0
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: gasLeft = gasleft()()
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: iterations = 0
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: gasUsed < gas && iterations < shareholderCount
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: currentIndex >= shareholderCount
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: currentIndex = 0
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: shouldDistribute(shareholders[currentIndex])
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: distributeDividend(shareholders[currentIndex])
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: gasUsed = gasUsed.add(gasLeft.sub(gasleft()()))
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: gasLeft = gasleft()()
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: currentIndex ++
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: iterations ++
+
+  ID: 20
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyToken()
+
+Edges:
+  0 -> 21
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 20
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 15
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 9
+  21 -> 1
+
+Function: shouldDistribute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: shareholderClaims[shareholder] + minPeriod < block.timestamp && getUnpaidEarnings(shareholder) > minDistribution
+
+Edges:
+  0 -> 1
+
+Function: distributeDividend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: shares[shareholder].amount == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amount = getUnpaidEarnings(shareholder)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: amount > 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalDistributed = totalDistributed.add(amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: UC.transfer(shareholder,amount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: shareholderClaims[shareholder] = block.timestamp
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: shares[shareholder].totalRealised = shares[shareholder].totalRealised.add(amount)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: shares[shareholder].totalExcluded = getCumulativeDividends(shares[shareholder].amount)
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 11
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: claimDividend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: distributeDividend(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: getUnpaidEarnings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: shares[shareholder].amount == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: shareholderTotalDividends = getCumulativeDividends(shares[shareholder].amount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: shareholderTotalExcluded = shares[shareholder].totalExcluded
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: shareholderTotalDividends <= shareholderTotalExcluded
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: shareholderTotalDividends.sub(shareholderTotalExcluded)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  8 -> 9
+
+Function: getCumulativeDividends
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: share.mul(dividendsPerShare).div(dividendsPerShareAccuracyFactor)
+
+Edges:
+  0 -> 1
+
+Function: addShareholder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: shareholderIndexes[shareholder] = shareholders.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: shareholders.push(shareholder)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeShareholder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: shareholders[shareholderIndexes[shareholder]] = shareholders[shareholders.length - 1]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: shareholderIndexes[shareholders[shareholders.length - 1]] = shareholderIndexes[shareholder]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: shareholders.pop()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: UC = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dividendsPerShareAccuracyFactor = 10 ** 24
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minPeriod = 3600
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minDistribution = 1 * (10 ** 6)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Ownable
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: isOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender == _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipRenounced(_owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: ERC20Detailed
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _decimals = decimals_
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+
+Contract: USDCPRINTER
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: router = IPancakeSwapRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pair = IPancakeSwapFactory(router.factory()).createPair(router.WETH(),address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[address(this)][address(router)] = uint256(- 1)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: pairContract = IPancakeSwapPair(pair)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: automatedMarketMakerPairs[pair] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _liquidityReciever = msg.sender
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: distributor = new DividendDistributor(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: PCASHDividendReceiver = address(distributor)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: isDividendExempt[owner()] = true
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: isDividendExempt[pair] = true
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: isDividendExempt[address(this)] = true
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: isDividendExempt[deadWallet] = true
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: isDividendExempt[ZeroWallet] = true
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _isExcludedFromFees[owner()] = true
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _isExcludedFromFees[address(this)] = true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: _balances[owner()] = _totalSupply
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0x0),owner(),_totalSupply)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Detailed(USDC Printer,UPRINT,uint8(DECIMALS))
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: Ownable()
+
+Edges:
+  0 -> 18
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  18 -> 19
+  19 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: isOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender == _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipRenounced(_owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferFrom(msg.sender,to,value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: validRecipient(to)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _allowances[from][msg.sender] != uint256(- 1)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[from][msg.sender] = _allowances[from][msg.sender].sub(value,Insufficient Allowance)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferFrom(from,to,value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: validRecipient(to)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: _basicTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = _balances[from].sub(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] = _balances[to].add(amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: inSwap
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _basicTransfer(sender,recipient,amount)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: shouldAddLiquidity()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addLiquidity()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: shouldSwapBack()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: swapBack()
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _balances[sender] = _balances[sender].sub(amount)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _balances[recipient] = _balances[recipient].add(AmountReceived)
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: ! isDividendExempt[sender]
+
+  ID: 14
+  Type: NodeType.TRY
+  Expression: distributor.setShare(sender,balanceOf(sender))
+
+  ID: 15
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 16
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: ! isDividendExempt[recipient]
+
+  ID: 19
+  Type: NodeType.TRY
+  Expression: distributor.setShare(recipient,balanceOf(recipient))
+
+  ID: 20
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 21
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.TRY
+  Expression: distributor.process(distributorGas)
+
+  ID: 24
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 25
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,AmountReceived)
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: shouldTakeFee(sender,recipient)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: AmountReceived = takeFee(sender,recipient,amount)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: AmountReceived = amount
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 28
+  12 -> 13
+  13 -> 14
+  13 -> 17
+  14 -> 15
+  14 -> 16
+  14 -> 17
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 22
+  19 -> 20
+  19 -> 21
+  19 -> 22
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  23 -> 25
+  23 -> 26
+  24 -> 26
+  25 -> 26
+  26 -> 27
+  28 -> 29
+  28 -> 30
+  29 -> 31
+  30 -> 31
+  31 -> 12
+
+Function: takeFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: automatedMarketMakerPairs[sender]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: LFEE = amount.mul(buyLiquidityFee).div(feeDenominator)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: AmountLiquidityFee += LFEE
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: MFEE = amount.mul(buyMarketingFee).div(feeDenominator)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: AmountMarketingFee += MFEE
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: RFEE = amount.mul(buyRewardsFee).div(feeDenominator)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: AmountRewardsFee += RFEE
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: feeAmount = LFEE.add(MFEE).add(RFEE)
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: automatedMarketMakerPairs[recipient]
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: LFEE = amount.mul(sellLiquidityFee).div(feeDenominator)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: AmountLiquidityFee += LFEE
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: MFEE = amount.mul(sellMarketingFee).div(feeDenominator)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: AmountMarketingFee += MFEE
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: RFEE = amount.mul(sellRewardsFee).div(feeDenominator)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: AmountRewardsFee += RFEE
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: feeAmount = LFEE.add(MFEE).add(RFEE)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: feeAmount > 0
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: _balances[address(this)] = _balances[address(this)].add(feeAmount)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,address(this),feeAmount)
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: amount.sub(feeAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 13
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 22
+  13 -> 14
+  13 -> 21
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  23 -> 26
+  24 -> 25
+  25 -> 26
+  26 -> 27
+
+Function: manualSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: AmountLiquidityFee > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: swapForLiquidity(AmountLiquidityFee)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: AmountMarketingFee > 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: swapForMarketing(AmountMarketingFee)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: AmountRewardsFee > 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: swapAndSendDivident(AmountRewardsFee)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: swapping()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  10 -> 11
+  11 -> 1
+
+Function: addLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(router),tokenAmount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: router.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,_liquidityReciever,block.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: swapBack
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: AmountRewardsFee > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: swapAndSendDivident(AmountRewardsFee)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: swapping()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: swapAndSendDivident
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: initialBalance = address(this).balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(_tokens)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: ReceivedBalance = address(this).balance.sub(initialBalance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AmountRewardsFee = AmountRewardsFee.sub(_tokens)
+
+  ID: 5
+  Type: NodeType.TRY
+  Expression: distributor.deposit{value: ReceivedBalance}()
+
+  ID: 6
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 7
+  Type: NodeType.CATCH
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+
+Function: shouldTakeFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _isExcludedFromFees[from] || _isExcludedFromFees[to]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (automatedMarketMakerPairs[from] || automatedMarketMakerPairs[to])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: shouldAddLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: contractTokenBalance = balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: canSwap = contractTokenBalance >= swapTokensAtAmount
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _enableLiquidity && ! inSwap && canSwap && ! automatedMarketMakerPairs[msg.sender]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: shouldSwapBack
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _enableSwap && ! inSwap && ! automatedMarketMakerPairs[msg.sender]
+
+Edges:
+  0 -> 1
+
+Function: setAutoAddLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _flag
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _enableLiquidity = _flag
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _enableLiquidity = _flag
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+  5 -> 1
+
+Function: setAutoSwapBack
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _flag
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _enableSwap = _flag
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _enableSwap = _flag
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+  5 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner_][spender]
+
+Edges:
+  0 -> 1
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldValue = _allowances[msg.sender][spender]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: subtractedValue >= oldValue
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[msg.sender][spender] = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[msg.sender][spender] = oldValue.sub(subtractedValue)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,_allowances[msg.sender][spender])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[msg.sender][spender] = _allowances[msg.sender][spender].add(addedValue)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,_allowances[msg.sender][spender])
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: checkFeeExempt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _isExcludedFromFees[_addr]
+
+Edges:
+  0 -> 1
+
+Function: setBuyFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buyLiquidityFee = _newLp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: buyMarketingFee = _newMarketing
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: buyRewardsFee = _newReward
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setSellFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: sellLiquidityFee = _newLp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sellMarketingFee = _newMarketing
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: sellRewardsFee = _newReward
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setIsDividendExempt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(holder != address(this) && ! automatedMarketMakerPairs[holder])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isDividendExempt[holder] = exempt
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: exempt
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: distributor.setShare(holder,0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: distributor.setShare(holder,balanceOf(holder))
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+  7 -> 1
+
+Function: setDistributionCriteria
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: distributor.setDistributionCriteria(_minPeriod,_minDistribution)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: clearStuckBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = address(this).balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(_receiver).transfer(balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: rescueToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IERC20(tokenAddress).transfer(_receiver,tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: rescueDToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: distributor.rescueToken(tokenAddress,_receiver,tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setFeeReceivers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _marketingWalletAddress = _marketing
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _liquidityReciever = _liquidity
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setDistributorSettings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(gas < 750000,Gas must be lower than 750000)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: distributorGas = gas
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getCirculatingSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply.sub(_balances[deadWallet]).sub(_balances[ZeroWallet])
+
+Edges:
+  0 -> 1
+
+Function: isNotInSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ! inSwap
+
+Edges:
+  0 -> 1
+
+Function: manualSync
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IPancakeSwapPair(pair).sync()
+
+Edges:
+  0 -> 1
+
+Function: setLP
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: pairContract = IPancakeSwapPair(_address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pair = _address
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setAutomaticPairMarket
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! automatedMarketMakerPairs[_addr],Pair Already Set!!)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: automatedMarketMakerPairs[_addr] = _status
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: isDividendExempt[_addr] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: setWhitelistFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isExcludedFromFees[_addr] != _status,Error: Not changed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _isExcludedFromFees[_addr] = _status
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setMinSwapAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensAtAmount = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: swapForMarketing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: initalBalance = address(this).balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(_tokens)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: recieveBalance = address(this).balance.sub(initalBalance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AmountMarketingFee = AmountMarketingFee.sub(_tokens)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: address(_marketingWalletAddress).transfer(recieveBalance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: swapForLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: half = AmountLiquidityFee.div(2)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: otherhalf = AmountLiquidityFee.sub(half)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: initalBalance = address(this).balance
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(half)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: recieveBalance = address(this).balance.sub(initalBalance)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: AmountLiquidityFee = AmountLiquidityFee.sub(_tokens)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: addLiquidity(otherhalf,recieveBalance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: swapTokensForEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = address(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = router.WETH()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(router),tokenAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: router.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: buyLiquidityFee = 10
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: buyMarketingFee = 500
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: buyRewardsFee = 400
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: sellLiquidityFee = 10
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: sellMarketingFee = 500
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: sellRewardsFee = 400
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: feeDenominator = 1000
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _marketingWalletAddress = 0xCa0338A7064F1C09370E00ab3187724C8053c56F
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _totalSupply = 100000 * (10 ** DECIMALS)
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: swapTokensAtAmount = _totalSupply.mul(50).div(feeDenominator)
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _enableLiquidity = true
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _enableSwap = true
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: distributorGas = 500000
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: inSwap = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: deadWallet = 0x000000000000000000000000000000000000dEaD
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ZeroWallet = 0x0000000000000000000000000000000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DECIMALS = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

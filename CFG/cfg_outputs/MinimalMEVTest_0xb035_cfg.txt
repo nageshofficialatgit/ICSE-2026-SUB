@@ -1,0 +1,155 @@
+Contract: MinimalMEVTest
+==================================================
+
+Function: startClaim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentClaimer == address(0),Someone already claiming)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: contractBalance = address(this).balance - msg.value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: requiredDeposit = contractBalance / 2
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == requiredDeposit,Must deposit exactly 50% of contract balance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalReward = contractBalance
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: currentClaimer = msg.sender
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: unlockTime = block.timestamp + LOCK_TIME
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: finishClaim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: originalClaimer = currentClaimer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(originalClaimer != address(0),No active claim)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= unlockTime,Time lock not expired)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: claimer = address(originalClaimer)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: currentClaimer = address(0)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: finisherReward = (totalReward * FINISHER_PERCENT) / 100
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: claimerReward = requiredDeposit + (totalReward - finisherReward)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: (success1,None) = address(msg.sender).call{value: finisherReward}()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success1,Finisher payment failed)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (success2,None) = claimer.call{value: claimerReward}()
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success2,Claimer payment failed)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LOCK_TIME = 12
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FINISHER_PERCENT = 30
+
+Edges:
+  0 -> 1
+
+

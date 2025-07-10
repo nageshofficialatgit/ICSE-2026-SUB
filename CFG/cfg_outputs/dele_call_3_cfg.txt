@@ -1,0 +1,33 @@
+Contract: Saturn
+==================================================
+
+Function: handleLuckyPending
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: luckyPendingIndex < _pendingSkipSize
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _seed = uint256(keccak256()(abi.encodePacked((block.timestamp))))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _seed > 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+
+

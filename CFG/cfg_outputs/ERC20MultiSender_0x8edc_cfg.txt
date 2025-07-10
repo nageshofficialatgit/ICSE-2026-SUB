@@ -1,0 +1,58 @@
+Contract: IERC20
+==================================================
+
+
+Contract: ERC20MultiSender
+==================================================
+
+Function: multiSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipients.length == amounts.length,Recipients and amounts length mismatch)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddress)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < recipients.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transferFrom(msg.sender,recipients[i],amounts[i]),Transfer failed)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+

@@ -1,0 +1,3461 @@
+Contract: ERC20Basic
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+
+Contract: ReentrancyGuard
+==================================================
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rentrancy_lock = false
+
+Edges:
+
+
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: Claimable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: pendingOwner = newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: claimOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = pendingOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pendingOwner = 0x0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyPendingOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: Operational
+==================================================
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: claimOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = pendingOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pendingOwner = 0x0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyPendingOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: Operational
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: operator = _operator
+
+Edges:
+  0 -> 1
+
+Function: transferOperator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOperator != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: operator = newOperator
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(a == 0 || c / a == b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: BasicToken
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+
+Contract: StandardToken
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+
+Contract: LockableToken
+==================================================
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: transferLockedToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_releaseTime > now)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_releaseTime.sub(220752000) < now)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalances[lockedBalanceCount] = LockedBalance({owner:_to,value:_value,releaseTime:_releaseTime})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalanceCount ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TransferLockedToken(msg.sender,_to,_value,_releaseTime)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: lockedBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < lockedBalanceCount
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: lockedBalance = lockedBalances[i]
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _owner == lockedBalance.owner
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: value = value.add(lockedBalance.value)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: value
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 10
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 4
+
+Function: releaseLockedBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IFLOOP
+  Expression: index < lockedBalanceCount
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: now >= lockedBalances[index].releaseTime
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount += lockedBalances[index].value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: unlockBalanceByIndex(index)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 9
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 8
+  7 -> 8
+  8 -> 3
+  9 -> 10
+
+Function: unlockBalanceByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lockedBalance = lockedBalances[index]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[lockedBalance.owner] = balances[lockedBalance.owner].add(lockedBalance.value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ReleaseLockedBalance(lockedBalance.owner,lockedBalance.value,lockedBalance.releaseTime)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalances[index] = lockedBalances[lockedBalanceCount - 1]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete lockedBalances[lockedBalanceCount - 1]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalanceCount --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+
+Contract: DateTime
+==================================================
+
+Function: isLeapYear
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: year % 4 != 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: year % 100 != 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: year % 400 != 0
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+
+Function: leapYearsBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: year -= 1
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: year / 4 - year / 100 + year / 400
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getDaysInMonth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 31
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: month == 4 || month == 6 || month == 9 || month == 11
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 30
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: isLeapYear(year)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 29
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: 28
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  5 -> 7
+
+Function: parseTimestamp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: secondsAccountedFor = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dt.year = getYear(timestamp)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: buf = leapYearsBefore(dt.year) - leapYearsBefore(ORIGIN_YEAR)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor += LEAP_YEAR_IN_SECONDS * buf
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor += YEAR_IN_SECONDS * (dt.year - ORIGIN_YEAR - buf)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i = 1
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i <= 12
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: secondsInMonth = DAY_IN_SECONDS * getDaysInMonth(i,dt.year)
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: secondsInMonth + secondsAccountedFor > timestamp
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: dt.month = i
+
+  ID: 16
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor += secondsInMonth
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i = 1
+
+  ID: 23
+  Type: NodeType.IFLOOP
+  Expression: i <= getDaysInMonth(dt.month,dt.year)
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: DAY_IN_SECONDS + secondsAccountedFor > timestamp
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: dt.day = i
+
+  ID: 26
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor += DAY_IN_SECONDS
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: dt.hour = 0
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: dt.minute = 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: dt.second = 0
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: dt.weekday = 0
+
+  ID: 34
+  Type: NodeType.RETURN
+  Expression: dt
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 22
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 10
+  17 -> 18
+  18 -> 19
+  19 -> 12
+  20 -> 23
+  21 -> 30
+  22 -> 20
+  23 -> 24
+  23 -> 21
+  24 -> 25
+  24 -> 27
+  25 -> 26
+  26 -> 21
+  27 -> 28
+  28 -> 29
+  29 -> 23
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+
+Function: getYear
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: secondsAccountedFor = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: year = uint16(ORIGIN_YEAR + timestamp / YEAR_IN_SECONDS)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: numLeapYears = leapYearsBefore(year) - leapYearsBefore(ORIGIN_YEAR)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor += LEAP_YEAR_IN_SECONDS * numLeapYears
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor += YEAR_IN_SECONDS * (year - ORIGIN_YEAR - numLeapYears)
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: secondsAccountedFor > timestamp
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: isLeapYear(uint16(year - 1))
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor -= LEAP_YEAR_IN_SECONDS
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: secondsAccountedFor -= YEAR_IN_SECONDS
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: year -= 1
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: year
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 15
+  10 -> 11
+  10 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 9
+  15 -> 16
+
+Function: getMonth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: parseTimestamp(timestamp).month
+
+Edges:
+  0 -> 1
+
+Function: getDay
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: parseTimestamp(timestamp).day
+
+Edges:
+  0 -> 1
+
+Function: getHour
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint8((timestamp / 60 / 60) % 24)
+
+Edges:
+  0 -> 1
+
+Function: getMinute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint8((timestamp / 60) % 60)
+
+Edges:
+  0 -> 1
+
+Function: getSecond
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint8(timestamp % 60)
+
+Edges:
+  0 -> 1
+
+Function: toTimestamp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: i = ORIGIN_YEAR
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < year
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: isLeapYear(i)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: timestamp += LEAP_YEAR_IN_SECONDS
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: timestamp += YEAR_IN_SECONDS
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[0] = 31
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: isLeapYear(year)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[1] = 29
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[1] = 28
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[2] = 31
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[3] = 30
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[4] = 31
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[5] = 30
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[6] = 31
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[7] = 31
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[8] = 30
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[9] = 31
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[10] = 30
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: monthDayCounts[11] = 31
+
+  ID: 27
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: i = 1
+
+  ID: 30
+  Type: NodeType.IFLOOP
+  Expression: i < month
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: timestamp += DAY_IN_SECONDS * monthDayCounts[i - 1]
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: timestamp += DAY_IN_SECONDS * (day - 1)
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: timestamp += HOUR_IN_SECONDS * (hour)
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: timestamp += MINUTE_IN_SECONDS * (minute)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: timestamp += second
+
+  ID: 37
+  Type: NodeType.RETURN
+  Expression: timestamp
+
+  ID: 38
+  Type: NodeType.RETURN
+  Expression: timestamp
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 11
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 29
+  27 -> 30
+  28 -> 33
+  29 -> 27
+  30 -> 31
+  30 -> 28
+  31 -> 32
+  32 -> 30
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DAY_IN_SECONDS = 86400
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: YEAR_IN_SECONDS = 31536000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LEAP_YEAR_IN_SECONDS = 31622400
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HOUR_IN_SECONDS = 3600
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MINUTE_IN_SECONDS = 60
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORIGIN_YEAR = 1970
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: ReleaseableToken
+==================================================
+
+Function: transferLockedToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_releaseTime > now)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_releaseTime.sub(220752000) < now)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalances[lockedBalanceCount] = LockedBalance({owner:_to,value:_value,releaseTime:_releaseTime})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalanceCount ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TransferLockedToken(msg.sender,_to,_value,_releaseTime)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: lockedBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < lockedBalanceCount
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: lockedBalance = lockedBalances[i]
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _owner == lockedBalance.owner
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: value = value.add(lockedBalance.value)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: value
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 10
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 4
+
+Function: releaseLockedBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IFLOOP
+  Expression: index < lockedBalanceCount
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: now >= lockedBalances[index].releaseTime
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount += lockedBalances[index].value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: unlockBalanceByIndex(index)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 9
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 8
+  7 -> 8
+  8 -> 3
+  9 -> 10
+
+Function: unlockBalanceByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lockedBalance = lockedBalances[index]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[lockedBalance.owner] = balances[lockedBalance.owner].add(lockedBalance.value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ReleaseLockedBalance(lockedBalance.owner,lockedBalance.value,lockedBalance.releaseTime)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalances[index] = lockedBalances[lockedBalanceCount - 1]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete lockedBalances[lockedBalanceCount - 1]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalanceCount --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: Operational
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: operator = _operator
+
+Edges:
+  0 -> 1
+
+Function: transferOperator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOperator != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: operator = newOperator
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: claimOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = pendingOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pendingOwner = 0x0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyPendingOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: ReleaseableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = initialSupply
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = initReleasedSupply
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: createTime = now
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = initReleasedSupply
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Operational(operator)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: releaseSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(timestamp >= createTime && timestamp <= now)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! judgeReleaseRecordExist(timestamp))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(releaseAmount <= dailyLimit)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: updateLimit()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(limitSupplyPerYear > 0)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: releaseAmount > limitSupplyPerYear
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: releasedSupply.add(limitSupplyPerYear) > totalSupply
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = totalSupply
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount = totalSupply.sub(releasedSupply)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = releasedSupply.add(limitSupplyPerYear)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount = limitSupplyPerYear
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = 0
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: releasedSupply.add(releaseAmount) > totalSupply
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = totalSupply
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount = totalSupply.sub(releasedSupply)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = releasedSupply.add(releaseAmount)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = limitSupplyPerYear.sub(releaseAmount)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecords[frozenRecordsCount] = FrozenRecord(releaseAmount,timestamp.add(26 * 604800))
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecordsCount ++
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: ReleaseSupply(msg.sender,releaseAmount,timestamp)
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: onlyOperator()
+
+  ID: 26
+  Type: NodeType.RETURN
+  Expression: _actualRelease
+
+Edges:
+  0 -> 25
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 14
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 20
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  25 -> 1
+
+Function: judgeReleaseRecordExist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: exist = false
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: frozenRecordsCount > 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: index < frozenRecordsCount
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: (frozenRecords[index].unfreezeTime.parseTimestamp().year == (timestamp.add(26 * 604800)).parseTimestamp().year) && (frozenRecords[index].unfreezeTime.parseTimestamp().month == (timestamp.add(26 * 604800)).parseTimestamp().month) && (frozenRecords[index].unfreezeTime.parseTimestamp().day == (timestamp.add(26 * 604800)).parseTimestamp().day)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: exist = true
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: exist
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: _exist
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  2 -> 11
+  3 -> 6
+  4 -> 11
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 6
+  11 -> 12
+
+Function: updateLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: createTime.add(220752000) < now && ! secondYearUpdate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = standardDecimals.mul(120000000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: secondYearUpdate = true
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: createTime.add(2 * 220752000) < now
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: releasedSupply < totalSupply
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = totalSupply.sub(releasedSupply)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 9
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+
+Function: unfreeze
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: unfreezeAmount = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: index < frozenRecordsCount
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: frozenRecords[index].unfreezeTime < now
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: unfreezeAmount += frozenRecords[index].amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: unfreezeByIndex(index)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: unfreezeAmount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOperator()
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: _unfreezeAmount
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 10
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 9
+  8 -> 9
+  9 -> 4
+  10 -> 11
+  12 -> 1
+
+Function: unfreezeByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: unfreezeRecord = frozenRecords[index]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[owner] = balances[owner].add(unfreezeRecord.amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: UnfreezeAmount(owner,unfreezeRecord.amount,unfreezeRecord.unfreezeTime)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecords[index] = frozenRecords[frozenRecordsCount - 1]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete frozenRecords[frozenRecordsCount - 1]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecordsCount --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: setDailyLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dailyLimit = _dailyLimit
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalSupply = standardDecimals.mul(1000000000)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: secondYearUpdate = false
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: standardDecimals = 100000000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: limitSupplyPerYear = standardDecimals.mul(60000000)
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dailyLimit = standardDecimals.mul(1000000)
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: frozenRecordsCount = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: LLToken
+==================================================
+
+Function: ReleaseableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = initialSupply
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = initReleasedSupply
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: createTime = now
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = initReleasedSupply
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Operational(operator)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: releaseSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(timestamp >= createTime && timestamp <= now)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! judgeReleaseRecordExist(timestamp))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(releaseAmount <= dailyLimit)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: updateLimit()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(limitSupplyPerYear > 0)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: releaseAmount > limitSupplyPerYear
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: releasedSupply.add(limitSupplyPerYear) > totalSupply
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = totalSupply
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount = totalSupply.sub(releasedSupply)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = releasedSupply.add(limitSupplyPerYear)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount = limitSupplyPerYear
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = 0
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: releasedSupply.add(releaseAmount) > totalSupply
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = totalSupply
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount = totalSupply.sub(releasedSupply)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: releasedSupply = releasedSupply.add(releaseAmount)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = limitSupplyPerYear.sub(releaseAmount)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecords[frozenRecordsCount] = FrozenRecord(releaseAmount,timestamp.add(26 * 604800))
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecordsCount ++
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: ReleaseSupply(msg.sender,releaseAmount,timestamp)
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: onlyOperator()
+
+  ID: 26
+  Type: NodeType.RETURN
+  Expression: _actualRelease
+
+Edges:
+  0 -> 25
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 14
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 20
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  25 -> 1
+
+Function: judgeReleaseRecordExist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: exist = false
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: frozenRecordsCount > 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: index < frozenRecordsCount
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: (frozenRecords[index].unfreezeTime.parseTimestamp().year == (timestamp.add(26 * 604800)).parseTimestamp().year) && (frozenRecords[index].unfreezeTime.parseTimestamp().month == (timestamp.add(26 * 604800)).parseTimestamp().month) && (frozenRecords[index].unfreezeTime.parseTimestamp().day == (timestamp.add(26 * 604800)).parseTimestamp().day)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: exist = true
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: exist
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: _exist
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  2 -> 11
+  3 -> 6
+  4 -> 11
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 6
+  11 -> 12
+
+Function: updateLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: createTime.add(220752000) < now && ! secondYearUpdate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = standardDecimals.mul(120000000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: secondYearUpdate = true
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: createTime.add(2 * 220752000) < now
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: releasedSupply < totalSupply
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: limitSupplyPerYear = totalSupply.sub(releasedSupply)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 9
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+
+Function: unfreeze
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: unfreezeAmount = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: index < frozenRecordsCount
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: frozenRecords[index].unfreezeTime < now
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: unfreezeAmount += frozenRecords[index].amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: unfreezeByIndex(index)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: unfreezeAmount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOperator()
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: _unfreezeAmount
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 10
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 9
+  8 -> 9
+  9 -> 4
+  10 -> 11
+  12 -> 1
+
+Function: unfreezeByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: unfreezeRecord = frozenRecords[index]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[owner] = balances[owner].add(unfreezeRecord.amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: UnfreezeAmount(owner,unfreezeRecord.amount,unfreezeRecord.unfreezeTime)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecords[index] = frozenRecords[frozenRecordsCount - 1]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete frozenRecords[frozenRecordsCount - 1]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: frozenRecordsCount --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: setDailyLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dailyLimit = _dailyLimit
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferLockedToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_releaseTime > now)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_releaseTime.sub(220752000) < now)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalances[lockedBalanceCount] = LockedBalance({owner:_to,value:_value,releaseTime:_releaseTime})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalanceCount ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TransferLockedToken(msg.sender,_to,_value,_releaseTime)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: lockedBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < lockedBalanceCount
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: lockedBalance = lockedBalances[i]
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _owner == lockedBalance.owner
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: value = value.add(lockedBalance.value)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: value
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 10
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 4
+
+Function: releaseLockedBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IFLOOP
+  Expression: index < lockedBalanceCount
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: now >= lockedBalances[index].releaseTime
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: releaseAmount += lockedBalances[index].value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: unlockBalanceByIndex(index)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: releaseAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 9
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 8
+  7 -> 8
+  8 -> 3
+  9 -> 10
+
+Function: unlockBalanceByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lockedBalance = lockedBalances[index]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[lockedBalance.owner] = balances[lockedBalance.owner].add(lockedBalance.value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ReleaseLockedBalance(lockedBalance.owner,lockedBalance.value,lockedBalance.releaseTime)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalances[index] = lockedBalances[lockedBalanceCount - 1]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete lockedBalances[lockedBalanceCount - 1]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockedBalanceCount --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: Operational
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: operator = _operator
+
+Edges:
+  0 -> 1
+
+Function: transferOperator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOperator != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: operator = newOperator
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: claimOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = pendingOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pendingOwner = 0x0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyPendingOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: LLToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ReleaseableToken(initialSupply,initReleasedSupply,operator)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalSupply = standardDecimals.mul(1000000000)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: secondYearUpdate = false
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: standardDecimals = 100000000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: limitSupplyPerYear = standardDecimals.mul(60000000)
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dailyLimit = standardDecimals.mul(1000000)
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: frozenRecordsCount = 0
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: standard = 2017082602
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = LLToken
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = LLT
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 8
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+

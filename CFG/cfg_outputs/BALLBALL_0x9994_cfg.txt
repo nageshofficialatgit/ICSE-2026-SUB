@@ -1,0 +1,1216 @@
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: IUniswapV2Factory
+==================================================
+
+
+Contract: IUniswapV2Router02
+==================================================
+
+
+Contract: BALLBALL
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _taxWallet = address(_msgSender())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _balances[_msgSender()] = _tTotal
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: isExile[owner()] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: isExile[address(this)] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: isExile[address(uniswapV2Pair)] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_msgSender(),_tTotal)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(uniswapV2Router),_tTotal)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Pair = IUniswapV2Factory(uniswapV2Router.factory()).createPair(address(this),uniswapV2Router.WETH())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: marketPair[address(uniswapV2Pair)] = true
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: isExile[address(uniswapV2Pair)] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tTotal
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_msgSender(),recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,_msgSender(),_allowances[sender][_msgSender()].sub(amount,ERC20: transfer amount exceeds allowance))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Transfer amount must be greater than zero)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: taxAmount = 0
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: from != owner() && to != owner()
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: block.number == firstBlock
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(perBuyCount[block.number] < buysFirstBlock,Exceeds buys on the first block.)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: perBuyCount[block.number] ++
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: marketPair[from] && to != address(uniswapV2Router) && ! isExile[to]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= _maxTxAmount,Exceeds the _maxTxAmount.)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf(to) + amount <= _maxWalletSize,Exceeds the maxWalletSize.)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _buyCount ++
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: ! marketPair[to] && ! isExile[to]
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf(to) + amount <= _maxWalletSize,Exceeds the maxWalletSize.)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: marketPair[to] && from != address(this)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: ! marketPair[from] && ! marketPair[to] && from != address(this)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = 0
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: contractTokenBalance = balanceOf(address(this))
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: ! inSwap && marketPair[to] && swapEnabled && contractTokenBalance > _taxSwapThreshold && _buyCount > _preventSwapBefore
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: block.number > lastSellBlock
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: sellCount = 0
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(sellCount < sellsPerBlock)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(min(amount,min(contractTokenBalance,_maxTaxSwap)))
+
+  ID: 32
+  Type: NodeType.VARIABLE
+  Expression: contractETHBalance = address(this).balance
+
+  ID: 33
+  Type: NodeType.IF
+  Expression: contractETHBalance > 0
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: sendETHToFee(address(this).balance)
+
+  ID: 35
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: sellCount ++
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: lastSellBlock = block.number
+
+  ID: 38
+  Type: NodeType.IF
+  Expression: ! inSwap && marketPair[to] && swapEnabled && contractTokenBalance > _taxSwapThreshold && _buyCount > _preventSwapBefore
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(min(amount,min(contractTokenBalance,_maxTaxSwap)))
+
+  ID: 40
+  Type: NodeType.VARIABLE
+  Expression: contractETHBalance_scope_0 = address(this).balance
+
+  ID: 41
+  Type: NodeType.IF
+  Expression: contractETHBalance_scope_0 > 0
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: sendETHToFee(address(this).balance)
+
+  ID: 43
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 44
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 45
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 46
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: taxAmount > 0
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: _balances[address(this)] = _balances[address(this)].add(taxAmount)
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,address(this),taxAmount)
+
+  ID: 50
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 51
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = _balances[from].sub(amount)
+
+  ID: 52
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] = _balances[to].add(amount.sub(taxAmount))
+
+  ID: 53
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount.sub(taxAmount))
+
+  ID: 54
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceBuyTaxAt)
+
+  ID: 55
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_finalBuyTax).div(100)
+
+  ID: 56
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_initialBuyTax).div(100)
+
+  ID: 57
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 58
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceSellTaxAt)
+
+  ID: 59
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_finalSellTax).div(100)
+
+  ID: 60
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_initialSellTax).div(100)
+
+  ID: 61
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 54
+  5 -> 46
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 58
+  19 -> 21
+  21 -> 22
+  22 -> 23
+  22 -> 24
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 38
+  27 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  33 -> 35
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 45
+  38 -> 39
+  38 -> 44
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  41 -> 43
+  42 -> 43
+  43 -> 44
+  44 -> 45
+  45 -> 46
+  46 -> 47
+  47 -> 48
+  47 -> 50
+  48 -> 49
+  49 -> 50
+  50 -> 51
+  51 -> 52
+  52 -> 53
+  54 -> 55
+  54 -> 56
+  55 -> 57
+  56 -> 57
+  57 -> 7
+  58 -> 59
+  58 -> 60
+  59 -> 61
+  60 -> 61
+  61 -> 21
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: (a > b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: b
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: a
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: swapTokensForEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = address(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = uniswapV2Router.WETH()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(uniswapV2Router),tokenAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockTheSwap()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: sendETHToFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _taxWallet.transfer(amount)
+
+Edges:
+  0 -> 1
+
+Function: rescueETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_msgSender() == _taxWallet)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(_taxWallet).transfer(address(this).balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: rescueTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_msgSender() == _taxWallet)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_tokenAddr).transfer(_taxWallet,_amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: isNotRestricted
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _maxTxAmount = _tTotal
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _maxWalletSize = _tTotal
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: MaxTxAmountUpdated(_tTotal)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: enableTrading
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! tradingOpen,trading is already open)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router.addLiquidityETH{value: address(this).balance}(address(this),balanceOf(address(this)),0,0,owner(),block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(uniswapV2Pair).approve(address(uniswapV2Router),type()(uint256).max)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: swapEnabled = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tradingOpen = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: firstBlock = block.number
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: firstBlock = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialBuyTax = 20
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialSellTax = 20
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalBuyTax = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalSellTax = 0
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceBuyTaxAt = 30
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceSellTaxAt = 35
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _preventSwapBefore = 35
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _buyCount = 0
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: sellCount = 0
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: lastSellBlock = 0
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _maxTxAmount = 8413800000 * 10 ** _decimals
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _maxWalletSize = 8413800000 * 10 ** _decimals
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _taxSwapThreshold = 4206900000 * 10 ** _decimals
+
+  ID: 14
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _maxTaxSwap = 4206900000 * 10 ** _decimals
+
+  ID: 15
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: sellsPerBlock = 3
+
+  ID: 16
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: buysFirstBlock = 21
+
+  ID: 17
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: inSwap = false
+
+  ID: 18
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: swapEnabled = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _decimals = 9
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tTotal = 420690000000 * 10 ** _decimals
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _name = Ball Ball
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _symbol = BALLBALL
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

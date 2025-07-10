@@ -1,0 +1,83 @@
+Contract: AirDropContract
+==================================================
+
+Function: AirDropContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tos.length > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(vs.length > 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tos.length == vs.length)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: id = bytes4(keccak256()(transferFrom(address,address,uint256)))
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < tos.length
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: contract_address.call(id,msg.sender,tos[i],vs[i])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: validAddress(contract_address)
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 11
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 8
+  12 -> 1
+
+

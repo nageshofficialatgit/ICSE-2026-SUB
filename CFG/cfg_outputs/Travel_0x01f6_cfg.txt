@@ -1,0 +1,210 @@
+Contract: Travel
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: fee = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: percentage = 5
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: getFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: fee
+
+Edges:
+  0 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = msg.value
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: reserve = (amount / 100) * percentage
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: amount = amount - reserve
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: fee = fee + reserve
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: address(sender).transfer(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: Execute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: withdraw(sender)
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Access Denied)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: previous_owner = owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = new_owner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Ownership(previous_owner,new_owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: Fee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Access Denied)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amount = fee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: fee = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(receiver).transfer(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: changePercentage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Access Denied)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(new_percentage >= 0 && new_percentage <= 10,Invalid Percentage)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: previous_percentage = percentage
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: percentage = new_percentage
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Percentage(previous_percentage,percentage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

@@ -1,0 +1,43 @@
+Contract: KingOfTheHill
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value == 100000000000000000)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: (lastKing + timeLimit) < block.timestamp
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: lastKing = 100
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: timeLimit = 3600
+
+Edges:
+
+

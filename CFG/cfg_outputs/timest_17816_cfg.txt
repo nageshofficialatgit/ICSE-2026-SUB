@@ -1,0 +1,33 @@
+Contract: BlocksquareSeriesA
+==================================================
+
+Function: start
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: startTime = block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: endTime = startTime + (60 * 60) + (60 * 60 * 24 * 16)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: icoHasStarted = true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

@@ -1,0 +1,89 @@
+Contract: MintAndBurnAuthority
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < _mintlists.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowMintList[_mintlists[i]] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: j < _burnlists.length
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: allowBurnList[_burnlists[j]] = true
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 9
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 10
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  12 -> 10
+
+Function: canCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (allowMintList[_src] && _sig == bytes4(keccak256()(mint(address,uint256)))) || (allowBurnList[_src] && _sig == bytes4(keccak256()(burn(address,uint256))))
+
+Edges:
+  0 -> 1
+
+

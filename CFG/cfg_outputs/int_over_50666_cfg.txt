@@ -1,0 +1,56 @@
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: PLCRVoting
+==================================================
+
+Function: startPoll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: commitEndDate = block.timestamp.add(_commitDuration)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: revealEndDate = commitEndDate.add(_revealDuration)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: revealEndDate
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

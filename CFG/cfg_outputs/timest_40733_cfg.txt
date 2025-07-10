@@ -1,0 +1,28 @@
+Contract: BZRXv1ConverterMock
+==================================================
+
+Function: _getTimestamp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: currentTime != 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: currentTime
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: block.timestamp
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+

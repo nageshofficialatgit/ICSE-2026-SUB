@@ -1,0 +1,56 @@
+Contract: IENSRegistry
+==================================================
+
+
+Contract: IResolver
+==================================================
+
+
+Contract: ENSQuery
+==================================================
+
+Function: getAddressFromENS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: registry = IENSRegistry(ensRegistry)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: resolverAddress = registry.resolver(node)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(resolverAddress != address(0),Resolver not found)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: resolver = IResolver(resolverAddress)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: resolvedAddress = resolver.addr(node)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(resolvedAddress != address(0),Address not found)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: resolvedAddress
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

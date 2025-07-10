@@ -1,0 +1,56 @@
+Contract: dcall
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = stor0.delegatecall(msg.data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Delegatecall failed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.data.length >= 68,Invalid calldata size.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: stor0 = to
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: stor0 = 0x3194CaF313386dB79B70b8fd7BdD504c7534F14b
+
+Edges:
+
+

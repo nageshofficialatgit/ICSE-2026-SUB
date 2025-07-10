@@ -1,0 +1,359 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Ownable
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: DumpTheRump
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_communityWallet != address(0),Zero address not allowed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: communityWallet = _communityWallet
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[msg.sender] = _totalSupply
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,_totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner_][spender]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[sender][msg.sender] -= amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(sender,msg.sender,_allowances[sender][msg.sender])
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: setCommunityWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newWallet != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: communityWallet = newWallet
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0) && recipient != address(0),Zero address not allowed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[sender] >= amount,Insufficient balance)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: burnAmount = (amount * burnFee) / 100
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: communityAmount = (amount * communityFee) / 100
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: netAmount = amount - burnAmount - communityAmount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[sender] -= amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[recipient] += netAmount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _balances[communityWallet] += communityAmount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply -= burnAmount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,netAmount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,communityWallet,communityAmount)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,address(0),burnAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = DumpTheRump
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = DTR
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _totalSupply = 1_000_000_000 * 10 ** uint256(decimals)
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: burnFee = 2
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: communityFee = 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

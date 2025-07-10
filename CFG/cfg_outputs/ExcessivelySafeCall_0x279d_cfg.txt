@@ -1,0 +1,163 @@
+Contract: ExcessivelySafeCall
+==================================================
+
+Function: multiSafeCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = callArray.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: resultArray = new ExcessivelySafeCall.Result[](length)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: call = callArray[i]
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (success,returnData) = safeCall(call.returnDataSizeLimit,call.to,call.value,call.gasLimit,call.input)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: resultArray[i] = Result(success,returnData)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: resultArray
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: resultArray
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 13
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 6
+
+Function: safeCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gasLimit,to,value,input + 0x20,mload(uint256)(input),0,0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: returnDataSize = returndatasize()()
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: returnDataSize > returnDataSizeLimit
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: returnDataSize = returnDataSizeLimit
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: returnData = new bytes(returnDataSize)
+
+  ID: 11
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(returnData + 0x20,0,returnDataSize)
+
+  ID: 13
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (success,returnData)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+

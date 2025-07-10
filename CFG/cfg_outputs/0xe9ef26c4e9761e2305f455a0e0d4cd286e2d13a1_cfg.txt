@@ -1,0 +1,2784 @@
+Contract: ERC20Basic
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+
+Contract: SafeMath
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(a == 0 || c / a == b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: BasicToken
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+
+Contract: StandardToken
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: MintableToken
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: setSaleAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == saleAgent || msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: saleAgent = newSaleAgnet
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == saleAgent && ! mintingFinished)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = totalSupply.add(_amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Mint(_to,_amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: finishMinting
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == saleAgent || msg.sender == owner && ! mintingFinished)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mintingFinished = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: MintFinished()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: mintingFinished = false
+
+Edges:
+
+
+Contract: Pausable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+
+Contract: TlindToken
+==================================================
+
+Function: setSaleAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == saleAgent || msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: saleAgent = newSaleAgnet
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == saleAgent && ! mintingFinished)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = totalSupply.add(_amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Mint(_to,_amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: finishMinting
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == saleAgent || msg.sender == owner && ! mintingFinished)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mintingFinished = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: MintFinished()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: mintingFinished = false
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Tlind
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = TDT
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: StagedCrowdsale
+==================================================
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: milestonesCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: milestones.length
+
+Edges:
+  0 -> 1
+
+Function: setStart
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: start = newStart
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHardcap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: hardCap = newHardcap
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: addMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(period > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: milestones.push(Milestone(period,bonus))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.add(period)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeMilestones
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(number < milestones.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: milestone = milestones[number]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.sub(milestone.period)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete milestones[number]
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = number
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < milestones.length - 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: milestones[i] = milestones[i + 1]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: milestones.length --
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 11
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 8
+  12 -> 1
+
+Function: changeMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(number < milestones.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: milestone = milestones[number]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.sub(milestone.period)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: milestone.period = period
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: milestone.bonus = bonus
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.add(period)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: insertMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(numberAfter < milestones.length)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.add(period)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: milestones.length ++
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = milestones.length - 2
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i > numberAfter
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: milestones[i + 1] = milestones[i]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: milestones[numberAfter + 1] = Milestone(period,bonus)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 10
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 7
+  11 -> 1
+
+Function: clearMilestones
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(milestones.length > 0)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < milestones.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete milestones[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: milestones.length -= milestones.length
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  10 -> 1
+
+Function: lastSaleDate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(milestones.length > 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: start + totalPeriod * 86400
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: currentMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousDate = start
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < milestones.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: now >= previousDate && now < previousDate + milestones[i].period * 86400
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: previousDate = previousDate.add(milestones[i].period * 86400)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: saleIsOn()
+
+Edges:
+  0 -> 12
+  1 -> 4
+  2 -> 5
+  3 -> 11
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  12 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+
+Contract: CommonSale
+==================================================
+
+Function: milestonesCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: milestones.length
+
+Edges:
+  0 -> 1
+
+Function: setStart
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: start = newStart
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHardcap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: hardCap = newHardcap
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: addMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(period > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: milestones.push(Milestone(period,bonus))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.add(period)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeMilestones
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(number < milestones.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: milestone = milestones[number]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.sub(milestone.period)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete milestones[number]
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = number
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < milestones.length - 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: milestones[i] = milestones[i + 1]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: milestones.length --
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 11
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 8
+  12 -> 1
+
+Function: changeMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(number < milestones.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: milestone = milestones[number]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.sub(milestone.period)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: milestone.period = period
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: milestone.bonus = bonus
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.add(period)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: insertMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(numberAfter < milestones.length)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = totalPeriod.add(period)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: milestones.length ++
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = milestones.length - 2
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i > numberAfter
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: milestones[i + 1] = milestones[i]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: milestones[numberAfter + 1] = Milestone(period,bonus)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 10
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 7
+  11 -> 1
+
+Function: clearMilestones
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(milestones.length > 0)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < milestones.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete milestones[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: milestones.length -= milestones.length
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalPeriod = 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  10 -> 1
+
+Function: lastSaleDate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(milestones.length > 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: start + totalPeriod * 86400
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: currentMilestone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousDate = start
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < milestones.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: now >= previousDate && now < previousDate + milestones[i].period * 86400
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: previousDate = previousDate.add(milestones[i].period * 86400)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: saleIsOn()
+
+Edges:
+  0 -> 12
+  1 -> 4
+  2 -> 5
+  3 -> 11
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  12 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setSoftcap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isSoftcapOn = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: softcap = newSoftcap
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token = MintableToken(newToken)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setNextSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nextSale = CommonSale(newNextSale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: price = newPrice
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPercentRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: percentRate = newPercentRate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setFoundersTokensPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: foundersTokensPercent = newFoundersTokensPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBountyTokensPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: bountyTokensPercent = newBountyTokensPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setMultisigWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: multisigWallet = newMultisigWallet
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setFoundersTokensWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: foundersTokensWallet = newFoundersTokensWallet
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBountyTokensWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: bountyTokensWallet = newBountyTokensWallet
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: createTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= 100000000000000000)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: milestoneIndex = currentMilestone()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: milestone = milestones[milestoneIndex]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! isSoftcapOn
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: multisigWallet.transfer(msg.value)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: invested = invested.add(msg.value)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: tokens = msg.value.mul(1000000000000000000).div(price)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: bonusTokens = tokens.mul(milestone.bonus).div(percentRate)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: tokensWithBonus = tokens.add(bonusTokens)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: token.mint(this,tokensWithBonus)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(msg.sender,tokensWithBonus)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].add(msg.value)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: isUnderHardCap()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: saleIsOn()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 16
+  16 -> 1
+
+Function: refund
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now > start && refundOn && balances[msg.sender] > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(balances[msg.sender])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: finishMinting
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: isSoftcapOn && invested < softcap
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: refundOn = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: token.finishMinting()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: isSoftcapOn
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: multisigWallet.transfer(invested)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: issuedTokenSupply = token.totalSupply()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: summaryTokensPercent = bountyTokensPercent + foundersTokensPercent
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: summaryFoundersTokens = issuedTokenSupply.mul(summaryTokensPercent).div(percentRate - summaryTokensPercent)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: totalSupply = summaryFoundersTokens + issuedTokenSupply
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: foundersTokens = totalSupply.mul(foundersTokensPercent).div(percentRate)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: bountyTokens = totalSupply.mul(bountyTokensPercent).div(percentRate)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: token.mint(this,foundersTokens)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(foundersTokensWallet,foundersTokens)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: token.mint(this,bountyTokens)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(bountyTokensWallet,bountyTokens)
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: nextSale == address(0)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: token.finishMinting()
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: token.setSaleAgent(nextSale)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 22
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 21
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  22 -> 23
+  23 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: createTokens()
+
+Edges:
+  0 -> 1
+
+Function: retrieveTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: alienToken = ERC20(anotherToken)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: alienToken.transfer(multisigWallet,token.balanceOf(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: percentRate = 100
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: refundOn = false
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isSoftcapOn = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Configurator
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: deploy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: presaleMultisigWallet = 0x675cf930aefA144dA7e10ddBACC02f902A233eFC
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: presaleBountyTokensWallet = 0x06B8fF8476425E45A3D2878e0a27BB79efd4Dde1
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: presaleFoundersWallet = 0x27F1Ac3E29CBec9D225d98fF95B6933bD30E3F71
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: presaleSoftcap = 50000000000000000000
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: presaleHardcap = 2000000000000000000000
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: mainsaleMultisigWallet = 0xFb72502E9c56497BAC3B1c21DE434b371891CC05
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: mainsaleBountyTokensWallet = 0xd08112054C8e01E33fAEE176531dEB087809CbB2
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: mainsaleFoundersWallet = 0xDeFAE9a126bA5aA2537AaC481D9335827159D33B
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: mainsaleHardcap = 25000000000000000000000000
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: token = new TlindToken()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: presale = new CommonSale()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: presale.setToken(token)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: presale.setSoftcap(presaleSoftcap)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: presale.setHardcap(presaleHardcap)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: presale.setMultisigWallet(presaleMultisigWallet)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: presale.setFoundersTokensWallet(presaleFoundersWallet)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: presale.setBountyTokensWallet(presaleBountyTokensWallet)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: presale.setStart(1506344400)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: presale.setFoundersTokensPercent(15)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: presale.setBountyTokensPercent(5)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: presale.setPrice(10000000000000000)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: presale.addMilestone(8,200)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: presale.addMilestone(8,100)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: token.setSaleAgent(presale)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: mainsale = new CommonSale()
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setToken(token)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setHardcap(mainsaleHardcap)
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setMultisigWallet(mainsaleMultisigWallet)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setFoundersTokensWallet(mainsaleFoundersWallet)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setBountyTokensWallet(mainsaleBountyTokensWallet)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setStart(1510318800)
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setFoundersTokensPercent(15)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setBountyTokensPercent(5)
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.setPrice(10000000000000000)
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.addMilestone(1,50)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.addMilestone(6,30)
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.addMilestone(14,15)
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.addMilestone(14,10)
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.addMilestone(14,5)
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.addMilestone(7,0)
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: presale.setNextSale(mainsale)
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: token.transferOwnership(owner)
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: presale.transferOwnership(owner)
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: mainsale.transferOwnership(owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+
+

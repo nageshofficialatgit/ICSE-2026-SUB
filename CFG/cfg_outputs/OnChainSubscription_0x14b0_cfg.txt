@@ -1,0 +1,163 @@
+Contract: OnChainSubscription
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: subscriptionFee = _subscriptionFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: subscriptionDuration = _subscriptionDuration
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: subscribe
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == subscriptionFee,Please send the exact subscription fee.)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentExpiration = subscriptions[msg.sender]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: block.timestamp < currentExpiration
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: newExpiration = currentExpiration + subscriptionDuration
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: newExpiration = block.timestamp + subscriptionDuration
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: subscriptions[msg.sender] = newExpiration
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Subscribed(msg.sender,newExpiration)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: isSubscribed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: subscriptions[subscriber] >= block.timestamp
+
+Edges:
+  0 -> 1
+
+Function: updateSubscriptionFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: subscriptionFee = _newFee
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: updateSubscriptionDuration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: subscriptionDuration = _newDuration
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(address(this).balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

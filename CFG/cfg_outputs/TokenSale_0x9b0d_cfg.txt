@@ -1,0 +1,786 @@
+Contract: SafeMath
+==================================================
+
+Function: tryAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: c < a
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (true,c)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+
+Function: trySub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b > a
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a - b)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: tryMul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (true,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: c / a != b
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (true,c)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: tryDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a / b)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: tryMod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a % b)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: a + b
+
+Edges:
+  0 -> 1
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: a * b
+
+Edges:
+  0 -> 1
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a / b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: mod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a % b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: TokenSale
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins[msg.sender] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: saleActive = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins[_admin] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AdminAdded(_admin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setMaxInvestmentLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: MaxInvestmentLimitUpdated(maxInvestmentLimit,_newLimit)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: maxInvestmentLimit = _newLimit
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getTotalPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _paymentTokenId == 1
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: paymentToken = paymentToken1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: paymentTokenDecimals = paymentToken1.decimals()
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _paymentTokenId == 2
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: paymentToken = paymentToken2
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: paymentTokenDecimals = paymentToken2.decimals()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Invalid payment token ID)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: decimals = tokenForSale.decimals()
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: tokenPriceCorrected = tokenPrice.div(10 ** (decimals - paymentTokenDecimals))
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: tokenPriceCorrected.mul(_numberOfTokens.div(10 ** decimals))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  5 -> 11
+  6 -> 7
+  6 -> 9
+  7 -> 8
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender != _admin,Cannot remove self)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[_admin] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AdminRemoved(_admin)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: startSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! saleActive,Sale is already active)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: saleActive = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: stopSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(saleActive,Sale is not active)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: saleActive = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenPrice = _newPrice
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPaymentToken1
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paymentToken1 = IERC20(_paymentTokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPaymentToken2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paymentToken2 = IERC20(_paymentTokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTreasuryAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: treasuryAddress = _newTreasuryAddress
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: TreasuryAddressChanged(_newTreasuryAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: buyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(saleActive,Sale is not active)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: _paymentTokenId == 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: paymentToken = paymentToken1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: paymentTokenDecimals = paymentToken1.decimals()
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: _paymentTokenId == 2
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: paymentToken = paymentToken2
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: paymentTokenDecimals = paymentToken2.decimals()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Invalid payment token ID)
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: decimals = tokenForSale.decimals()
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: tokenPriceCorrected = tokenPrice.div(10 ** (decimals - paymentTokenDecimals))
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: totalPrice = tokenPriceCorrected.mul(_numberOfTokens).div(10 ** decimals)
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: newTotalInvestment = totalInvestments[msg.sender].add(totalPrice)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newTotalInvestment <= maxInvestmentLimit,Investment exceeds max limit)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: totalInvestments[msg.sender] = newTotalInvestment
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(paymentToken.allowance(msg.sender,address(this)) >= totalPrice,Token allowance not enough)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: paymentToken.transferFrom(msg.sender,treasuryAddress,totalPrice)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenForSale.balanceOf(address(this)) >= _numberOfTokens,Insufficient tokens available)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: tokenForSale.transfer(msg.sender,_numberOfTokens)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: tokensSold = tokensSold.add(_numberOfTokens)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: Sell(msg.sender,_numberOfTokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 12
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+
+Function: withdrawTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: contractBalance = tokenForSale.balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(contractBalance > 0,No tokens available to withdraw)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenForSale.transfer(treasuryAddress,contractBalance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: withdrawEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(treasuryAddress).transfer(address(this).balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: treasuryAddress = 0x92DEdD242B8Aa07d00D236C2afe9136Ed358722d
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tokenForSale = IERC20(0xe374CD55094334eEF5D1841624b001223c6b624D)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paymentToken1 = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paymentToken2 = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7)
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tokenPrice = 66660000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxInvestmentLimit = 100000 * 10 ** 6
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

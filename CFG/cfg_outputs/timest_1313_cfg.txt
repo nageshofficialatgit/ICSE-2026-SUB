@@ -1,0 +1,33 @@
+Contract: TokenTimelock
+==================================================
+
+Function: release
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp >= releaseTime)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amount = token * 2
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amount > 0)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

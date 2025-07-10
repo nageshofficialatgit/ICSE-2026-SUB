@@ -1,0 +1,313 @@
+Contract: Hurricane
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowedAmounts = (100000000000000000,250000000000000000,500000000000000000,1000000000000000000,5000000000000000000,10000000000000000000,20000000000000000000,50000000000000000000,100000000000000000000)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isAllowedAmount(msg.value),Invalid deposit amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(deposits[_note].depositor == address(0),Note already used)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: deposits[_note] = Deposit(msg.sender,msg.value,false)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Deposited(msg.sender,msg.value,_note)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userDeposit = deposits[_note]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(userDeposit.depositor != address(0),Note not found)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == userDeposit.depositor,Not your deposit)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! userDeposit.withdrawn,Already withdrawn)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),Invalid withdrawal address)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: userDeposit.withdrawn = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _to.transfer(userDeposit.amount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(msg.sender,userDeposit.amount,_to,_note)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: ownerWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = address(this).balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,No funds available)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: OwnerWithdrawn(owner,balance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: addAllowedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Amount must be greater than zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isAllowedAmount(amount),Amount already allowed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: allowedAmounts.push(amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AllowedAmountAdded(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: removeAllowedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < allowedAmounts.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: allowedAmounts[i] == amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: allowedAmounts[i] = allowedAmounts[allowedAmounts.length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: allowedAmounts.pop()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: AllowedAmountRemoved(amount)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Amount not found)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 13
+  1 -> 4
+  2 -> 12
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 10
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 11
+  11 -> 4
+  13 -> 3
+
+Function: isAllowedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < allowedAmounts.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: allowedAmounts[i] == amount
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 9
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 4
+
+Function: getAllowedAmounts
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowedAmounts
+
+Edges:
+  0 -> 1
+
+

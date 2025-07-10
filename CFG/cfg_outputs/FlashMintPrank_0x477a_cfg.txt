@@ -1,0 +1,65 @@
+Contract: IERC20
+==================================================
+
+
+Contract: FlashMintPrank
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: usdt = IERC20(_usdtAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: mintFakeUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: usdt.mint(victim,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: burnFakeUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: usdt.burn(victim)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+

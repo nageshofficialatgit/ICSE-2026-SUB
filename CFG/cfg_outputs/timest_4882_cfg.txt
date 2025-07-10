@@ -1,0 +1,61 @@
+Contract: ERC20
+==================================================
+
+
+Contract: TokenLocker
+==================================================
+
+Function: unlockFund
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(releaseTimeFund <= block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ReserveFundAmount > 0)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: tokenBalance = token.balanceOf(this)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenBalance >= ReserveFundAmount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: token = ERC20(0x611171923b84185e9328827CFAaE6630481eCc7a)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: releaseTimeFund = 1537833600
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ReserveFundAmount = 18600000000000000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

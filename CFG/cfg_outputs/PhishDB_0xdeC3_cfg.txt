@@ -1,0 +1,28 @@
+Contract: PhishDB
+==================================================
+
+Function: reportURL
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isReported[_url],URL already reported)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: reportedURLs.push(_url)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: isReported[_url] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

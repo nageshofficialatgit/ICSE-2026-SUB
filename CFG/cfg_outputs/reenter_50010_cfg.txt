@@ -1,0 +1,33 @@
+Contract: HODLWallet
+==================================================
+
+Function: doWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amount <= 0.002 * 1000000000000000000)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[from] >= amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: from.call.value(amount)()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[from] = balances[from] - amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

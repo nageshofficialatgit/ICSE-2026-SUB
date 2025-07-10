@@ -1,0 +1,10380 @@
+Contract: OraclizeI
+==================================================
+
+
+Contract: OraclizeAddrResolverI
+==================================================
+
+
+Contract: usingOraclize
+==================================================
+
+Function: oraclize_setNetwork
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: getCodeSize(0x1d3B2638a7cC9f2CB3D298A3DA7a90B67E5506ed) > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x1d3B2638a7cC9f2CB3D298A3DA7a90B67E5506ed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_mainnet)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: getCodeSize(0xc03A2615D5efaf5F49F60B7BB6583eaec212fdf1) > 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0xc03A2615D5efaf5F49F60B7BB6583eaec212fdf1)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_ropsten3)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: getCodeSize(0xB7A07BcF2Ba2f2703b24C0691b5278999C59AC7e) > 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0xB7A07BcF2Ba2f2703b24C0691b5278999C59AC7e)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_kovan)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: getCodeSize(0x146500cfd35B22E4A392Fe0aDc06De1a1368Ed48) > 0
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x146500cfd35B22E4A392Fe0aDc06De1a1368Ed48)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_rinkeby)
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: getCodeSize(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475) > 0
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475)
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: getCodeSize(0x20e12A1F859B3FeaE5Fb2A0A32C18F5a65555bBF) > 0
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x20e12A1F859B3FeaE5Fb2A0A32C18F5a65555bBF)
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: getCodeSize(0x51efaF4c8B3C9AfBD5aB9F4bbC82784Ab6ef8fAA) > 0
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x51efaF4c8B3C9AfBD5aB9F4bbC82784Ab6ef8fAA)
+
+  ID: 31
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 32
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 33
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  6 -> 10
+  7 -> 8
+  8 -> 9
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  16 -> 17
+  16 -> 20
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 22
+  21 -> 24
+  22 -> 23
+  24 -> 25
+  25 -> 26
+  25 -> 28
+  26 -> 27
+  28 -> 29
+  29 -> 30
+  29 -> 32
+  30 -> 31
+  32 -> 33
+
+Function: __callback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: oraclize_useCoupon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oraclize.useCoupon(code)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_getPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.getPrice(datasource,gaslimit)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_query
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: dynargs = new bytes[](5)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[0] = args[0]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[1] = args[1]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[2] = args[2]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[3] = args[3]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[4] = args[4]
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: oraclize_query(datasource,dynargs,gaslimit)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: id
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: oraclize_cbAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.cbAddress()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_setProof
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.setProofType(proofP)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_setCustomGasPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.setCustomGasPrice(gasPrice)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_setConfig
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.setConfig(config)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_randomDS_getSessionPubKeyHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.randomDS_getSessionPubKeyHash()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getCodeSize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _size
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: parseAddr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tmp = bytes(_a)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: iaddr = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 2
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < 2 + 2 * 20
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: iaddr *= 256
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: b1 = uint160(tmp[i])
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: b2 = uint160(tmp[i + 1])
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: (b1 >= 97) && (b1 <= 102)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: b1 -= 87
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: (b1 >= 65) && (b1 <= 70)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: b1 -= 55
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: (b1 >= 48) && (b1 <= 57)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: b1 -= 48
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: (b2 >= 97) && (b2 <= 102)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: b2 -= 87
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: (b2 >= 65) && (b2 <= 70)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: b2 -= 55
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: (b2 >= 48) && (b2 <= 57)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: b2 -= 48
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: iaddr += (b1 * 16 + b2)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: i += 2
+
+  ID: 32
+  Type: NodeType.RETURN
+  Expression: address(iaddr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 32
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  13 -> 20
+  14 -> 15
+  14 -> 16
+  15 -> 19
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 23
+  22 -> 29
+  23 -> 24
+  23 -> 25
+  24 -> 28
+  25 -> 26
+  25 -> 27
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 8
+
+Function: strCompare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: a = bytes(_a)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: b = bytes(_b)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: minLength = a.length
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: b.length < minLength
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: minLength = b.length
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < minLength
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: a[i] < b[i]
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: a[i] > b[i]
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: 1
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: a.length < b.length
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: a.length > b.length
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: 1
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 18
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  11 -> 13
+  13 -> 14
+  13 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 10
+  18 -> 19
+  18 -> 20
+  20 -> 21
+  20 -> 22
+
+Function: indexOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: h = bytes(_haystack)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: n = bytes(_needle)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: h.length < 1 || n.length < 1 || (n.length > h.length)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: h.length > (2 ** 128 - 1)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: subindex = 0
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: i < h.length
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: h[i] == n[0]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: subindex = 1
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IFLOOP
+  Expression: subindex < n.length && (i + subindex) < h.length && h[i + subindex] == n[subindex]
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: subindex ++
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: subindex == n.length
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: int256(i)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 23
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  12 -> 21
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 15
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 11
+
+Function: strConcat
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: strConcat(_a,_b,,,)
+
+Edges:
+  0 -> 1
+
+Function: parseInt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bresult = bytes(_a)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: mint = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: decimals = false
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < bresult.length
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: (bresult[i] >= 48) && (bresult[i] <= 57)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: decimals
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _b == 0
+
+  ID: 11
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _b --
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: mint *= 10
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mint += uint256(bresult[i]) - 48
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: bresult[i] == 46
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: decimals = true
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: _b > 0
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: mint *= 10 ** _b
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.RETURN
+  Expression: mint
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 22
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 17
+  9 -> 10
+  9 -> 14
+  10 -> 11
+  10 -> 12
+  11 -> 5
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 20
+  17 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 7
+  22 -> 23
+  22 -> 24
+  23 -> 24
+  24 -> 25
+
+Function: uint2str
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: i == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = i
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: j != 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: len ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: j /= 10
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: bstr = new bytes(len)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: k = len - 1
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IFLOOP
+  Expression: i != 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: bstr[k --] = bytes1(48 + i % 10)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i /= 10
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: string(bstr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 14
+  17 -> 18
+
+Function: stra2cbor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: arrlen = arr.length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: outputlen = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: elemArray = new bytes[](arrlen)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: elemArray[i] = (bytes(arr[i]))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += elemArray[i].length + (elemArray[i].length - 1) / 23 + 3
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: ctr = 0
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: cborlen = arrlen + 0x80
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += bytes1(cborlen).length
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: res = new bytes(outputlen)
+
+  ID: 15
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: bytes1(cborlen).length > ctr
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(cborlen)[ctr]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 23
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0x5F
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 26
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: x = 0
+
+  ID: 29
+  Type: NodeType.IFLOOP
+  Expression: x < elemArray[i].length
+
+  ID: 30
+  Type: NodeType.IF
+  Expression: x % 23 == 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen += 0x40
+
+  ID: 33
+  Type: NodeType.VARIABLE
+  Expression: lctr = ctr
+
+  ID: 34
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IFLOOP
+  Expression: bytes1(elemcborlen).length > ctr - lctr
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(elemcborlen)[ctr - lctr]
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 38
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 39
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = elemArray[i][x]
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: x ++
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0xFF
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 46
+  Type: NodeType.RETURN
+  Expression: res
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: elemArray[i].length - x >= 24
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = 23
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = elemArray[i].length - x
+
+  ID: 50
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 19
+  17 -> 18
+  18 -> 16
+  19 -> 22
+  20 -> 23
+  21 -> 46
+  22 -> 20
+  23 -> 24
+  23 -> 21
+  24 -> 25
+  25 -> 28
+  26 -> 29
+  27 -> 43
+  28 -> 26
+  29 -> 30
+  29 -> 27
+  30 -> 47
+  30 -> 39
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 38
+  36 -> 37
+  37 -> 35
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 29
+  43 -> 44
+  44 -> 45
+  45 -> 23
+  47 -> 48
+  47 -> 49
+  48 -> 50
+  49 -> 50
+  50 -> 32
+
+Function: ba2cbor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: arrlen = arr.length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: outputlen = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: elemArray = new bytes[](arrlen)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: elemArray[i] = (bytes(arr[i]))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += elemArray[i].length + (elemArray[i].length - 1) / 23 + 3
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: ctr = 0
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: cborlen = arrlen + 0x80
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += bytes1(cborlen).length
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: res = new bytes(outputlen)
+
+  ID: 15
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: bytes1(cborlen).length > ctr
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(cborlen)[ctr]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 23
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0x5F
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 26
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: x = 0
+
+  ID: 29
+  Type: NodeType.IFLOOP
+  Expression: x < elemArray[i].length
+
+  ID: 30
+  Type: NodeType.IF
+  Expression: x % 23 == 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen += 0x40
+
+  ID: 33
+  Type: NodeType.VARIABLE
+  Expression: lctr = ctr
+
+  ID: 34
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IFLOOP
+  Expression: bytes1(elemcborlen).length > ctr - lctr
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(elemcborlen)[ctr - lctr]
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 38
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 39
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = elemArray[i][x]
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: x ++
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0xFF
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 46
+  Type: NodeType.RETURN
+  Expression: res
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: elemArray[i].length - x >= 24
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = 23
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = elemArray[i].length - x
+
+  ID: 50
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 19
+  17 -> 18
+  18 -> 16
+  19 -> 22
+  20 -> 23
+  21 -> 46
+  22 -> 20
+  23 -> 24
+  23 -> 21
+  24 -> 25
+  25 -> 28
+  26 -> 29
+  27 -> 43
+  28 -> 26
+  29 -> 30
+  29 -> 27
+  30 -> 47
+  30 -> 39
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 38
+  36 -> 37
+  37 -> 35
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 29
+  43 -> 44
+  44 -> 45
+  45 -> 23
+  47 -> 48
+  47 -> 49
+  48 -> 50
+  49 -> 50
+  50 -> 32
+
+Function: oraclize_setNetworkName
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_network_name = _network_name
+
+Edges:
+  0 -> 1
+
+Function: oraclize_getNetworkName
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize_network_name
+
+Edges:
+  0 -> 1
+
+Function: oraclize_newRandomDSQuery
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (_nbytes == 0) || (_nbytes > 32)
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: nbytes = new bytes(1)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nbytes[0] = bytes1(_nbytes)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: unonce = new bytes(32)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: sessionKeyHash = new bytes(32)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: sessionKeyHash_bytes32 = oraclize_randomDS_getSessionPubKeyHash()
+
+  ID: 9
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: args = (unonce,nbytes,sessionKeyHash)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: queryId = oraclize_query(_delay,random,args,_customGasLimit)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_randomDS_setCommitment(queryId,sha3()(bytes8(_delay),args[1],sha256()(args[0]),args[2]))
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: queryId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: oraclize_randomDS_setCommitment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_randomDS_args[queryId] = commitment
+
+Edges:
+  0 -> 1
+
+Function: verifySig
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: sigr_ = new bytes(32)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: offset = 4 + (uint256(dersig[3]) - 0x20)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: sigr_ = copyBytes(dersig,offset,32,sigr_,0)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: sigs_ = new bytes(32)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: offset += 32 + 2
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: sigs_ = copyBytes(dersig,offset + (uint256(dersig[offset - 1]) - 0x20),32,sigs_,0)
+
+  ID: 11
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: (sigok,signer) = safer_ecrecover(tosignh,27,sigr,sigs)
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: address(sha3()(pubkey)) == signer
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: (sigok,signer) = safer_ecrecover(tosignh,28,sigr,sigs)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: (address(sha3()(pubkey)) == signer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+
+Function: oraclize_randomDS_proofVerify__sessionKeyValidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: sig2 = new bytes(uint256(proof[sig2offset + 1]) + 2)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,sig2offset,sig2.length,sig2,0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: appkey1_pubkey = new bytes(64)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,3 + 1,64,appkey1_pubkey,0)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: tosign2 = new bytes(1 + 65 + 32)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tosign2[0] = 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,sig2offset - 65,65,tosign2,1)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: CODEHASH = 0xfd94fa71bc0ba10d39d464d0d8f465efeef0a2764e3887fcc9df41ded20f505c
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(CODEHASH,0,32,tosign2,1 + 65)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: sigok = verifySig(sha256()(tosign2),sig2,appkey1_pubkey)
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: sigok == false
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: LEDGERKEY = 0x7fb956469c5c9b89840d55b43537e66a98dd4811ea0a27224272c2e5622911e8537a2f8e86a46baec82864e98dd01e9ccc2f8bc5dfc9cbe5a91a290498dd96e4
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: tosign3 = new bytes(1 + 65)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tosign3[0] = 0xFE
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,3,65,tosign3,1)
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: sig3 = new bytes(uint256(proof[3 + 65 + 1]) + 2)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,3 + 65,sig3.length,sig3,0)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: sigok = verifySig(sha256()(tosign3),sig3,LEDGERKEY)
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: sigok
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: matchBytes32Prefix
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: match_ = true
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < prefix.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: content[i] != prefix[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: match_ = false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: match_
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: oraclize_randomDS_proofVerify__main
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: ledgerProofLength = 3 + 65 + (uint256(proof[3 + 65 + 1]) + 2) + 32
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: keyhash = new bytes(32)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength,32,keyhash,0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: checkok = (sha3()(keyhash) == sha3()(sha256()(context_name,queryId)))
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: checkok == false
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: sig1 = new bytes(uint256(proof[ledgerProofLength + (32 + 8 + 1 + 32) + 1]) + 2)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength + (32 + 8 + 1 + 32),sig1.length,sig1,0)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: checkok = matchBytes32Prefix(sha256()(sig1),result)
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: checkok == false
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: commitmentSlice1 = new bytes(8 + 1 + 32)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength + 32,8 + 1 + 32,commitmentSlice1,0)
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: sessionPubkey = new bytes(64)
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: sig2offset = ledgerProofLength + 32 + (8 + 1 + 32) + sig1.length + 65
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,sig2offset - 64,64,sessionPubkey,0)
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: sessionPubkeyHash = sha256()(sessionPubkey)
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: oraclize_randomDS_args[queryId] == sha3()(commitmentSlice1,sessionPubkeyHash)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: delete oraclize_randomDS_args[queryId]
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: tosign1 = new bytes(32 + 8 + 1 + 32)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength,32 + 8 + 1 + 32,tosign1,0)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: checkok = verifySig(sha256()(tosign1),sig1,sessionPubkey)
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: checkok == false
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash] == false
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash] = oraclize_randomDS_proofVerify__sessionKeyValidity(proof,sig2offset)
+
+  ID: 33
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 34
+  Type: NodeType.RETURN
+  Expression: oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 23
+  22 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  28 -> 30
+  30 -> 31
+  31 -> 32
+  31 -> 33
+  32 -> 33
+  33 -> 34
+
+Function: copyBytes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: minLength = length + toOffset
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: to.length < minLength
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 32 + fromOffset
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: j = 32 + toOffset
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < (32 + fromOffset + length)
+
+  ID: 9
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i += 32
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: j += 32
+
+  ID: 13
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: to
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 13
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 8
+  13 -> 14
+
+Function: safer_ecrecover
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (ret,addr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: ecrecovery
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: sig.length != 65
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: v < 27
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: v += 27
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: v != 27 && v != 28
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: safer_ecrecover(hash,v,r,s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  14 -> 15
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: day = 60 * 60 * 24
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: week = 60 * 60 * 24 * 7
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: month = 60 * 60 * 24 * 30
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_NONE = 0x00
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_TLSNotary = 0x10
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_Android = 0x20
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_Ledger = 0x30
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_Native = 0xF0
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofStorage_IPFS = 0x01
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_auto = 0
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_mainnet = 1
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_testnet = 2
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_morden = 2
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_consensys = 161
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+
+Contract: DSMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x + y) >= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x - y) <= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x == 0 || z / x == y)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x / y
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x <= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x >= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: hadd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x + y) >= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: hsub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x - y) <= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: hmul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x == 0 || z / x == y)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: hdiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x / y
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: hmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x <= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: hmax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x >= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: imin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x <= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: imax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x >= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: wadd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hadd(x,y)
+
+Edges:
+  0 -> 1
+
+Function: wsub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hsub(x,y)
+
+Edges:
+  0 -> 1
+
+Function: wmul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * y + WAD / 2) / WAD)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: wdiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * WAD + y / 2) / y)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: wmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmin(x,y)
+
+Edges:
+  0 -> 1
+
+Function: wmax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmax(x,y)
+
+Edges:
+  0 -> 1
+
+Function: radd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hadd(x,y)
+
+Edges:
+  0 -> 1
+
+Function: rsub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hsub(x,y)
+
+Edges:
+  0 -> 1
+
+Function: rmul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * y + RAY / 2) / RAY)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: rdiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * RAY + y / 2) / y)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: rpow
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: n /= 2
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: n != 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: x = rmul(x,x)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: n % 2 != 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: z = rmul(z,x)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: n /= 2
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: n % 2 != 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: z = x
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: z = RAY
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 11
+  2 -> 5
+  3 -> 15
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  11 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 4
+
+Function: rmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmin(x,y)
+
+Edges:
+  0 -> 1
+
+Function: rmax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmax(x,y)
+
+Edges:
+  0 -> 1
+
+Function: cast
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = uint128(x)) == x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WAD = 10 ** 18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RAY = 10 ** 27
+
+Edges:
+  0 -> 1
+
+
+Contract: LedgerProofVerifyI
+==================================================
+
+
+Contract: Owned
+==================================================
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: oraclizeSettings
+==================================================
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: setSafeGas
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(ORACLIZE_BASE_GAS_LIMIT + _gas >= ORACLIZE_BASE_GAS_LIMIT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas <= 25000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas >= 9000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: safeGas = _gas
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LOG_newGasLimit(_gas)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: safeGas = 9000
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_PER_SPIN_GAS_LIMIT = 6100
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_BASE_GAS_LIMIT = 220000
+
+Edges:
+  0 -> 1
+
+
+Contract: HouseManaged
+==================================================
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: HouseManaged
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: stop_or_resume_Contract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = _isStopped
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeHouse
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_newHouse != address(0x0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = _newHouse
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_HouseAddressChanged(houseAddress,_newHouse)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender == newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_OwnerAddressChanged(owner,newOwner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: usingInvestorsModule
+==================================================
+
+Function: setSafeGas
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(ORACLIZE_BASE_GAS_LIMIT + _gas >= ORACLIZE_BASE_GAS_LIMIT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas <= 25000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas >= 9000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: safeGas = _gas
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LOG_newGasLimit(_gas)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: HouseManaged
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: stop_or_resume_Contract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = _isStopped
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeHouse
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_newHouse != address(0x0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = _newHouse
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_HouseAddressChanged(houseAddress,_newHouse)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender == newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_OwnerAddressChanged(owner,newOwner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getBankroll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (invested < investorsProfit) || (invested + investorsProfit < invested) || (invested + investorsProfit < investorsLosses)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: invested + investorsProfit - investorsLosses
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: getMinInvestment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: numInvestors == MAX_INVESTORS
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: investorID = searchSmallestInvestor()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: getBalance(investors[investorID].investorAddress)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+
+Function: getLossesShare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (investors[investorIDs[currentInvestor]].amountInvested * investorsLosses) / invested
+
+Edges:
+  0 -> 1
+
+Function: getProfitShare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (investors[investorIDs[currentInvestor]].amountInvested * investorsProfit) / invested
+
+Edges:
+  0 -> 1
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: invested = investors[investorIDs[currentInvestor]].amountInvested
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: profit = getProfitShare(currentInvestor)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: losses = getLossesShare(currentInvestor)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: (invested + profit < profit) || (invested + profit < invested) || (invested + profit < losses)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: invested + profit - losses
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: searchSmallestInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: investorID = 1
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: getBalance(investors[i].investorAddress) < getBalance(investors[investorID].investorAddress)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: investorID = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: investorID
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: addInvestorAtID
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: investorIDs[msg.sender] = id
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: investors[id].investorAddress = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: investors[id].amountInvested = msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: invested += msg.value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorEntrance(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: profitDistribution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: profitDistributed
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: currentInvestor = investors[i].investorAddress
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: profitOfInvestor = getProfitShare(currentInvestor)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: lossesOfInvestor = getLossesShare(currentInvestor)
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: (investors[i].amountInvested + profitOfInvestor >= investors[i].amountInvested) && (investors[i].amountInvested + profitOfInvestor >= lossesOfInvestor)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: investors[i].amountInvested += profitOfInvestor - lossesOfInvestor
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorCapitalUpdate(currentInvestor,int256(profitOfInvestor - lossesOfInvestor))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyAutoStop()
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: copyInvested += investors[i].amountInvested
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: delete investorsProfit
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: delete investorsLosses
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: invested = copyInvested
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: profitDistributed = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 20
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 15
+  13 -> 14
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 8
+  20 -> 21
+  21 -> 22
+  22 -> 23
+
+Function: increaseInvestment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: investors[investorIDs[msg.sender]].amountInvested += msg.value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: invested += msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfNotStopped()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanZero()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyInvestors()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 1
+
+Function: newInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: numInvestors == MAX_INVESTORS
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: smallestInvestorID = searchSmallestInvestor()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: divest(investors[smallestInvestorID].investorAddress)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: numInvestors ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: addInvestorAtID(numInvestors)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfNotStopped()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanZero()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyNotInvestors()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanMinInvestment()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: investorsInvariant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 1
+
+Function: divest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentID = investorIDs[currentInvestor]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountToReturn = getBalance(currentInvestor)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: invested >= investors[currentID].amountInvested
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: invested -= investors[currentID].amountInvested
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: divestFeeAmount = (amountToReturn * divestFee) / 10000
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: amountToReturn -= divestFeeAmount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[currentID]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete investorIDs[currentInvestor]
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: currentID != numInvestors
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: lastInvestor = investors[numInvestors]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: investorIDs[lastInvestor.investorAddress] = currentID
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: investors[currentID] = lastInvestor
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[numInvestors]
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: numInvestors --
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(currentInvestor,amountToReturn)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(houseAddress,divestFeeAmount)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorExit(currentInvestor,amountToReturn)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = true
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyAutoStop()
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: investorsInvariant()
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 20
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 15
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 22
+  20 -> 21
+  21 -> 22
+  23 -> 1
+
+Function: forceDivestOfAllInvestors
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: copyNumInvestors = numInvestors
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i <= copyNumInvestors
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: divest(investors[1].investorAddress)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 8
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  8 -> 1
+
+Function: safeSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LOG_ZeroSend()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: this.balance < value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: LOG_ValueIsTooBig()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! (addr.call.gas(safeGas).value(value)())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: LOG_FailedSend(addr,value)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: addr != houseAddress
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: ! (houseAddress.call.gas(safeGas).value(value)())
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: LOG_FailedSend(houseAddress,value)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: LOG_SuccessfulSend(addr,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  9 -> 16
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: safeGas = 9000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: numInvestors = 0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: invested = 0
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: investorsProfit = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: investorsLosses = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_PER_SPIN_GAS_LIMIT = 6100
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_BASE_GAS_LIMIT = 220000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_INVESTORS = 5
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: divestFee = 50
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: EmergencyWithdrawalModule
+==================================================
+
+Function: getBankroll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (invested < investorsProfit) || (invested + investorsProfit < invested) || (invested + investorsProfit < investorsLosses)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: invested + investorsProfit - investorsLosses
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: getMinInvestment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: numInvestors == MAX_INVESTORS
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: investorID = searchSmallestInvestor()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: getBalance(investors[investorID].investorAddress)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+
+Function: getLossesShare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (investors[investorIDs[currentInvestor]].amountInvested * investorsLosses) / invested
+
+Edges:
+  0 -> 1
+
+Function: getProfitShare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (investors[investorIDs[currentInvestor]].amountInvested * investorsProfit) / invested
+
+Edges:
+  0 -> 1
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: invested = investors[investorIDs[currentInvestor]].amountInvested
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: profit = getProfitShare(currentInvestor)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: losses = getLossesShare(currentInvestor)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: (invested + profit < profit) || (invested + profit < invested) || (invested + profit < losses)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: invested + profit - losses
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: searchSmallestInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: investorID = 1
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: getBalance(investors[i].investorAddress) < getBalance(investors[investorID].investorAddress)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: investorID = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: investorID
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: addInvestorAtID
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: investorIDs[msg.sender] = id
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: investors[id].investorAddress = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: investors[id].amountInvested = msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: invested += msg.value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorEntrance(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: profitDistribution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: profitDistributed
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: currentInvestor = investors[i].investorAddress
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: profitOfInvestor = getProfitShare(currentInvestor)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: lossesOfInvestor = getLossesShare(currentInvestor)
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: (investors[i].amountInvested + profitOfInvestor >= investors[i].amountInvested) && (investors[i].amountInvested + profitOfInvestor >= lossesOfInvestor)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: investors[i].amountInvested += profitOfInvestor - lossesOfInvestor
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorCapitalUpdate(currentInvestor,int256(profitOfInvestor - lossesOfInvestor))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyAutoStop()
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: copyInvested += investors[i].amountInvested
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: delete investorsProfit
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: delete investorsLosses
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: invested = copyInvested
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: profitDistributed = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 20
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 15
+  13 -> 14
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 8
+  20 -> 21
+  21 -> 22
+  22 -> 23
+
+Function: increaseInvestment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: investors[investorIDs[msg.sender]].amountInvested += msg.value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: invested += msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfNotStopped()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanZero()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyInvestors()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 1
+
+Function: newInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: numInvestors == MAX_INVESTORS
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: smallestInvestorID = searchSmallestInvestor()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: divest(investors[smallestInvestorID].investorAddress)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: numInvestors ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: addInvestorAtID(numInvestors)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfNotStopped()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanZero()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyNotInvestors()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanMinInvestment()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: investorsInvariant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 1
+
+Function: divest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentID = investorIDs[currentInvestor]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountToReturn = getBalance(currentInvestor)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: invested >= investors[currentID].amountInvested
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: invested -= investors[currentID].amountInvested
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: divestFeeAmount = (amountToReturn * divestFee) / 10000
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: amountToReturn -= divestFeeAmount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[currentID]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete investorIDs[currentInvestor]
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: currentID != numInvestors
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: lastInvestor = investors[numInvestors]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: investorIDs[lastInvestor.investorAddress] = currentID
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: investors[currentID] = lastInvestor
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[numInvestors]
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: numInvestors --
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(currentInvestor,amountToReturn)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(houseAddress,divestFeeAmount)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorExit(currentInvestor,amountToReturn)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = true
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyAutoStop()
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: investorsInvariant()
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 20
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 15
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 22
+  20 -> 21
+  21 -> 22
+  23 -> 1
+
+Function: forceDivestOfAllInvestors
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: copyNumInvestors = numInvestors
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i <= copyNumInvestors
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: divest(investors[1].investorAddress)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 8
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  8 -> 1
+
+Function: safeSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LOG_ZeroSend()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: this.balance < value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: LOG_ValueIsTooBig()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! (addr.call.gas(safeGas).value(value)())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: LOG_FailedSend(addr,value)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: addr != houseAddress
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: ! (houseAddress.call.gas(safeGas).value(value)())
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: LOG_FailedSend(houseAddress,value)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: LOG_SuccessfulSend(addr,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  9 -> 16
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+
+Function: setSafeGas
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(ORACLIZE_BASE_GAS_LIMIT + _gas >= ORACLIZE_BASE_GAS_LIMIT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas <= 25000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas >= 9000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: safeGas = _gas
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LOG_newGasLimit(_gas)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: HouseManaged
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: stop_or_resume_Contract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = _isStopped
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeHouse
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_newHouse != address(0x0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = _newHouse
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_HouseAddressChanged(houseAddress,_newHouse)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender == newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_OwnerAddressChanged(owner,newOwner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: voteEmergencyWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: investors[investorIDs[msg.sender]].votedForEmergencyWithdrawal = vote
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalVote(msg.sender,vote)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyInvestors()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAfterProposed()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: proposeEmergencyWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[i].votedForEmergencyWithdrawal
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: proposedWithdrawal = WithdrawalProposal(withdrawalAddress,now)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalProposed()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 10
+  10 -> 3
+
+Function: executeEmergencyWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amountToWithdraw = this.balance
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: investors[i].votedForEmergencyWithdrawal == true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: numOfVotesInFavour ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[i].votedForEmergencyWithdrawal
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: numOfVotesInFavour >= EMERGENCY_WITHDRAWAL_RATIO * numInvestors / 100
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: ! proposedWithdrawal.toAddress.send(amountToWithdraw)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalFailed(proposedWithdrawal.toAddress)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalSucceeded(proposedWithdrawal.toAddress,amountToWithdraw)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyAfterProposed()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfEmergencyTimeOutHasPassed()
+
+Edges:
+  0 -> 19
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 12
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 6
+  12 -> 13
+  12 -> 17
+  13 -> 14
+  13 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 18
+  17 -> 18
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 1
+
+Function: forceDivestOfOneInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: divest(currentInvestor)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete proposedWithdrawal
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: safeGas = 9000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: numInvestors = 0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: invested = 0
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: investorsProfit = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: investorsLosses = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_PER_SPIN_GAS_LIMIT = 6100
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_BASE_GAS_LIMIT = 220000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_INVESTORS = 5
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: divestFee = 50
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EMERGENCY_WITHDRAWAL_RATIO = 80
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EMERGENCY_TIMEOUT = 259200
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: Slot
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x + y) >= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x - y) <= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x == 0 || z / x == y)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x / y
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x <= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x >= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: hadd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x + y) >= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: hsub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = x - y) <= x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: hmul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x == 0 || z / x == y)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: hdiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = x / y
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: hmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x <= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: hmax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x >= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: imin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x <= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: imax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: x >= y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: x
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: y
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: wadd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hadd(x,y)
+
+Edges:
+  0 -> 1
+
+Function: wsub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hsub(x,y)
+
+Edges:
+  0 -> 1
+
+Function: wmul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * y + WAD / 2) / WAD)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: wdiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * WAD + y / 2) / y)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: wmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmin(x,y)
+
+Edges:
+  0 -> 1
+
+Function: wmax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmax(x,y)
+
+Edges:
+  0 -> 1
+
+Function: radd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hadd(x,y)
+
+Edges:
+  0 -> 1
+
+Function: rsub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hsub(x,y)
+
+Edges:
+  0 -> 1
+
+Function: rmul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * y + RAY / 2) / RAY)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: rdiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: z = cast((uint256(x) * RAY + y / 2) / y)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: rpow
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: n /= 2
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: n != 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: x = rmul(x,x)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: n % 2 != 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: z = rmul(z,x)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: n /= 2
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: n % 2 != 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: z = x
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: z = RAY
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 11
+  2 -> 5
+  3 -> 15
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  11 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 4
+
+Function: rmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmin(x,y)
+
+Edges:
+  0 -> 1
+
+Function: rmax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hmax(x,y)
+
+Edges:
+  0 -> 1
+
+Function: cast
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z = uint128(x)) == x)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: voteEmergencyWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: investors[investorIDs[msg.sender]].votedForEmergencyWithdrawal = vote
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalVote(msg.sender,vote)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyInvestors()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAfterProposed()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: proposeEmergencyWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[i].votedForEmergencyWithdrawal
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: proposedWithdrawal = WithdrawalProposal(withdrawalAddress,now)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalProposed()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 10
+  10 -> 3
+
+Function: executeEmergencyWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amountToWithdraw = this.balance
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: investors[i].votedForEmergencyWithdrawal == true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: numOfVotesInFavour ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[i].votedForEmergencyWithdrawal
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: numOfVotesInFavour >= EMERGENCY_WITHDRAWAL_RATIO * numInvestors / 100
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: ! proposedWithdrawal.toAddress.send(amountToWithdraw)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalFailed(proposedWithdrawal.toAddress)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyWithdrawalSucceeded(proposedWithdrawal.toAddress,amountToWithdraw)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyAfterProposed()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfEmergencyTimeOutHasPassed()
+
+Edges:
+  0 -> 19
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 12
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 6
+  12 -> 13
+  12 -> 17
+  13 -> 14
+  13 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 18
+  17 -> 18
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 1
+
+Function: forceDivestOfOneInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: divest(currentInvestor)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete proposedWithdrawal
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfStopped()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: getBankroll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (invested < investorsProfit) || (invested + investorsProfit < invested) || (invested + investorsProfit < investorsLosses)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: invested + investorsProfit - investorsLosses
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: getMinInvestment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: numInvestors == MAX_INVESTORS
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: investorID = searchSmallestInvestor()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: getBalance(investors[investorID].investorAddress)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+
+Function: getLossesShare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (investors[investorIDs[currentInvestor]].amountInvested * investorsLosses) / invested
+
+Edges:
+  0 -> 1
+
+Function: getProfitShare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (investors[investorIDs[currentInvestor]].amountInvested * investorsProfit) / invested
+
+Edges:
+  0 -> 1
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: invested = investors[investorIDs[currentInvestor]].amountInvested
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: profit = getProfitShare(currentInvestor)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: losses = getLossesShare(currentInvestor)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: (invested + profit < profit) || (invested + profit < invested) || (invested + profit < losses)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: invested + profit - losses
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: searchSmallestInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: investorID = 1
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: getBalance(investors[i].investorAddress) < getBalance(investors[investorID].investorAddress)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: investorID = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: investorID
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: addInvestorAtID
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: investorIDs[msg.sender] = id
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: investors[id].investorAddress = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: investors[id].amountInvested = msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: invested += msg.value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorEntrance(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: profitDistribution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: profitDistributed
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i <= numInvestors
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: currentInvestor = investors[i].investorAddress
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: profitOfInvestor = getProfitShare(currentInvestor)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: lossesOfInvestor = getLossesShare(currentInvestor)
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: (investors[i].amountInvested + profitOfInvestor >= investors[i].amountInvested) && (investors[i].amountInvested + profitOfInvestor >= lossesOfInvestor)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: investors[i].amountInvested += profitOfInvestor - lossesOfInvestor
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorCapitalUpdate(currentInvestor,int256(profitOfInvestor - lossesOfInvestor))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyAutoStop()
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: copyInvested += investors[i].amountInvested
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: delete investorsProfit
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: delete investorsLosses
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: invested = copyInvested
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: profitDistributed = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 20
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 15
+  13 -> 14
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 8
+  20 -> 21
+  21 -> 22
+  22 -> 23
+
+Function: increaseInvestment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: investors[investorIDs[msg.sender]].amountInvested += msg.value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: invested += msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfNotStopped()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanZero()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyInvestors()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 1
+
+Function: newInvestor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: numInvestors == MAX_INVESTORS
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: smallestInvestorID = searchSmallestInvestor()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: divest(investors[smallestInvestorID].investorAddress)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: numInvestors ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: addInvestorAtID(numInvestors)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfNotStopped()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanZero()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyNotInvestors()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyMoreThanMinInvestment()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: investorsInvariant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 1
+
+Function: divest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitDistribution()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentID = investorIDs[currentInvestor]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountToReturn = getBalance(currentInvestor)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: invested >= investors[currentID].amountInvested
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: invested -= investors[currentID].amountInvested
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: divestFeeAmount = (amountToReturn * divestFee) / 10000
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: amountToReturn -= divestFeeAmount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[currentID]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete investorIDs[currentInvestor]
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: currentID != numInvestors
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: lastInvestor = investors[numInvestors]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: investorIDs[lastInvestor.investorAddress] = currentID
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: investors[currentID] = lastInvestor
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: delete investors[numInvestors]
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: numInvestors --
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(currentInvestor,amountToReturn)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(houseAddress,divestFeeAmount)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: LOG_InvestorExit(currentInvestor,amountToReturn)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = true
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: LOG_EmergencyAutoStop()
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: investorsInvariant()
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 20
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 15
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 22
+  20 -> 21
+  21 -> 22
+  23 -> 1
+
+Function: forceDivestOfAllInvestors
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: copyNumInvestors = numInvestors
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i <= copyNumInvestors
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: divest(investors[1].investorAddress)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 8
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  8 -> 1
+
+Function: safeSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LOG_ZeroSend()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: this.balance < value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: LOG_ValueIsTooBig()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! (addr.call.gas(safeGas).value(value)())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: LOG_FailedSend(addr,value)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: addr != houseAddress
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: ! (houseAddress.call.gas(safeGas).value(value)())
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: LOG_FailedSend(houseAddress,value)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: LOG_SuccessfulSend(addr,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  9 -> 16
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+
+Function: setSafeGas
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(ORACLIZE_BASE_GAS_LIMIT + _gas >= ORACLIZE_BASE_GAS_LIMIT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas <= 25000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_gas >= 9000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: safeGas = _gas
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LOG_newGasLimit(_gas)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: HouseManaged
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: stop_or_resume_Contract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isStopped = _isStopped
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeHouse
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_newHouse != address(0x0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: houseAddress = _newHouse
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_HouseAddressChanged(houseAddress,_newHouse)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender == newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LOG_OwnerAddressChanged(owner,newOwner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: oraclize_setNetwork
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: getCodeSize(0x1d3B2638a7cC9f2CB3D298A3DA7a90B67E5506ed) > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x1d3B2638a7cC9f2CB3D298A3DA7a90B67E5506ed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_mainnet)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: getCodeSize(0xc03A2615D5efaf5F49F60B7BB6583eaec212fdf1) > 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0xc03A2615D5efaf5F49F60B7BB6583eaec212fdf1)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_ropsten3)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: getCodeSize(0xB7A07BcF2Ba2f2703b24C0691b5278999C59AC7e) > 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0xB7A07BcF2Ba2f2703b24C0691b5278999C59AC7e)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_kovan)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: getCodeSize(0x146500cfd35B22E4A392Fe0aDc06De1a1368Ed48) > 0
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x146500cfd35B22E4A392Fe0aDc06De1a1368Ed48)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setNetworkName(eth_rinkeby)
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: getCodeSize(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475) > 0
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475)
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: getCodeSize(0x20e12A1F859B3FeaE5Fb2A0A32C18F5a65555bBF) > 0
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x20e12A1F859B3FeaE5Fb2A0A32C18F5a65555bBF)
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: getCodeSize(0x51efaF4c8B3C9AfBD5aB9F4bbC82784Ab6ef8fAA) > 0
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: OAR = OraclizeAddrResolverI(0x51efaF4c8B3C9AfBD5aB9F4bbC82784Ab6ef8fAA)
+
+  ID: 31
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 32
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 33
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  6 -> 10
+  7 -> 8
+  8 -> 9
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  16 -> 17
+  16 -> 20
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 22
+  21 -> 24
+  22 -> 23
+  24 -> 25
+  25 -> 26
+  25 -> 28
+  26 -> 27
+  28 -> 29
+  29 -> 30
+  29 -> 32
+  30 -> 31
+  32 -> 33
+
+Function: __callback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payout = executeSpins(myid,bytes(result))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sendPayout(myid,payout)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete profitDistributed
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete spins[myid]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOraclize()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfSpinsExist(myid)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfEnoughFunds(myid)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_randomDS_proofVerify(myid,result,_proof)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 1
+
+Function: oraclize_useCoupon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oraclize.useCoupon(code)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_getPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.getPrice(datasource,gaslimit)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_query
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: dynargs = new bytes[](5)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[0] = args[0]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[1] = args[1]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[2] = args[2]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[3] = args[3]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dynargs[4] = args[4]
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: oraclize_query(datasource,dynargs,gaslimit)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: id
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: oraclize_cbAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.cbAddress()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_setProof
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.setProofType(proofP)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_setCustomGasPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.setCustomGasPrice(gasPrice)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_setConfig
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.setConfig(config)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: oraclize_randomDS_getSessionPubKeyHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize.randomDS_getSessionPubKeyHash()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oraclizeAPI()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getCodeSize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _size
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: parseAddr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tmp = bytes(_a)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: iaddr = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 2
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < 2 + 2 * 20
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: iaddr *= 256
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: b1 = uint160(tmp[i])
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: b2 = uint160(tmp[i + 1])
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: (b1 >= 97) && (b1 <= 102)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: b1 -= 87
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: (b1 >= 65) && (b1 <= 70)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: b1 -= 55
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: (b1 >= 48) && (b1 <= 57)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: b1 -= 48
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: (b2 >= 97) && (b2 <= 102)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: b2 -= 87
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: (b2 >= 65) && (b2 <= 70)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: b2 -= 55
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: (b2 >= 48) && (b2 <= 57)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: b2 -= 48
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: iaddr += (b1 * 16 + b2)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: i += 2
+
+  ID: 32
+  Type: NodeType.RETURN
+  Expression: address(iaddr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 32
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  13 -> 20
+  14 -> 15
+  14 -> 16
+  15 -> 19
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 23
+  22 -> 29
+  23 -> 24
+  23 -> 25
+  24 -> 28
+  25 -> 26
+  25 -> 27
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 8
+
+Function: strCompare
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: a = bytes(_a)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: b = bytes(_b)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: minLength = a.length
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: b.length < minLength
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: minLength = b.length
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < minLength
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: a[i] < b[i]
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: a[i] > b[i]
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: 1
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: a.length < b.length
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: a.length > b.length
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: 1
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 18
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  11 -> 13
+  13 -> 14
+  13 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 10
+  18 -> 19
+  18 -> 20
+  20 -> 21
+  20 -> 22
+
+Function: indexOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: h = bytes(_haystack)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: n = bytes(_needle)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: h.length < 1 || n.length < 1 || (n.length > h.length)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: h.length > (2 ** 128 - 1)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: subindex = 0
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: i < h.length
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: h[i] == n[0]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: subindex = 1
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IFLOOP
+  Expression: subindex < n.length && (i + subindex) < h.length && h[i + subindex] == n[subindex]
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: subindex ++
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: subindex == n.length
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: int256(i)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 23
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  12 -> 21
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 15
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 11
+
+Function: strConcat
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: strConcat(_a,_b,,,)
+
+Edges:
+  0 -> 1
+
+Function: parseInt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bresult = bytes(_a)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: mint = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: decimals = false
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < bresult.length
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: (bresult[i] >= 48) && (bresult[i] <= 57)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: decimals
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _b == 0
+
+  ID: 11
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _b --
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: mint *= 10
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mint += uint256(bresult[i]) - 48
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: bresult[i] == 46
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: decimals = true
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: _b > 0
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: mint *= 10 ** _b
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.RETURN
+  Expression: mint
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 22
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 17
+  9 -> 10
+  9 -> 14
+  10 -> 11
+  10 -> 12
+  11 -> 5
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 20
+  17 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 7
+  22 -> 23
+  22 -> 24
+  23 -> 24
+  24 -> 25
+
+Function: uint2str
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: i == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = i
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: j != 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: len ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: j /= 10
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: bstr = new bytes(len)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: k = len - 1
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IFLOOP
+  Expression: i != 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: bstr[k --] = bytes1(48 + i % 10)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i /= 10
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: string(bstr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 14
+  17 -> 18
+
+Function: stra2cbor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: arrlen = arr.length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: outputlen = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: elemArray = new bytes[](arrlen)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: elemArray[i] = (bytes(arr[i]))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += elemArray[i].length + (elemArray[i].length - 1) / 23 + 3
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: ctr = 0
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: cborlen = arrlen + 0x80
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += bytes1(cborlen).length
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: res = new bytes(outputlen)
+
+  ID: 15
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: bytes1(cborlen).length > ctr
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(cborlen)[ctr]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 23
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0x5F
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 26
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: x = 0
+
+  ID: 29
+  Type: NodeType.IFLOOP
+  Expression: x < elemArray[i].length
+
+  ID: 30
+  Type: NodeType.IF
+  Expression: x % 23 == 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen += 0x40
+
+  ID: 33
+  Type: NodeType.VARIABLE
+  Expression: lctr = ctr
+
+  ID: 34
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IFLOOP
+  Expression: bytes1(elemcborlen).length > ctr - lctr
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(elemcborlen)[ctr - lctr]
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 38
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 39
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = elemArray[i][x]
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: x ++
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0xFF
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 46
+  Type: NodeType.RETURN
+  Expression: res
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: elemArray[i].length - x >= 24
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = 23
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = elemArray[i].length - x
+
+  ID: 50
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 19
+  17 -> 18
+  18 -> 16
+  19 -> 22
+  20 -> 23
+  21 -> 46
+  22 -> 20
+  23 -> 24
+  23 -> 21
+  24 -> 25
+  25 -> 28
+  26 -> 29
+  27 -> 43
+  28 -> 26
+  29 -> 30
+  29 -> 27
+  30 -> 47
+  30 -> 39
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 38
+  36 -> 37
+  37 -> 35
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 29
+  43 -> 44
+  44 -> 45
+  45 -> 23
+  47 -> 48
+  47 -> 49
+  48 -> 50
+  49 -> 50
+  50 -> 32
+
+Function: ba2cbor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: arrlen = arr.length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: outputlen = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: elemArray = new bytes[](arrlen)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: elemArray[i] = (bytes(arr[i]))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += elemArray[i].length + (elemArray[i].length - 1) / 23 + 3
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: ctr = 0
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: cborlen = arrlen + 0x80
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: outputlen += bytes1(cborlen).length
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: res = new bytes(outputlen)
+
+  ID: 15
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: bytes1(cborlen).length > ctr
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(cborlen)[ctr]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 23
+  Type: NodeType.IFLOOP
+  Expression: i < arrlen
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0x5F
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 26
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: x = 0
+
+  ID: 29
+  Type: NodeType.IFLOOP
+  Expression: x < elemArray[i].length
+
+  ID: 30
+  Type: NodeType.IF
+  Expression: x % 23 == 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen += 0x40
+
+  ID: 33
+  Type: NodeType.VARIABLE
+  Expression: lctr = ctr
+
+  ID: 34
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IFLOOP
+  Expression: bytes1(elemcborlen).length > ctr - lctr
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = bytes1(elemcborlen)[ctr - lctr]
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 38
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 39
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = elemArray[i][x]
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: x ++
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: res[ctr] = 0xFF
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: ctr ++
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 46
+  Type: NodeType.RETURN
+  Expression: res
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: elemArray[i].length - x >= 24
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = 23
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: elemcborlen = elemArray[i].length - x
+
+  ID: 50
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 19
+  17 -> 18
+  18 -> 16
+  19 -> 22
+  20 -> 23
+  21 -> 46
+  22 -> 20
+  23 -> 24
+  23 -> 21
+  24 -> 25
+  25 -> 28
+  26 -> 29
+  27 -> 43
+  28 -> 26
+  29 -> 30
+  29 -> 27
+  30 -> 47
+  30 -> 39
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 38
+  36 -> 37
+  37 -> 35
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 29
+  43 -> 44
+  44 -> 45
+  45 -> 23
+  47 -> 48
+  47 -> 49
+  48 -> 50
+  49 -> 50
+  50 -> 32
+
+Function: oraclize_setNetworkName
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_network_name = _network_name
+
+Edges:
+  0 -> 1
+
+Function: oraclize_getNetworkName
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: oraclize_network_name
+
+Edges:
+  0 -> 1
+
+Function: oraclize_newRandomDSQuery
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (_nbytes == 0) || (_nbytes > 32)
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: nbytes = new bytes(1)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nbytes[0] = bytes1(_nbytes)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: unonce = new bytes(32)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: sessionKeyHash = new bytes(32)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: sessionKeyHash_bytes32 = oraclize_randomDS_getSessionPubKeyHash()
+
+  ID: 9
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: args = (unonce,nbytes,sessionKeyHash)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: queryId = oraclize_query(_delay,random,args,_customGasLimit)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_randomDS_setCommitment(queryId,sha3()(bytes8(_delay),args[1],sha256()(args[0]),args[2]))
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: queryId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: oraclize_randomDS_setCommitment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: externalContract.external_oraclize_randomDS_setCommitment(queryId,commitment)
+
+Edges:
+  0 -> 1
+
+Function: verifySig
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: sigr_ = new bytes(32)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: offset = 4 + (uint256(dersig[3]) - 0x20)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: sigr_ = copyBytes(dersig,offset,32,sigr_,0)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: sigs_ = new bytes(32)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: offset += 32 + 2
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: sigs_ = copyBytes(dersig,offset + (uint256(dersig[offset - 1]) - 0x20),32,sigs_,0)
+
+  ID: 11
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: (sigok,signer) = safer_ecrecover(tosignh,27,sigr,sigs)
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: address(sha3()(pubkey)) == signer
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: (sigok,signer) = safer_ecrecover(tosignh,28,sigr,sigs)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: (address(sha3()(pubkey)) == signer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+
+Function: oraclize_randomDS_proofVerify__sessionKeyValidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: sig2 = new bytes(uint256(proof[sig2offset + 1]) + 2)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,sig2offset,sig2.length,sig2,0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: appkey1_pubkey = new bytes(64)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,3 + 1,64,appkey1_pubkey,0)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: tosign2 = new bytes(1 + 65 + 32)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tosign2[0] = 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,sig2offset - 65,65,tosign2,1)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: CODEHASH = 0xfd94fa71bc0ba10d39d464d0d8f465efeef0a2764e3887fcc9df41ded20f505c
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(CODEHASH,0,32,tosign2,1 + 65)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: sigok = verifySig(sha256()(tosign2),sig2,appkey1_pubkey)
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: sigok == false
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: LEDGERKEY = 0x7fb956469c5c9b89840d55b43537e66a98dd4811ea0a27224272c2e5622911e8537a2f8e86a46baec82864e98dd01e9ccc2f8bc5dfc9cbe5a91a290498dd96e4
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: tosign3 = new bytes(1 + 65)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tosign3[0] = 0xFE
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,3,65,tosign3,1)
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: sig3 = new bytes(uint256(proof[3 + 65 + 1]) + 2)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,3 + 65,sig3.length,sig3,0)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: sigok = verifySig(sha256()(tosign3),sig3,LEDGERKEY)
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: sigok
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: matchBytes32Prefix
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: match_ = true
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < prefix.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: content[i] != prefix[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: match_ = false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: match_
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: oraclize_randomDS_proofVerify__main
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: ledgerProofLength = 3 + 65 + (uint256(proof[3 + 65 + 1]) + 2) + 32
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: keyhash = new bytes(32)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength,32,keyhash,0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: checkok = (sha3()(keyhash) == sha3()(sha256()(context_name,queryId)))
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: checkok == false
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: sig1 = new bytes(uint256(proof[ledgerProofLength + (32 + 8 + 1 + 32) + 1]) + 2)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength + (32 + 8 + 1 + 32),sig1.length,sig1,0)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: checkok = matchBytes32Prefix(sha256()(sig1),result)
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: checkok == false
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: commitmentSlice1 = new bytes(8 + 1 + 32)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength + 32,8 + 1 + 32,commitmentSlice1,0)
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: sessionPubkey = new bytes(64)
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: sig2offset = ledgerProofLength + 32 + (8 + 1 + 32) + sig1.length + 65
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,sig2offset - 64,64,sessionPubkey,0)
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: sessionPubkeyHash = sha256()(sessionPubkey)
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: oraclize_randomDS_args[queryId] == sha3()(commitmentSlice1,sessionPubkeyHash)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: delete oraclize_randomDS_args[queryId]
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: tosign1 = new bytes(32 + 8 + 1 + 32)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: copyBytes(proof,ledgerProofLength,32 + 8 + 1 + 32,tosign1,0)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: checkok = verifySig(sha256()(tosign1),sig1,sessionPubkey)
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: checkok == false
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash] == false
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash] = oraclize_randomDS_proofVerify__sessionKeyValidity(proof,sig2offset)
+
+  ID: 33
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 34
+  Type: NodeType.RETURN
+  Expression: oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 23
+  22 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  28 -> 30
+  30 -> 31
+  31 -> 32
+  31 -> 33
+  32 -> 33
+  33 -> 34
+
+Function: copyBytes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: minLength = length + toOffset
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: to.length < minLength
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 32 + fromOffset
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: j = 32 + toOffset
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < (32 + fromOffset + length)
+
+  ID: 9
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i += 32
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: j += 32
+
+  ID: 13
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: to
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 13
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 8
+  13 -> 14
+
+Function: safer_ecrecover
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (ret,addr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: ecrecovery
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: sig.length != 65
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: v < 27
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: v += 27
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: v != 27 && v != 28
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: safer_ecrecover(hash,v,r,s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  14 -> 15
+
+Function: Slot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: externalContract = LedgerProofVerifyI(_verifierAddr)
+
+Edges:
+  0 -> 1
+
+Function: isValidSize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: netPotentialPayout = (_amountWagered * (10000 - INVESTORS_EDGE) * multipliers[0]) / 10000
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: maxAllowedPayout = (CAPITAL_RISK * getBankroll()) / 10000
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: ((netPotentialPayout <= maxAllowedPayout) && (_amountWagered >= minBet))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buySpins(1)
+
+Edges:
+  0 -> 1
+
+Function: buySpins
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: gas = _nSpins * ORACLIZE_PER_SPIN_GAS_LIMIT + ORACLIZE_BASE_GAS_LIMIT + safeGas
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oraclizeFee = OraclizeI(OAR.getAddress()).getPrice(random,gas)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(oraclizeFee / multipliers[0] + oraclizeFee < msg.value)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amountWagered = msg.value - oraclizeFee
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(isValidSize(amountWagered))
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: queryId = oraclize_newRandomDSQuery(0,2 * _nSpins,gas)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: spins[queryId] = SpinsContainer(msg.sender,_nSpins,amountWagered)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: LOG_newSpinsContainer(queryId,msg.sender,amountWagered,_nSpins)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalAmountWagered += amountWagered
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyValidNumberOfSpins(_nSpins)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfNotStopped()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 11
+  11 -> 1
+
+Function: executeSpins
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amountWonTotal = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amountWonSpin = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: numberDrawn = 0
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: rangeUpperEnd = 0
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: nSpins = spins[myid].nSpins
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < 2 * nSpins
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: numberDrawn = ((uint256(randomBytes[i]) * 256 + uint256(randomBytes[i + 1])) * 10000) / 2 ** 16
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: rangeUpperEnd = 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: amountWonSpin = 0
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: j < probabilities.length
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: rangeUpperEnd += probabilities[j]
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: numberDrawn < rangeUpperEnd
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: amountWonSpin = (spins[myid].amountWagered * multipliers[j]) / nSpins
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: amountWonTotal += amountWonSpin
+
+  ID: 21
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: LOG_SpinExecuted(myid,spins[myid].playerAddress,i / 2,numberDrawn,amountWonSpin)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: i += 2
+
+  ID: 26
+  Type: NodeType.RETURN
+  Expression: amountWonTotal
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 26
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 15
+  13 -> 16
+  14 -> 24
+  15 -> 13
+  16 -> 17
+  16 -> 14
+  17 -> 18
+  18 -> 19
+  18 -> 22
+  19 -> 20
+  20 -> 21
+  21 -> 14
+  22 -> 23
+  23 -> 16
+  24 -> 25
+  25 -> 9
+
+Function: sendPayout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: investorsFee = payout * INVESTORS_EDGE / 10000
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: houseFee = payout * HOUSE_EDGE / 10000
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: netPlayerPayout = sub(sub(payout,investorsFee),houseFee)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: netCostForInvestors = add(netPlayerPayout,houseFee)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: netCostForInvestors >= spins[myid].amountWagered
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: investorsLosses += sub(netCostForInvestors,spins[myid].amountWagered)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: investorsProfit += sub(spins[myid].amountWagered,netCostForInvestors)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: LOG_SpinsContainerInfo(myid,spins[myid].playerAddress,netPlayerPayout)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(spins[myid].playerAddress,netPlayerPayout)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: safeSend(houseAddress,houseFee)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: setConfiguration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oraclize_setProof(proofType_Ledger)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete probabilities
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete multipliers
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: lastProbability = 0
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: lastMultiplier = 2 ** 256 - 1
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < _probabilities.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: probabilities.push(_probabilities[i])
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: lastProbability >= _probabilities[i]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: lastProbability = _probabilities[i]
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 16
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 19
+  Type: NodeType.IFLOOP
+  Expression: i < _multipliers.length
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: multipliers.push(_multipliers[i])
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: lastMultiplier <= _multipliers[i]
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: lastMultiplier = _multipliers[i]
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: onlyIfFair(_probabilities,_multipliers)
+
+Edges:
+  0 -> 26
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 18
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 9
+  16 -> 19
+  18 -> 16
+  19 -> 20
+  19 -> 17
+  20 -> 21
+  21 -> 22
+  21 -> 23
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 19
+  26 -> 27
+  27 -> 1
+
+Function: setMinBet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: minBet = _minBet
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getSpinsContainer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (spins[myid].playerAddress,spins[myid].amountWagered)
+
+Edges:
+  0 -> 1
+
+Function: getMinAmountToWager
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: gas = _nSpins * ORACLIZE_PER_SPIN_GAS_LIMIT + ORACLIZE_BASE_GAS_LIMIT + safeGas
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oraclizeFee = OraclizeI(OAR.getAddress()).getPrice(random,gas)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: minBet + oraclizeFee / multipliers[0] + oraclizeFee
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyValidNumberOfSpins(_nSpins)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: getMaxAmountToWager
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oraclizeFee = OraclizeI(OAR.getAddress()).getPrice(random,_nSpins * ORACLIZE_PER_SPIN_GAS_LIMIT + ORACLIZE_BASE_GAS_LIMIT + safeGas)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: maxWage = (CAPITAL_RISK * getBankroll()) * 10000 / ((10000 - INVESTORS_EDGE) * 10000 * multipliers[0])
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: maxWage + oraclizeFee
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyValidNumberOfSpins(_nSpins)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: safeGas = 9000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: numInvestors = 0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: invested = 0
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: investorsProfit = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: investorsLosses = 0
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minBet = 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: day = 60 * 60 * 24
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: week = 60 * 60 * 24 * 7
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: month = 60 * 60 * 24 * 30
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_NONE = 0x00
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_TLSNotary = 0x10
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_Android = 0x20
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_Ledger = 0x30
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofType_Native = 0xF0
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proofStorage_IPFS = 0x01
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_auto = 0
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_mainnet = 1
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_testnet = 2
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_morden = 2
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: networkID_consensys = 161
+
+  ID: 14
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_PER_SPIN_GAS_LIMIT = 6100
+
+  ID: 15
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ORACLIZE_BASE_GAS_LIMIT = 220000
+
+  ID: 16
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_INVESTORS = 5
+
+  ID: 17
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: divestFee = 50
+
+  ID: 18
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EMERGENCY_WITHDRAWAL_RATIO = 80
+
+  ID: 19
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EMERGENCY_TIMEOUT = 259200
+
+  ID: 20
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WAD = 10 ** 18
+
+  ID: 21
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RAY = 10 ** 27
+
+  ID: 22
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INVESTORS_EDGE = 200
+
+  ID: 23
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HOUSE_EDGE = 50
+
+  ID: 24
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CAPITAL_RISK = 250
+
+  ID: 25
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_SPINS = 16
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+
+

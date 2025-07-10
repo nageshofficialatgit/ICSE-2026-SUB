@@ -1,0 +1,51 @@
+Contract: ForeignToken
+==================================================
+
+
+Contract: tokenHodl
+==================================================
+
+Function: withdrawForeignTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp > partyTime)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: token = ForeignToken(_tokenContract)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amount = token.balanceOf(address(this)) / 100
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: partyTime = partyTime + 120
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: partyTime = 1522093545
+
+Edges:
+
+

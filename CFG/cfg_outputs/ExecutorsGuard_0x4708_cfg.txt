@@ -1,0 +1,603 @@
+Contract: IERC165
+==================================================
+
+
+Contract: Enum
+==================================================
+
+
+Contract: ITransactionGuard
+==================================================
+
+
+Contract: BaseTransactionGuard
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(ITransactionGuard).interfaceId || interfaceId == type()(IERC165).interfaceId
+
+Edges:
+  0 -> 1
+
+
+Contract: IFallbackManager
+==================================================
+
+
+Contract: IGuardManager
+==================================================
+
+
+Contract: IModuleManager
+==================================================
+
+
+Contract: IOwnerManager
+==================================================
+
+
+Contract: ISafe
+==================================================
+
+
+Contract: EnumerableSet
+==================================================
+
+Function: _add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! _contains(set,value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: set._values.push(value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: set._positions[value] = set._values.length
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+
+Function: _remove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: position = set._positions[value]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: position != 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: valueIndex = position - 1
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: lastIndex = set._values.length - 1
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: valueIndex != lastIndex
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: lastValue = set._values[lastIndex]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: set._values[valueIndex] = lastValue
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: set._positions[lastValue] = position
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: set._values.pop()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: delete set._positions[value]
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 13
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 9
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: _contains
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: set._positions[value] != 0
+
+Edges:
+  0 -> 1
+
+Function: _length
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: set._values.length
+
+Edges:
+  0 -> 1
+
+Function: _at
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: set._values[index]
+
+Edges:
+  0 -> 1
+
+Function: _values
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: set._values
+
+Edges:
+  0 -> 1
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _add(set._inner,bytes32(value))
+
+Edges:
+  0 -> 1
+
+Function: remove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _remove(set._inner,bytes32(value))
+
+Edges:
+  0 -> 1
+
+Function: contains
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _contains(set._inner,bytes32(value))
+
+Edges:
+  0 -> 1
+
+Function: length
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _length(set._inner)
+
+Edges:
+  0 -> 1
+
+Function: at
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint256(_at(set._inner,index))
+
+Edges:
+  0 -> 1
+
+Function: values
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: store = _values(set._inner)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: result = store
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+
+Contract: ExecutorsGuard
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(ITransactionGuard).interfaceId || interfaceId == type()(IERC165).interfaceId
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: executors
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _executors[_vault].values()
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _executorsArray
+
+Edges:
+  0 -> 1
+
+Function: addExecutors
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_executorsList.length > 0,SafeGuard: InvalidExecutors)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _account = msg.sender
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: exe = _executors[_account]
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < _executorsList.length
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_executorsList[i] != address(0),SafeGuard: ZeroAddress)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(exe.add(_executorsList[i]),SafeGuard: ExecutorExists)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: ExecutorAdded(_account,_executorsList[i])
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyContract()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 7
+  12 -> 1
+
+Function: addExecutor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_executor != address(0),SafeGuard: InvalidExecutor)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _account = msg.sender
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: exe = _executors[_account]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(exe.add(_executor),SafeGuard: ExecutorExists)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ExecutorAdded(_account,_executor)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyContract()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: removeExecutor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_executor != address(0),SafeGuard: InvalidExecutor)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _account = msg.sender
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: exe = _executors[_account]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(exe.remove(_executor),SafeGuard: InvalidExecutor)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ExecutorRemoved(_account,_executor)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyContract()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: size = extcodesize(uint256)(addr)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: size > 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: checkTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: executerLength = _executors[msg.sender].length()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: executerLength != 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_executors[msg.sender].contains(msgSender),SafeGuard: NotExecutor)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: checkAfterExecution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

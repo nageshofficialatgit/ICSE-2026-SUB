@@ -1,0 +1,402 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+
+interface IERC20 {
+    /**
+     * @dev Emitted when `value` tokens are moved from one account (`from`) to
+     * another (`to`).
+     *
+     * Note that `value` may be zero.
+     */
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    /**
+     * @dev Emitted when the allowance of a `spender` for an `owner` is set by
+     * a call to {approve}. `value` is the new allowance.
+     */
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    /**
+     * @dev Returns the value of tokens in existence.
+     */
+    function totalSupply() external view returns (uint256);
+
+    /**
+     * @dev Returns the value of tokens owned by `account`.
+     */
+    function balanceOf(address account) external view returns (uint256);
+
+    /**
+     * @dev Moves a `value` amount of tokens from the caller's account to `to`.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * Emits a {Transfer} event.
+     */
+    function transfer(address to, uint256 value) external returns (bool);
+
+    /**
+     * @dev Returns the remaining number of tokens that `spender` will be
+     * allowed to spend on behalf of `owner` through {transferFrom}. This is
+     * zero by default.
+     *
+     * This value changes when {approve} or {transferFrom} are called.
+     */
+    function allowance(address owner, address spender) external view returns (uint256);
+
+    /**
+     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the
+     * caller's tokens.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * IMPORTANT: Beware that changing an allowance with this method brings the risk
+     * that someone may use both the old and the new allowance by unfortunate
+     * transaction ordering. One possible solution to mitigate this race
+     * condition is to first reduce the spender's allowance to 0 and set the
+     * desired value afterwards:
+     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+     *
+     * Emits an {Approval} event.
+     */
+    function approve(address spender, uint256 value) external returns (bool);
+
+    /**
+     * @dev Moves a `value` amount of tokens from `from` to `to` using the
+     * allowance mechanism. `value` is then deducted from the caller's
+     * allowance.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * Emits a {Transfer} event.
+     */
+    function transferFrom(address from, address to, uint256 value) external returns (bool);
+}
+
+
+library SafeERC20 {
+
+    /**
+     * @dev An operation with an ERC-20 token failed.
+     */
+    error SafeERC20FailedOperation(address token);
+
+
+
+    /**
+     * @dev Transfer `value` amount of `token` from the calling contract to `to`. If `token` returns no value,
+     * non-reverting calls are assumed to be successful.
+     */
+    function safeTransfer(IERC20 token, address to, uint256 value) internal {
+        _callOptionalReturn(token, abi.encodeCall(token.transfer, (to, value)));
+    }
+
+    /**
+     * @dev Transfer `value` amount of `token` from `from` to `to`, spending the approval given by `from` to the
+     * calling contract. If `token` returns no value, non-reverting calls are assumed to be successful.
+     */
+    function safeTransferFrom(IERC20 token, address from, address to, uint256 value) internal {
+        _callOptionalReturn(token, abi.encodeCall(token.transferFrom, (from, to, value)));
+    }
+
+
+    /**
+     * @dev Imitates a Solidity high-level call (i.e. a regular function call to a contract), relaxing the requirement
+     * on the return value: the return value is optional (but if data is returned, it must not be false).
+     * @param token The token targeted by the call.
+     * @param data The call data (encoded using abi.encode or one of its variants).
+     *
+     * This is a variant of {_callOptionalReturnBool} that reverts if call fails to meet the requirements.
+     */
+    function _callOptionalReturn(IERC20 token, bytes memory data) private {
+        uint256 returnSize;
+        uint256 returnValue;
+        assembly ("memory-safe") {
+            let success := call(gas(), token, 0, add(data, 0x20), mload(data), 0, 0x20)
+            // bubble errors
+            if iszero(success) {
+                let ptr := mload(0x40)
+                returndatacopy(ptr, 0, returndatasize())
+                revert(ptr, returndatasize())
+            }
+            returnSize := returndatasize()
+            returnValue := mload(0)
+        }
+
+        if (returnSize == 0 ? address(token).code.length == 0 : returnValue != 1) {
+            revert SafeERC20FailedOperation(address(token));
+        }
+    }
+
+}
+
+using SafeERC20 for IERC20;
+
+/**
+ * @title EscrowTrade
+ * @dev 개별 거래를 위한 에스크로 컨트랙트
+ */
+contract EscrowTrade {
+    address public owner;
+    address public feeOwner;
+    uint256 public feePercentage;
+    uint256 public constant BASIS_POINTS = 10000;
+    uint256 public constant MAX_FEE = 200; // 최대 2% 수수료
+
+    // 거래 상태
+    enum Status {
+        AWAITING_DEPOSIT, // 예치금 대기
+        APPROVED, // 거래 승인됨(진행중)
+        DISPUTED, // 분쟁 발생
+        COMPLETED, // 거래 완료
+        REFUNDED // 환불 완료
+    }
+
+    struct Trade {
+        address buyer;
+        address seller;
+        address arbiter;
+        uint256 fee;
+        address feeOwner;
+        address tokenAddress;
+        uint256 amount;
+        Status status;
+    }
+
+    // 거래 ID로 거래 정보를 저장
+    mapping(bytes32 => Trade) public trades;
+
+    // 거래 ID 존재 여부 확인
+    mapping(bytes32 => bool) public tradeExists;
+
+    // 전체 거래 ID 목록
+    bytes32[] public allTradeIds;
+
+    event TradeCreated(bytes32 indexed tradeId, address buyer, address seller);
+    event Deposited(bytes32 indexed tradeId, address buyer, uint256 amount);
+    event FundsReleased(
+        bytes32 indexed tradeId,
+        address seller,
+        uint256 amount,
+        uint256 fee
+    );
+    event FundsRefunded(
+        bytes32 indexed tradeId,
+        address buyer,
+        uint256 amount,
+        uint256 fee
+    );
+    event FeePaid(bytes32 indexed tradeId, address arbiter, uint256 fee);
+    event FeeUpdated(uint256 oldFee, uint256 newFee);
+    event Disputed(bytes32 indexed tradeId, address sender);
+    event OwnershipTransferred(
+        address indexed oldOwner,
+        address indexed newOwner
+    );
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this");
+        _;
+    }
+
+    modifier onlyTradeBuyerOrSeller(bytes32 tradeId) {
+        require(
+            msg.sender == trades[tradeId].buyer ||
+                msg.sender == trades[tradeId].seller,
+            "Only trade buyer or seller can call this"
+        );
+        _;
+    }
+
+    constructor(uint256 _initialFeePercentage) {
+        require(_initialFeePercentage <= MAX_FEE, "Fee too high");
+        owner = msg.sender;
+        feeOwner = msg.sender;
+        feePercentage = _initialFeePercentage;
+    }
+
+    // 새로운 거래 생성
+    function createTrade(
+        bytes32 _tradeId,
+        address _buyer,
+        address _seller,
+        address _tokenAddress,
+        uint256 _amount
+    ) public {
+        require(_tokenAddress != address(0), "Invalid token address");
+        require(
+            _seller != address(0) && _buyer != address(0),
+            "Invalid addresses"
+        );
+        require(!tradeExists[_tradeId], "Trade ID already exists");
+
+        // 토큰 유효성 검증 추가
+        IERC20 token = IERC20(_tokenAddress);
+        try token.balanceOf(address(this)) returns (uint256) {
+            // 유효한 ERC20 컨트랙트임을 확인
+        } catch {
+            revert("Invalid ERC20 token address");
+        }
+
+        Trade storage newTrade = trades[_tradeId];
+        newTrade.buyer = _buyer;
+        newTrade.seller = _seller;
+        newTrade.arbiter = owner;
+        newTrade.fee = feePercentage;
+        newTrade.feeOwner = feeOwner;
+        newTrade.amount = _amount;
+        newTrade.tokenAddress = _tokenAddress;
+        newTrade.status = Status.AWAITING_DEPOSIT;
+
+        tradeExists[_tradeId] = true;
+
+        allTradeIds.push(_tradeId);
+
+        emit TradeCreated(_tradeId, _buyer, _seller);
+    }
+
+    // 구매자가 토큰 예치
+    function deposit(bytes32 tradeId) public {
+        Trade storage trade = trades[tradeId];
+
+        // 1. 체크(Checks)
+        require(msg.sender == trade.buyer, "Only buyer can deposit");
+        require(
+            trade.status == Status.AWAITING_DEPOSIT,
+            "Invalid status for deposit"
+        );
+
+        IERC20 token = IERC20(trade.tokenAddress);
+        require(
+            token.allowance(msg.sender, address(this)) >= trade.amount,
+            "Insufficient allowance"
+        );
+
+        // 잔액 확인 추가
+        require(
+            token.balanceOf(msg.sender) >= trade.amount,
+            "Insufficient token balance"
+        );
+
+        // 2. 이펙트(Effects) + 3. 상호작용(Interactions)
+        // 거래 상태를 일시적인 중간 상태로 설정하여 재진입을 방지
+
+        // 상태 먼저 변경
+        trade.status = Status.APPROVED;
+
+        token.safeTransferFrom(
+            msg.sender,
+            address(this),
+            trade.amount
+        );
+
+
+        emit Deposited(tradeId, msg.sender, trade.amount);
+
+    }
+
+    // 분쟁 발생
+    function disputeArises(bytes32 tradeId)
+        public
+        onlyTradeBuyerOrSeller(tradeId)
+    {
+        Trade storage trade = trades[tradeId];
+        require(trade.status == Status.APPROVED, "Invalid status for dispute");
+
+        trade.status = Status.DISPUTED;
+
+        emit Disputed(tradeId, msg.sender);
+    }
+
+    // 수수료 계산
+    function calculateFee(uint256 _amount, uint256 _fee)
+        private
+        pure
+        returns (uint256)
+    {
+        return (_amount * _fee) / BASIS_POINTS;
+    }
+
+    // 판매자에게 자금 지급
+    function _releaseFunds(bytes32 tradeId) private {
+        Trade storage trade = trades[tradeId];
+        uint256 fee = calculateFee(trade.amount, trade.fee);
+        uint256 remainingAmount = trade.amount - fee;
+
+        trade.status = Status.COMPLETED;
+
+        IERC20 token = IERC20(trade.tokenAddress);
+
+        token.safeTransfer(trade.feeOwner, fee);
+        token.safeTransfer(trade.seller, remainingAmount);
+
+        
+
+        emit FeePaid(tradeId, trade.feeOwner, fee);
+        emit FundsReleased(tradeId, trade.seller, remainingAmount, fee);
+    }
+
+    // 구매자에게 환불
+    function _refund(bytes32 tradeId) private {
+        Trade storage trade = trades[tradeId];
+        uint256 fee = calculateFee(trade.amount, trade.fee);
+        uint256 remainingAmount = trade.amount - fee;
+
+        trade.status = Status.REFUNDED;
+
+        IERC20 token = IERC20(trade.tokenAddress);
+        token.safeTransfer(trade.feeOwner, fee);
+        token.safeTransfer(trade.buyer, remainingAmount);
+
+
+        emit FeePaid(tradeId, trade.feeOwner, fee);
+        emit FundsRefunded(tradeId, trade.buyer, remainingAmount, fee);
+    }
+
+    // 정상 거래 완료 - 판매자에게 자금 지급
+    function releaseFunds(bytes32 tradeId) public {
+        Trade storage trade = trades[tradeId];
+        require(msg.sender == trade.buyer, "Not authorized");
+        require(trade.status == Status.APPROVED, "Invalid status for release");
+
+        _releaseFunds(tradeId);
+    }
+
+    // 분쟁거래 - 판매자에게 자금 지급
+    function disputedTransactionToSeller(bytes32 tradeId) public {
+        Trade storage trade = trades[tradeId];
+        require(msg.sender == trade.arbiter, "Not authorized");
+        require(trade.status == Status.DISPUTED, "Invalid status for release");
+
+        _releaseFunds(tradeId);
+    }
+
+    // 분쟁거래 - 구매자에게 자금 지급
+    function disputedTransactionToBuyer(bytes32 tradeId) public {
+        Trade storage trade = trades[tradeId];
+        require(msg.sender == trade.arbiter, "Not authorized");
+        require(trade.status == Status.DISPUTED, "Invalid status for release");
+
+        _refund(tradeId);
+    }
+
+    // 수수료율 변경 (소유자만 가능)
+    function setFeePercentage(uint256 _newFeePercentage) public onlyOwner {
+        require(_newFeePercentage <= MAX_FEE, "Fee too high");
+        uint256 oldFee = feePercentage;
+        feePercentage = _newFeePercentage;
+        emit FeeUpdated(oldFee, _newFeePercentage);
+    }
+
+    // 수수료율 지급주소 변경
+    function setFeeOwner(address newfeeOwner) public onlyOwner {
+        feeOwner = newfeeOwner;
+    }
+
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "New owner is zero address");
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+}

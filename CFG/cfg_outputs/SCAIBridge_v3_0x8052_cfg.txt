@@ -1,0 +1,532 @@
+Contract: ERC20Essential
+==================================================
+
+
+Contract: usdtContract
+==================================================
+
+
+Contract: owned
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeSigner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: signer[_signer] = _status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: SignerUpdated(_signer,_status)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,_newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: SCAIBridge_v3
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: peggedTokenFeeRecipient = _peggedTokenFeeRecipient
+
+Edges:
+  0 -> 1
+
+Function: changeSigner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: signer[_signer] = _status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: SignerUpdated(_signer,_status)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,_newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: coinIn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bridgeStatus,Bridge is inactive)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: orderID ++
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: block.chainid == 34
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: fee = (msg.value * scaiBurnFeePercentage) / 1000
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: address(burnAddress).transfer(fee)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: fee = (msg.value * peggedTokenFeePercentage) / 1000
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: address(peggedTokenFeeRecipient).transfer(fee)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: CoinIn(orderID,address(0),msg.sender,(msg.value - fee),outputChainID,outputCurrency,fee)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 9
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: tokenIn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bridgeStatus,Bridge is inactive)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: orderID ++
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: inputTokenAddress == address(USDTcontractInEthereum)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: usdtContract(inputTokenAddress).transferFrom(msg.sender,address(this),tokenAmount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(inputTokenAddress).transferFrom(msg.sender,address(this),tokenAmount)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: inputTokenAddress == USDScontract || outputTokenAddress == USDScontract
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: fee = (tokenAmount * peggedTokenFeePercentage) / 1000
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(inputTokenAddress).transfer(peggedTokenFeeRecipient,fee)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: fee = (tokenAmount * scaiBurnFeePercentage) / 1000
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(inputTokenAddress).transfer(burnAddress,fee)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: TokenIn(orderID,inputTokenAddress,msg.sender,(tokenAmount - fee),outputChainID,outputTokenAddress,fee)
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 11
+  9 -> 10
+  10 -> 13
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: coinOut
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bridgeStatus,Bridge is inactive)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(user).transfer(amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: CoinOut(_orderID,address(0),user,amount,inputChainID)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: tokenOut
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bridgeStatus,Bridge is inactive)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(outputTokenAddress).transfer(user,tokenAmount)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: exraCoinRewards > 0 && address(this).balance >= exraCoinRewards && user.balance == 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(user).transfer(exraCoinRewards)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TokenOut(_orderID,outputTokenAddress,user,tokenAmount,inputChainID)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: setExraCoinsRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: exraCoinRewards = _exraCoinRewards
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBridgeStatus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: bridgeStatus = status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPeggedTokenFeePercentage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: peggedTokenFeePercentage = fee
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setScaiBurnFeePercentage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: scaiBurnFeePercentage = fee
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPeggedTokenFeeRecipient
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: peggedTokenFeeRecipient = _newRecipient
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setUSDScontract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: USDScontract = _USDScontract
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: bridgeStatus = true
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: peggedTokenFeePercentage = 5
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: scaiBurnFeePercentage = 20
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: burnAddress = 0x000000000000000000000000000000000000dEaD
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDScontract = 0x3A15028e6b1d1040f64BC19f0D89A336eA45D8a5
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDTcontractInEthereum = 0xdAC17F958D2ee523a2206206994597C13D831ec7
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

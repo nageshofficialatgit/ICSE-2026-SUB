@@ -1,0 +1,856 @@
+Contract: RDFDM
+==================================================
+
+Function: RDFDM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: manager = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: token = msg.sender
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: operatorFeeAcct = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isLocked = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ownerOnly()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token = _token
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ownerOnly()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: unlockedOnly()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: setOperatorFeeAcct
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: operatorFeeAcct = _operatorFeeAcct
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ownerOnly()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setManager
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: manager = _manager
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: deleteManager
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: manager = owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: addCharity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: charities[charityCount].name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: charities[charityCount].currency = _currency
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: CharityAddedEvent(charityCount,_name,_currency)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ++ charityCount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: modifyCharity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].name = _name
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].currency = _currency
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: CharityModifiedEvent(_charity,_name,_currency)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: fiatCollected
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatBalanceIn += _fiat
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatCollected += _fiat
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: FiatCollectedEvent(_charity,_fiat,_ref)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: fiatToEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(token != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatToEthPriceAccFiat += _fiat
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatToEthPriceAccEth += msg.value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatBalanceIn -= _fiat
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: _tokenCut = (msg.value * 4) / 100
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: _operatorCut = (msg.value * 16) / 100
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: _charityCredit = (msg.value - _operatorCut) - _tokenCut
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: operatorFeeAcct.transfer(_operatorCut)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(_tokenCut)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethBalance += _charityCredit
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethCredited += _charityCredit
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: FiatToEthEvent(_charity,_fiat,msg.value)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 1
+
+Function: ethToFiat
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(charities[_charity].ethBalance >= _eth)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethToFiatPriceAccFiat += _fiat
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethToFiatPriceAccEth += _eth
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethBalance -= _eth
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatBalanceOut += _fiat
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(_eth)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: EthToFiatEvent(_charity,_eth,_fiat)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: fiatDelivered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(charities[_charity].fiatBalanceOut >= _fiat)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatBalanceOut -= _fiat
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatDelivered += _fiat
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: FiatDeliveredEvent(_charity,_fiat,_ref)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: ethDonation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(token != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: _tokenCut = (msg.value * 1) / 200
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _operatorCut = (msg.value * 3) / 200
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: _charityCredit = (msg.value - _operatorCut) - _tokenCut
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: operatorFeeAcct.transfer(_operatorCut)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(_tokenCut)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethDonated += _charityCredit
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethBalance += _charityCredit
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethCredited += _charityCredit
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: EthDonationEvent(_charity,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: fiatCollectedToEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(token != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatCollected += _fiat
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatToEthPriceAccFiat += _fiat
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatToEthPriceAccEth += msg.value
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: _tokenCut = (msg.value * 4) / 100
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: _operatorCut = (msg.value * 16) / 100
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: _charityCredit = (msg.value - _operatorCut) - _tokenCut
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: operatorFeeAcct.transfer(_operatorCut)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(_tokenCut)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethBalance += _charityCredit
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethCredited += _charityCredit
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: FiatCollectedEvent(_charity,_fiat,_ref)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: FiatToEthEvent(_charity,_fiat,msg.value)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 15
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+Function: ethToFiatDelivered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(charities[_charity].ethBalance >= _eth)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethToFiatPriceAccFiat += _fiat
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethToFiatPriceAccEth += _eth
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].ethBalance -= _eth
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(_eth)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: EthToFiatEvent(_charity,_eth,_fiat)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: charities[_charity].fiatDelivered += _fiat
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: FiatDeliveredEvent(_charity,_fiat,_ref)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: managerOnly()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: quickAuditEthCredited
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _fiatCollected = charities[_charity].fiatCollected
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _fiatToEthNotProcessed = charities[_charity].fiatBalanceIn
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _fiatToEthProcessed = _fiatCollected - _fiatToEthNotProcessed
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: charities[_charity].fiatToEthPriceAccEth == 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _fiatToEthPricePerEth = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _fiatToEthCreditedFinney = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _fiatToEthPricePerEth = (charities[_charity].fiatToEthPriceAccFiat * (1000000000000000000)) / charities[_charity].fiatToEthPriceAccEth
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _fiatToEthCreditedFinney = _fiatToEthProcessed * (1000000000000000000 / 1000000000000000) / _fiatToEthPricePerEth
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _fiatToEthAfterFeesFinney = _fiatToEthCreditedFinney * 8 / 10
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _ethDonatedFinney = charities[_charity].ethDonated / (1000000000000000)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _ethDonatedAfterFeesFinney = _ethDonatedFinney * 98 / 100
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _totalEthCreditedFinney = _fiatToEthAfterFeesFinney + _ethDonatedAfterFeesFinney
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: tecf = charities[_charity].ethCredited * (1000000000000000000 / 1000000000000000)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: _quickDiscrepancy = int256(_totalEthCreditedFinney) - int256(tecf)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: (_fiatCollected,_fiatToEthNotProcessed,_fiatToEthProcessed,_fiatToEthPricePerEth,_fiatToEthCreditedFinney,_fiatToEthAfterFeesFinney,_ethDonatedFinney,_ethDonatedAfterFeesFinney,_totalEthCreditedFinney,_quickDiscrepancy)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+
+Function: quickAuditFiatDelivered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_charity < charityCount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _totalEthCreditedFinney = charities[_charity].ethCredited * (1000000000000000000 / 1000000000000000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _ethNotProcessedFinney = charities[_charity].ethBalance / (1000000000000000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _processedEthCreditedFinney = _totalEthCreditedFinney - _ethNotProcessedFinney
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: charities[_charity].ethToFiatPriceAccEth == 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _ethToFiatPricePerEth = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _ethToFiatCreditedFiat = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _ethToFiatPricePerEth = (charities[_charity].ethToFiatPriceAccFiat * (1000000000000000000)) / charities[_charity].ethToFiatPriceAccEth
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _ethToFiatCreditedFiat = _processedEthCreditedFinney * _ethToFiatPricePerEth / (1000000000000000000 / 1000000000000000)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _ethToFiatNotProcessed = charities[_charity].fiatBalanceOut
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _ethToFiatProcessed = _ethToFiatCreditedFiat - _ethToFiatNotProcessed
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _fiatDelivered = charities[_charity].fiatDelivered
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _quickDiscrepancy = int256(_ethToFiatProcessed) - int256(_fiatDelivered)
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: (_totalEthCreditedFinney,_ethNotProcessedFinney,_processedEthCreditedFinney,_ethToFiatPricePerEth,_ethToFiatCreditedFiat,_ethToFiatNotProcessed,_ethToFiatProcessed,_fiatDelivered,_quickDiscrepancy)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: haraKiri
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ownerOnly()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: unlockedOnly()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CURRENCY_USD = 0x01
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CURRENCY_EURO = 0x02
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CURRENCY_NIS = 0x03
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CURRENCY_YUAN = 0x04
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

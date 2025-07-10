@@ -1,0 +1,105 @@
+Contract: Secret
+==================================================
+
+
+Contract: Bank
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: secret = Secret(_secret)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= 1,At least 1 wei is required to deploy the bank!)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == amount,Insufficient funds)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] += amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = balances[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,Nothing to withdraw)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(secret.validateBankNotEmpty())
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (sent,None) = msg.sender.call{value: balance}()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sent,Failed to send Ether)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(this).balance == 0)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: secretKey = secret.key()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: SecretKey(secretKey)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+

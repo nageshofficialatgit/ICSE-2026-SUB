@@ -1,0 +1,937 @@
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+
+Contract: ReentrancyGuard
+==================================================
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rentrancy_lock = false
+
+Edges:
+
+
+Contract: BitcoineumInterface
+==================================================
+
+
+Contract: SharkPool
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: set_pool_percentage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_percentage < 6)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pool_percentage = _percentage
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: find_contribution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: users[_who].start_block > 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: u = users[_who]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: remaining_period = 0
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: u.end_block > mined_blocks
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: remaining_period = u.end_block - mined_blocks
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: remaining_period = 0
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (u.start_block,u.end_block,u.proportional_contribution,u.proportional_contribution * contract_period,u.proportional_contribution * remaining_period)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: (0,0,0,0,0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  9 -> 10
+
+Function: allocate_slot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: total_users < max_users
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: active_users[total_users] = _who
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: total_users += 1
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: slots.length == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: location = slots[slots.length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: active_users[location] = _who
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: delete slots[slots.length - 1]
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 10
+  4 -> 5
+  4 -> 6
+  5 -> 9
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: external_to_internal_block_number
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _externalBlockNum / blockCreationRate
+
+Edges:
+  0 -> 1
+
+Function: available_slots
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: total_users < max_users
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: max_users - total_users
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: slots.length
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: get_bitcoineum_contract_address
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0x73dD069c299A5d691E9836243BcaeC9c8C1D8734
+
+Edges:
+  0 -> 1
+
+Function: distribute_reward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: remaining_balance = _balance
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < total_users
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: user_address = active_users[i]
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: user_address > 0 && remaining_balance != 0
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: proportion = users[user_address].proportional_contribution
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: divided_portion = (proportion * divisible_units) / _totalAttempt
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: payout = (_balance * divided_portion) / divisible_units
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: payout > remaining_balance
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: payout = remaining_balance
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: balances[user_address] = balances[user_address] + payout
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: remaining_balance = remaining_balance - payout
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  7 -> 16
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 5
+
+Function: SharkPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: blockCreationRate = 50
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: base_contract = BitcoineumInterface(get_bitcoineum_contract_address())
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: current_external_block
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: block.number
+
+Edges:
+  0 -> 1
+
+Function: calculate_minimum_contribution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: base_contract.currentDifficultyWei() / 10000000 * contract_period
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= calculate_minimum_contribution())
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: current_user = users[msg.sender]
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: current_user.start_block > 0
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: current_user.end_block > mined_blocks
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: periods_left = current_user.end_block - mined_blocks
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: amount_remaining = current_user.proportional_contribution * periods_left
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: amount_remaining = amount_remaining + msg.value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: amount_remaining = amount_remaining / contract_period
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: current_user.proportional_contribution = amount_remaining
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: current_user.proportional_contribution = msg.value / contract_period
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: do_redemption()
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: current_user.proportional_contribution = msg.value / contract_period
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: allocate_slot(msg.sender)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: current_user.start_block = mined_blocks
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: current_user.end_block = mined_blocks + contract_period
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 13
+  4 -> 5
+  4 -> 10
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 15
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+
+Function: mine
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _blockNum = external_to_internal_block_number(current_external_block())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! base_contract.checkMiningAttempt(_blockNum,this))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: total_attempt = 0
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: total_ejected = 0
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < total_users
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: user_address = active_users[i]
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: user_address > 0
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: u = users[user_address]
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: u.end_block <= mined_blocks
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: total_ejected < 10
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: delete active_users[i]
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: slots.push(i)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: delete users[active_users[i]]
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: total_ejected = total_ejected + 1
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: total_attempt = total_attempt + u.proportional_contribution
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: total_attempt > 0
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: attempts[_blockNum] = total_attempt
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: base_contract.mine.value(total_attempt)()
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: mined_blocks = mined_blocks + 1
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 28
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 23
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  10 -> 21
+  11 -> 12
+  12 -> 13
+  12 -> 19
+  13 -> 14
+  13 -> 18
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 8
+  23 -> 24
+  23 -> 27
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  28 -> 1
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(base_contract.checkWinning(_blockNumber))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: initial_balance = base_contract.balanceOf(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: base_contract.claim(_blockNumber,this)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: balance = base_contract.balanceOf(this)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: total_attempt = attempts[_blockNumber]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: distribute_reward(total_attempt,balance - initial_balance)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: claimed_blocks = claimed_blocks + 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: do_redemption
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = balances[msg.sender]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: balance > 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: owner_cut = (balance / 100) * pool_percentage
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: remainder = balance - owner_cut
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: owner_cut > 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: base_contract.transfer(owner,owner_cut)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: base_contract.transfer(msg.sender,remainder)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = 0
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 10
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: redeem
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: do_redemption()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: checkMiningAttempt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: base_contract.checkMiningAttempt(_blockNum,_sender)
+
+Edges:
+  0 -> 1
+
+Function: checkWinning
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: base_contract.checkWinning(_blockNum)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: pool_percentage = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: total_users = 0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: contract_period = 100
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: mined_blocks = 1
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: claimed_blocks = 1
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: blockCreationRate = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: pool_name = SharkPool 100
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: max_users = 100
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: divisible_units = 10000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,32 @@
+Contract: DrainMe
+==================================================
+
+Function: callFirstTarget
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= 5000000000000000)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: firstTarget.call.value(msg.value)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: firstTarget = 0x461ec7309F187dd4650EE6b4D25D93c922d7D56b
+
+Edges:
+
+

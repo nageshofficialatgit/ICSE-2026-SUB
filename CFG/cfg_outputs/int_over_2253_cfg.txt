@@ -1,0 +1,28 @@
+Contract: CardsRaffle
+==================================================
+
+Function: drawRandomWinner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: seed = raffleTicketsBought + block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: raffleTicketThatWon = seed + raffleTicketsBought
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: raffleTicketThatWon
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

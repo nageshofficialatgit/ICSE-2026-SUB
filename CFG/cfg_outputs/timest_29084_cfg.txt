@@ -1,0 +1,28 @@
+Contract: BlockportCrowdsale
+==================================================
+
+Function: setCrowdsaleDates
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(startTime > block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: startTime = _startTime
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

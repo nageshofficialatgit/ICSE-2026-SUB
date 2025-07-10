@@ -1,0 +1,2154 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: IUniswapV2Factory
+==================================================
+
+
+Contract: IUniswapV2Router01
+==================================================
+
+
+Contract: IUniswapV2Router02
+==================================================
+
+
+Contract: Token6OS
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_wallet != address(0),plantoGroup wallet can not be zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[_msgSender()] = _rTotal
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: plantoGroupWallet = _wallet
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _uniswapV2Router = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory()).createPair(address(this),usdcAddress)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router = _uniswapV2Router
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: isExcludedFromFee[owner()] = true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: isExcludedFromFee[address(this)] = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: excludeFromReward(uniswapV2Pair)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_msgSender(),_tTotal)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: DECIMALS
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tTotal
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _isExcluded[account]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _tOwned[account]
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: tokenFromReflection(_rOwned[account])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_msgSender(),recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,_msgSender(),_allowances[sender][_msgSender()] - amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,_allowances[_msgSender()][spender] + addedValue)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,_allowances[_msgSender()][spender] - subtractedValue)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: isExcludedFromReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _isExcluded[account]
+
+Edges:
+  0 -> 1
+
+Function: totalFees
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tFeeTotal
+
+Edges:
+  0 -> 1
+
+Function: deliver
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: sender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _isExcluded[sender],Excluded addresses cannot call this function)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (rAmount,None) = _getValue(tAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[sender] = _rOwned[sender] - rAmount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _rTotal = _rTotal - rAmount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _tFeeTotal = _tFeeTotal + tAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: reflectionFromToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tAmount <= _tTotal,Amount must be less than supply)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! deductTransferFee
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (rAmount,None) = _getValue(tAmount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: rAmount
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (None,rTransferAmount) = _getValue(tAmount)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: rTransferAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 6
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 8
+
+Function: tokenFromReflection
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(rAmount <= _rTotal,Amount must be less than total reflections)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentRate = _getRate()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: rAmount / currentRate
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: excludeFromReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _isExcluded[account],Account is already excluded)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _rOwned[account] > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _tOwned[account] = tokenFromReflection(_rOwned[account])
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _isExcluded[account] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _excluded.push(account)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ExcludedFromReward(account)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: includeInReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isExcluded[account],Account is already Included)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _excluded.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _excluded[i] == account
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _excluded[i] = _excluded[_excluded.length - 1]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _tOwned[account] = 0
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _isExcluded[account] = false
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _excluded.pop()
+
+  ID: 11
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: IncludedInReward(account)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 15
+  1 -> 4
+  2 -> 5
+  3 -> 14
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 12
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 3
+  12 -> 13
+  13 -> 5
+  15 -> 1
+
+Function: excludeFromFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isExcludedFromFee[account],Alreay excluded from fee)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isExcludedFromFee[account] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ExcludedFromFee(account)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: includeInFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isExcludedFromFee[account],Alreay included in fee)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isExcludedFromFee[account] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IncludedInFee(account)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setplantoGroupWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(wallet != address(0),wallet can not be zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: plantoGroupWallet = wallet
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: PlantoGroupWalletChange(wallet)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateThreshold
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0 && amount <= 5 * 10 ** 5 * 10 ** 18,Amount should be more than zero and less than 500k tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: taxThreshold = amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ThresholdUpdated(amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _reflectFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _rTotal = _rTotal - rFee
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _tFeeTotal = _tFeeTotal + tFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ReflectedFee(tFee)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _takePlantoFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentRate = _getRate()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: rPlantoFee = tPlantoFee * currentRate
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[address(this)] = _rOwned[address(this)] + rPlantoFee
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: _isExcluded[address(this)]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _tOwned[address(this)] = _tOwned[address(this)] + tPlantoFee
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+
+Function: _getValues
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (tTransferAmount,tFee,tPlantoFee) = _getTValues(tAmount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (tTransferAmount,tFee,tPlantoFee)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _getValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,tFee,tPlantoFee) = _getTValues(tAmount)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (rAmount,rTransferAmount,None) = _getRValues(tAmount,tFee,tPlantoFee)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: (rAmount,rTransferAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _getTValues
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tFee = calculateTaxFee(tAmount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tPlantoFee = calculatePlantoTax(tAmount)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: allTax = tFee + tPlantoFee
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: tTransferAmount = tAmount - allTax
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (tTransferAmount,tFee,tPlantoFee)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _getRValues
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentRate = _getRate()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: rAmount = tAmount * currentRate
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: rFee = tFee * currentRate
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: rPlantoFee = tPlantoFee * currentRate
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: allTax = rFee + rPlantoFee
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: rTransferAmount = rAmount - allTax
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: (rAmount,rTransferAmount,rFee)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _getRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (rSupply,tSupply) = _getCurrentSupply()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: rSupply / tSupply
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _getCurrentSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: rSupply = _rTotal
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tSupply = _tTotal
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < _excluded.length
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: _rOwned[_excluded[i]] > rSupply || _tOwned[_excluded[i]] > tSupply
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (_rTotal,_tTotal)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: rSupply = rSupply - _rOwned[_excluded[i]]
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: tSupply = tSupply - _tOwned[_excluded[i]]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: rSupply < _rTotal / _tTotal
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (_rTotal,_tTotal)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: (rSupply,tSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 13
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 6
+  13 -> 14
+  13 -> 15
+  15 -> 16
+
+Function: calculateTaxFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: amount * refAmt / 10 ** 2
+
+Edges:
+  0 -> 1
+
+Function: calculatePlantoTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: amount * plantoFee / 10 ** 2
+
+Edges:
+  0 -> 1
+
+Function: removeAllFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: refAmt = 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: plantoFee = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setTrading
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tradeEnabled != _enable,Trading is already in the desired state)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tradeEnabled = _enable
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: TradeEnabled(tradeEnabled)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateReflectionTaxPer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(reflectionPercent <= 6,You can not set reflection tax more then 6%)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: reflectionTax = reflectionPercent
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: UpdatedReflectionTax(reflectionTax)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updatePlantoGroupTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(walletTax <= 6,You can not set plantoGroup tax more then 6%)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: plantoGroupTax = walletTax
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: UpdatedWalletTax(plantoGroupTax)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setMaxTransferLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount >= 500000 * 10 ** 18,Max Transfer limit can not be less than 500,000 tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: maxTransferAmount = amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: UpdatedMaxAmount(maxTransferAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Transfer amount must be greater than zero)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: from == owner() || to == owner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _tokenTransfer(from,to,amount,false)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= maxTransferAmount,Transaction limit exceed)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: contractTokenBalance = balanceOf(address(this))
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: overMinTokenBalance = contractTokenBalance >= taxThreshold
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: overMinTokenBalance && ! swapping && from != uniswapV2Pair
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: swapping = true
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: swapAndLiquify()
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: swapping = false
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: takeFee = true
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: isExcludedFromFee[from] || isExcludedFromFee[to]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: takeFee = false
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: takeFee
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: refAmt = reflectionTax
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: plantoFee = plantoGroupTax
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: _tokenTransfer(from,to,amount,takeFee)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 23
+  21 -> 22
+  22 -> 23
+  23 -> 24
+
+Function: swapAndLiquify
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: contractTokenBalance = balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: contractTokenBalance > maxTransferAmount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: contractTokenBalance = maxTransferAmount
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForUsdc(contractTokenBalance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: swapTokensForUsdc
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = address(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = usdcAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(uniswapV2Router),tokenAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router.swapExactTokensForTokens(tokenAmount,0,path,plantoGroupWallet,block.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _tokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! takeFee
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: removeAllFee()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: _isExcluded[sender] && ! _isExcluded[recipient]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transferFromExcluded(sender,recipient,amount)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! _isExcluded[sender] && _isExcluded[recipient]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _transferToExcluded(sender,recipient,amount)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: ! _isExcluded[sender] && ! _isExcluded[recipient]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _transferStandard(sender,recipient,amount)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _isExcluded[sender] && _isExcluded[recipient]
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _transferBothExcluded(sender,recipient,amount)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _transferStandard(sender,recipient,amount)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 16
+  6 -> 7
+  6 -> 8
+  7 -> 15
+  8 -> 9
+  8 -> 10
+  9 -> 14
+  10 -> 11
+  10 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+
+Function: _transferBothExcluded
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (tTransferAmount,tFee,tPlantoFee) = _getValues(tAmount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (rAmount,rTransferAmount,rFee) = _getRValues(tAmount,tFee,tPlantoFee)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _tOwned[sender] = _tOwned[sender] - tAmount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[sender] = _rOwned[sender] - rAmount
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _tOwned[recipient] = _tOwned[recipient] + tTransferAmount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[recipient] = _rOwned[recipient] + rTransferAmount
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _reflectFee(rFee,tFee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _takePlantoFee(tPlantoFee)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,tTransferAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: _transferStandard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (tTransferAmount,tFee,tPlantoFee) = _getValues(tAmount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (rAmount,rTransferAmount,rFee) = _getRValues(tAmount,tFee,tPlantoFee)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[sender] = _rOwned[sender] - rAmount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[recipient] = _rOwned[recipient] + rTransferAmount
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _reflectFee(rFee,tFee)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _takePlantoFee(tPlantoFee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,tTransferAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: _transferToExcluded
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (tTransferAmount,tFee,tPlantoFee) = _getValues(tAmount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (rAmount,rTransferAmount,rFee) = _getRValues(tAmount,tFee,tPlantoFee)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[sender] = _rOwned[sender] - rAmount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _tOwned[recipient] = _tOwned[recipient] + tTransferAmount
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[recipient] = _rOwned[recipient] + rTransferAmount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _reflectFee(rFee,tFee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _takePlantoFee(tPlantoFee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,tTransferAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: _transferFromExcluded
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (tTransferAmount,tFee,tPlantoFee) = _getValues(tAmount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (rAmount,rTransferAmount,rFee) = _getRValues(tAmount,tFee,tPlantoFee)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _tOwned[sender] = _tOwned[sender] - tAmount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[sender] = _rOwned[sender] - rAmount
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _rOwned[recipient] = _rOwned[recipient] + rTransferAmount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _reflectFee(rFee,tFee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _takePlantoFee(tPlantoFee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,tTransferAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tTotal = 963 * 10 ** 7 * 10 ** 18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _rTotal = (MAX - (MAX % _tTotal))
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: taxThreshold = 1 * 10 ** 3 * 10 ** 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: reflectionTax = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: plantoGroupTax = 1
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxTransferAmount = 1926 * 10 * 5 * 10 ** 18
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: usdcAddress = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX = ~ uint256(0)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = 6ENSE
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = 6OS
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DECIMALS = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

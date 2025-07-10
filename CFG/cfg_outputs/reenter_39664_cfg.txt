@@ -1,0 +1,44 @@
+Contract: Blockjack
+==================================================
+
+Function: migrateBlockjack
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: currentBankroll > initialBankroll
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! ADMIN_CONTRACT.call.value(currentBankroll - initialBankroll)()
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  6 -> 1
+
+

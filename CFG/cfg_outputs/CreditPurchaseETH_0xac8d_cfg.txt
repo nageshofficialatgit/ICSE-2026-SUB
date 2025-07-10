@@ -1,0 +1,250 @@
+Contract: CreditPurchaseETH
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: creditPriceInWei = _creditPriceInWei
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_new != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Not authorised)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = _new
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: purchaseCredits
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,No ETH sent)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: credits = msg.value / creditPriceInWei
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: activeReferralCodes[referralCode]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: credits += (credits * 10) / 100
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: bytes(referralCode).length > 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(activeReferralCodes[referralCode],Invalid referral code)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: CreditsPurchased(msg.sender,msg.value,credits,referralCode)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: activeReferralCodes[referralCode]
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: referralShare = (msg.value * 10) / 100
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: ownerShare = msg.value - referralShare
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: address(referralPartners[referralCode]).transfer(referralShare)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(ownerShare)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(msg.value)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 15
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 16
+  15 -> 16
+
+Function: addReferralPartner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,ERR: Not Owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(partner != address(0),Invalid partner address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! activeReferralCodes[code],Code already exists)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: referralPartners[code] = partner
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: activeReferralCodes[code] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: ReferralPartnerAdded(code,partner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: removeReferralPartner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,ERR: Not Owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(activeReferralCodes[code],Code doesn't exist)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete referralPartners[code]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: activeReferralCodes[code] = false
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ReferralPartnerRemoved(code)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: changeCreditCost
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,ERR: Not Owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: creditPriceInWei = newCost
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: destroy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,ERR: Not Owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(address(owner))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

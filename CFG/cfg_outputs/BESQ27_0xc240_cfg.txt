@@ -1,0 +1,239 @@
+Contract: BESQ27
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admin = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 10_000_000_000 * 10 ** uint256(decimals)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = totalSupply
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= _value,Insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_from != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),Invalid address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[_from] >= _value,Insufficient balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[_from][msg.sender] >= _value,Allowance exceeded)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: getBackingDetails
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (swiftCode,receiverBank,receiverBankAddress,beneficiary,mur,backingAmount)
+
+Edges:
+  0 -> 1
+
+Function: updateBackingAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == admin,Only admin can update the backing amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: backingAmount = _newAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = BESQ27
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = BESQ
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: swiftCode = BARCGB22XXX
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: receiverBank = CAIXA ECONOMICA FEDERAL
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: receiverBankAddress = AV. PAULISTA 750, SAO PAULO, BRAZIL
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: beneficiary = PATRIMONIAL BESERRA QUEIROZ LTDA
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: mur = AXW4770783157504
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: backingAmount = 10_000_000_000 * 10 ** 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+

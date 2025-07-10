@@ -1,0 +1,80 @@
+Contract: IERC20
+==================================================
+
+
+Contract: EthereumTransfer
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: usdtToken = IERC20(_usdtAddress)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: EtherReceived(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+
+Function: executeSignedTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),Invalid recipient address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.allowance(from,address(this)) >= amount,Insufficient allowance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.balanceOf(from) >= amount,Insufficient balance)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: success = usdtToken.transferFrom(from,recipient,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,USDT transfer failed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TransferExecuted(from,recipient,amount,USDT)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

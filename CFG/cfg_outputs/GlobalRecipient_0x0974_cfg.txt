@@ -1,0 +1,1969 @@
+Contract: SafeTransferLib
+==================================================
+
+Function: safeTransferETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),to,amount,codesize()(),0x00,codesize()(),0x00)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0xb12d13eb)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  2 -> 3
+  3 -> 6
+  4 -> 5
+  5 -> 3
+
+Function: safeTransferAllETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),to,selfbalance()(),codesize()(),0x00,codesize()(),0x00)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0xb12d13eb)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  2 -> 3
+  3 -> 6
+  4 -> 5
+  5 -> 3
+
+Function: forceSafeTransferETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: selfbalance()() < amount
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0xb12d13eb)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(GAS_STIPEND_NO_GRIEF,to,amount,codesize()(),0x00,codesize()(),0x00)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,to)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: mstore8(uint256,uint256)(0x0b,0x73)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore8(uint256,uint256)(0x20,0xff)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: ! create(uint256,uint256,uint256)(amount,0x0b,0x16)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(codesize()(),codesize()())
+
+  ID: 14
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  2 -> 3
+  3 -> 6
+  4 -> 5
+  5 -> 3
+  6 -> 8
+  6 -> 7
+  7 -> 14
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 13
+  11 -> 12
+  12 -> 7
+  13 -> 12
+
+Function: forceSafeTransferAllETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(GAS_STIPEND_NO_GRIEF,to,selfbalance()(),codesize()(),0x00,codesize()(),0x00)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,to)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore8(uint256,uint256)(0x0b,0x73)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore8(uint256,uint256)(0x20,0xff)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! create(uint256,uint256,uint256)(selfbalance()(),0x0b,0x16)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(codesize()(),codesize()())
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  2 -> 3
+  3 -> 10
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  7 -> 8
+  8 -> 3
+  9 -> 8
+
+Function: trySafeTransferETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gasStipend,to,amount,codesize()(),0x00,codesize()(),0x00)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: trySafeTransferAllETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gasStipend,to,selfbalance()(),codesize()(),0x00,codesize()(),0x00)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: m_safeTransferFrom_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x60,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,to)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x2c,from << 96)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x0c,0x23b872dd000000000000000000000000)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: success_safeTransferFrom_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x1c,0x64,0x00,0x20)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success_safeTransferFrom_asm_0
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: ! ! extcodesize(uint256)(token) | returndatasize()() < success_safeTransferFrom_asm_0
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x7939f424)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x60,0)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,m_safeTransferFrom_asm_0)
+
+  ID: 18
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 12
+  10 -> 11
+  11 -> 16
+  12 -> 14
+  12 -> 13
+  13 -> 11
+  14 -> 15
+  15 -> 13
+  16 -> 17
+  17 -> 18
+
+Function: trySafeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: m_trySafeTransferFrom_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x60,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,to)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x2c,from << 96)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x0c,0x23b872dd000000000000000000000000)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x1c,0x64,0x00,0x20)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: success = ! extcodesize(uint256)(token) | returndatasize()() < success
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x60,0)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,m_trySafeTransferFrom_asm_0)
+
+  ID: 14
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 11
+  9 -> 10
+  10 -> 12
+  11 -> 10
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: safeTransferAllFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: m_safeTransferAllFrom_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,to)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x2c,from << 96)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x0c,0x70a08231000000000000000000000000)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! returndatasize()() > 0x1f & staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0x1c,0x24,0x60,0x20)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x7939f424)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x23b872dd)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: amount = mload(uint256)(0x60)
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: success_safeTransferAllFrom_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x1c,0x64,0x00,0x20)
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success_safeTransferAllFrom_asm_0
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: ! ! extcodesize(uint256)(token) | returndatasize()() < success_safeTransferAllFrom_asm_0
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x7939f424)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x60,0)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,m_safeTransferAllFrom_asm_0)
+
+  ID: 23
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  7 -> 8
+  8 -> 11
+  9 -> 10
+  10 -> 8
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 17
+  15 -> 16
+  16 -> 21
+  17 -> 19
+  17 -> 18
+  18 -> 16
+  19 -> 20
+  20 -> 18
+  21 -> 22
+  22 -> 23
+  23 -> 24
+
+Function: safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x14,to)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0xa9059cbb000000000000000000000000)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: success_safeTransfer_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x10,0x44,0x00,0x20)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success_safeTransfer_asm_0
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! ! extcodesize(uint256)(token) | returndatasize()() < success_safeTransfer_asm_0
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x90b8ec18)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,0)
+
+  ID: 14
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  7 -> 8
+  8 -> 13
+  9 -> 11
+  9 -> 10
+  10 -> 8
+  11 -> 12
+  12 -> 10
+  13 -> 14
+
+Function: safeTransferAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x70a08231)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x20,address()())
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! returndatasize()() > 0x1f & staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0x1c,0x24,0x34,0x20)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x90b8ec18)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x14,to)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: amount = mload(uint256)(0x34)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0xa9059cbb000000000000000000000000)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: success_safeTransferAll_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x10,0x44,0x00,0x20)
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success_safeTransferAll_asm_0
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: ! ! extcodesize(uint256)(token) | returndatasize()() < success_safeTransferAll_asm_0
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x90b8ec18)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,0)
+
+  ID: 20
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 15
+  13 -> 14
+  14 -> 19
+  15 -> 17
+  15 -> 16
+  16 -> 14
+  17 -> 18
+  18 -> 16
+  19 -> 20
+  20 -> 21
+
+Function: safeApprove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x14,to)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x095ea7b3000000000000000000000000)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: success_safeApprove_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x10,0x44,0x00,0x20)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success_safeApprove_asm_0
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! ! extcodesize(uint256)(token) | returndatasize()() < success_safeApprove_asm_0
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x3e3f8f73)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,0)
+
+  ID: 14
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  7 -> 8
+  8 -> 13
+  9 -> 11
+  9 -> 10
+  10 -> 8
+  11 -> 12
+  12 -> 10
+  13 -> 14
+
+Function: safeApproveWithRetry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x14,to)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x095ea7b3000000000000000000000000)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: success_safeApproveWithRetry_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x10,0x44,0x00,0x20)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success_safeApproveWithRetry_asm_0
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! ! extcodesize(uint256)(token) | returndatasize()() < success_safeApproveWithRetry_asm_0
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,0)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x095ea7b3000000000000000000000000)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: pop(uint256)(call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x10,0x44,codesize()(),0x00))
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,amount)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: success_safeApproveWithRetry_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,0x10,0x44,0x00,0x20)
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: ! mload(uint256)(0x00) == 1 & success_safeApproveWithRetry_asm_0
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: ! ! extcodesize(uint256)(token) | returndatasize()() < success_safeApproveWithRetry_asm_0
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x3e3f8f73)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x34,0)
+
+  ID: 23
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  7 -> 8
+  8 -> 22
+  9 -> 11
+  9 -> 10
+  10 -> 8
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 18
+  16 -> 17
+  17 -> 10
+  18 -> 20
+  18 -> 19
+  19 -> 17
+  20 -> 21
+  21 -> 19
+  22 -> 23
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x14,account)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x70a08231000000000000000000000000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: amount = mload(uint256)(0x20) * returndatasize()() > 0x1f & staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0x10,0x24,0x20,0x20)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: safeTransferFrom2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! trySafeTransferFrom(token,from,to,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: permit2TransferFrom(token,from,to,amount)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: permit2TransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: m_permit2TransferFrom_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2TransferFrom_asm_0 + 0x74,token << 96 >> 96)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2TransferFrom_asm_0 + 0x54,amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2TransferFrom_asm_0 + 0x34,to)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2TransferFrom_asm_0 + 0x20,from << 96)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2TransferFrom_asm_0,0x36c78516000000000000000000000000)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: p_permit2TransferFrom_asm_0 = PERMIT2
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: exists_permit2TransferFrom_asm_0 = chainid()() == 1
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: ! exists_permit2TransferFrom_asm_0
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: exists_permit2TransferFrom_asm_0 = ! ! extcodesize(uint256)(p_permit2TransferFrom_asm_0)
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: ! call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),p_permit2TransferFrom_asm_0,0,m_permit2TransferFrom_asm_0 + 0x10,0x84,codesize()(),0x00) & ! extcodesize(uint256)(token) < exists_permit2TransferFrom_asm_0
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x7939f4248757f0fd)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x18 + ! ! amount >> 160 << 2,0x04)
+
+  ID: 20
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 15
+  13 -> 14
+  14 -> 16
+  15 -> 14
+  16 -> 18
+  16 -> 17
+  17 -> 20
+  18 -> 19
+  19 -> 17
+
+Function: permit2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: token ^ WETH9 << 96
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x3644e515)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! ! mload(uint256)(0x00) < returndatasize()() == 0x20 & staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(5000,token,0x1c,0x04,0x00,0x20)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: m_permit2_asm_0 = mload(uint256)(0x40)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0x34,spender)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0x20,owner << 96)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0x74,deadline)
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: mload(uint256)(0x00) == DAI_DOMAIN_SEPARATOR
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x14,owner)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x7ecebe00000000000000000000000000)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0x94,staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0x10,0x24,m_permit2_asm_0 + 0x54,0x20))
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0,0x8fcbaf0c000000000000000000000000)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0xb4,0xff & v)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0xd4,r)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0xf4,s)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,m_permit2_asm_0 + 0x10,0x104,codesize()(),0x00)
+
+  ID: 25
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0,0xd505accf000000000000000000000000)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0x54,amount)
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0x94,0xff & v)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0xb4,r)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_permit2_asm_0 + 0xd4,s)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,m_permit2_asm_0 + 0x10,0xe4,codesize()(),0x00)
+
+  ID: 32
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 33
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 34
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: simplePermit2(token,owner,spender,amount,deadline,v,r,s)
+
+  ID: 36
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  4 -> 33
+  5 -> 4
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  7 -> 8
+  8 -> 10
+  9 -> 8
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 17
+  15 -> 16
+  16 -> 26
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 16
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 5
+  33 -> 34
+  34 -> 35
+  34 -> 36
+  35 -> 36
+
+Function: simplePermit2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: m_simplePermit2_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0,0x927da105)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: addressMask_simplePermit2_asm_0 = ~ 0 >> 96
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x20,addressMask_simplePermit2_asm_0 & owner)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x40,addressMask_simplePermit2_asm_0 & token)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x60,addressMask_simplePermit2_asm_0 & spender)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0xc0,addressMask_simplePermit2_asm_0 & spender)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: p_simplePermit2_asm_0 = PERMIT2 * ! amount >> 160
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: ! returndatasize()() > 0x5f & staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),p_simplePermit2_asm_0,m_simplePermit2_asm_0 + 0x1c,0x64,m_simplePermit2_asm_0 + 0x60,0x60)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x6b836e6b8757f0fd)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x18 + ! p_simplePermit2_asm_0 << 2,0x04)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0,0x2b67b570)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x60,amount)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x80,0xffffffffffff)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0xe0,deadline)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x100,0x100)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x120,0x41)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x140,r)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x160,s)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(m_simplePermit2_asm_0 + 0x180,v << 248)
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: ! extcodesize(uint256)(token) * call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),p_simplePermit2_asm_0,0,m_simplePermit2_asm_0 + 0x1c,0x184,codesize()(),0x00)
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x6b836e6b)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x04)
+
+  ID: 30
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 15
+  13 -> 14
+  14 -> 17
+  15 -> 16
+  16 -> 14
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 28
+  26 -> 27
+  27 -> 30
+  28 -> 29
+  29 -> 27
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GAS_STIPEND_NO_STORAGE_WRITES = 2300
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GAS_STIPEND_NO_GRIEF = 100000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DAI_DOMAIN_SEPARATOR = 0xdbb8cf42e1ecb028be3f3dbc922e1d878b963f411dc388ced501601c60f7c6f7
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WETH9 = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PERMIT2 = 0x000000000022D473030F116dDEE9F6B43aC78BA3
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: Recipient
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: governance = _governance
+
+Edges:
+  0 -> 1
+
+Function: allowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isAllowed[_address] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: disallowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isAllowed[_address] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceProposed(futureGovernance = _governance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender != futureGovernance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert GOVERNANCE()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceChanged(governance = msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _tokens.length != _amount.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert WRONG_LENGTH()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < _tokens.length
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: _tokens[i] == address(0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: SafeTransferLib.safeTransferETH(_recipient,_amount[i])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: SafeTransferLib.safeTransfer(_tokens[i],_recipient,_amount[i])
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyAllowed()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 7
+  13 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+
+Contract: GlobalRecipient
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Recipient(_governance)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: allowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isAllowed[_address] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: disallowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isAllowed[_address] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceProposed(futureGovernance = _governance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender != futureGovernance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert GOVERNANCE()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceChanged(governance = msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _tokens.length != _amount.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert WRONG_LENGTH()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < _tokens.length
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: _tokens[i] == address(0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: SafeTransferLib.safeTransferETH(_recipient,_amount[i])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: SafeTransferLib.safeTransfer(_tokens[i],_recipient,_amount[i])
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyAllowed()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 7
+  13 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+

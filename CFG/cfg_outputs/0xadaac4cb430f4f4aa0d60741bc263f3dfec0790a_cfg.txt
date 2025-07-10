@@ -1,0 +1,985 @@
+Contract: TokenController
+==================================================
+
+
+Contract: Controlled
+==================================================
+
+Function: Controlled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: controller = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeController
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: controller = _newController
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyController()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: ApproveAndCallFallBack
+==================================================
+
+
+Contract: MiniMeToken
+==================================================
+
+Function: Controlled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: controller = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeController
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: controller = _newController
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyController()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: MiniMeToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenFactory = MiniMeTokenFactory(_tokenFactory)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: name = _tokenName
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = _decimalUnits
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: symbol = _tokenSymbol
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: parentToken = MiniMeToken(_parentToken)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: parentSnapShotBlock = _parentSnapShotBlock
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: transfersEnabled = _transfersEnabled
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: creationBlock = block.number
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(transfersEnabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: doTransfer(msg.sender,_to,_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender != controller
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(transfersEnabled)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(allowed[_from][msg.sender] >= _amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] -= _amount
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: doTransfer(_from,_to,_amount)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: doTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _amount == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(parentSnapShotBlock < block.number)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_to != 0) && (_to != address(this)))
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: previousBalanceFrom = balanceOfAt(_from,block.number)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(previousBalanceFrom >= _amount)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: isContract(controller)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(TokenController(controller).onTransfer(_from,_to,_amount))
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: updateValueAtNow(balances[_from],previousBalanceFrom - _amount)
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: previousBalanceTo = balanceOfAt(_to,block.number)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(previousBalanceTo + _amount >= previousBalanceTo)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: updateValueAtNow(balances[_to],previousBalanceTo + _amount)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balanceOfAt(_owner,block.number)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(transfersEnabled)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: isContract(controller)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(TokenController(controller).onApprove(msg.sender,_spender,_amount))
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(approve(_spender,_amount))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ApproveAndCallFallBack(_spender).receiveApproval(msg.sender,_amount,this,_extraData)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: totalSupplyAt(block.number)
+
+Edges:
+  0 -> 1
+
+Function: balanceOfAt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (balances[_owner].length == 0) || (balances[_owner][0].fromBlock > _blockNumber)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: address(parentToken) != 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: parentToken.balanceOfAt(_owner,min(_blockNumber,parentSnapShotBlock))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: getValueAt(balances[_owner],_blockNumber)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+
+Function: totalSupplyAt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (totalSupplyHistory.length == 0) || (totalSupplyHistory[0].fromBlock > _blockNumber)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: address(parentToken) != 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: parentToken.totalSupplyAt(min(_blockNumber,parentSnapShotBlock))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: getValueAt(totalSupplyHistory,_blockNumber)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+
+Function: createCloneToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _snapshotBlock == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _snapshotBlock = block.number
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cloneToken = tokenFactory.createCloneToken(this,_snapshotBlock,_cloneTokenName,_cloneDecimalUnits,_cloneTokenSymbol,_transfersEnabled)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: cloneToken.changeController(msg.sender)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: NewCloneToken(address(cloneToken),_snapshotBlock)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: address(cloneToken)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: generateTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: curTotalSupply = totalSupply()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(curTotalSupply + _amount >= curTotalSupply)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: previousBalanceTo = balanceOf(_owner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(previousBalanceTo + _amount >= previousBalanceTo)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: updateValueAtNow(totalSupplyHistory,curTotalSupply + _amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: updateValueAtNow(balances[_owner],previousBalanceTo + _amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(0,_owner,_amount)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyController()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: destroyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: curTotalSupply = totalSupply()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(curTotalSupply >= _amount)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: previousBalanceFrom = balanceOf(_owner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(previousBalanceFrom >= _amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: updateValueAtNow(totalSupplyHistory,curTotalSupply - _amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: updateValueAtNow(balances[_owner],previousBalanceFrom - _amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_owner,0,_amount)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyController()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: enableTransfers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transfersEnabled = _transfersEnabled
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyController()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getValueAt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: checkpoints.length == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: _block >= checkpoints[checkpoints.length - 1].fromBlock
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: checkpoints[checkpoints.length - 1].value
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: _block < checkpoints[0].fromBlock
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: min = 0
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: max = checkpoints.length - 1
+
+  ID: 12
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: max > min
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: mid = (max + min + 1) / 2
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: checkpoints[mid].fromBlock <= _block
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: min = mid
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: max = mid - 1
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.RETURN
+  Expression: checkpoints[min].value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 19
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 13
+  19 -> 20
+
+Function: updateValueAtNow
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (checkpoints.length == 0) || (checkpoints[checkpoints.length - 1].fromBlock < block.number)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: newCheckPoint = checkpoints[checkpoints.length ++]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: newCheckPoint.fromBlock = uint128(block.number)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCheckPoint.value = uint128(_value)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: oldCheckPoint = checkpoints[checkpoints.length - 1]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: oldCheckPoint.value = uint128(_value)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 6
+  6 -> 7
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _addr == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: size > 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a < b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isContract(controller))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(TokenController(controller).proxyPayment.value(msg.value)(msg.sender))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: claimTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _token == 0x0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: controller.transfer(this.balance)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: token = MiniMeToken(_token)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: balance = token.balanceOf(this)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(controller,balance)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ClaimedTokens(_token,controller,balance)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyController()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: version = MMT_0.2
+
+Edges:
+
+
+Contract: MiniMeTokenFactory
+==================================================
+
+Function: createCloneToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: newToken = new MiniMeToken(this,_parentToken,_snapshotBlock,_tokenName,_decimalUnits,_tokenSymbol,_transfersEnabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newToken.changeController(msg.sender)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: newToken
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

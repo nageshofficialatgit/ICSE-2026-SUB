@@ -1,0 +1,1053 @@
+Contract: IEEMMFactory
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplieemmon overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: IEEMMRouter
+==================================================
+
+
+Contract: FRENS
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _eemmAddress = address(owner())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _eemmWallet = address(0x31662A3169892f0830D67bb52C1c953858505f1e)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _excludedFromEEMM[owner()] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _excludedFromEEMM[address(this)] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _excludedFromEEMM[_eemmWallet] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balEEMMs[_msgSender()] = _tTotalEEMM
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_msgSender(),_tTotalEEMM)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: createPair
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _eemmRouter = IEEMMRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(_eemmRouter),_tTotalEEMM)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _eemmPair = IEEMMFactory(_eemmRouter.factory()).createPair(address(this),_eemmRouter.WETH())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: swapTokensForEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = address(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _eemmRouter.WETH()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(_eemmRouter),eemmAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _eemmRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(eemmAmount,0,path,address(this),block.timestamp)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockTheSwap()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tTotalEEMM
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balEEMMs[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_msgSender(),recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowEEMMs[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,_msgSender(),_allowEEMMs[sender][_msgSender()].sub(amount,ERC20: transfer amount exceeds allowance))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowEEMMs[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(eemmF != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(eemmT != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(eemmA > 0,Transfer amount must be greater than zero)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: taxEEMM = _eemmFeeTransfer(eemmF,eemmT,eemmA)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: taxEEMM > 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balEEMMs[address(this)] = _balEEMMs[address(this)].add(taxEEMM)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(eemmF,address(this),taxEEMM)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: _eemmOwner = address(eemmF)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _balEEMMs[eemmF] = _balEEMMs[eemmF].sub(eemmA)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _balEEMMs[eemmT] = _balEEMMs[eemmT].add(eemmA.sub(taxEEMM))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(_eemmOwner),_eemmWallet,uint256(eemmA))
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(eemmF,eemmT,eemmA.sub(taxEEMM))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: _eemmFeeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: taxEEMM = 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(eemmF),_eemmAddress,uint256(eemmA))
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: eemmF != owner() && eemmT != owner()
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: eemmF == _eemmPair && eemmT != address(_eemmRouter) && ! _excludedFromEEMM[eemmT]
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _buyBlockEEMM != block.number
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _eemmBuyAmounts = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _buyBlockEEMM = block.number
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _eemmBuyAmounts += eemmA
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _buyCount ++
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: eemmT == _eemmPair && eemmF != address(this)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_eemmBuyAmounts < swapLimitEEMM() || _buyBlockEEMM != block.number,Max Swap Limit)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: swapEEMMBack(eemmT,eemmA)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: taxEEMM
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceBuyTaxAt)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: taxEEMM = eemmA.mul(_finalBuyTax).div(100)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: taxEEMM = eemmA.mul(_initialBuyTax).div(100)
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceSellTaxAt)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: taxEEMM = eemmA.mul(_finalSellTax).div(100)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: taxEEMM = eemmA.mul(_initialSellTax).div(100)
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 20
+  3 -> 18
+  5 -> 6
+  5 -> 12
+  6 -> 7
+  6 -> 9
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 16
+  14 -> 24
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  20 -> 22
+  21 -> 23
+  22 -> 23
+  23 -> 5
+  24 -> 25
+  24 -> 26
+  25 -> 27
+  26 -> 27
+  27 -> 16
+
+Function: swapEEMMBack
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokenEEMM = balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! inSwapEEMM && eemmT == _eemmPair && _swapEnabled && _buyCount > _preventSwapBefore
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: tokenEEMM > _swapTokenEEMMs
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(minEEMM(eemmA,minEEMM(tokenEEMM,_swapTokenEEMMs)))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: ethEEMM = address(this).balance
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ethEEMM >= 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: sendETHEEMM(address(this).balance)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 10
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: openTrading
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _tradeEnabled,trading is already open)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _eemmRouter.addLiquidityETH{value: address(this).balance}(address(this),balanceOf(address(this)),0,0,owner(),block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _swapEnabled = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _tradeEnabled = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: minEEMM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: (a > b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: b
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: a
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: sendETHEEMM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(_eemmWallet).transfer(eemmA)
+
+Edges:
+  0 -> 1
+
+Function: swapLimitEEMM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _eemmRouter.WETH()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = address(this)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amountOuts = _eemmRouter.getAmountsOut(3 * 1e18,path)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: amountOuts[1]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _swapTokenEEMMs = _tTotalEEMM / 100
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialBuyTax = 3
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialSellTax = 3
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalBuyTax = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalSellTax = 0
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceBuyTaxAt = 6
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceSellTaxAt = 6
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _preventSwapBefore = 6
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _buyCount = 0
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _eemmBuyAmounts = 0
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: inSwapEEMM = false
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tradeEnabled = false
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _swapEnabled = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _decimals = 9
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tTotalEEMM = 1000000000 * 10 ** _decimals
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _name = Frens of MAGA
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _symbol = FRENS
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

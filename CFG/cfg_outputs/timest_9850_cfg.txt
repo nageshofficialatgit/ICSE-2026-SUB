@@ -1,0 +1,28 @@
+Contract: PLCRVoting
+==================================================
+
+Function: startPoll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: commitEndDate = block.timestamp + (_commitDuration)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: revealEndDate = commitEndDate + (_revealDuration)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: revealEndDate
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

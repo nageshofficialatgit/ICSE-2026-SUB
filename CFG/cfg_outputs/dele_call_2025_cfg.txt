@@ -1,0 +1,28 @@
+Contract: EventsHistory
+==================================================
+
+Function: events
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! emitters[msg.sig].delegatecall(msg.data)
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+

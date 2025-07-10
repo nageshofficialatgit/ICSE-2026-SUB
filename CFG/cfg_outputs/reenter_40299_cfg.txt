@@ -1,0 +1,33 @@
+Contract: YesNo
+==================================================
+
+Function: redeem
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: abc = tokens * fee
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! feeAccount.call.value(abc / (1000000000000000000))()
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+
+

@@ -1,0 +1,140 @@
+Contract: IERC20
+==================================================
+
+
+Contract: MEVAuction
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: bid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > highestBid,Bid too low)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: highestBidder != address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.number <= bidStartBlock + 1,Auction ended)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdc.transfer(highestBidder,highestBid),USDC refund failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: bidStartBlock = block.number
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdc.transferFrom(msg.sender,address(this),amount),USDC transfer failed)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: highestBidder = msg.sender
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: highestBid = amount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: noReentrant()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == highestBidder,Not highest bidder)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.number > bidStartBlock + 1,Auction ongoing)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdc.transfer(owner,highestBid),USDC transfer to owner failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(weth.transfer(highestBidder,weth.balanceOf(address(this))),WETH transfer failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: highestBidder = address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: highestBid = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: noReentrant()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: weth = IERC20(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
+
+Edges:
+  0 -> 1
+
+

@@ -1,0 +1,95 @@
+Contract: DappRegistry
+==================================================
+
+Function: isAuthorised
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: registries = uint256(enabledRegistryIds[_wallet])
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: registryId = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: registryId == 0 || (registries >> registryId) > 0
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: isEnabled = (((registries >> registryId) & 1) > 0)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: isEnabled
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: auth = uint256(authorisations[uint8(registryId)][_spender])
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: validAfter = auth & 0xffffffffffffffff
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: 0 < validAfter && validAfter <= block.timestamp
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: filter = address(uint160(auth >> 64))
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: registryId ++
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 16
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  7 -> 14
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 13
+  11 -> 12
+  13 -> 14
+  14 -> 15
+  15 -> 5
+
+

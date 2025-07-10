@@ -1,0 +1,1029 @@
+Contract: IBeacon
+==================================================
+
+
+Contract: Proxy
+==================================================
+
+Function: _delegate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(0,0,calldatasize()())
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: result__delegate_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),implementation,0,calldatasize()(),0,0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,returndatasize()())
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_2272_234_0__delegate_asm_0 = result__delegate_asm_0
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: switch_expr_2272_234_0__delegate_asm_0 == 0
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,returndatasize()())
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,returndatasize()())
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  8 -> 11
+  9 -> 12
+  10 -> 9
+  11 -> 9
+
+Function: _fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _delegate(_implementation())
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _fallback()
+
+Edges:
+  0 -> 1
+
+
+Contract: Address
+==================================================
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: address(this).balance < amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert AddressInsufficientBalance(address)(address(this))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert FailedInnerCall()()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: functionCallWithValue(target,data,0)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: address(this).balance < value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert AddressInsufficientBalance(address)(address(this))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: value}(data)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: functionStaticCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.staticcall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionDelegateCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.delegatecall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: verifyCallResultFromTarget
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: returndata.length == 0 && target.code.length == 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert AddressEmptyCode(address)(target)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 7
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: verifyCallResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+
+Function: _revert
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size__revert_asm_0 = mload(uint256)(returndata)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size__revert_asm_0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert FailedInnerCall()()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 7
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 8
+
+
+Contract: StorageSlot
+==================================================
+
+Function: getAddressSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getBooleanSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getBytes32Slot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getUint256Slot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getStringSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = store
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getBytesSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = store
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: ERC1967Utils
+==================================================
+
+Function: getImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlot.getAddressSlot(IMPLEMENTATION_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newImplementation.code.length == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC1967InvalidImplementation(address)(newImplementation)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlot.getAddressSlot(IMPLEMENTATION_SLOT).value = newImplementation
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: upgradeToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Upgraded(newImplementation)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: data.length > 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Address.functionDelegateCall(newImplementation,data)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _checkNonPayable()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+
+Function: getAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlot.getAddressSlot(ADMIN_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newAdmin == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC1967InvalidAdmin(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlot.getAddressSlot(ADMIN_SLOT).value = newAdmin
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: changeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: AdminChanged(getAdmin(),newAdmin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setAdmin(newAdmin)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlot.getAddressSlot(BEACON_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newBeacon.code.length == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC1967InvalidBeacon(address)(newBeacon)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlot.getAddressSlot(BEACON_SLOT).value = newBeacon
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: beaconImplementation = IBeacon(newBeacon).implementation()
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: beaconImplementation.code.length == 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC1967InvalidImplementation(address)(beaconImplementation)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+
+Function: upgradeBeaconToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setBeacon(newBeacon)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: BeaconUpgraded(newBeacon)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: data.length > 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Address.functionDelegateCall(IBeacon(newBeacon).implementation(),data)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _checkNonPayable()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+
+Function: _checkNonPayable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.value > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC1967NonPayable()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BEACON_SLOT = 0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: BeaconProxy
+==================================================
+
+Function: _delegate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(0,0,calldatasize()())
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: result__delegate_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),implementation,0,calldatasize()(),0,0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,returndatasize()())
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_2272_234_0__delegate_asm_0 = result__delegate_asm_0
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: switch_expr_2272_234_0__delegate_asm_0 == 0
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,returndatasize()())
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,returndatasize()())
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  8 -> 11
+  9 -> 12
+  10 -> 9
+  11 -> 9
+
+Function: _fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _delegate(_implementation())
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _fallback()
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ERC1967Utils.upgradeBeaconToAndCall(beacon,data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beacon = beacon
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _implementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IBeacon(_getBeacon()).implementation()
+
+Edges:
+  0 -> 1
+
+Function: _getBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _beacon
+
+Edges:
+  0 -> 1
+
+

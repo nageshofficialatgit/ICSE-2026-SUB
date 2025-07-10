@@ -1,0 +1,1333 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: initialOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(initialOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner() != _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableUnauthorizedAccount(address)(_msgSender())
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: ReentrancyGuard
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _status == ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrancyGuardReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _status = ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: TLNstaking
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token = IERC20(_token)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: started = _started
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[1].lockupDuration = _days0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[1].returnPer = _0daysPercentage
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[2].lockupDuration = _days7
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[2].returnPer = _7daysPercentage
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[3].lockupDuration = _days14
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[3].returnPer = _14daysPercentage
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[4].lockupDuration = _days30
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: pooldata[4].returnPer = _30daysPercentage
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Ownable(msg.sender)
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _status == ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrancyGuardReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _status = ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == ENTERED
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner() != _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableUnauthorizedAccount(address)(_msgSender())
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pool = pooldata[_lockupDuration]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(pool.lockupDuration > 0,TokenStakingTLN: asked pool does not exist)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(started,TokenStakingTLN: staking not yet started)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_amount > 0,TokenStakingTLN: stake amount must be non-zero)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: APY = (_amount * pool.returnPer) / 100
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: userReward = (APY * pool.lockupDuration) / _days365
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transferFrom(_msgSender(),address(this),_amount),TokenStakingTLN: token transferFrom via deposit not succeeded)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: orders[++ latestOrderId] = OrderInfo(_msgSender(),_amount,pool.lockupDuration,pool.returnPer,block.timestamp,block.timestamp + pool.lockupDuration,0,false)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: ! hasStaked[msg.sender][_lockupDuration]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: stakersPlan[_lockupDuration] = stakersPlan[_lockupDuration] + 1
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalStakers = totalStakers + 1
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: hasStaked[msg.sender][_lockupDuration] = true
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: stakeOnPool[_lockupDuration] = stakeOnPool[_lockupDuration] + _amount
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: totalStaked = totalStaked + _amount
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: totalStake += _amount
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardPending += userReward
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_msgSender()] += _amount
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: orderIds[_msgSender()].push(latestOrderId)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(_msgSender(),pool.lockupDuration,_amount,pool.returnPer)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyEOA()
+
+Edges:
+  0 -> 21
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  21 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: orderInfo = orders[orderId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(orderId <= latestOrderId,TokenStakingTLN: INVALID orderId, orderId greater than latestOrderId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_msgSender() == orderInfo.beneficiary,TokenStakingTLN: caller is not the beneficiary)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! orderInfo.claimed,TokenStakingTLN: order already unstaked)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= orderInfo.endtime,TokenStakingTLN: stake locked until lock duration completion)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: claimAvailable = pendingRewards(orderId)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: total = orderInfo.amount + claimAvailable
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardEarn[_msgSender()] += claimAvailable
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardsDistribution += claimAvailable
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: orderInfo.claimedReward += claimAvailable
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardPending -= claimAvailable
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_msgSender()] -= orderInfo.amount
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: totalWithdrawal += orderInfo.amount
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: orderInfo.claimed = true
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: totalStake -= orderInfo.amount
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(address(_msgSender()),total),TokenStakingTLN: token transfer via withdraw not succeeded)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: rewardOnPool[orderInfo.lockupDuration] = rewardOnPool[orderInfo.lockupDuration] + claimAvailable
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: Withdraw(_msgSender(),orderInfo.amount,claimAvailable,total)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 19
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  19 -> 1
+
+Function: claimRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: orderInfo = orders[orderId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(orderId <= latestOrderId,TokenStakingTLN: INVALID orderId, orderId greater than latestOrderId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_msgSender() == orderInfo.beneficiary,TokenStakingTLN: caller is not the beneficiary)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! orderInfo.claimed,TokenStakingTLN: order already unstaked)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: claimAvailable = pendingRewards(orderId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardEarn[_msgSender()] += claimAvailable
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardsDistribution += claimAvailable
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardPending -= claimAvailable
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: orderInfo.claimedReward += claimAvailable
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(address(_msgSender()),claimAvailable),TokenStakingTLN: token transfer via claim rewards not succeeded)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: rewardOnPool[orderInfo.lockupDuration] = rewardOnPool[orderInfo.lockupDuration] + claimAvailable
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: RewardClaimed(address(_msgSender()),claimAvailable)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  13 -> 1
+
+Function: pendingRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: orderInfo = orders[orderId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! orderInfo.claimed
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: block.timestamp >= orderInfo.endtime
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: APY = (orderInfo.amount * orderInfo.returnPer) / 100
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: reward = (APY * orderInfo.lockupDuration) / _days365
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: claimAvailable = reward - orderInfo.claimedReward
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: claimAvailable
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: stakeTime = block.timestamp - orderInfo.starttime
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: APY_scope_0 = (orderInfo.amount * orderInfo.returnPer) / 100
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: reward_scope_1 = (APY_scope_0 * stakeTime) / _days365
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: claimAvailableNow = reward_scope_1 - orderInfo.claimedReward
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: claimAvailableNow
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 14
+  3 -> 4
+  3 -> 8
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: emergencyWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: orderInfo = orders[orderId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(orderId <= latestOrderId,TokenStakingTLN: INVALID orderId, orderId greater than latestOrderId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(orderInfo.lockupDuration == _days0,Please run Withdraw function for unstake)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_msgSender() == orderInfo.beneficiary,TokenStakingTLN: caller is not the beneficiary)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! orderInfo.claimed,TokenStakingTLN: order already unstaked)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: claimAvailable = pendingRewards(orderId)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: fees = (orderInfo.amount * emergencyWithdrawFeesPercentage) / 1000
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: orderInfo.amount -= fees
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: total = orderInfo.amount + claimAvailable
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardEarn[_msgSender()] += claimAvailable
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardsDistribution += claimAvailable
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardPending -= claimAvailable
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: orderInfo.claimedReward += claimAvailable
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: APY = ((orderInfo.amount + fees) * orderInfo.returnPer) / 100
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: totalReward = (APY * orderInfo.lockupDuration) / _days365
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardPending -= (totalReward - orderInfo.claimedReward)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_msgSender()] -= (orderInfo.amount + fees)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: totalWithdrawal += (orderInfo.amount + fees)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: orderInfo.claimed = true
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(address(_msgSender()),total),TokenStakingTLN: token transfer via emergency withdraw not succeeded)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(owner(),fees),TokenStakingTLN: token transfer via emergency withdraw to admin is not succeeded)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: WithdrawAll(_msgSender(),total)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  23 -> 1
+
+Function: toggleStaking
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: started = _start
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: investorOrderIds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: arr = orderIds[investor]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: arr
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: ids
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _totalRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: arr = orderIds[ref]
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < arr.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: order = orders[arr[i]]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: rewards += (order.claimedReward + pendingRewards(arr[i]))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: rewards
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 10
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 6
+
+Function: transferToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = IERC20(token).balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: transferAmount = amount - totalStake
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).transfer(owner(),transferAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: started = true
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: emergencyWithdrawFeesPercentage = 0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _0daysPercentage = 5
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _7daysPercentage = 7
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _14daysPercentage = 9
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _30daysPercentage = 20
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: latestOrderId = 0
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalStake = 0
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalWithdrawal = 0
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalRewardPending = 0
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalRewardsDistribution = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _days0 = 60
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _days7 = 604800
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _days14 = 1209600
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _days30 = 2592000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _days365 = 31536000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

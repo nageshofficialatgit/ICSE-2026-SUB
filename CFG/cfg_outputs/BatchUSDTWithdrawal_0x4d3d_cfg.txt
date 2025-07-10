@@ -1,0 +1,162 @@
+Contract: IERC20
+==================================================
+
+
+Contract: BatchUSDTWithdrawal
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_usdtAddress != address(0),Invalid USDT address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: usdt = IERC20(_usdtAddress)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),New owner cannot be zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: batchWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipients.length == amounts.length,Mismatched inputs)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalAmount = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < amounts.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalAmount += amounts[i]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdt.allowance(msg.sender,address(this)) >= totalAmount,Insufficient allowance)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdt.balanceOf(msg.sender) >= totalAmount,Insufficient balance)
+
+  ID: 11
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: i_scope_0 = 0
+
+  ID: 14
+  Type: NodeType.IFLOOP
+  Expression: i_scope_0 < recipients.length
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdt.transferFrom(msg.sender,recipients[i_scope_0],amounts[i_scope_0]),Transfer failed)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_0 ++
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: BatchWithdrawal(msg.sender,totalAmount)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 18
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+  9 -> 10
+  10 -> 13
+  11 -> 14
+  12 -> 17
+  13 -> 11
+  14 -> 15
+  14 -> 12
+  15 -> 16
+  16 -> 14
+  18 -> 1
+
+

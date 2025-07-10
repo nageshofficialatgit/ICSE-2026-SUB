@@ -1,0 +1,286 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IUniswapV2Router
+==================================================
+
+
+Contract: DexSniper
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: router = _router
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: swap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_tokenIn).approve(router,_amount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _tokenIn
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _tokenOut
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: deadline = block.timestamp + 300
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IUniswapV2Router(router).swapExactTokensForTokens(_amount,1,path,address(this),deadline)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getAmountOutMin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _tokenIn
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _tokenOut
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amountOutMins = IUniswapV2Router(router).getAmountsOut(_amount,path)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: amountOutMins[1]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: startSniping
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tradingEnabled,Trading is disabled)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: startBalance = address(this).balance
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = router.call{value: startBalance}()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Snipe failed)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: endBalance = address(this).balance
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: endBalance >= startBalance + profitTarget
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(endBalance)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  10 -> 1
+
+Function: recoverTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _token = IERC20(token)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_token.transfer(owner,_token.balanceOf(address(this))),Token recovery failed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: recoverEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(address(this).balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: toggleTrading
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tradingEnabled = _state
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setProfitTarget
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: profitTarget = _target
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: watchdog
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: this.getAmountOutMin(_tokenIn,_tokenOut,_amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: expectedOut
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tradingEnabled = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: profitTarget = 50000000000000000
+
+Edges:
+  0 -> 1
+
+

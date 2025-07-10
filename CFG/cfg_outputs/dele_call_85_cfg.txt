@@ -1,0 +1,28 @@
+Contract: TokenVesting
+==================================================
+
+Function: vestedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: block.timestamp < cliff
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: cliff
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+

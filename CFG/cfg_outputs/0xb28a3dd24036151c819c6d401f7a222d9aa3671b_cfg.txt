@@ -1,0 +1,1052 @@
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: Pausable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+
+Contract: SafeMath
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c / a == b)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: HasNoEther
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: HasNoEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value == 0)
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: reclaimEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(owner.send(this.balance))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: AxiePresale
+==================================================
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: HasNoEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value == 0)
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: reclaimEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(owner.send(this.balance))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: AxiePresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: priceIncrements[CLASS_BEAST] = priceIncrements[CLASS_AQUATIC] = priceIncrements[CLASS_PLANT] = INITIAL_PRICE_INCREMENT
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: currentPrices[CLASS_BEAST] = currentPrices[CLASS_AQUATIC] = currentPrices[CLASS_PLANT] = INITIAL_PRICE
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: axiesPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (price,None,None) = _axiesPrice(CLASS_BEAST,beastQuantity)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalPrice = totalPrice.add(price)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (price,None,None) = _axiesPrice(CLASS_AQUATIC,aquaticQuantity)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalPrice = totalPrice.add(price)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (price,None,None) = _axiesPrice(CLASS_PLANT,plantQuantity)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalPrice = totalPrice.add(price)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: totalPrice
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: adoptAxies
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now <= PRESALE_END_TIMESTAMP)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(beastQuantity <= 3)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(aquaticQuantity <= 3)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(plantQuantity <= 3)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: adopter = msg.sender
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: actualReferrer = 0x0
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: referrer != adopter
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: actualReferrer = referrer
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: value = msg.value
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: beastQuantity > 0
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: price = _adoptAxies(adopter,CLASS_BEAST,beastQuantity,actualReferrer)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(value >= price)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: value -= price
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: aquaticQuantity > 0
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: price = _adoptAxies(adopter,CLASS_AQUATIC,aquaticQuantity,actualReferrer)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(value >= price)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: value -= price
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: plantQuantity > 0
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: price = _adoptAxies(adopter,CLASS_PLANT,plantQuantity,actualReferrer)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(value >= price)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: value -= price
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(value)
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: actualReferrer != 0x0
+
+  ID: 29
+  Type: NodeType.VARIABLE
+  Expression: numCredit = referralCredits[actualReferrer].add(beastQuantity).add(aquaticQuantity).add(plantQuantity)
+
+  ID: 30
+  Type: NodeType.VARIABLE
+  Expression: numReward = numCredit / REF_CREDITS_PER_AXIE
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: numReward > 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: referralCredits[actualReferrer] = numCredit % REF_CREDITS_PER_AXIE
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: axiesRewarded[actualReferrer] = axiesRewarded[actualReferrer].add(numReward)
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: totalAxiesRewarded = totalAxiesRewarded.add(numReward)
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: AxiesRewarded(actualReferrer,numReward)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: referralCredits[actualReferrer] = numCredit
+
+  ID: 37
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 38
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 39
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 16
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 21
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  22 -> 26
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  28 -> 38
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  31 -> 36
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 37
+  36 -> 37
+  37 -> 38
+  39 -> 1
+
+Function: redeemAdoptedAxies
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (_redeemAdoptedAxies(receiver,CLASS_BEAST,beastQuantity),_redeemAdoptedAxies(receiver,CLASS_AQUATIC,aquaticQuantity),_redeemAdoptedAxies(receiver,CLASS_PLANT,plantQuantity))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: redeemRewardedAxies
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: remainingQuantity = axiesRewarded[receiver] = axiesRewarded[receiver].sub(quantity)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: quantity > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalAxiesRewarded -= quantity
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: RewardedAxiesRedeemed(receiver,quantity)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: remainingQuantity
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 7
+  6 -> 1
+
+Function: _axiesPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: priceIncrement = priceIncrements[clazz]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: currentPrice = currentPrices[clazz]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < quantity
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalPrice = totalPrice.add(currentPrice)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nextPrice = currentPrice.add(priceIncrement)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: nextPrice / 100000000000000000 != currentPrice / 100000000000000000
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: priceIncrement >>= 1
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: currentPrice = nextPrice
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: (totalPrice,priceIncrement,currentPrice)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 15
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 7
+
+Function: _adoptAxies
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: (totalPrice,priceIncrements[clazz],currentPrices[clazz]) = _axiesPrice(clazz,quantity)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: axiesAdopted[adopter][clazz] = axiesAdopted[adopter][clazz].add(quantity)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalAxiesAdopted[clazz] = totalAxiesAdopted[clazz].add(quantity)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AxiesAdopted(adopter,clazz,quantity,referrer)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: totalPrice
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _redeemAdoptedAxies
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: remainingQuantity = axiesAdopted[receiver][clazz] = axiesAdopted[receiver][clazz].sub(quantity)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: quantity > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalAxiesAdopted[clazz] -= quantity
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AdoptedAxiesRedeemed(receiver,clazz,quantity)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: remainingQuantity
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PRESALE_END_TIMESTAMP = 1521244799
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CLASS_BEAST = 0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CLASS_AQUATIC = 2
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CLASS_PLANT = 4
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INITIAL_PRICE_INCREMENT = 1600000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INITIAL_PRICE = INITIAL_PRICE_INCREMENT
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: REF_CREDITS_PER_AXIE = 5
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

@@ -1,0 +1,61 @@
+Contract: ProductReview
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: submitReview
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(reviewData.length > 0,Review data cannot be empty)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ReviewSubmitted(msg.sender,productId,originalTxHash,reviewData,block.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Invalid new owner address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+

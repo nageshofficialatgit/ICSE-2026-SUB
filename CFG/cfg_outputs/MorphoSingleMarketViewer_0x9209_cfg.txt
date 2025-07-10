@@ -1,0 +1,46 @@
+Contract: IMorphoMarket
+==================================================
+
+
+Contract: MorphoSingleMarketViewer
+==================================================
+
+Function: getUserPosition
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: shares = market.balanceOf(userAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balance = market.convertToAssets(shares)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: market = IMorphoMarket(0xd63070114470f685b75B74D60EEc7c1113d33a3D)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: userAddress = 0x03Ba34f6Ea1496fa316873CF8350A3f7eaD317EF
+
+Edges:
+  0 -> 1
+
+

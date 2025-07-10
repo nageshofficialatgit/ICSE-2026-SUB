@@ -1,0 +1,103 @@
+Contract: CakeIt
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: getOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: getUserBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balance[wallet]
+
+Edges:
+  0 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = balance[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,BALANCE_LOW)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balance[msg.sender] = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(where).transfer(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: Connect
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balance[sender] += msg.value
+
+Edges:
+  0 -> 1
+
+

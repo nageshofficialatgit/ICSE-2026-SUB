@@ -1,0 +1,119 @@
+Contract: BalanceContract
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_oracleAddress != address(0),Oracle address cannot be zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oracleAddress = _oracleAddress
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: depositWithUUID
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: uuidBalances[_uuid] += _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: contractBalance += _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(msg.sender,_uuid,_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOracle()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(contractBalance >= _amount,Insufficient contract balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: contractBalance -= _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(_recipient).transfer(_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawal(msg.sender,_recipient,_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: contractBalance
+
+Edges:
+  0 -> 1
+
+Function: getBalanceForUUID
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uuidBalances[_uuid]
+
+Edges:
+  0 -> 1
+
+

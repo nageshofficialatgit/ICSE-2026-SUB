@@ -1,0 +1,68 @@
+Contract: ActionAuctionPlat
+==================================================
+
+Function: isOnSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastIndex = latestAction[_tokenId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: lastIndex > 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: order = auctionArray[lastIndex]
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: tmNow = uint64(block.timestamp)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: (order.tmStart + auctionDuration > tmNow) && order.tmSell == 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 8
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: auctionDuration = 172800
+
+Edges:
+
+

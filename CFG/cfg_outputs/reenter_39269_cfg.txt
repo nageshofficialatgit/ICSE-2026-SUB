@@ -1,0 +1,54 @@
+Contract: Bakt
+==================================================
+
+Function: sendPending
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tx = pendingTxs[ptxTail]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! tx.blocked
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: tx.to.call.value(tx.value)(tx.data)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: committedEther -= tx.value
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  6 -> 7
+  7 -> 8
+
+

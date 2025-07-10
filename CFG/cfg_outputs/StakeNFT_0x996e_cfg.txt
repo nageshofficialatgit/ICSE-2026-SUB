@@ -1,0 +1,113 @@
+Contract: IERC165
+==================================================
+
+
+Contract: IERC721
+==================================================
+
+
+Contract: StakeNFT
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract = IERC721(_nftContract)
+
+Edges:
+  0 -> 1
+
+Function: stake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(nftContract.ownerOf(tokenId) == msg.sender,Not the NFT owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(addrisstake[msg.sender] != true,You have already stake)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.transferFrom(msg.sender,address(this),tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: addrisstake[msg.sender] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: stakes[msg.sender] = StakeInfo({tokenId:tokenId,stakeTimestamp:block.timestamp})
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: unstake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stakeInfo = stakes[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(stakeInfo.tokenId != 0,No NFT staked)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= stakeInfo.stakeTimestamp + 31536000,Can't unstake yet)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete stakes[msg.sender]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addrisstake[msg.sender] = false
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.transferFrom(address(this),msg.sender,stakeInfo.tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getStakedToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: stakes[msg.sender].tokenId
+
+Edges:
+  0 -> 1
+
+

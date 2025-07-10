@@ -1,0 +1,42 @@
+Contract: Mokens
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delegator = addr
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: moke
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: data = msg.data
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delegator.delegatecall(data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

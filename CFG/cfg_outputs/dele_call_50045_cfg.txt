@@ -1,0 +1,37 @@
+Contract: Standard
+==================================================
+
+Function: tokenFallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! address(this).delegatecall(_data)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: ok
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+

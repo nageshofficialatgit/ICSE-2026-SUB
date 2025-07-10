@@ -1,0 +1,39 @@
+Contract: FENIX
+==================================================
+
+Function: getCurrentTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: bonusCalculationFactor = block.timestamp - ico_startdate
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bonusCalculationFactor == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: price_tokn = 70
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: price_tokn
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+

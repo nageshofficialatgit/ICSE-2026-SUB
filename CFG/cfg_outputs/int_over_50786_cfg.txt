@@ -1,0 +1,62 @@
+Contract: SafeMath
+==================================================
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: BountyHunt
+==================================================
+
+Function: claimBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = bountyAmount[msg.sender]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: msg.sender.call.value(balance)()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalBountyAmount = totalBountyAmount.sub(balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: bountyAmount[msg.sender] = 0
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+

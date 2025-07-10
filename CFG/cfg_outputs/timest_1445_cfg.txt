@@ -1,0 +1,42 @@
+Contract: ERC20Basic
+==================================================
+
+
+Contract: TokenVesting
+==================================================
+
+Function: vestedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: currentBalance = token.balanceOf(this)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalBalance = currentBalance + (released[token])
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: block.timestamp >= start
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: totalBalance
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+
+

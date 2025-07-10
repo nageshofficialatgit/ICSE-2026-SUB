@@ -1,0 +1,51 @@
+Contract: VernamCrowdSale
+==================================================
+
+Function: setTimeForCrowdsalePeriods
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: startTime = block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: threeHotHoursEnd = startTime + threeHotHoursDuration
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: firstStageEnd = threeHotHoursEnd + firstStageDuration
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: firstStageEnd
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: firstStageDuration = 691200
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: threeHotHoursDuration = 10800
+
+Edges:
+
+

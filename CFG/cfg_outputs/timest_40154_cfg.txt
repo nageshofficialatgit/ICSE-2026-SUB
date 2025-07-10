@@ -1,0 +1,39 @@
+Contract: Vault
+==================================================
+
+Function: lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: withdrawTime > (block.timestamp + duration)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: withdrawTime = withdrawTime
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: withdrawTime = (block.timestamp + duration)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 2
+
+

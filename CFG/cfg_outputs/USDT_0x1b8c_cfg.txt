@@ -1,0 +1,177 @@
+Contract: USDT
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 67_532_951 * (10 ** uint256(decimals))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = totalSupply
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[account]
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[recipient] += amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,recipient,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: enoughBalance(msg.sender,amount)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[owner] -= amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[owner][msg.sender] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[recipient] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(owner,recipient,amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: enoughBalance(owner,amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: enoughAllowance(owner,msg.sender,amount)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = USDT
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = USDT
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 6
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

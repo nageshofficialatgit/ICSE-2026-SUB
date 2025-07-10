@@ -1,0 +1,23 @@
+Contract: SimpleDAO
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.call.value(amount)()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: credit[msg.sender] -= amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

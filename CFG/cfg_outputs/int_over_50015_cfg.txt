@@ -1,0 +1,28 @@
+Contract: TelcoinSaleCapEscrow
+==================================================
+
+Function: reject
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: weiAmount = deposited[_participant]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_participant.call.value(weiAmount)())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: deposited[_participant] = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

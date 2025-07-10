@@ -1,0 +1,251 @@
+Contract: ReentrancyGuard
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(0x11393B88888DD532F26205D355d9E0CaC2C399eE)
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IUniswapV2Router02
+==================================================
+
+
+Contract: ISwapRouter
+==================================================
+
+
+Contract: IFlashLoanReceiver
+==================================================
+
+
+Contract: IPool
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: AdvancedFlashLoanArbitrageBot
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router = _uniswapV2Router
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV3Router = _uniswapV3Router
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: aaveLendingPool = _aaveLendingPool
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: executeOperation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == aaveLendingPool,Unauthorized)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: token = assets[0]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amount = amounts[0]
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: profit = amount - premiums[0]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ArbitrageSuccess(profit)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).approve(aaveLendingPool,amount + premiums[0])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: emergencyStop = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isRunningLive = false
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TRADE_INTERVAL = 3600
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

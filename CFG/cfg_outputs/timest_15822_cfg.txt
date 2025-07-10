@@ -1,0 +1,28 @@
+Contract: B0xAccount
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: withdrawals[msg.sender].push(Withdraw({amount:amount,blockNumber:block.number,blockTimestamp:block.timestamp}))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (msg.sender.send(amount))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

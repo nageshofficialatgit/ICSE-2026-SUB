@@ -1,0 +1,42 @@
+Contract: Greedy
+==================================================
+
+Function: luckyBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: seed = uint256(keccak256()(abi.encodePacked((block.timestamp) + (block.difficulty))))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: (seed - ((seed / 1000) * 1000)) < luckybuyTracker_
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (true)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (false)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: luckybuyTracker_ = 0
+
+Edges:
+
+

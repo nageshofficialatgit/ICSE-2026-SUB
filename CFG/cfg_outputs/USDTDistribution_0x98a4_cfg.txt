@@ -1,0 +1,117 @@
+Contract: USDTDistribution
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dailyDistribution = _dailyDistribution
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: recipientsLimit = _recipientsLimit
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: endTime = block.timestamp + (_durationInDays * 86400)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: distribute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Not authorized)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp < endTime,Distribution period ended)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipients.length == amounts.length,Mismatched arrays)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipients.length <= recipientsLimit,Exceeds recipient limit)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < recipients.length
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: distributions[recipients[i]] += amounts[i]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 8
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = distributions[msg.sender] - claimed[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Nothing to claim)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: claimed[msg.sender] += amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

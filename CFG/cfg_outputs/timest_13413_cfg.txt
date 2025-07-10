@@ -1,0 +1,37 @@
+Contract: PLCRVoting
+==================================================
+
+Function: startPoll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: commitEndDate = block.timestamp + (_commitDuration)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: revealEndDate = commitEndDate + (_revealDuration)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pollMap[pollNonce] = Poll({voteQuorum:_voteQuorum,commitEndDate:commitEndDate,revealEndDate:revealEndDate,votesFor:0,votesAgainst:0})
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: pollNonce
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: pollID
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

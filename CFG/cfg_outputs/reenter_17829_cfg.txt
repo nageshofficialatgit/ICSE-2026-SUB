@@ -1,0 +1,28 @@
+Contract: SimpleEthBank
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(accountExists[msg.sender] && accountBalances[msg.sender] >= amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: accountBalances[msg.sender] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.call.value(amount)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

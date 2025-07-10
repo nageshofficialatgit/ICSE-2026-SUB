@@ -1,0 +1,82 @@
+Contract: IERC20
+==================================================
+
+
+Contract: TokenCollector
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: mainWallet = _mainWallet
+
+Edges:
+  0 -> 1
+
+Function: bulkTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens.length == amounts.length,Mismatched array lengths)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < tokens.length
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokens[i])
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: success = token.transferFrom(msg.sender,mainWallet,amounts[i])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Transfer failed)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: TransferEvent(msg.sender,tokens[i],amounts[i])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 5
+
+

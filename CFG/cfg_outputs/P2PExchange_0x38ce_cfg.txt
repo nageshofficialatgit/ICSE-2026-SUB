@@ -1,0 +1,770 @@
+Contract: ReentrancyGuard
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = 1
+
+Edges:
+  0 -> 1
+
+
+Contract: IBEP20
+==================================================
+
+
+Contract: OwnableP2P
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),New owner is zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: addArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_arbitrator != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: arbitrators[_arbitrator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ArbitratorAdded(_arbitrator)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arbitrators[_arbitrator],Not an arbitrator)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: arbitrators[_arbitrator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ArbitratorRemoved(_arbitrator)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: approveSeller
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_seller != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sellers[_seller] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: SellerApproved(_seller)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: approveBuyer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_buyer != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: buyers[_buyer] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: BuyerApproved(_buyer)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: EscrowP2P
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = 1
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),New owner is zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: addArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_arbitrator != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: arbitrators[_arbitrator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ArbitratorAdded(_arbitrator)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arbitrators[_arbitrator],Not an arbitrator)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: arbitrators[_arbitrator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ArbitratorRemoved(_arbitrator)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: approveSeller
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_seller != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sellers[_seller] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: SellerApproved(_seller)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: approveBuyer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_buyer != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: buyers[_buyer] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: BuyerApproved(_buyer)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: createTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_buyer != address(0),Invalid buyer address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_amount > 0,Amount must be greater than zero)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_price > 0,Price must be greater than zero)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_token).transferFrom(_seller,address(this),_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: trades[tradeCounter] = Trade(_seller,_buyer,_token,_amount,_price,TradeStatus.Pending)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TradeCreated(tradeCounter,_seller,_buyer,_token,_amount,_price)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tradeCounter ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: completeTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trade = trades[tradeId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(trade.status == TradeStatus.Pending,Trade not pending)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == trade.price,Incorrect payment amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(trade.seller).transfer(msg.value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(trade.token).transfer(trade.buyer,trade.amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: trade.status = TradeStatus.Completed
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: TradeCompleted(tradeId)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyTradeParticipant(tradeId)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 9
+  9 -> 1
+
+Function: cancelTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trade = trades[tradeId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(trade.status == TradeStatus.Pending,Trade not pending)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(trade.token).transfer(trade.seller,trade.amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: trade.status = TradeStatus.Cancelled
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TradeCancelled(tradeId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyTradeParticipant(tradeId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+
+Contract: P2PExchange
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: escrow = _escrow
+
+Edges:
+  0 -> 1
+
+Function: createTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0 && price > 0,Invalid amount or price)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: escrow.createTrade(msg.sender,address(0),token,amount,price)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tradeCounter ++
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: trades[tradeCounter] = Trade({seller:msg.sender,buyer:address(0),token:token,amount:amount,price:price,status:TradeStatus.Pending,arbitrator:arbitrator,timestamp:block.timestamp})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TradeCreated(tradeCounter,msg.sender,address(0),token,amount,price)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: acceptTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trade = trades[tradeId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(trade.status == TradeStatus.Pending,Trade not available)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(trade.buyer == address(0),Trade already has a buyer)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: trade.buyer = msg.sender
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TradeCompleted(tradeId,msg.sender)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tradeExists(tradeId)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: completeTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trade = trades[tradeId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(trade.status == TradeStatus.Pending,Trade not pending)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: escrow.completeTrade(tradeId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: trade.status = TradeStatus.Completed
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TokensReleased(tradeId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyBuyer(tradeId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: tradeExists(tradeId)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 8
+  8 -> 1
+
+Function: cancelTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trade = trades[tradeId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(trade.status == TradeStatus.Pending,Trade already completed/cancelled)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: escrow.cancelTrade(tradeId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: trade.status = TradeStatus.Cancelled
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TradeCancelled(tradeId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlySeller(tradeId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: tradeExists(tradeId)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 8
+  8 -> 1
+
+Function: disputeTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trade = trades[tradeId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(trade.status == TradeStatus.Pending,Trade not pending)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: trade.status = TradeStatus.Disputed
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: TradeDisputed(tradeId,msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyArbitrator(tradeId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tradeExists(tradeId)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  7 -> 1
+
+Function: getTradeDetails
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trade = trades[tradeId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (trade.seller,trade.buyer,trade.token,trade.amount,trade.price,trade.status,trade.arbitrator,trade.timestamp)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (seller,buyer,token,amount,price,status,arbitrator,timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

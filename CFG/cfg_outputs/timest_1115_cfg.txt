@@ -1,0 +1,33 @@
+Contract: TokenVesting
+==================================================
+
+Function: vestedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: totalBalance = 100 + released[_token]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: 100 < cliff
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: totalBalance * block.timestamp
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+
+

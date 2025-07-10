@@ -1,0 +1,965 @@
+Contract: IQrz112Reader
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: IApproveAndCallReceiver
+==================================================
+
+
+Contract: ITransferAndCallReceiver
+==================================================
+
+
+Contract: ITreasury
+==================================================
+
+
+Contract: HyperSolverToken
+==================================================
+
+Function: initialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initialized,HyperSolverToken: already initialized)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: name = HyperSolver
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: symbol = HPS
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 18
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(ADMIN_ROLE,_admin)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(MINTER_ROLE,_admin)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: treasury = _treasury
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: qrz112Reader = _qrz112Reader
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: initialSupply = 100_000_000 * (10 ** decimals)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _mint(_admin,initialSupply)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: DOMAIN_SEPARATOR = keccak256(bytes)(abi.encode(keccak256(bytes)(EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)),keccak256(bytes)(bytes(name)),keccak256(bytes)(bytes(1)),block.chainid,address(this)))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: grantRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: revokeRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _revokeRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: hasRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _hasRole[role][account]
+
+Edges:
+  0 -> 1
+
+Function: hadRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _roleHistory[role][account]
+
+Edges:
+  0 -> 1
+
+Function: getDepositCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _depositCounts[user]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: count
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: getBurnAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _burnAllowances[owner][burner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: burnAllowance
+
+Edges:
+  0 -> 1
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcAmount > 0,HyperSolverToken: deposit amount must be > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(treasury != address(0),HyperSolverToken: treasury not set)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(qrz112Reader != address(0),HyperSolverToken: ratio reader not set)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(getUsdcAddress()).transferFrom(msg.sender,address(this),usdcAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _depositCounts[msg.sender] ++
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: currentDepositCount = _depositCounts[msg.sender]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(getUsdcAddress()).approve(treasury,usdcAmount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ITreasury(treasury).afterDeposit(msg.sender,usdcAmount,currentDepositCount,block.timestamp)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: mintAmount = (usdcAmount * (10 ** 12) * IQrz112Reader(qrz112Reader).getRatio()) / denominator
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _mint(msg.sender,mintAmount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: DepositMade(msg.sender,usdcAmount,currentDepositCount,block.timestamp)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: setDenominator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newDenom != denominator,New denominator must be different from the current one)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: denominator = newDenom
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: DenominatorUpdated(newDenom)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: previewDeposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: usdcAmount == 0 || qrz112Reader == address(0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: currentRatio = IQrz112Reader(qrz112Reader).getRatio()
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: usdcIn18 = usdcAmount * (10 ** 12)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (usdcIn18 * currentRatio) / denominator
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getUsdcAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+
+Edges:
+  0 -> 1
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_hasRole[MINTER_ROLE][msg.sender],HyperSolverToken: caller is not a minter)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),HyperSolverToken: transfer to zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[msg.sender] >= amount,HyperSolverToken: transfer amount exceeds balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[recipient] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,recipient,amount)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0),HyperSolverToken: transfer from zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),HyperSolverToken: transfer to zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[sender] >= amount,HyperSolverToken: transfer amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_allowances[sender][msg.sender] >= amount,HyperSolverToken: transfer amount exceeds allowance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[sender][msg.sender] -= amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[sender] -= amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[recipient] += amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amount)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = _allowances[msg.sender][spender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,currentAllowance + addedValue)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = _allowances[msg.sender][spender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(currentAllowance >= subtractedValue,HyperSolverToken: decreased allowance below zero)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,currentAllowance - subtractedValue)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[msg.sender] >= amount,HyperSolverToken: burn amount exceeds balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _burn(msg.sender,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Burned(msg.sender,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approveBurn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _burnAllowances[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: BurnApproval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: burnFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_burnAllowances[from][msg.sender] >= amount,HyperSolverToken: burn amount exceeds allowance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[from] >= amount,HyperSolverToken: burn amount exceeds balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _burnAllowances[from][msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _burn(from,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: BurnedFrom(msg.sender,from,amount)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,amount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: ok = IApproveAndCallReceiver(spender).onApprove(msg.sender,amount,data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ok,HyperSolverToken: onApprove callback failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ApproveAndCallExecuted(msg.sender,spender,amount,data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: transferAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(transfer(to,amount),HyperSolverToken: transfer failed)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: ok = ITransferAndCallReceiver(to).onTransfer(msg.sender,amount,data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ok,HyperSolverToken: onTransfer callback failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: TransferAndCallExecuted(msg.sender,to,amount,data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: permit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp <= deadline,HyperSolverToken: permit expired)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: recoveredAddress = _recoverPermitSigner(owner,spender,value,deadline,v,r,s)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recoveredAddress == owner && recoveredAddress != address(0),HyperSolverToken: invalid permit signature)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _recoverPermitSigner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentNonce = nonces[owner] ++
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: structHash = keccak256(bytes)(abi.encode(PERMIT_TYPEHASH,keccak256(bytes)(bytes(name)),keccak256(bytes)(bytes(symbol)),address(this),block.chainid,owner,spender,value,currentNonce,deadline))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: digest = keccak256(bytes)(abi.encodePacked(,DOMAIN_SEPARATOR,structHash))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: ecrecover(bytes32,uint8,bytes32,bytes32)(digest,v,r,s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),HyperSolverToken: mint to zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] -= amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(account,address(0),amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),HyperSolverToken: approve from zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),HyperSolverToken: approve to zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _grantRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! _hasRole[role][account]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _hasRole[role][account] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _roleHistory[role][account] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: RoleGranted(role,account)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _revokeRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _hasRole[role][account]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _hasRole[role][account] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RoleRevoked(role,account)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ADMIN_ROLE = keccak256(bytes)(admin)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MINTER_ROLE = keccak256(bytes)(minter)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PERMIT_TYPEHASH = keccak256(bytes)(Permit(string name,string symbol,address verifyingContract,uint256 chainId,address owner,address spender,uint256 value,uint256 nonce,uint256 deadline))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

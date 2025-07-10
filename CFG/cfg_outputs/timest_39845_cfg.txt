@@ -1,0 +1,43 @@
+Contract: Omnipurse
+==================================================
+
+Function: contributeToPurse
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: p = purses[purseId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: p.status != 1
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: p.contributions[p.numContributions ++] = Contribution(msg.sender,msg.value,false,block.timestamp)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+
+

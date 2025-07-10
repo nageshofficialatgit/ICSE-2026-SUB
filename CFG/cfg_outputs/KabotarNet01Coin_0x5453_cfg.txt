@@ -1,0 +1,234 @@
+Contract: KabotarNet01Coin
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = initialSupply * (10 ** uint256(decimals))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = totalSupply
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),DevContract: transfer to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= value,DevContract: insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,to,value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),DevContract: transfer to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[from] >= value,DevContract: insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[from][msg.sender] >= value,DevContract: insufficient allowance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[from] -= value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: allowance[from][msg.sender] -= value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,value)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),DevContract: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Mint(to,value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),to,value)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipRenounced(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = KabotarNet01 Coin
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = KABO01
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

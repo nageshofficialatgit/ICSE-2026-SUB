@@ -1,0 +1,286 @@
+Contract: ERC20Interface
+==================================================
+
+
+Contract: MemeCoin
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: symbol = AIDs
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: name = USAIDs: Funding Atrocities Against Civilians
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 8
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: decimalFactor = uint64(10 ** uint256(decimals))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = uint64(uint256(bytes32(DOGE)) >> 224) * decimalFactor
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,address(0x0),_totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: postBulletinMessage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: cost = _totalSupply / 10000
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= cost,Insufficient balance to post bulletin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(address(0x0),msg.sender,cost)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: BulletinMessagePosted(msg.sender,message,cost)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[tokenOwner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens <= balances[msg.sender],Insufficient funds)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(to,msg.sender,uint64(tokens))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][spender] = uint64(tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,tokens)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens <= balances[from],Insufficient funds)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens <= allowed[from][msg.sender],Allowance exceeded)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[from][msg.sender] = allowed[from][msg.sender] - uint64(tokens)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(to,from,uint64(tokens))
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(to != address(this) || balances[address(this)] == 0)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: to != address(0x0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[to] += tokens
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply -= tokens
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: from != address(0x0)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balances[from] -= tokens
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,uint256(tokens))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[tokenOwner][spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+

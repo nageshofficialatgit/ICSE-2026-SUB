@@ -1,0 +1,56 @@
+Contract: IDisputeGame
+==================================================
+
+
+Contract: IDisputeGameFactory
+==================================================
+
+
+Contract: DisputeGameVerifier
+==================================================
+
+Function: isGameRegistered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (gameType,rootClaim,extraData) = _game.gameData()
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (_factoryRegisteredGame,None) = _factory.games({_gameType:gameType,_rootClaim:rootClaim,_extraData:extraData})
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: address(_factoryRegisteredGame) == address(_game)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

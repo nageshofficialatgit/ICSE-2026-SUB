@@ -1,0 +1,58 @@
+Contract: ERC200
+==================================================
+
+Function: getInvestorLockedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = _investorLocks[account].amount
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: amount > 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: timestamp = block.timestamp
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: timestamp <= startsAt
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: investorLockedAmount
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: investorLockedAmount = 0
+
+Edges:
+
+

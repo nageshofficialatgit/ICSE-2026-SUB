@@ -1,0 +1,1112 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner cannot be zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Aggregator
+==================================================
+
+
+Contract: Pausable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+Edges:
+  0 -> 1
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _requireNotPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! paused(),Pausable: contract paused)
+
+Edges:
+  0 -> 1
+
+Function: _requirePaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(paused(),Pausable: not paused)
+
+Edges:
+  0 -> 1
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: SWAPXDEX
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token = IERC20(0xF823856D43e09adDE1900092b6d025aCe9844Bc2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: aggregatorInterface = Aggregator(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: maxTokensToBuy = 500000000000000000000000
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: startTime = block.timestamp
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: endTime = block.timestamp + 432000
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: PresaleRate = 1176
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: MaxUSDTRaised = 5000000 * 1e6
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _requireNotPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! paused(),Pausable: contract paused)
+
+Edges:
+  0 -> 1
+
+Function: _requirePaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(paused(),Pausable: not paused)
+
+Edges:
+  0 -> 1
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner cannot be zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: changeMaxTokensToBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_maxTokensToBuy > 0,Zero max tokens to buy value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: maxTokensToBuy = _maxTokensToBuy
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: MaxTokensUpdated(maxTokensToBuy,_maxTokensToBuy,block.timestamp)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: changeSaleStartTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp <= _startTime,Sale time in past)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: startTime = _startTime
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: changeSaleEndTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_endTime > startTime,Invalid endTime)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_endTime >= block.timestamp,End time past)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: endTime = _endTime
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updatePresaleRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newRate > 0,Inalid presale rate)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: PresaleRate = _newRate
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _pause()
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _unpause()
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setMaxUSDTRaised
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newUsdtRaised > 0,Wrong value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newUsdtRaised > USDTRaised,Maximum USDT must be greater than the USDT Raised)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: MaxUSDTRaised = _newUsdtRaised
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Low balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(recipient).call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,cicca Payment failed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Invalid enter amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sendValue(owner(),amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: withdrawTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(_token),Invalid contract address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(_token).balanceOf(address(this)) >= amount,Insufficient tokens)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_token).transfer(_msgSender(),amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: size = extcodesize(uint256)(_addr)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (size > 0)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: iscontract
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: buyWithUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: numOfTokens = calculateToken(amount,TokenType.USDT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(numOfTokens <= maxTokensToBuy,max tokens buy)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: ourAllowance = usdt.allowance(_msgSender(),address(this))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= ourAllowance,Make sure to add enough allowance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: usdt.transferFrom(_msgSender(),address(this),amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: userDeposits[_msgSender()] = numOfTokens
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: USDTRaised += amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalTokensSold += numOfTokens
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: TokensBought(_msgSender(),numOfTokens,address(usdt),amount,block.timestamp)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: checkSaleState(amount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 11
+  11 -> 1
+
+Function: buyWithETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: ETHToUsdt = (getLatestPrice() * msg.value) / 1e8
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: numOfTokens = calculateToken(ETHToUsdt,TokenType.ETH)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(numOfTokens <= maxTokensToBuy,max tokens buy)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: userDeposits[_msgSender()] = numOfTokens
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalTokensSold += numOfTokens
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TokensBought(_msgSender(),numOfTokens,address(0),ETHToUsdt,block.timestamp)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: checkSaleState(msg.value)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 8
+  8 -> 1
+
+Function: calculateToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _type == TokenType.USDT
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: numOfTokens = _usdtAmount * PresaleRate * 1e12
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: numOfTokens = _usdtAmount * PresaleRate
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (numOfTokens / 1000)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: ETHBuyHelper
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: ETHToUsdt = (getLatestPrice() * amount) / 1e8
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: numOfTokens = calculateToken(ETHToUsdt,TokenType.ETH)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: numOfTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: usdtBuyHelper
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: numOfTokens = calculateToken(amount,TokenType.USDT)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: numOfTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(endTime < block.timestamp,Claim time has not started)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(userDeposits[_msgSender()] > 0,No deposit)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amount = userDeposits[_msgSender()]
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: success = token.transfer(_msgSender(),amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Failed to send tokens)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TokensClaimed(_msgSender(),amount,block.timestamp)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: userDeposits[_msgSender()] = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: delete userDeposits[_msgSender()]
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: success
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: getLatestPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,price,None,None,None) = aggregatorInterface.latestRoundData()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: uint256(price)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getTokenBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenBalance = token.balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenBalance
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getUsdtBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: usdtBalance = usdt.balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: usdtBalance
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getETHBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

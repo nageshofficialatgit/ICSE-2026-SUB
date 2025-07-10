@@ -1,0 +1,34 @@
+Contract: EDProxy
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _data.length > 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: success = _logic.delegatecall(_data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(success)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+
+

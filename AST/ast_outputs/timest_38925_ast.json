@@ -1,0 +1,430 @@
+{
+    "absolutePath": "dataset\\multivul_multiclass_test\\timest_38925.sol",
+    "exportedSymbols": {
+        "TimeBank": [
+            32
+        ]
+    },
+    "id": 33,
+    "nodeType": "SourceUnit",
+    "nodes": [
+        {
+            "baseContracts": [],
+            "contractDependencies": [],
+            "contractKind": "contract",
+            "documentation": null,
+            "fullyImplemented": true,
+            "id": 32,
+            "linearizedBaseContracts": [
+                32
+            ],
+            "name": "TimeBank",
+            "nodeType": "ContractDefinition",
+            "nodes": [
+                {
+                    "canonicalName": "TimeBank.Holder",
+                    "id": 3,
+                    "members": [
+                        {
+                            "constant": false,
+                            "id": 2,
+                            "name": "withdrawTime",
+                            "nodeType": "VariableDeclaration",
+                            "scope": 3,
+                            "src": "49:17:0",
+                            "stateVariable": false,
+                            "storageLocation": "default",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                            },
+                            "typeName": {
+                                "id": 1,
+                                "name": "uint",
+                                "nodeType": "ElementaryTypeName",
+                                "src": "49:4:0",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                }
+                            },
+                            "value": null,
+                            "visibility": "internal"
+                        }
+                    ],
+                    "name": "Holder",
+                    "nodeType": "StructDefinition",
+                    "scope": 32,
+                    "src": "25:48:0",
+                    "visibility": "public"
+                },
+                {
+                    "constant": false,
+                    "id": 7,
+                    "name": "holders",
+                    "nodeType": "VariableDeclaration",
+                    "scope": 32,
+                    "src": "79:35:0",
+                    "stateVariable": true,
+                    "storageLocation": "default",
+                    "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Holder_$3_storage_$",
+                        "typeString": "mapping(address => struct TimeBank.Holder)"
+                    },
+                    "typeName": {
+                        "id": 6,
+                        "keyType": {
+                            "id": 4,
+                            "name": "address",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "88:7:0",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                            }
+                        },
+                        "nodeType": "Mapping",
+                        "src": "79:27:0",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Holder_$3_storage_$",
+                            "typeString": "mapping(address => struct TimeBank.Holder)"
+                        },
+                        "valueType": {
+                            "contractScope": null,
+                            "id": 5,
+                            "name": "Holder",
+                            "nodeType": "UserDefinedTypeName",
+                            "referencedDeclaration": 3,
+                            "src": "99:6:0",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Holder_$3_storage_ptr",
+                                "typeString": "struct TimeBank.Holder"
+                            }
+                        }
+                    },
+                    "value": null,
+                    "visibility": "internal"
+                },
+                {
+                    "body": {
+                        "id": 30,
+                        "nodeType": "Block",
+                        "src": "146:138:0",
+                        "statements": [
+                            {
+                                "expression": {
+                                    "argumentTypes": null,
+                                    "arguments": [
+                                        {
+                                            "argumentTypes": null,
+                                            "commonType": {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                            },
+                                            "id": 18,
+                                            "isConstant": false,
+                                            "isLValue": false,
+                                            "isPure": false,
+                                            "lValueRequested": false,
+                                            "leftExpression": {
+                                                "argumentTypes": null,
+                                                "expression": {
+                                                    "argumentTypes": null,
+                                                    "baseExpression": {
+                                                        "argumentTypes": null,
+                                                        "id": 11,
+                                                        "name": "holders",
+                                                        "nodeType": "Identifier",
+                                                        "overloadedDeclarations": [],
+                                                        "referencedDeclaration": 7,
+                                                        "src": "164:7:0",
+                                                        "typeDescriptions": {
+                                                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Holder_$3_storage_$",
+                                                            "typeString": "mapping(address => struct TimeBank.Holder storage ref)"
+                                                        }
+                                                    },
+                                                    "id": 14,
+                                                    "indexExpression": {
+                                                        "argumentTypes": null,
+                                                        "expression": {
+                                                            "argumentTypes": null,
+                                                            "id": 12,
+                                                            "name": "msg",
+                                                            "nodeType": "Identifier",
+                                                            "overloadedDeclarations": [],
+                                                            "referencedDeclaration": 47,
+                                                            "src": "172:3:0",
+                                                            "typeDescriptions": {
+                                                                "typeIdentifier": "t_magic_message",
+                                                                "typeString": "msg"
+                                                            }
+                                                        },
+                                                        "id": 13,
+                                                        "isConstant": false,
+                                                        "isLValue": false,
+                                                        "isPure": false,
+                                                        "lValueRequested": false,
+                                                        "memberName": "sender",
+                                                        "nodeType": "MemberAccess",
+                                                        "referencedDeclaration": null,
+                                                        "src": "172:10:0",
+                                                        "typeDescriptions": {
+                                                            "typeIdentifier": "t_address",
+                                                            "typeString": "address"
+                                                        }
+                                                    },
+                                                    "isConstant": false,
+                                                    "isLValue": true,
+                                                    "isPure": false,
+                                                    "lValueRequested": false,
+                                                    "nodeType": "IndexAccess",
+                                                    "src": "164:19:0",
+                                                    "typeDescriptions": {
+                                                        "typeIdentifier": "t_struct$_Holder_$3_storage",
+                                                        "typeString": "struct TimeBank.Holder storage ref"
+                                                    }
+                                                },
+                                                "id": 15,
+                                                "isConstant": false,
+                                                "isLValue": true,
+                                                "isPure": false,
+                                                "lValueRequested": false,
+                                                "memberName": "withdrawTime",
+                                                "nodeType": "MemberAccess",
+                                                "referencedDeclaration": 2,
+                                                "src": "164:32:0",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier": "t_uint256",
+                                                    "typeString": "uint256"
+                                                }
+                                            },
+                                            "nodeType": "BinaryOperation",
+                                            "operator": "<",
+                                            "rightExpression": {
+                                                "argumentTypes": null,
+                                                "expression": {
+                                                    "argumentTypes": null,
+                                                    "id": 16,
+                                                    "name": "block",
+                                                    "nodeType": "Identifier",
+                                                    "overloadedDeclarations": [],
+                                                    "referencedDeclaration": 37,
+                                                    "src": "199:5:0",
+                                                    "typeDescriptions": {
+                                                        "typeIdentifier": "t_magic_block",
+                                                        "typeString": "block"
+                                                    }
+                                                },
+                                                "id": 17,
+                                                "isConstant": false,
+                                                "isLValue": false,
+                                                "isPure": false,
+                                                "lValueRequested": false,
+                                                "memberName": "timestamp",
+                                                "nodeType": "MemberAccess",
+                                                "referencedDeclaration": null,
+                                                "src": "199:15:0",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier": "t_uint256",
+                                                    "typeString": "uint256"
+                                                }
+                                            },
+                                            "src": "164:50:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_bool",
+                                                "typeString": "bool"
+                                            }
+                                        }
+                                    ],
+                                    "expression": {
+                                        "argumentTypes": [
+                                            {
+                                                "typeIdentifier": "t_bool",
+                                                "typeString": "bool"
+                                            }
+                                        ],
+                                        "id": 10,
+                                        "name": "require",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [
+                                            50,
+                                            51
+                                        ],
+                                        "referencedDeclaration": 50,
+                                        "src": "156:7:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                                            "typeString": "function (bool) pure"
+                                        }
+                                    },
+                                    "id": 19,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "kind": "functionCall",
+                                    "lValueRequested": false,
+                                    "names": [],
+                                    "nodeType": "FunctionCall",
+                                    "src": "156:59:0",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_tuple$__$",
+                                        "typeString": "tuple()"
+                                    }
+                                },
+                                "id": 20,
+                                "nodeType": "ExpressionStatement",
+                                "src": "156:59:0"
+                            },
+                            {
+                                "expression": {
+                                    "argumentTypes": null,
+                                    "id": 27,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "leftHandSide": {
+                                        "argumentTypes": null,
+                                        "expression": {
+                                            "argumentTypes": null,
+                                            "baseExpression": {
+                                                "argumentTypes": null,
+                                                "id": 21,
+                                                "name": "holders",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 7,
+                                                "src": "225:7:0",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Holder_$3_storage_$",
+                                                    "typeString": "mapping(address => struct TimeBank.Holder storage ref)"
+                                                }
+                                            },
+                                            "id": 24,
+                                            "indexExpression": {
+                                                "argumentTypes": null,
+                                                "expression": {
+                                                    "argumentTypes": null,
+                                                    "id": 22,
+                                                    "name": "msg",
+                                                    "nodeType": "Identifier",
+                                                    "overloadedDeclarations": [],
+                                                    "referencedDeclaration": 47,
+                                                    "src": "233:3:0",
+                                                    "typeDescriptions": {
+                                                        "typeIdentifier": "t_magic_message",
+                                                        "typeString": "msg"
+                                                    }
+                                                },
+                                                "id": 23,
+                                                "isConstant": false,
+                                                "isLValue": false,
+                                                "isPure": false,
+                                                "lValueRequested": false,
+                                                "memberName": "sender",
+                                                "nodeType": "MemberAccess",
+                                                "referencedDeclaration": null,
+                                                "src": "233:10:0",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier": "t_address",
+                                                    "typeString": "address"
+                                                }
+                                            },
+                                            "isConstant": false,
+                                            "isLValue": true,
+                                            "isPure": false,
+                                            "lValueRequested": false,
+                                            "nodeType": "IndexAccess",
+                                            "src": "225:19:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_struct$_Holder_$3_storage",
+                                                "typeString": "struct TimeBank.Holder storage ref"
+                                            }
+                                        },
+                                        "id": 25,
+                                        "isConstant": false,
+                                        "isLValue": true,
+                                        "isPure": false,
+                                        "lValueRequested": true,
+                                        "memberName": "withdrawTime",
+                                        "nodeType": "MemberAccess",
+                                        "referencedDeclaration": 2,
+                                        "src": "225:32:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "nodeType": "Assignment",
+                                    "operator": "=",
+                                    "rightHandSide": {
+                                        "argumentTypes": null,
+                                        "hexValue": "30",
+                                        "id": 26,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": true,
+                                        "kind": "number",
+                                        "lValueRequested": false,
+                                        "nodeType": "Literal",
+                                        "src": "260:1:0",
+                                        "subdenomination": null,
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_rational_0_by_1",
+                                            "typeString": "int_const 0"
+                                        },
+                                        "value": "0"
+                                    },
+                                    "src": "225:36:0",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    }
+                                },
+                                "id": 28,
+                                "nodeType": "ExpressionStatement",
+                                "src": "225:36:0"
+                            },
+                            {
+                                "expression": null,
+                                "functionReturnParameters": 9,
+                                "id": 29,
+                                "nodeType": "Return",
+                                "src": "271:7:0"
+                            }
+                        ]
+                    },
+                    "documentation": null,
+                    "id": 31,
+                    "implemented": true,
+                    "isConstructor": false,
+                    "isDeclaredConst": false,
+                    "modifiers": [],
+                    "name": "withdrawFunds",
+                    "nodeType": "FunctionDefinition",
+                    "parameters": {
+                        "id": 8,
+                        "nodeType": "ParameterList",
+                        "parameters": [],
+                        "src": "143:2:0"
+                    },
+                    "payable": false,
+                    "returnParameters": {
+                        "id": 9,
+                        "nodeType": "ParameterList",
+                        "parameters": [],
+                        "src": "146:0:0"
+                    },
+                    "scope": 32,
+                    "src": "121:163:0",
+                    "stateMutability": "nonpayable",
+                    "superFunction": null,
+                    "visibility": "public"
+                }
+            ],
+            "scope": 33,
+            "src": "0:286:0"
+        }
+    ],
+    "src": "0:286:0"
+}

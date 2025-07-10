@@ -1,0 +1,58 @@
+Contract: Send69Wei
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.value >= HowMuchWei
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: seed1 = uint256(block.timestamp)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: seed2 = uint256(block.coinbase)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: id = uint256(keccak256()(seed1 + seed2))
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: who = targets[id]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: who.transfer(HowMuchWei)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 7
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HowMuchWei = 69
+
+Edges:
+
+

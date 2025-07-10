@@ -1,0 +1,36 @@
+Contract: Delegate
+==================================================
+
+Function: test
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: Delegation
+==================================================
+
+Function: delegation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(delegate.delegatecall(msg.data))
+
+Edges:
+  0 -> 1
+
+

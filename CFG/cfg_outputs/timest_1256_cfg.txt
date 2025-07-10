@@ -1,0 +1,38 @@
+Contract: Betting
+==================================================
+
+Function: setupRace
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: chronus.starting_time = uint32(block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: chronus.betting_duration = _bettingDuration
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: chronus.race_duration = _raceDuration
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: chronus.starting_time
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+

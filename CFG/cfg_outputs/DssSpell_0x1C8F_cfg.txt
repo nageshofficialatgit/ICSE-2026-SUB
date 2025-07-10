@@ -1,0 +1,899 @@
+Contract: PauseAbstract
+==================================================
+
+
+Contract: Changelog
+==================================================
+
+
+Contract: SpellAction
+==================================================
+
+
+Contract: DssExec
+==================================================
+
+Function: description
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SpellAction(action).description()
+
+Edges:
+  0 -> 1
+
+Function: officeHours
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SpellAction(action).officeHours()
+
+Edges:
+  0 -> 1
+
+Function: nextCastTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SpellAction(action).nextCastTime(eta)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: castTime
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: pause = PauseAbstract(log.getAddress(MCD_PAUSE))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: expiration = _expiration
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: action = _spellAction
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: sig = abi.encodeWithSignature(execute())
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: _action = _spellAction
+
+  ID: 7
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _tag = extcodehash(uint256)(_action)
+
+  ID: 9
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: tag = _tag
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: schedule
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp <= expiration,This contract has expired)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(eta == 0,This spell has already been scheduled)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: eta = block.timestamp + PauseAbstract(pause).delay()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: pause.plot(action,tag,sig,eta)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: cast
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! done,spell-already-cast)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: done = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pause.exec(action,tag,sig,eta)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: log = Changelog(0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
+
+Edges:
+
+
+Contract: GemAbstract
+==================================================
+
+
+Contract: Initializable
+==================================================
+
+
+Contract: Authorizable
+==================================================
+
+
+Contract: Fileable
+==================================================
+
+
+Contract: Drippable
+==================================================
+
+
+Contract: Pricing
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+
+Contract: DssVat
+==================================================
+
+
+Contract: ClipLike
+==================================================
+
+
+Contract: DogLike
+==================================================
+
+
+Contract: JoinLike
+==================================================
+
+
+Contract: OracleLike_0
+==================================================
+
+
+Contract: MomLike
+==================================================
+
+
+Contract: RegistryLike
+==================================================
+
+
+Contract: ChainlogLike
+==================================================
+
+
+Contract: IAMLike
+==================================================
+
+
+Contract: LerpFactoryLike
+==================================================
+
+
+Contract: LerpLike
+==================================================
+
+
+Contract: RwaOracleLike
+==================================================
+
+
+Contract: DssExecLib
+==================================================
+
+Function: rdiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+
+Function: mkr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(MCD_GOV)
+
+Edges:
+  0 -> 1
+
+Function: jug
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(MCD_JUG)
+
+Edges:
+  0 -> 1
+
+Function: pot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(MCD_POT)
+
+Edges:
+  0 -> 1
+
+Function: end
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(MCD_END)
+
+Edges:
+  0 -> 1
+
+Function: reg
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(ILK_REGISTRY)
+
+Edges:
+  0 -> 1
+
+Function: spotter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(MCD_SPOT)
+
+Edges:
+  0 -> 1
+
+Function: autoLine
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(MCD_IAM_AUTO_LINE)
+
+Edges:
+  0 -> 1
+
+Function: lerpFab
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getChangelogAddress(LERP_FAB)
+
+Edges:
+  0 -> 1
+
+Function: clip
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _clip
+
+Edges:
+  0 -> 1
+
+Function: flip
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _flip
+
+Edges:
+  0 -> 1
+
+Function: calc
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _calc
+
+Edges:
+  0 -> 1
+
+Function: getChangelogAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: setAuthority
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: canCast
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: nextCastTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: castTime
+
+Edges:
+  0 -> 1
+
+Function: setValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: setIlkAutoLineParameters
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: setIlkLiquidationRatio
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: setIlkStabilityFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: linearInterpolation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LOG = 0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WAD = 10 ** 18
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RAY = 10 ** 27
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RAD = 10 ** 45
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: THOUSAND = 10 ** 3
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MILLION = 10 ** 6
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BPS_ONE_PCT = 100
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BPS_ONE_HUNDRED_PCT = 100 * BPS_ONE_PCT
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RATES_ONE_HUNDRED_PCT = 1000000021979553151239153027
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+
+Contract: OracleLike_1
+==================================================
+
+
+Contract: DssAction
+==================================================
+
+Function: officeHours
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: execute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: actions()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: limited()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: nextCastTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(eta <= type()(uint40).max)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: castTime = DssExecLib.nextCastTime(uint40(eta),uint40(block.timestamp),officeHours())
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: castTime
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: PauseLike
+==================================================
+
+
+Contract: DssSpellAction
+==================================================
+
+Function: officeHours
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+
+Function: execute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: actions()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: limited()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: nextCastTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(eta <= type()(uint40).max)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: castTime = DssExecLib.nextCastTime(uint40(eta),uint40(block.timestamp),officeHours())
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: castTime
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: actions
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: DssExecLib.setIlkStabilityFee(LSE-MKR-A,TWENTY_PCT_RATE,true)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: DssExecLib.setIlkAutoLineParameters(LSE-MKR-A,45 * MILLION,45 * MILLION,1800)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: DssExecLib.setIlkLiquidationRatio(LSE-MKR-A,125_00)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: DssExecLib.setValue(LOCKSTAKE_ENGINE,fee,0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: PauseLike(MCD_PAUSE).setDelay(64800)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MKR = GemAbstract(DssExecLib.mkr())
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LOCKSTAKE_ENGINE = DssExecLib.getChangelogAddress(LOCKSTAKE_ENGINE)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MCD_PAUSE = DssExecLib.getChangelogAddress(MCD_PAUSE)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: description = 2025-02-18 MakerDAO Emergency Executive Spell | Hash: 0xa788e118495fc4b7ac23a3e078ea52bcb0719d9de885955ffe0a02ae52c6f4ba
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TWENTY_PCT_RATE = 1000000005781378656804591712
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MILLION = 10 ** 6
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WAD = 10 ** 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: DssSpell
+==================================================
+
+Function: description
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SpellAction(action).description()
+
+Edges:
+  0 -> 1
+
+Function: officeHours
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SpellAction(action).officeHours()
+
+Edges:
+  0 -> 1
+
+Function: nextCastTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SpellAction(action).nextCastTime(eta)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: castTime
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: DssExec(block.timestamp + 2592000,address(new DssSpellAction()))
+
+Edges:
+  0 -> 1
+
+Function: schedule
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp <= expiration,This contract has expired)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(eta == 0,This spell has already been scheduled)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: eta = block.timestamp + PauseAbstract(pause).delay()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: pause.plot(action,tag,sig,eta)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: cast
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! done,spell-already-cast)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: done = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pause.exec(action,tag,sig,eta)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: log = Changelog(0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F)
+
+Edges:
+
+

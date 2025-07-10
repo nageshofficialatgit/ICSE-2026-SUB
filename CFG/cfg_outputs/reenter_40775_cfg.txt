@@ -1,0 +1,28 @@
+Contract: NBUNIERC20
+==================================================
+
+Function: emergencyDrain24hAfterLiquidityGenerationEventIsDone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: success = msg.sender.call.value(address(this).balance)()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[address(this)]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[address(this)] = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

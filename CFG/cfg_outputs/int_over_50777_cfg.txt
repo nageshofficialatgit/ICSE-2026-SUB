@@ -1,0 +1,46 @@
+Contract: SafeMath
+==================================================
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: EtherHiLo
+==================================================
+
+Function: cleanupAbandonedGame
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: elapsed = block.timestamp.sub(202110)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(elapsed >= 86400)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

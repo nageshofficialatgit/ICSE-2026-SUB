@@ -1,0 +1,28 @@
+Contract: Crowdsale
+==================================================
+
+Function: returnBonus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp > bonusDeliverTime)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(bonusUnsold > 0)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: bonusUnsold
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

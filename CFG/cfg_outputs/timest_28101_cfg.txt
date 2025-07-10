@@ -1,0 +1,47 @@
+Contract: LifMarketValidationMechanism
+==================================================
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pausedSeconds = block.timestamp - (pausedTimestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPausedSeconds = totalPausedSeconds - (pausedSeconds)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalPausedSeconds = 0
+
+Edges:
+  0 -> 1
+
+

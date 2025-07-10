@@ -1,0 +1,201 @@
+{
+    "absolutePath": "dataset/multivul_multiclass_test/dele_call_6043.sol",
+    "exportedSymbols": {
+        "VersionedToken": [
+            14
+        ]
+    },
+    "id": 15,
+    "nodeType": "SourceUnit",
+    "nodes": [
+        {
+            "baseContracts": [],
+            "contractDependencies": [],
+            "contractKind": "contract",
+            "documentation": null,
+            "fullyImplemented": true,
+            "id": 14,
+            "linearizedBaseContracts": [
+                14
+            ],
+            "name": "VersionedToken",
+            "nodeType": "ContractDefinition",
+            "nodes": [
+                {
+                    "body": {
+                        "id": 12,
+                        "nodeType": "Block",
+                        "src": "58:626:0",
+                        "statements": [
+                            {
+                                "assignments": [
+                                    4
+                                ],
+                                "declarations": [
+                                    {
+                                        "constant": false,
+                                        "id": 4,
+                                        "name": "upgradableContractMem",
+                                        "nodeType": "VariableDeclaration",
+                                        "scope": 12,
+                                        "src": "68:29:0",
+                                        "stateVariable": false,
+                                        "storageLocation": "default",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        },
+                                        "typeName": {
+                                            "id": 3,
+                                            "name": "address",
+                                            "nodeType": "ElementaryTypeName",
+                                            "src": "68:7:0",
+                                            "stateMutability": "nonpayable",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_address",
+                                                "typeString": "address"
+                                            }
+                                        },
+                                        "value": null,
+                                        "visibility": "internal"
+                                    }
+                                ],
+                                "id": 5,
+                                "initialValue": null,
+                                "nodeType": "VariableDeclarationStatement",
+                                "src": "68:29:0"
+                            },
+                            {
+                                "assignments": [
+                                    7
+                                ],
+                                "declarations": [
+                                    {
+                                        "constant": false,
+                                        "id": 7,
+                                        "name": "functionCall",
+                                        "nodeType": "VariableDeclaration",
+                                        "scope": 12,
+                                        "src": "107:25:0",
+                                        "stateVariable": false,
+                                        "storageLocation": "memory",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_bytes_memory_ptr",
+                                            "typeString": "bytes"
+                                        },
+                                        "typeName": {
+                                            "id": 6,
+                                            "name": "bytes",
+                                            "nodeType": "ElementaryTypeName",
+                                            "src": "107:5:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_bytes_storage_ptr",
+                                                "typeString": "bytes"
+                                            }
+                                        },
+                                        "value": null,
+                                        "visibility": "internal"
+                                    }
+                                ],
+                                "id": 10,
+                                "initialValue": {
+                                    "argumentTypes": null,
+                                    "expression": {
+                                        "argumentTypes": null,
+                                        "id": 8,
+                                        "name": "msg",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 29,
+                                        "src": "135:3:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_magic_message",
+                                            "typeString": "msg"
+                                        }
+                                    },
+                                    "id": 9,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "memberName": "data",
+                                    "nodeType": "MemberAccess",
+                                    "referencedDeclaration": null,
+                                    "src": "135:8:0",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_bytes_calldata_ptr",
+                                        "typeString": "bytes calldata"
+                                    }
+                                },
+                                "nodeType": "VariableDeclarationStatement",
+                                "src": "107:36:0"
+                            },
+                            {
+                                "externalReferences": [
+                                    {
+                                        "functionCall": {
+                                            "declaration": 7,
+                                            "isOffset": false,
+                                            "isSlot": false,
+                                            "src": "207:12:0",
+                                            "valueSize": 1
+                                        }
+                                    },
+                                    {
+                                        "upgradableContractMem": {
+                                            "declaration": 4,
+                                            "isOffset": false,
+                                            "isSlot": false,
+                                            "src": "344:21:0",
+                                            "valueSize": 1
+                                        }
+                                    },
+                                    {
+                                        "functionCall": {
+                                            "declaration": 7,
+                                            "isOffset": false,
+                                            "isSlot": false,
+                                            "src": "268:12:0",
+                                            "valueSize": 1
+                                        }
+                                    }
+                                ],
+                                "id": 11,
+                                "nodeType": "InlineAssembly",
+                                "operations": "{\n    let functionCallSize := mload(functionCall)\n    let functionCallDataAddress := add(functionCall, 0x20)\n    let functionCallResult := delegatecall(gas(), upgradableContractMem, functionCallDataAddress, functionCallSize, 0, 0)\n    let freeMemAddress := mload(0x40)\n    switch functionCallResult\n    case 0 { revert(freeMemAddress, 0) }\n    default {\n        return(freeMemAddress, returndatasize())\n    }\n}",
+                                "src": "154:524:0"
+                            }
+                        ]
+                    },
+                    "documentation": null,
+                    "id": 13,
+                    "implemented": true,
+                    "kind": "function",
+                    "modifiers": [],
+                    "name": "version",
+                    "nodeType": "FunctionDefinition",
+                    "parameters": {
+                        "id": 1,
+                        "nodeType": "ParameterList",
+                        "parameters": [],
+                        "src": "48:2:0"
+                    },
+                    "returnParameters": {
+                        "id": 2,
+                        "nodeType": "ParameterList",
+                        "parameters": [],
+                        "src": "58:0:0"
+                    },
+                    "scope": 14,
+                    "src": "32:652:0",
+                    "stateMutability": "nonpayable",
+                    "superFunction": null,
+                    "visibility": "public"
+                }
+            ],
+            "scope": 15,
+            "src": "0:686:0"
+        }
+    ],
+    "src": "0:686:0"
+}

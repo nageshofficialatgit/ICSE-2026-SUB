@@ -1,0 +1,463 @@
+Contract: IUniswapV2Pair
+==================================================
+
+
+Contract: IChainlinkPriceFeed
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: PeezyOTC
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: receiverWallet = _receiverWallet
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getPeezyPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pair = IUniswapV2Pair(peezyPair)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (reserve0,reserve1,None) = pair.getReserves()
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: token0 = pair.token0()
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: (token0 == peezyToken)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (reserve1 * 1e27 / reserve0)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: (reserve0 * 1e27 / reserve1)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 7
+  7 -> 8
+  7 -> 9
+
+Function: getEthUsdPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,price,None,None,None) = IChainlinkPriceFeed(ethUsdPriceFeed).latestRoundData()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(price > 0,Invalid Chainlink price)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint256(price)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: swap()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyWhitelist()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: cooldown()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: swap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: peezyPrice = getPeezyPrice()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: discountedPrice = peezyPrice * (100 - discountPercent) / 100
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: peezyAmount = msg.value * 1e18 / discountedPrice
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: ethPriceUSD = getEthUsdPrice()
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: ethValueUSD = msg.value * ethPriceUSD / 1e8
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: maxAllowedUSD = maxAmountUSD * (100 + tolerancePercent) / 100
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: refundAmount = 0
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: ethValueUSD > maxAllowedUSD
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: maxEth = (maxAllowedUSD * 1e8 / ethPriceUSD) + 1
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: peezyAmount = maxEth * 1e18 / discountedPrice
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: refundAmount = msg.value - maxEth
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: lastTransactionTime[msg.sender] = block.timestamp
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: transferTokens(peezyToken,msg.sender,peezyAmount)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: address(receiverWallet).transfer(msg.value - refundAmount)
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: refundAmount > 0
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(refundAmount)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: Swapped(msg.sender,msg.value,peezyAmount,refundAmount)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyWhitelist()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: cooldown()
+
+Edges:
+  0 -> 20
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 12
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(address(this).balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: updateMaxAmountUSD
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: maxAmountUSD = _newMaxAmountUSD
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: updateDiscount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: discountPercent = _newDiscount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: updateCooldown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: cooldownPeriod = _newCooldown
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: addToWhitelist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: whitelist[_wallet] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: removeFromWhitelist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: whitelist[_wallet] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),New owner is zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(token).transfer(recipient,amount),Transfer failed)
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Not allowed to send ETH here.)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: peezyToken = 0x698b1d54E936b9F772b8F58447194bBc82EC1933
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: peezyPair = 0x1D91389b2Aa45C388C4d02eB39a7726d02a71d18
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ethUsdPriceFeed = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: discountPercent = 15
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: cooldownPeriod = 84600
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxAmountUSD = 500 * 1e18
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tolerancePercent = 5
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

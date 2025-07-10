@@ -1,0 +1,79 @@
+Contract: DWBTICO
+==================================================
+
+Function: getWeekNumber
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: weekNumber = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: time = startAt
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < weekBonuses.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: time = time + 604800
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: block.timestamp <= time
+
+  ID: 9
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: weekNumber
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 12
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 4
+  10 -> 11
+  11 -> 6
+
+

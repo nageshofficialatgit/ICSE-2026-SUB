@@ -1,0 +1,3033 @@
+Contract: SafeMath
+==================================================
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z >= x) && (z >= y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSubtract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x >= y)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: z = x - y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeMult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((x == 0) || (z / x == y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: BasicAccessControl
+==================================================
+
+Function: BasicAccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: ChangeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: AddModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_newModerator] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_newModerator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: RemoveModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_oldModerator] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_oldModerator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: UpdateMaintaining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintaining = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalModerators = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintaining = true
+
+Edges:
+  0 -> 1
+
+
+Contract: EtheremonEnum
+==================================================
+
+
+Contract: EtheremonDataBase
+==================================================
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z >= x) && (z >= y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSubtract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x >= y)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: z = x - y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeMult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((x == 0) || (z / x == y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: BasicAccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: ChangeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: AddModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_newModerator] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_newModerator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: RemoveModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_oldModerator] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_oldModerator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: UpdateMaintaining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintaining = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalModerators = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintaining = true
+
+Edges:
+  0 -> 1
+
+
+Contract: EtheremonGateway
+==================================================
+
+Function: BasicAccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: ChangeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: AddModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_newModerator] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_newModerator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: RemoveModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_oldModerator] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_oldModerator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: UpdateMaintaining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintaining = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalModerators = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintaining = true
+
+Edges:
+  0 -> 1
+
+
+Contract: EtheremonGym
+==================================================
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z >= x) && (z >= y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSubtract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x >= y)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: z = x - y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeMult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((x == 0) || (z / x == y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: BasicAccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: ChangeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: AddModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_newModerator] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_newModerator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: RemoveModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_oldModerator] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_oldModerator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: UpdateMaintaining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintaining = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: EtheremonGym
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dataContract = _dataContract
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: worldContract = _worldContract
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setTypeAdvantages
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[1] = 14
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[2] = 16
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[3] = 8
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[4] = 9
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[5] = 2
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[6] = 11
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[7] = 3
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[8] = 5
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[9] = 15
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[11] = 18
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[12] = 7
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[13] = 6
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[14] = 17
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[15] = 13
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[16] = 12
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[17] = 1
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[18] = 4
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 18
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  18 -> 1
+
+Function: setTypeAdvantage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: typeAdvantages[_type1] = _type2
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setCacheClassInfo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: data = EtheremonDataBase(dataContract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: gateway = EtheremonGateway(worldContract)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: classInfo = cacheClasses[_classId]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: i = data.getSizeArrayType(ArrayType.CLASS_TYPE,uint64(_classId))
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: aTypes = new uint8[](i)
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i > 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: aTypes[i - 1] = data.getElementInArrayType(ArrayType.CLASS_TYPE,uint64(_classId),i - 1)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: classInfo.types = aTypes
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i = data.getSizeArrayType(ArrayType.STAT_STEP,uint64(_classId))
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: steps = new uint8[](i)
+
+  ID: 15
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: i > 0
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: steps[i - 1] = data.getElementInArrayType(ArrayType.STAT_STEP,uint64(_classId),i - 1)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: classInfo.steps = steps
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: i = gateway.getClassPropertySize(_classId,PropertyType.ANCESTOR)
+
+  ID: 22
+  Type: NodeType.VARIABLE
+  Expression: ancestors = new uint32[](i)
+
+  ID: 23
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 25
+  Type: NodeType.IFLOOP
+  Expression: i > 0
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: ancestors[i - 1] = gateway.getClassPropertyValue(_classId,PropertyType.ANCESTOR,i - 1)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: classInfo.ancestors = ancestors
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: requireDataContract()
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: requireWorldContract()
+
+Edges:
+  0 -> 29
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  8 -> 12
+  9 -> 10
+  9 -> 8
+  10 -> 11
+  11 -> 9
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 17
+  16 -> 20
+  17 -> 18
+  17 -> 16
+  18 -> 19
+  19 -> 17
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 25
+  24 -> 28
+  25 -> 26
+  25 -> 24
+  26 -> 27
+  27 -> 25
+  29 -> 30
+  30 -> 31
+  31 -> 1
+
+Function: fastSetCacheClassInfo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: setCacheClassInfo(_classId1)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: setCacheClassInfo(_classId2)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: setCacheClassInfo(_classId3)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: setCacheClassInfo(_classId4)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: requireDataContract()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: requireWorldContract()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  7 -> 1
+
+Function: presetGymTrainer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trainer1 = gymTrainers[1]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: trainer1.classId = 12
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: trainer1.statBases[0] = 85
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: trainer1.statBases[1] = 95
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: trainer1.statBases[2] = 65
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: trainer1.statBases[3] = 50
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: trainer1.statBases[4] = 50
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: trainer1.statBases[5] = 50
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: trainer2 = gymTrainers[2]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: trainer2.classId = 15
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: trainer2.statBases[0] = 50
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: trainer2.statBases[1] = 55
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: trainer2.statBases[2] = 85
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: trainer2.statBases[3] = 85
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: trainer2.statBases[4] = 40
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: trainer2.statBases[5] = 75
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: trainer3 = gymTrainers[3]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: trainer3.classId = 8
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: trainer3.statBases[0] = 110
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: trainer3.statBases[1] = 60
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: trainer3.statBases[2] = 40
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: trainer3.statBases[3] = 60
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: trainer3.statBases[4] = 40
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: trainer3.statBases[5] = 40
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: trainer4 = gymTrainers[4]
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: trainer4.classId = 4
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: trainer4.statBases[0] = 54
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: trainer4.statBases[1] = 69
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: trainer4.statBases[2] = 58
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: trainer4.statBases[3] = 75
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: trainer4.statBases[4] = 75
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: trainer4.statBases[5] = 70
+
+  ID: 33
+  Type: NodeType.VARIABLE
+  Expression: trainer5 = gymTrainers[5]
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: trainer5.classId = 6
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: trainer5.statBases[0] = 50
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: trainer5.statBases[1] = 50
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: trainer5.statBases[2] = 50
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: trainer5.statBases[3] = 105
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: trainer5.statBases[4] = 55
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: trainer5.statBases[5] = 95
+
+  ID: 41
+  Type: NodeType.VARIABLE
+  Expression: trainer6 = gymTrainers[6]
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: trainer6.classId = 13
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: trainer6.statBases[0] = 55
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: trainer6.statBases[1] = 90
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: trainer6.statBases[2] = 95
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: trainer6.statBases[3] = 45
+
+  ID: 47
+  Type: NodeType.EXPRESSION
+  Expression: trainer6.statBases[4] = 35
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: trainer6.statBases[5] = 35
+
+  ID: 49
+  Type: NodeType.VARIABLE
+  Expression: trainer7 = gymTrainers[7]
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: trainer7.classId = 7
+
+  ID: 51
+  Type: NodeType.EXPRESSION
+  Expression: trainer7.statBases[0] = 85
+
+  ID: 52
+  Type: NodeType.EXPRESSION
+  Expression: trainer7.statBases[1] = 60
+
+  ID: 53
+  Type: NodeType.EXPRESSION
+  Expression: trainer7.statBases[2] = 73
+
+  ID: 54
+  Type: NodeType.EXPRESSION
+  Expression: trainer7.statBases[3] = 75
+
+  ID: 55
+  Type: NodeType.EXPRESSION
+  Expression: trainer7.statBases[4] = 80
+
+  ID: 56
+  Type: NodeType.EXPRESSION
+  Expression: trainer7.statBases[5] = 50
+
+  ID: 57
+  Type: NodeType.VARIABLE
+  Expression: trainer8 = gymTrainers[8]
+
+  ID: 58
+  Type: NodeType.EXPRESSION
+  Expression: trainer8.classId = 24
+
+  ID: 59
+  Type: NodeType.EXPRESSION
+  Expression: trainer8.statBases[0] = 140
+
+  ID: 60
+  Type: NodeType.EXPRESSION
+  Expression: trainer8.statBases[1] = 135
+
+  ID: 61
+  Type: NodeType.EXPRESSION
+  Expression: trainer8.statBases[2] = 70
+
+  ID: 62
+  Type: NodeType.EXPRESSION
+  Expression: trainer8.statBases[3] = 77
+
+  ID: 63
+  Type: NodeType.EXPRESSION
+  Expression: trainer8.statBases[4] = 90
+
+  ID: 64
+  Type: NodeType.EXPRESSION
+  Expression: trainer8.statBases[5] = 50
+
+  ID: 65
+  Type: NodeType.VARIABLE
+  Expression: trainer9 = gymTrainers[9]
+
+  ID: 66
+  Type: NodeType.EXPRESSION
+  Expression: trainer9.classId = 16
+
+  ID: 67
+  Type: NodeType.EXPRESSION
+  Expression: trainer9.statBases[0] = 70
+
+  ID: 68
+  Type: NodeType.EXPRESSION
+  Expression: trainer9.statBases[1] = 105
+
+  ID: 69
+  Type: NodeType.EXPRESSION
+  Expression: trainer9.statBases[2] = 80
+
+  ID: 70
+  Type: NodeType.EXPRESSION
+  Expression: trainer9.statBases[3] = 60
+
+  ID: 71
+  Type: NodeType.EXPRESSION
+  Expression: trainer9.statBases[4] = 80
+
+  ID: 72
+  Type: NodeType.EXPRESSION
+  Expression: trainer9.statBases[5] = 90
+
+  ID: 73
+  Type: NodeType.EXPRESSION
+  Expression: totalTrainer = 9
+
+  ID: 74
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 74
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+  44 -> 45
+  45 -> 46
+  46 -> 47
+  47 -> 48
+  48 -> 49
+  49 -> 50
+  50 -> 51
+  51 -> 52
+  52 -> 53
+  53 -> 54
+  54 -> 55
+  55 -> 56
+  56 -> 57
+  57 -> 58
+  58 -> 59
+  59 -> 60
+  60 -> 61
+  61 -> 62
+  62 -> 63
+  63 -> 64
+  64 -> 65
+  65 -> 66
+  66 -> 67
+  67 -> 68
+  68 -> 69
+  69 -> 70
+  70 -> 71
+  71 -> 72
+  72 -> 73
+  74 -> 1
+
+Function: setGymTrainer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trainer = gymTrainers[_trainerId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: trainer.classId == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalTrainer += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: trainer.classId = _classId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: trainer.statBases[0] = _s0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: trainer.statBases[1] = _s1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: trainer.statBases[2] = _s2
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: trainer.statBases[3] = _s3
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: trainer.statBases[4] = _s4
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: trainer.statBases[5] = _s5
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: setContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dataContract = _dataContract
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: worldContract = _worldContract
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setConfig
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: gymFee = _gymFee
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: maxTrainerLevel = _maxTrainerLevel
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: maxRandomRound = _maxRandomRound
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: typeBuffPercentage = _typeBuffPercentage
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: minHpDeducted = _minHpDeducted
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: expPercentage = _expPercentage
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: genLevelExp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: level = 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: requirement = 100
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: sum = requirement
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: level <= 100
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: levelExps[level] = sum
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: level += 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: requirement = (requirement * 11) / 10 + 5
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: sum += requirement
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 10
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  11 -> 1
+
+Function: genLevelExpGain
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[1] = 31
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[2] = 33
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[3] = 34
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[4] = 36
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[5] = 38
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[6] = 40
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[7] = 42
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[8] = 44
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[9] = 46
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[10] = 48
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: setLevelExpGain
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: levelExpGains[_level] = _exp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _amount > this.balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _sendTo.transfer(_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: getCacheClassSize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: classInfo = cacheClasses[_classId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (classInfo.types.length,classInfo.steps.length,classInfo.ancestors.length)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getTrainerInfo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trainer = gymTrainers[_trainerId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (trainer.classId,trainer.statBases[0],trainer.statBases[1],trainer.statBases[2],trainer.statBases[3],trainer.statBases[4],trainer.statBases[5])
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getRandom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: genNum = uint256(block.blockhash(block.number - 1))
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < index && i < 6
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: genNum /= 256
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: uint8(genNum % maxRan)
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+
+Function: getLevel
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: minIndex = 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: maxIndex = 100
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: minIndex < maxIndex
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: currentIndex = (minIndex + maxIndex) / 2
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: exp < levelExps[currentIndex]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: maxIndex = currentIndex
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: minIndex = currentIndex + 1
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: minIndex
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 11
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 5
+  11 -> 12
+
+Function: getGainExp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: winExp = levelExpGains[yLevel] * expPercentage / 100
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: xLevel > yLevel
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: xLevel > yLevel + 10
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: winExp = 5
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: winExp /= uint32(3) ** (xLevel - yLevel) / uint32(2) ** (xLevel - yLevel)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: winExp < 5
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: winExp = 5
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: loseExp = winExp / 3
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: (winExp,loseExp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 10
+  3 -> 4
+  3 -> 5
+  4 -> 9
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: safeDeduct
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a > b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: getTypeSupport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < cacheClasses[_aClassId].types.length
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: j < cacheClasses[_bClassId].types.length
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: typeAdvantages[cacheClasses[_aClassId].types[i]] == cacheClasses[_bClassId].types[j]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: aHasAdvantage = true
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: typeAdvantages[cacheClasses[_bClassId].types[j]] == cacheClasses[_aClassId].types[i]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: bHasAdvantage = true
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: (aHasAdvantage,bHasAdvantage)
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 17
+  3 -> 1
+  4 -> 7
+  4 -> 2
+  5 -> 8
+  6 -> 16
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 8
+  16 -> 4
+
+Function: calHpDeducted
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _lucky
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _attack = _attack * 13 / 10
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _specialAttack = _specialAttack * 13 / 10
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: hpDeducted = safeDeduct(_attack,_defense * 3 / 4)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: hpSpecialDeducted = safeDeduct(_specialAttack,_specialDefense * 3 / 4)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: hpDeducted < minHpDeducted && hpSpecialDeducted < minHpDeducted
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: minHpDeducted
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: hpDeducted > hpSpecialDeducted
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: hpDeducted
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: hpSpecialDeducted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  12 -> 13
+
+Function: attack
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _ran < _index * maxRandomRound
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _ran = maxRandomRound
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _ran = _ran - _index * maxRandomRound
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: round = 0
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: aHp = _aStats[0]
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: bHp = _bStats[0]
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: _aStats[5] > _bStats[5]
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: round < maxRandomRound && aHp > 0 && bHp > 0
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: round % 2 == 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: bHp = safeDeduct(bHp,calHpDeducted(_aStats[1],_aStats[3],_bStats[2],_bStats[4],round == _ran))
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: aHp = safeDeduct(aHp,calHpDeducted(_bStats[1],_bStats[3],_aStats[2],_aStats[4],round == _ran))
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: round ++
+
+  ID: 16
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 17
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IFLOOP
+  Expression: round < maxRandomRound && aHp > 0 && bHp > 0
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: round % 2 != 0
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: bHp = safeDeduct(bHp,calHpDeducted(_aStats[1],_aStats[3],_bStats[2],_bStats[4],round == _ran))
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: aHp = safeDeduct(aHp,calHpDeducted(_bStats[1],_bStats[3],_aStats[2],_aStats[4],round == _ran))
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: round ++
+
+  ID: 24
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: win = aHp >= bHp
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: win
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 17
+  9 -> 10
+  10 -> 11
+  10 -> 16
+  11 -> 12
+  11 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 10
+  16 -> 25
+  17 -> 18
+  18 -> 19
+  18 -> 24
+  19 -> 20
+  19 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 18
+  24 -> 25
+  25 -> 26
+  26 -> 27
+
+Function: attackTrainer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trainer = gymTrainers[_trainerId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < STAT_COUNT
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: trainerStats[i] = trainer.statBases[i]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i += 1
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: i < cacheClasses[trainer.classId].steps.length
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: trainerStats[i] += uint16(safeMult(cacheClasses[trainer.classId].steps[i],_trainerLevel * 3))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: (objHasAdvantage,trainerHasAdvantage) = getTypeSupport(_objClassId,trainer.classId)
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: originAttack = _objStats[1]
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: originAttackSpecial = _objStats[3]
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: objHasAdvantage
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: _objStats[1] += _objStats[1] * typeBuffPercentage / 100
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: _objStats[3] += _objStats[3] * typeBuffPercentage / 100
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: trainerHasAdvantage
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: trainerStats[1] += trainerStats[1] * typeBuffPercentage / 100
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: trainerStats[3] += trainerStats[3] * typeBuffPercentage / 100
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: result = attack(_index,_ran,_objStats,trainerStats)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: _objStats[1] = originAttack
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: _objStats[3] = originAttackSpecial
+
+  ID: 32
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 12
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 7
+  10 -> 13
+  11 -> 16
+  12 -> 10
+  13 -> 14
+  13 -> 11
+  14 -> 15
+  15 -> 13
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 24
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  25 -> 28
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+
+Function: getObjInfo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: data = EtheremonDataBase(dataContract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (obj.monsterId,classId,trainee,obj.exp,obj.createIndex,obj.lastClaimIndex,obj.createTime) = data.getMonsterObj(_objId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: level = getLevel(obj.exp)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (classId,trainee,level)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: startTraining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _trainerLevel > maxTrainerLevel
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: msg.value != gymFee
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: _t1 == _t2 || _t1 == _t3 || _t2 == _t3
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _t1 == 0 || _t2 == 0 || _t3 == 0 || _t1 > totalTrainer || _t2 > totalTrainer || _t3 > totalTrainer
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: (att.objClassId,att.trainee,att.objLevel) = getObjInfo(_objId)
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: msg.sender != att.trainee
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: data = EtheremonDataBase(dataContract)
+
+  ID: 21
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 24
+  Type: NodeType.IFLOOP
+  Expression: i < STAT_COUNT
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: objStats[i] = data.getElementInArrayType(ArrayType.STAT_BASE,_objId,i)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: i += 1
+
+  ID: 27
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 30
+  Type: NodeType.IFLOOP
+  Expression: i < cacheClasses[att.objClassId].steps.length
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: objStats[i] += uint16(safeMult(cacheClasses[att.objClassId].steps[i],att.objLevel * 3))
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: att.winCount = 0
+
+  ID: 34
+  Type: NodeType.VARIABLE
+  Expression: ran = getRandom(maxRandomRound * 3,0)
+
+  ID: 35
+  Type: NodeType.IF
+  Expression: attackTrainer(0,ran,_t1,_trainerLevel,att.objClassId,objStats)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: att.winCount += 1
+
+  ID: 37
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 38
+  Type: NodeType.IF
+  Expression: attackTrainer(1,ran,_t2,_trainerLevel,att.objClassId,objStats)
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: att.winCount += 1
+
+  ID: 40
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 41
+  Type: NodeType.IF
+  Expression: attackTrainer(2,ran,_t3,_trainerLevel,att.objClassId,objStats)
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: att.winCount += 1
+
+  ID: 43
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: (att.winExp,att.loseExp) = getGainExp(att.objLevel,_trainerLevel)
+
+  ID: 45
+  Type: NodeType.VARIABLE
+  Expression: gateway = EtheremonGateway(worldContract)
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: gateway.increaseMonsterExp(_objId,att.winCount * att.winExp + (3 - att.winCount) * att.loseExp)
+
+  ID: 47
+  Type: NodeType.VARIABLE
+  Expression: trainingLog = trainees[msg.sender]
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: trainingLog.trainers[0] = _t1
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: trainingLog.trainers[1] = _t2
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: trainingLog.trainers[2] = _t3
+
+  ID: 51
+  Type: NodeType.EXPRESSION
+  Expression: trainingLog.trainerLevel = _trainerLevel
+
+  ID: 52
+  Type: NodeType.EXPRESSION
+  Expression: trainingLog.objId = _objId
+
+  ID: 53
+  Type: NodeType.EXPRESSION
+  Expression: trainingLog.objLevel = att.objLevel
+
+  ID: 54
+  Type: NodeType.EXPRESSION
+  Expression: trainingLog.ran = ran
+
+  ID: 55
+  Type: NodeType.EXPRESSION
+  Expression: isActive()
+
+  ID: 56
+  Type: NodeType.EXPRESSION
+  Expression: requireDataContract()
+
+  ID: 57
+  Type: NodeType.EXPRESSION
+  Expression: requireWorldContract()
+
+Edges:
+  0 -> 55
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 23
+  21 -> 24
+  22 -> 29
+  23 -> 21
+  24 -> 25
+  24 -> 22
+  25 -> 26
+  26 -> 24
+  27 -> 30
+  28 -> 33
+  29 -> 27
+  30 -> 31
+  30 -> 28
+  31 -> 32
+  32 -> 30
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 37
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  38 -> 40
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  41 -> 43
+  42 -> 43
+  43 -> 44
+  44 -> 45
+  45 -> 46
+  46 -> 47
+  47 -> 48
+  48 -> 49
+  49 -> 50
+  50 -> 51
+  51 -> 52
+  52 -> 53
+  53 -> 54
+  55 -> 56
+  56 -> 57
+  57 -> 1
+
+Function: getTrainingLog
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: trainingLog = trainees[_trainee]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (trainingLog.trainers[0],trainingLog.trainers[1],trainingLog.trainers[2],trainingLog.objId,trainingLog.trainerLevel,trainingLog.objLevel,trainingLog.ran)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalModerators = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintaining = true
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: gymFee = 1000000000000000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxTrainerLevel = 5
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalTrainer = 0
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxRandomRound = 4
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: typeBuffPercentage = 20
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minHpDeducted = 10
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: expPercentage = 70
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: STAT_COUNT = 6
+
+Edges:
+
+

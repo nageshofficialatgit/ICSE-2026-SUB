@@ -1,0 +1,1390 @@
+Contract: VentanaTokenConfig
+==================================================
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Ventana
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = VNT
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: owner = 0xF4b087Ad256ABC5BE11E0433B15Ed012c8AEC8B4
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: fundWallet = 0xd6514387236595e080B97c8ead1cBF12f9a6Ab65
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOKENS_PER_USD = 3
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USD_PER_ETH = 258
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_USD_FUND = 2000000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_USD_FUND = 20000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: KYC_USD_LMT = 10000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_TOKENS = 300000000
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: START_DATE = 1502701200
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FUNDING_PERIOD = 2419200
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: c = a - b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c <= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: c = a * b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(a == 0 || c / a == b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: ReentryProtected
+==================================================
+
+
+Contract: ERC20Token
+==================================================
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_addr]
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: xfer(msg.sender,_to,_amount)
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amount <= allowed[_from][msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: xfer(_from,_to,_amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: xfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amount <= balances[_from])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_amount)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _amount == 0
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_amount)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: VentanaTokenAbstract
+==================================================
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: __abortFuse = true
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+
+
+Contract: VentanaToken
+==================================================
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_addr]
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(icoSuccessful)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: super.transfer(_to,_amount)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _to == veredictum
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(Notify(veredictum).notify(msg.sender,_amount))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: preventReentry()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(icoSuccessful)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: super.transferFrom(_from,_to,_amount)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _to == veredictum
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(Notify(veredictum).notify(msg.sender,_amount))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: preventReentry()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: xfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amount <= balances[_from])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_amount)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _amount == 0
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_amount)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(icoSuccessful)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: super.approve(_spender,_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: VentanaToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(bytes(symbol).length > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(bytes(name).length > 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner != 0x0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(fundWallet != 0x0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(TOKENS_PER_USD > 0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(USD_PER_ETH > 0)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(MIN_USD_FUND > 0)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(MAX_USD_FUND > MIN_USD_FUND)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(START_DATE > 0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(FUNDING_PERIOD > 0)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = MAX_TOKENS * 1e18
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: balances[fundWallet] = totalSupply
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(0x0,fundWallet,totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: proxyPurchase(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: fundFailed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ! __abortFuse || (now > END_DATE && etherRaised < MIN_ETH_FUND)
+
+Edges:
+  0 -> 1
+
+Function: fundSucceeded
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ! fundFailed() && etherRaised >= MIN_ETH_FUND
+
+Edges:
+  0 -> 1
+
+Function: ethToUsd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: USD_PER_ETH.mul(_wei).div(1000000000000000000)
+
+Edges:
+  0 -> 1
+
+Function: usdToEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _usd.mul(1000000000000000000).div(USD_PER_ETH)
+
+Edges:
+  0 -> 1
+
+Function: usdRaised
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ethToUsd(etherRaised)
+
+Edges:
+  0 -> 1
+
+Function: ethToTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: usd = ethToUsd(_wei)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _wei.mul(TOKENS_PER_ETH).mul(bonus + 100).div(100)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: usd >= 2000000
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: bonus = 35
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: usd >= 500000
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: bonus = 30
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: usd >= 100000
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: bonus = 20
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: usd >= 25000
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: bonus = 15
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: usd >= 10000
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: bonus = 10
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: usd >= 5000
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: bonus = 5
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: bonus = 0
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 4
+  4 -> 5
+  4 -> 8
+  5 -> 7
+  7 -> 3
+  8 -> 9
+  8 -> 12
+  9 -> 11
+  11 -> 7
+  12 -> 13
+  12 -> 16
+  13 -> 15
+  15 -> 11
+  16 -> 17
+  16 -> 20
+  17 -> 19
+  19 -> 15
+  20 -> 21
+  20 -> 24
+  21 -> 23
+  23 -> 19
+  24 -> 25
+  24 -> 26
+  25 -> 27
+  26 -> 27
+  27 -> 23
+
+Function: abort
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! icoSuccessful)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete __abortFuse
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: proxyPurchase
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! fundFailed())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! icoSuccessful)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now <= END_DATE)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value > 0)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: ! kycAddresses[_addr]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now >= START_DATE)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((etherContributed[_addr].add(msg.value)) <= KYC_ETH_LMT)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: tokens = ethToTokens(msg.value)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: xfer(fundWallet,_addr,tokens)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: etherContributed[_addr] = etherContributed[_addr].add(msg.value)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: etherRaised = etherRaised.add(msg.value)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(etherRaised <= MAX_ETH_FUND)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+Edges:
+  0 -> 15
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+Function: addKycAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! fundFailed())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: kycAddresses[_addr] = _kyc
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: KYCAddress(_addr,_kyc)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 1
+
+Function: finaliseICO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(fundSucceeded())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: icoSuccessful = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: FundsTransferred(fundWallet,this.balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: fundWallet.transfer(this.balance)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: preventReentry()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: refund
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(fundFailed())
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: value = etherContributed[_addr]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: xfer(_addr,fundWallet,balances[_addr])
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete etherContributed[_addr]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete kycAddresses[_addr]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Refunded(_addr,value)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: value > 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _addr.transfer(value)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: preventReentry()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ChangeOwnerTo(_newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _newOwner
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ChangedOwner(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: changeVeredictum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: veredictum = _addr
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: destroy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! __abortFuse)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance == 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(owner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noReentry()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: transferAnyERC20Token
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ERC20Token(tokenAddress).transfer(owner,amount))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: preventReentry()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = VNT
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: __abortFuse = true
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Ventana
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: owner = 0xF4b087Ad256ABC5BE11E0433B15Ed012c8AEC8B4
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: fundWallet = 0xd6514387236595e080B97c8ead1cBF12f9a6Ab65
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: END_DATE = START_DATE + FUNDING_PERIOD
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOKENS_PER_USD = 3
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USD_PER_ETH = 258
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_USD_FUND = 2000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_USD_FUND = 20000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: KYC_USD_LMT = 10000
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_TOKENS = 300000000
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: START_DATE = 1502701200
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FUNDING_PERIOD = 2419200
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOKENS_PER_ETH = TOKENS_PER_USD * USD_PER_ETH
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_ETH_FUND = 1000000000000000000 * MIN_USD_FUND / USD_PER_ETH
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_ETH_FUND = 1000000000000000000 * MAX_USD_FUND / USD_PER_ETH
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: KYC_ETH_LMT = 1000000000000000000 * KYC_USD_LMT / USD_PER_ETH
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+
+Contract: Notify
+==================================================
+
+
+Contract: VeredictumTest
+==================================================
+
+Function: setVnt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: vnt = _addr
+
+Edges:
+  0 -> 1
+
+Function: notify
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == vnt)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Notified(_from,_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

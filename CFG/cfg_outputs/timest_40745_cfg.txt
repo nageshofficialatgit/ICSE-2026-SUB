@@ -1,0 +1,38 @@
+Contract: LoanTokenLogicStandard
+==================================================
+
+Function: tokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: lastSettleTime_ != uint88(block.timestamp)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: lastSettleTime_
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+
+

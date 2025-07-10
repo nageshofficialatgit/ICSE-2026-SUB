@@ -1,0 +1,284 @@
+Contract: IERC20
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: symbol = _symbol
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = _decimals
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,recipient,amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: allowance[sender][msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[sender] -= amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amount)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+
+Contract: TOKEN
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender != address(0),ERC20: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 10000000000 * (10 ** uint256(decimals))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = totalSupply
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,totalSupply)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ERC20(name,symbol,decimals)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,recipient,amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: allowance[sender][msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[sender] -= amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amount)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

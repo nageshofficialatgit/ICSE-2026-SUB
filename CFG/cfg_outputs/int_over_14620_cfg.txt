@@ -1,0 +1,28 @@
+Contract: TokensGate
+==================================================
+
+Function: transferEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(this).balance >= weiAmount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(this) != walletToTransfer)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(walletToTransfer.call.value(weiAmount)())
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

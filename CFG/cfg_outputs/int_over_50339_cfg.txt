@@ -1,0 +1,50 @@
+Contract: SafeMath
+==================================================
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Underflow_sub
+==================================================
+
+Function: sub_underflow
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: min = 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: min.sub(1)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _underflow
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

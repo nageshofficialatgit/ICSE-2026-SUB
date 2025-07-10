@@ -1,0 +1,28 @@
+Contract: EXPERIMENTAL_ETH_AUCTION
+==================================================
+
+Function: RevokeBid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: toTransfer = Bids[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Bids[msg.sender] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.call.value(toTransfer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

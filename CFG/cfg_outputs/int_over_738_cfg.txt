@@ -1,0 +1,33 @@
+Contract: Token
+==================================================
+
+Function: unfreezeFoundingTeamBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: timestamp = uint64(block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(timestamp >= 1546300801)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: balances[0x3d220cfDdc45900C78FF47D3D2f4302A2e994370]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+

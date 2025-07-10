@@ -1,0 +1,189 @@
+Contract: IterableMapping
+==================================================
+
+Function: get
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: map.values[key]
+
+Edges:
+  0 -> 1
+
+Function: getIndexOfKey
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! map.inserted[key]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: - 1
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: int256(map.indexOf[key])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: getKeyAtIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: map.keys[index]
+
+Edges:
+  0 -> 1
+
+Function: size
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: map.keys.length
+
+Edges:
+  0 -> 1
+
+Function: set
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: map.inserted[key]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: map.values[key] = val
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: map.inserted[key] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: map.values[key] = val
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: map.indexOf[key] = map.keys.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: map.keys.push(key)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 7
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: remove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! map.inserted[key]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete map.inserted[key]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete map.values[key]
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: index = map.indexOf[key]
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: lastIndex = map.keys.length - 1
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: lastKey = map.keys[lastIndex]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: map.indexOf[lastKey] = index
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: delete map.indexOf[key]
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: map.keys[index] = lastKey
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: map.keys.pop()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+

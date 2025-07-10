@@ -1,0 +1,427 @@
+Contract: Proxy
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setProxyOwner(msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(implementation_)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _DEPLOYED_AT = block.timestamp
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _contractName = contractName_
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _setProxyOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: slot = PROXY_OWNER_SLOT
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: sstore(uint256,uint256)(slot,newProxyOwner)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _setImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: slot = IMPLEMENTATION_SLOT
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: prevSlot = PREVIOUS_IMPLEMENTATION_SLOT
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: currentImpl__setImplementation_asm_0 = sload(uint256)(slot)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: sstore(uint256,uint256)(prevSlot,currentImpl__setImplementation_asm_0)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: sstore(uint256,uint256)(slot,newImplementation)
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: proxyOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: slot = PROXY_OWNER_SLOT
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: o = sload(uint256)(slot)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: o
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getPreviousImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: slot = PREVIOUS_IMPLEMENTATION_SLOT
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: impl = sload(uint256)(slot)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: impl
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getCurrentImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: slot = IMPLEMENTATION_SLOT
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: impl = sload(uint256)(slot)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: impl
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getDeployTimestamp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _DEPLOYED_AT
+
+Edges:
+  0 -> 1
+
+Function: getContractHashName
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked(_contractName))
+
+Edges:
+  0 -> 1
+
+Function: transferProxyOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == proxyOwner(),Proxy: not authorized to transfer ownership)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldProxyOwner = proxyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _setProxyOwner(newProxyOwner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ProxyOwnershipTransferred(oldProxyOwner,newProxyOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: updateImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == proxyOwner(),Proxy: not authorized to update implementation)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldImplementation = getCurrentImplementation()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ImplementationChanged(oldImplementation,newImplementation)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: slot = IMPLEMENTATION_SLOT
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: freePtr_fallback_asm_0 = mload(uint256)(0x40)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: impl_fallback_asm_0 = sload(uint256)(slot)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(freePtr_fallback_asm_0,0,calldatasize()())
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: result_fallback_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),impl_fallback_asm_0,freePtr_fallback_asm_0,calldatasize()(),0,0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(freePtr_fallback_asm_0,0,returndatasize()())
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_12672_196_0_fallback_asm_0 = result_fallback_asm_0
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: switch_expr_12672_196_0_fallback_asm_0 == 0
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(freePtr_fallback_asm_0,returndatasize()())
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(freePtr_fallback_asm_0,returndatasize()())
+
+  ID: 17
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 15
+  13 -> 16
+  14 -> 17
+  15 -> 14
+  16 -> 14
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ReceivedETH(msg.sender,msg.value,block.timestamp)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IMPLEMENTATION_SLOT = 0x652fd83420df23d709030982db43cb11d1556d813f6109abdd59e62f58f82b1d
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PROXY_OWNER_SLOT = 0xb5c81169e7c43eaa0eef12f9f9484b95bb29e4436138cc181b687890c3bcb384
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PREVIOUS_IMPLEMENTATION_SLOT = 0xad70118ac2aa95a9982941609489a4485c04e1e1fa7b24eecb80ce8e9c8a94d1
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

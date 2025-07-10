@@ -1,0 +1,53 @@
+Contract: SimpleBet
+==================================================
+
+Function: bet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (msg.value == 1000000000000000000) && (! locked)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! msg.sender.call.value(2000000000000000000)()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: locked = true
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: locked = false
+
+Edges:
+
+

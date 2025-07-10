@@ -1,0 +1,243 @@
+Contract: ERC20Factory
+==================================================
+
+Function: deployToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bytecode = abi.encodePacked(type()(ERC20Token).creationCode,abi.encode(_name,_symbol,_initialSupply,msg.sender,_salt))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: tokenAddress = create2(uint256,uint256,uint256,uint256)(0,bytecode + 0x20,mload(uint256)(bytecode),_salt)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAddress != address(0),Deployment failed)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: TokenDeployed(tokenAddress,msg.sender)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: tokenAddress
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: computeAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bytecode = abi.encodePacked(type()(ERC20Token).creationCode,abi.encode(_name,_symbol,_initialSupply,msg.sender,_salt))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: hash = keccak256(bytes)(abi.encodePacked(bytes1(0xff),address(this),_salt,keccak256(bytes)(bytecode)))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: address(uint160(uint256(hash)))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: ERC20Token
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: symbol = _symbol
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = _initialSupply * 10 ** uint256(decimals)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_owner] = totalSupply
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: salt = _salt
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_owner,totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= _value,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[_from] >= _value,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[_from][msg.sender] >= _value,Allowance exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+
+

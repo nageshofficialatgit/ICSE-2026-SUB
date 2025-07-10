@@ -1,0 +1,42 @@
+Contract: DINRegistry
+==================================================
+
+Function: registerDINWithResolver
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: records[index].owner = _owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: records[index].resolver = _resolver
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: records[index].updated = block.timestamp
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: index
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: _DIN
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

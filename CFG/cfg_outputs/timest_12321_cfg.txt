@@ -1,0 +1,42 @@
+Contract: ProgressiveIndividualCappedCrowdsale
+==================================================
+
+Function: getCurrentEthCapPerAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: time = block.timestamp
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: timeSinceStartInSec = time - (startGeneralSale)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: currentPeriod = timeSinceStartInSec / (TIME_PERIOD_IN_SEC) + (1)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 2 ** currentPeriod
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TIME_PERIOD_IN_SEC = 86400
+
+Edges:
+
+

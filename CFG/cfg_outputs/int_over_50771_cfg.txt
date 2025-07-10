@@ -1,0 +1,89 @@
+Contract: SafeMath
+==================================================
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: DividendToken
+==================================================
+
+Function: collectOwedDividends
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: amount = creditedPoints[msg.sender] / 100
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: creditedPoints[msg.sender] = creditedPoints[msg.sender].sub(amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender.call.value(amount)())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dividendsCollected = dividendsCollected.add(amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: dividendsCollected
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

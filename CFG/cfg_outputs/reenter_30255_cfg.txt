@@ -1,0 +1,28 @@
+Contract: Distribution
+==================================================
+
+Function: temporaryEscapeHatch
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == admin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(to.call.value(value)(data))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+

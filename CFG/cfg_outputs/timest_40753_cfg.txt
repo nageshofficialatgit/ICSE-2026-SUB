@@ -1,0 +1,32 @@
+Contract: StakingV1
+==================================================
+
+Function: vestedBalanceForAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: vestingEndTime = vestingEndTime - block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: vested = vestingEndTime * 20
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: vested
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: vested
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

@@ -1,0 +1,1758 @@
+Contract: owned
+==================================================
+
+Function: owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: confirmOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: ERC20
+==================================================
+
+
+Contract: KYC
+==================================================
+
+Function: owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: confirmOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: setConfirmer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: confirmer = _confirmer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setToKnown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == confirmer || msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: known[_who] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Presale
+==================================================
+
+Function: setConfirmer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: confirmer = _confirmer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setToKnown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == confirmer || msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: known[_who] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: confirmOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now < presaleFinishTime)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now > ppFinishTime || known[msg.sender])
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: valueWei = msg.value
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: valueUSD = valueWei * etherPrice / 1000000000000000000
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: collectedUSD + valueUSD > totalLimitUSD
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: valueUSD = totalLimitUSD - collectedUSD
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: valueWei = valueUSD * 1000000000000000000 / etherPrice
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender.call.gas(3000000).value(msg.value - valueWei)())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: collectedUSD = totalLimitUSD
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: collectedUSD += valueUSD
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: tokensPer10USD = 100
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: now <= ppFinishTime
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: valueUSD >= 100000
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 200
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 175
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: valueUSD >= 100000
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 150
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 130
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: tokens = tokensPer10USD * valueUSD / 10
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokens > 0)
+
+  ID: 26
+  Type: NodeType.VARIABLE
+  Expression: inv = investors[msg.sender]
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: inv.amountWei == 0
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: investorsIter[numberOfInvestors ++] = msg.sender
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(inv.amountTokens + tokens > inv.amountTokens)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: inv.amountTokens += tokens
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: inv.amountWei += valueWei
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += tokens
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(this,msg.sender,tokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 11
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 19
+  15 -> 16
+  15 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 23
+  19 -> 20
+  19 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+
+Function: startPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Disabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: presaleStartTime = now
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: presaleOwner = _presaleOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: etherPrice = _etherPrice
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ppFinishTime = now + 259200
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: presaleFinishTime = ppFinishTime + 5184000
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: state = State.Presale
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalLimitUSD = 500000
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: NewState(state)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: timeToFinishPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: now > presaleFinishTime
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: t = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: t = presaleFinishTime - now
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: t
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: finishPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now >= presaleFinishTime || collectedUSD == totalLimitUSD)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(presaleOwner.call.gas(3000000).value(this.balance)())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: state = State.Finished
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: NewState(state)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(presaleOwner.call.gas(3000000).value(this.balance)())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: PresaleToken
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now < presaleFinishTime)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now > ppFinishTime || known[msg.sender])
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: valueWei = msg.value
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: valueUSD = valueWei * etherPrice / 1000000000000000000
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: collectedUSD + valueUSD > totalLimitUSD
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: valueUSD = totalLimitUSD - collectedUSD
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: valueWei = valueUSD * 1000000000000000000 / etherPrice
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender.call.gas(3000000).value(msg.value - valueWei)())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: collectedUSD = totalLimitUSD
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: collectedUSD += valueUSD
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: tokensPer10USD = 100
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: now <= ppFinishTime
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: valueUSD >= 100000
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 200
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 175
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: valueUSD >= 100000
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 150
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 130
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: tokens = tokensPer10USD * valueUSD / 10
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokens > 0)
+
+  ID: 26
+  Type: NodeType.VARIABLE
+  Expression: inv = investors[msg.sender]
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: inv.amountWei == 0
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: investorsIter[numberOfInvestors ++] = msg.sender
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(inv.amountTokens + tokens > inv.amountTokens)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: inv.amountTokens += tokens
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: inv.amountWei += valueWei
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += tokens
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(this,msg.sender,tokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 11
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 19
+  15 -> 16
+  15 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 23
+  19 -> 20
+  19 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+
+Function: startPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Disabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: presaleStartTime = now
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: presaleOwner = _presaleOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: etherPrice = _etherPrice
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ppFinishTime = now + 259200
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: presaleFinishTime = ppFinishTime + 5184000
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: state = State.Presale
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalLimitUSD = 500000
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: NewState(state)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: timeToFinishPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: now > presaleFinishTime
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: t = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: t = presaleFinishTime - now
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: t
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: finishPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now >= presaleFinishTime || collectedUSD == totalLimitUSD)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(presaleOwner.call.gas(3000000).value(this.balance)())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: state = State.Finished
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: NewState(state)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(presaleOwner.call.gas(3000000).value(this.balance)())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setConfirmer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: confirmer = _confirmer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setToKnown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == confirmer || msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: known[_who] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: confirmOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: PresaleToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Presale()
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: investors[_who].amountTokens
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: standard = Token 0.1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = OpenLongevity
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = YEAR
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: OpenLongevityPresale
+==================================================
+
+Function: PresaleToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Presale()
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: investors[_who].amountTokens
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now < presaleFinishTime)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now > ppFinishTime || known[msg.sender])
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: valueWei = msg.value
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: valueUSD = valueWei * etherPrice / 1000000000000000000
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: collectedUSD + valueUSD > totalLimitUSD
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: valueUSD = totalLimitUSD - collectedUSD
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: valueWei = valueUSD * 1000000000000000000 / etherPrice
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender.call.gas(3000000).value(msg.value - valueWei)())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: collectedUSD = totalLimitUSD
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: collectedUSD += valueUSD
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: tokensPer10USD = 100
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: now <= ppFinishTime
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: valueUSD >= 100000
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 200
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 175
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: valueUSD >= 100000
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 150
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: tokensPer10USD = 130
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: tokens = tokensPer10USD * valueUSD / 10
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokens > 0)
+
+  ID: 26
+  Type: NodeType.VARIABLE
+  Expression: inv = investors[msg.sender]
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: inv.amountWei == 0
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: investorsIter[numberOfInvestors ++] = msg.sender
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(inv.amountTokens + tokens > inv.amountTokens)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: inv.amountTokens += tokens
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: inv.amountWei += valueWei
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += tokens
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(this,msg.sender,tokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 11
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 19
+  15 -> 16
+  15 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 23
+  19 -> 20
+  19 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+
+Function: startPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Disabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: presaleStartTime = now
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: presaleOwner = _presaleOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: etherPrice = _etherPrice
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ppFinishTime = now + 259200
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: presaleFinishTime = ppFinishTime + 5184000
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: state = State.Presale
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalLimitUSD = 500000
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: NewState(state)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: timeToFinishPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: now > presaleFinishTime
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: t = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: t = presaleFinishTime - now
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: t
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: finishPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(state == State.Presale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now >= presaleFinishTime || collectedUSD == totalLimitUSD)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(presaleOwner.call.gas(3000000).value(this.balance)())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: state = State.Finished
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: NewState(state)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(presaleOwner.call.gas(3000000).value(this.balance)())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setConfirmer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: confirmer = _confirmer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setToKnown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == confirmer || msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: known[_who] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: confirmOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: OpenLongevityPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: PresaleToken()
+
+Edges:
+  0 -> 1
+
+Function: killMe
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: standard = Token 0.1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = OpenLongevity
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = YEAR
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

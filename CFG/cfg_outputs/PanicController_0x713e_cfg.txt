@@ -1,0 +1,103 @@
+Contract: IVault
+==================================================
+
+
+Contract: PanicController
+==================================================
+
+Function: panicOn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(VAULT.isAllocator(msg.sender),! allocator)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pauseReallocation = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: panicOff
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(VAULT.isAllocator(msg.sender),! allocator)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pauseReallocation = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setCustomPanicWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(VAULT.isAllocator(msg.sender),! allocator)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: badMarketIds = badIds
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: badCollaterals = badCol
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: resetCustoumPanic
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(VAULT.isAllocator(msg.sender),! allocator)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete badMarketIds
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete badCollaterals
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: VAULT = IVault(0x0F359FD18BDa75e9c49bC027E7da59a4b01BF32a)
+
+Edges:
+
+

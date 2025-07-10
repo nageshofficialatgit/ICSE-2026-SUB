@@ -1,0 +1,1094 @@
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Pausable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+Edges:
+  0 -> 1
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: AggregatorV3Interface
+==================================================
+
+
+Contract: EUR2ETHConverter
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ethUsdFeed = AggregatorV3Interface(_ethUsdFeed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: eurUsdFeed = AggregatorV3Interface(_eurUsdFeed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Ownable()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: initiateConversion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: refHash = keccak256(bytes)(abi.encodePacked(_swiftRef))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversions[refHash].user == address(0),Request exists)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: conversions[refHash] = Conversion({user:msg.sender,eurAmount:_eurAmount,ethOwed:0,approved:false,claimed:false,timestamp:block.timestamp})
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ConversionInitiated(refHash,msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: claimETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: refHash = keccak256(bytes)(abi.encodePacked(_swiftRef))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: conversion = conversions[refHash]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.user == msg.sender,Not owner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.approved,Not approved)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! conversion.claimed,Already claimed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.ethOwed <= contractBalance,Insufficient liquidity)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: conversion.claimed = true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: contractBalance -= conversion.ethOwed
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(conversion.ethOwed)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: ETHClaimed(refHash,msg.sender)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: approveConversion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: refHash = keccak256(bytes)(abi.encodePacked(_swiftRef))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: conversion = conversions[refHash]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.user != address(0),Invalid request)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! conversion.approved,Already approved)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (None,ethPrice,None,None,None) = ethUsdFeed.latestRoundData()
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (None,eurPrice,None,None,None) = eurUsdFeed.latestRoundData()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: conversion.ethOwed = (conversion.eurAmount * uint256(eurPrice)) / uint256(ethPrice)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.ethOwed <= contractBalance,Insufficient contract balance)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: conversion.approved = true
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: ConversionApproved(refHash,conversion.ethOwed)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  13 -> 14
+  14 -> 1
+
+Function: verifyBankApproval
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: refHash = keccak256(bytes)(abi.encodePacked(_swiftRef))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversions[refHash].user != address(0),Invalid request)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! bankApprovals[refHash],Already verified)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: bankApprovals[refHash] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: BankApprovalVerified(refHash)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: depositFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: contractBalance += msg.value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: FundsDeposited(msg.value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: withdrawExcessETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_amount <= contractBalance,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: contractBalance -= _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(owner()).transfer(_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _pause()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _unpause()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: contractBalance += msg.value
+
+Edges:
+  0 -> 1
+
+Function: handleBankApproval
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: refHash = keccak256(bytes)(abi.encodePacked(_swiftRef))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: conversion = conversions[refHash]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.user != address(0),Invalid request)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: swiftData = constructSwiftData(_swiftRef,refHash,_m1Amount,_amountDecimals,_bankingData,_metadata,_ipfsCid,_jsonHash)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: BankApprovalRequestCreated(refHash,swiftData)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: constructSwiftData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked({"swiftRef":{"original":",_swiftRef,","bytes32":",bytes32ToStr(refHash),"},"m1Amount":,uint2str(_m1Amount),,"amountDecimals":,uint2str(_amountDecimals),,"bankingData":",_bankingData,","metadata":",_metadata,,"ipfsCid":",_ipfsCid,","jsonHash":",bytes32ToStr(_jsonHash),","request_time":",uint2str(block.timestamp),","status":"pending"}))
+
+Edges:
+  0 -> 1
+
+Function: approveBankRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: refHash = keccak256(bytes)(abi.encodePacked(_swiftRef))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: conversion = conversions[refHash]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.user != address(0),Invalid request)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! conversion.approved,Already approved)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (None,ethPrice,None,None,None) = ethUsdFeed.latestRoundData()
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (None,eurPrice,None,None,None) = eurUsdFeed.latestRoundData()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: conversion.ethOwed = (conversion.eurAmount * uint256(eurPrice)) / uint256(ethPrice)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(conversion.ethOwed <= contractBalance,Insufficient contract balance)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: conversion.approved = true
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: ConversionApproved(refHash,conversion.ethOwed)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  13 -> 14
+  14 -> 1
+
+Function: uint2str
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _i == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = _i
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: j != 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: len ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: j /= 10
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: bstr = new bytes(len)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: k = len
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IFLOOP
+  Expression: _i != 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: k = k - 1
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: temp = (48 + uint8(_i - _i / 10 * 10))
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: b1 = bytes1(temp)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: bstr[k] = b1
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _i /= 10
+
+  ID: 20
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: string(bstr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 20
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 14
+  20 -> 21
+
+Function: bytes32ToStr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bytesArray = new bytes(32)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < 32
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: bytesArray[i] = _bytes32[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: string(bytesArray)
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+
+

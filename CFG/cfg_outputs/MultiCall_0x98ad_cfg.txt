@@ -1,0 +1,216 @@
+Contract: MultiCall
+==================================================
+
+Function: multicall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: results = new bytes[](calls.length)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < calls.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (None,results[i]) = calls[i].to.call(calls[i].data)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: results
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+
+Function: multicallWithGasLimitation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: results = new bytes[](calls.length)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < calls.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (None,results[i]) = calls[i].to.call(calls[i].data)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: gasleft()() < gasBuffer
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (results,i)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (results,calls.length - 1)
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: (results,lastSuccessIndex)
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 11
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 5
+
+Function: multicallWithGas
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: results = new bytes[](calls.length)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: gasUsed = new uint256[](calls.length)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < calls.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: initialGas = gasleft()()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (None,results[i]) = calls[i].to.call(calls[i].data)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: gasUsed[i] = initialGas - gasleft()()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (results,gasUsed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 11
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 6
+
+Function: gaslimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: block.gaslimit
+
+Edges:
+  0 -> 1
+
+Function: gasLeft
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: gasleft()()
+
+Edges:
+  0 -> 1
+
+

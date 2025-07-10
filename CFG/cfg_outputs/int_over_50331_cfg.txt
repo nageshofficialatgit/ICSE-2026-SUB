@@ -1,0 +1,47 @@
+Contract: EthTxOrderDependenceMinimal
+==================================================
+
+Function: setReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner.transfer(reward)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: reward = msg.value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: claimReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(submission < 10)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(reward)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,133 @@
+Contract: IERC20
+==================================================
+
+
+Contract: CustomOwnerContract
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),New owner cannot be the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: controlAndTransferToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.allowance(from,address(this)) >= amount,Contract has not been given enough allowance)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: success = token.transferFrom(from,to,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Token transfer failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: transferContractTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.balanceOf(address(this)) >= amount,Insufficient contract token balance)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: success = token.transfer(to,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Token transfer failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: checkContractTokenBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddress)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: token.balanceOf(address(this))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

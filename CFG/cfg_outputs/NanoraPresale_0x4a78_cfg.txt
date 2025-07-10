@@ -1,0 +1,458 @@
+Contract: NanoraPresale
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenPrice = _tokenPrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: hardCap = _hardCap
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: individualCap = _individualCap
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: referralPercentage = _referralPercentage
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: isPresaleActive = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: startPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isPresaleActive,Presale is already active)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isPresaleActive = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: PresaleStarted()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: stopPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isPresaleActive,Presale is not active)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isPresaleActive = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: PresaleStopped()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newPrice > 0,Token price must be greater than zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenPrice = _newPrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTokenAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_tokenAddress != address(0),Invalid token address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenAddress = _tokenAddress
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setReferralPercentage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newPercentage <= 100,Percentage cannot exceed 100)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: referralPercentage = _newPercentage
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: buyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,Contribution must be greater than zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalContributions + msg.value <= hardCap,Hard cap exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(contributions[msg.sender] + msg.value <= individualCap,Individual cap exceeded)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(referrer != msg.sender,Referrer cannot be the buyer)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: tokensToPurchase = (msg.value * 10 ** 18) / tokenPrice
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: contributions[msg.sender] == 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: contributorsList.push(msg.sender)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: contributions[msg.sender] += msg.value
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: totalContributions += msg.value
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: referrer != address(0)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: reward = (msg.value * referralPercentage) / 100
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: referralRewards[referrer] += reward
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: ReferralReward(referrer,msg.sender,reward)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: TokensPurchased(msg.sender,tokensToPurchase)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: whenPresaleActive()
+
+Edges:
+  0 -> 17
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  17 -> 1
+
+Function: withdrawFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isPresaleActive,Cannot withdraw funds while presale is active)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(address(this).balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: distributeTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isPresaleActive,Cannot distribute tokens during active presale)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalContributions > 0,No contributions to distribute tokens for)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAddress != address(0),Token address not set)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(startIndex < contributorsList.length,Invalid start index)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: totalTokensToDistribute = (totalContributions * 10 ** 18) / tokenPrice
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: endIndex = startIndex + batchSize
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: endIndex > contributorsList.length
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: endIndex = contributorsList.length
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: i = startIndex
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: i < endIndex
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: contributor = contributorsList[i]
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: contribution = contributions[contributor]
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: contribution > 0
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: tokensToDistribute = (contribution * totalTokensToDistribute) / totalContributions
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenAddress).transfer(contributor,tokensToDistribute)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: contributions[contributor] = 0
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: TokensDistributed(contributor,tokensToDistribute)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: BatchProcessed(startIndex,endIndex)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 24
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 12
+  10 -> 13
+  11 -> 23
+  12 -> 10
+  13 -> 14
+  13 -> 11
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 21
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 13
+  24 -> 1
+
+Function: claimReferralReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: reward = referralRewards[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(reward > 0,No referral rewards to claim)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: referralRewards[msg.sender] = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(reward)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: IERC20
+==================================================
+
+

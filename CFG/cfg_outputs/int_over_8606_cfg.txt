@@ -1,0 +1,47 @@
+Contract: YunMint
+==================================================
+
+Function: YunMin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: createTime = block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cycleCount = createTime
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: firstReleaseAmount = 200000 * (10 ** 8)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: firstReleaseAmount + cycleCount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: cycleCount = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: createTime = 0
+
+Edges:
+  0 -> 1
+
+

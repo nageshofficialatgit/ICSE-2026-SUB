@@ -1,0 +1,56 @@
+Contract: CONTSKCrowdsale
+==================================================
+
+Function: buyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(beneficiary != 0x0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp <= END)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: etherAmount = msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: wallet.transfer(msg.value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: wallet = 0x71b658EDC685fB2D7fc06E4753156CEE6aBE44A1
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: END = 1539097200
+
+Edges:
+
+

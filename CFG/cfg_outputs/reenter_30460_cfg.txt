@@ -1,0 +1,23 @@
+Contract: BullTokenRefundVault
+==================================================
+
+Function: forwardFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: wallet.call.value(this.balance)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

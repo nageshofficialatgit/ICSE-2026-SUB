@@ -1,0 +1,342 @@
+Contract: TRC20
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = _initialSupply * 10 ** uint256(decimals)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[owner] = totalSupply
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= _value,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _applyExpiry(msg.sender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _applyExpiry(_to)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isNotExpired(msg.sender),Sender's tokens expired)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_value <= balances[_from],Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_value <= allowance[_from][msg.sender],Allowance exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _applyExpiry(_from)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _applyExpiry(_to)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isNotExpired(_from),Sender's tokens expired)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] -= _value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: mintFlashTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: expiryTime = block.timestamp + 7776000
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: flashTokens[_to] = FlashToken(_amount,expiryTime)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += _amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_to,_amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: burnExpiredTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _applyExpiry(_holder)
+
+Edges:
+  0 -> 1
+
+Function: _applyExpiry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: flashTokens[_holder].amount > 0 && block.timestamp > flashTokens[_holder].expiryTime
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: expiredAmount = flashTokens[_holder].amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_holder] -= expiredAmount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= expiredAmount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: flashTokens[_holder].amount = 0
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _isNotExpired
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: flashTokens[_holder].amount > 0 && block.timestamp > flashTokens[_holder].expiryTime
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _isNotExpired(_holder)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balances[_holder]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: balances[_holder] - flashTokens[_holder].amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = USDT
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = USDT
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

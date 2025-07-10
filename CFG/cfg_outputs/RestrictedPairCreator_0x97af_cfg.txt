@@ -1,0 +1,2922 @@
+Contract: IPairCreator
+==================================================
+
+
+Contract: IPausablePair
+==================================================
+
+
+Contract: IRestrictedPair
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b != 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a % b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Address
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: size = extcodesize(uint256)(account)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: size > 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Address: insufficient balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Address: unable to send value, recipient may have reverted)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: functionCallWithValue(target,data,0,errorMessage)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: call to non-contract)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: value}(data)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: _verifyCallResult(success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: functionStaticCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: static call to non-contract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.staticcall(data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: _verifyCallResult(success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: functionDelegateCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: delegate call to non-contract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.delegatecall(data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: _verifyCallResult(success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _verifyCallResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size__verifyCallResult_asm_0 = mload(uint256)(returndata)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size__verifyCallResult_asm_0)
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(errorMessage)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 9
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  9 -> 10
+  10 -> 11
+
+
+Contract: IPausableFactory
+==================================================
+
+
+Contract: IRestrictedFactory
+==================================================
+
+
+Contract: IGovernance
+==================================================
+
+
+Contract: IConfigStore
+==================================================
+
+
+Contract: IWhitelistRegistry
+==================================================
+
+
+Contract: PausablePair
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: factory = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isLive = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setLive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == factory,FORBIDDEN)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isLive = _isLive
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: RestrictedPairFeeOnAmountOut
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (_governance,_whitelistFactory,_restrictedLiquidityProvider,_configStore) = IRestrictedFactory(msg.sender).getCreateAddresses()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: governance = _governance
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: whitelistFactory = _whitelistFactory
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: govToken = IGovernance(_governance).govToken()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: restrictedLiquidityProvider = _restrictedLiquidityProvider
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: configStore = _configStore
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: offers[true].push(Offer({provider:address(this),locked:true,allowAll:false,amount:0,receiving:0,restrictedPrice:0,startDate:0,expire:0}))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: offers[false].push(Offer({provider:address(this),locked:true,allowAll:false,amount:0,receiving:0,restrictedPrice:0,startDate:0,expire:0}))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: setLive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == factory,FORBIDDEN)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isLive = _isLive
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: initialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == factory,FORBIDDEN)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: token0 = _token0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: token1 = _token1
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token0 < token1,Invalid token pair order)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: token0Decimals = IERC20(token0).decimals()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: token1Decimals = IERC20(token1).decimals()
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: token0Decimals == token1Decimals
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: scaler = 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: scaleDirection = token1Decimals > token0Decimals
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: scaleDirection
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: scaler = 10 ** uint256((token1Decimals - token0Decimals))
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: scaler = 10 ** uint256((token0Decimals - token1Decimals))
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 11
+  9 -> 12
+  12 -> 13
+  12 -> 14
+  13 -> 15
+  14 -> 15
+  15 -> 11
+
+Function: getOffers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _showList(0,address(0),direction,start,length)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (index,provider,lockedAndAllowAll,receiving,amountAndPrice,startDateAndExpire)
+
+Edges:
+  0 -> 1
+
+Function: getLastBalances
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (lastToken0Balance,lastToken1Balance)
+
+Edges:
+  0 -> 1
+
+Function: getBalances
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (IERC20(govToken).balanceOf(address(this)),IERC20(token0).balanceOf(address(this)),IERC20(token1).balanceOf(address(this)))
+
+Edges:
+  0 -> 1
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),TRANSFER_FAILED)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),TRANSFER_FROM_FAILED)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _getSwappedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: numerator = offers[direction][index].restrictedPrice
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: denominator = WEI
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = amountIn.mul(numerator)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: scaler > 1
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = amountOut.div(denominator)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: tradeFeeCollected = amountOut.mul(tradeFee).div(FEE_BASE)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = amountOut.sub(tradeFeeCollected)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: price = numerator.mul(WEI).div(denominator)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: (direction == scaleDirection)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = amountOut.mul(scaler)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = amountOut.div(scaler)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: (amountOut,price,tradeFeeCollected)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 11
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 15
+  11 -> 12
+  11 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 6
+
+Function: getAmountOut
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountIn > 0,INSUFFICIENT_INPUT_AMOUNT)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (list,amount) = _decodeData(0x84)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: direction = token0 == tokenIn
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (tradeFee,None) = IRestrictedFactory(factory).checkAndGetSwapParams()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i < list.length
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: offerIdx = list[i]
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(offerIdx <= counter[direction],Offer not exist)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _amount = amount[i].mul(amountIn).div(1e18)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: (_amount,None,None) = _getSwappedAmount(direction,_amount,offerIdx,tradeFee)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = amountOut.add(_amount)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: amountOut
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 19
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 12
+
+Function: getAmountIn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Not supported)
+
+Edges:
+  0 -> 1
+
+Function: getProviderOfferIndexLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: providerOfferIndex[direction][provider].length
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: length
+
+Edges:
+  0 -> 1
+
+Function: getTraderOffer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _showList(1,trader,direction,start,length)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (index,provider,lockedAndAllowAll,receiving,amountAndPrice,startDateAndExpire)
+
+Edges:
+  0 -> 1
+
+Function: getProviderOffer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _showList(2,_provider,direction,start,length)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (index,provider,lockedAndAllowAll,receiving,amountAndPrice,startDateAndExpire)
+
+Edges:
+  0 -> 1
+
+Function: _showList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: listType == 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: __list = providerOfferIndex[direction][address(0)]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = offers[direction].length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: listType == 1
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: __list = traderOffer[direction][who]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = __list.length
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: listType == 2
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: __list = providerOfferIndex[direction][who]
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = __list.length
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Unknown list)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: _listType = listType
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: _list = offers[direction]
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: start < tmpInt
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: start.add(length) > tmpInt
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: length = tmpInt.sub(start)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: index = new uint256[](length)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: provider = new address[](length)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: receiving = new uint256[](length)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = length * 2
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: lockedAndAllowAll = new bool[](tmpInt)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: amountAndPrice = new uint256[](tmpInt)
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: startDateAndExpire = new uint256[](tmpInt)
+
+  ID: 29
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 30
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 31
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 32
+  Type: NodeType.IFLOOP
+  Expression: i < length
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = i.add(start)
+
+  ID: 35
+  Type: NodeType.VARIABLE
+  Expression: offer = _list[tmpInt]
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: index[i] = tmpInt
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = i.add(length)
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: provider[i] = offer.provider
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: lockedAndAllowAll[i] = offer.locked
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: lockedAndAllowAll[tmpInt] = offer.allowAll
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: receiving[i] = offer.receiving
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: amountAndPrice[i] = offer.amount
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: amountAndPrice[tmpInt] = offer.restrictedPrice
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: startDateAndExpire[i] = offer.startDate
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: startDateAndExpire[tmpInt] = offer.expire
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 47
+  Type: NodeType.EXPRESSION
+  Expression: provider = new address[](0)
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: lockedAndAllowAll = new bool[](0)
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: receiving = amountAndPrice = startDateAndExpire = new uint256[](0)
+
+  ID: 50
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 51
+  Type: NodeType.IF
+  Expression: _listType == 0
+
+  ID: 52
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = tmpInt
+
+  ID: 54
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 55
+  Type: NodeType.IF
+  Expression: _listType == 1
+
+  ID: 56
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = __list[tmpInt]
+
+  ID: 57
+  Type: NodeType.EXPRESSION
+  Expression: tmpInt = __list[tmpInt]
+
+  ID: 58
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 59
+  Type: NodeType.RETURN
+  Expression: (index,provider,lockedAndAllowAll,receiving,amountAndPrice,startDateAndExpire)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  5 -> 15
+  6 -> 7
+  6 -> 9
+  7 -> 8
+  8 -> 14
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 47
+  19 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 31
+  29 -> 32
+  30 -> 50
+  31 -> 29
+  32 -> 33
+  32 -> 30
+  33 -> 51
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+  44 -> 45
+  45 -> 46
+  46 -> 32
+  47 -> 48
+  48 -> 49
+  49 -> 50
+  50 -> 59
+  51 -> 52
+  51 -> 55
+  52 -> 54
+  54 -> 35
+  55 -> 56
+  55 -> 57
+  56 -> 58
+  57 -> 58
+  58 -> 54
+
+Function: _collectFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender == provider
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransferFrom(govToken,provider,address(this),feeIn)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: feeBalance = feeBalance.add(feeIn)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: lastGovBalance = lastGovBalance.add(feeIn)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: govToken == token0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lastToken0Balance = lastToken0Balance.add(feeIn)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: govToken == token1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: lastToken1Balance = lastToken1Balance.add(feeIn)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: balance = IERC20(govToken).balanceOf(address(this))
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: feeDiff = balance.sub(lastGovBalance)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(feeDiff >= feeIn,Not enough fee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: feeBalance = feeBalance.add(feeDiff)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: lastGovBalance = balance
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: govToken == token0
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: lastToken0Balance = balance
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: govToken == token1
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: lastToken1Balance = balance
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 11
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 22
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 22
+
+Function: createOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IRestrictedFactory(factory).isLive(),GLOBALLY PAUSED)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isLive,PAUSED)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == restrictedLiquidityProvider || msg.sender == provider,Not from router or owner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(expire >= startDate,Already expired)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(expire >= block.timestamp,Already expired)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: maxDur = uint256(IConfigStore(configStore).customParam(MAX_DUR))
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(expire <= block.timestamp + maxDur,Expire too far away)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: index = (++ counter[direction])
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: providerOfferIndex[direction][provider].push(index)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: offers[direction].push(Offer({provider:provider,locked:false,allowAll:allowAll,amount:0,receiving:0,restrictedPrice:restrictedPrice,startDate:startDate,expire:expire}))
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: feeIn = uint256(IConfigStore(configStore).customParam(FEE_PER_ORDER))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _collectFee(provider,feeIn)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: NewProviderOffer(provider,direction,index,allowAll,restrictedPrice,startDate,expire)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: index
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 15
+  14 -> 1
+
+Function: addLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IRestrictedFactory(factory).isLive(),GLOBALLY PAUSED)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isLive,PAUSED)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: offer = offers[direction][index]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == restrictedLiquidityProvider || msg.sender == offer.provider,Not from router or owner)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (newGovBalance,newToken0Balance,newToken1Balance) = getBalances()
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: direction
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: amountIn = newToken1Balance.sub(lastToken1Balance)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: amountIn = newToken0Balance.sub(lastToken0Balance)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountIn > 0,No amount in)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: offer.amount = offer.amount.add(amountIn)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: lastGovBalance = newGovBalance
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: lastToken0Balance = newToken0Balance
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: lastToken1Balance = newToken1Balance
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: AddLiquidity(offer.provider,direction,index,amountIn,offer.amount)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+Edges:
+  0 -> 20
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  20 -> 1
+
+Function: lockOffer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: offer = offers[direction][index]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == restrictedLiquidityProvider || msg.sender == offer.provider,Not from router or owner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: offer.locked = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Lock(direction,index)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: removeLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == restrictedLiquidityProvider || msg.sender == provider,Not from router or owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _removeLiquidity(provider,direction,index,amountOut,receivingOut)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(tokenA,msg.sender,amountOut)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(tokenB,msg.sender,receivingOut)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _sync()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: direction
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: (tokenA,tokenB) = (token1,token0)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (tokenA,tokenB) = (token0,token1)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 10
+  6 -> 7
+  7 -> 8
+  9 -> 1
+  10 -> 11
+  10 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 6
+
+Function: removeAllLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: (amount0,amount1) = _removeAllLiquidity1D(provider,false)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (amount2,amount3) = _removeAllLiquidity1D(provider,true)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: amount0 = amount0.add(amount3)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: amount1 = amount1.add(amount2)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (amount0,amount1)
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 1
+
+Function: removeAllLiquidity1D
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _removeAllLiquidity1D(provider,direction)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (totalAmount,totalReceiving)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _removeAllLiquidity1D
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == restrictedLiquidityProvider || msg.sender == provider,Not from router or owner)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: list = providerOfferIndex[direction][provider]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: length = list.length
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < length
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: index = list[i]
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: offer = offers[direction][index]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: totalAmount = totalAmount.add(offer.amount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalReceiving = totalReceiving.add(offer.receiving)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _removeLiquidity(provider,direction,index,offer.amount,offer.receiving)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(token0,msg.sender,amount0)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(token1,msg.sender,amount1)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _sync()
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: direction
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: (amount0,amount1) = (totalReceiving,totalAmount)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: (amount0,amount1) = (totalAmount,totalReceiving)
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: (totalAmount,totalReceiving)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 14
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 7
+  14 -> 15
+  15 -> 20
+  17 -> 18
+  18 -> 19
+  19 -> 24
+  20 -> 21
+  20 -> 22
+  21 -> 23
+  22 -> 23
+  23 -> 17
+
+Function: _removeLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index > 0,Provider liquidity not found)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: offer = offers[direction][index]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(offer.provider == provider,Not from provider)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: offer.locked && amountOut > 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(offer.expire < block.timestamp,Not expired)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: offer.amount = offer.amount.sub(amountOut)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: offer.receiving = offer.receiving.sub(receivingOut)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: RemoveLiquidity(provider,direction,index,amountOut,receivingOut,offer.amount,offer.receiving)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: getApprovedTraderLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: approvedTrader[direction][offerIndex].length
+
+Edges:
+  0 -> 1
+
+Function: getApprovedTrader
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: list = approvedTrader[direction][offerIndex]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: listLength = list.length
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: start < listLength
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: start.add(length) > listLength
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: length = listLength.sub(start)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: trader = new address[](length)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: allocation = new uint256[](length)
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i < length
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: allocation[i] = traderAllocation[direction][offerIndex][trader[i] = list[i.add(start)]]
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: trader = new address[](0)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: allocation = new uint256[](0)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: (trader,allocation)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 15
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 17
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 12
+  15 -> 16
+  16 -> 17
+  17 -> 18
+
+Function: _checkApprovedTrader
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: offer = offers[direction][offerIndex]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == restrictedLiquidityProvider || msg.sender == offer.provider,Not from router or owner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! offer.locked,Offer locked)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! offer.allowAll,Offer was set to allow all)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: feePerTrader = uint256(IConfigStore(configStore).customParam(FEE_PER_TRADER))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _collectFee(offer.provider,feePerTrader.mul(count))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: setApprovedTrader
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _checkApprovedTrader(direction,offerIndex,1)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setApprovedTrader(direction,offerIndex,trader,allocation)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setMultipleApprovedTraders
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = trader.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(length == allocation.length,length not match)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _checkApprovedTrader(direction,offerIndex,length)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < length
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _setApprovedTrader(direction,offerIndex,trader[i],allocation[i])
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 7
+
+Function: _setApprovedTrader
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! isApprovedTrader[direction][offerIndex][trader]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: approvedTrader[direction][offerIndex].push(trader)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: isApprovedTrader[direction][offerIndex][trader] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: traderOffer[direction][trader].push(offerIndex)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: traderAllocation[direction][offerIndex][trader] = allocation
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ApprovedTrader(direction,offerIndex,trader,allocation)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: swap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! IWhitelistRegistry(whitelistFactory).isWhitelisted(msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tx.origin == msg.sender && ! Address.isContract(msg.sender) && trader == msg.sender,Invalid trader)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isLive,PAUSED)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amount0In = IERC20(token0).balanceOf(address(this)).sub(lastToken0Balance)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: amount1In = IERC20(token1).balanceOf(address(this)).sub(lastToken1Balance)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: amount0Out == 0 && amount1Out != 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (amountOut,protocolFeeCollected) = _swap(true,amount0In,trader)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountOut >= amount1Out,INSUFFICIENT_AMOUNT)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(token1,to,amountOut)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: protocolFeeBalance1 = protocolFeeBalance1.add(protocolFeeCollected)
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: amount0Out != 0 && amount1Out == 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: (amountOut,protocolFeeCollected) = _swap(false,amount1In,trader)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountOut >= amount0Out,INSUFFICIENT_AMOUNT)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(token0,to,amountOut)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: protocolFeeBalance0 = protocolFeeBalance0.add(protocolFeeCollected)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Not supported)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: _sync()
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+Edges:
+  0 -> 23
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 14
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 21
+  14 -> 15
+  14 -> 19
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  23 -> 1
+
+Function: _decodeData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.data.length >= offset.add(0x60),Invalid offer list)
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: count__decodeData_asm_0 = calldataload(uint256)(offset + 0x20)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: size__decodeData_asm_0 = count__decodeData_asm_0 * 0x20
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: calldatasize()() < offset + 0x40 + 2 * size__decodeData_asm_0
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mark__decodeData_asm_0 = mload(uint256)(0x40)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,mark__decodeData_asm_0 + 2 * size__decodeData_asm_0 + 0x20)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(mark__decodeData_asm_0,count__decodeData_asm_0)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(mark__decodeData_asm_0 + 0x20,offset + 0x40,size__decodeData_asm_0)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: list = mark__decodeData_asm_0
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: mark__decodeData_asm_0 = mark__decodeData_asm_0 + 0x20 + size__decodeData_asm_0
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(mark__decodeData_asm_0,count__decodeData_asm_0)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(mark__decodeData_asm_0 + 0x20,offset + 0x40 + size__decodeData_asm_0,size__decodeData_asm_0)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: amount = mark__decodeData_asm_0
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: dataRead = 2 * size__decodeData_asm_0 + 0x20
+
+  ID: 22
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(offset.add(dataRead).add(0x20) == msg.data.length,Invalid data length)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(list.length > 0,Invalid offer list)
+
+  ID: 25
+  Type: NodeType.RETURN
+  Expression: (list,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  8 -> 9
+  9 -> 11
+  10 -> 9
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+
+Function: _swap2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(offerIdx <= counter[direction],Offer not exist)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: offer = offers[direction][offerIdx]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(offer.allowAll || isApprovedTrader[direction][offerIdx][trader],Not a approved trader)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= offer.startDate,Offer not begin yet)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp <= offer.expire,Offer expired)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (amountOut,price,tradeFeeCollected) = _getSwappedAmount(direction,amountIn,offerIdx,fee[0])
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: fee[1] == 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: amountOutPlusProtocolFee = amountOut
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: protocolFeeCollected = tradeFeeCollected.mul(fee[1]).div(FEE_BASE)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: amountOutPlusProtocolFee = amountOut.add(protocolFeeCollected)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: ! offer.allowAll
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: alloc = traderAllocation[direction][offerIdx][trader]
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountOut <= alloc,Amount exceeded allocation)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: traderAllocation[direction][offerIdx][trader] = alloc.sub(amountOut)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountOutPlusProtocolFee <= offer.amount,Amount exceeds available fund)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: offer.amount = offer.amount.sub(amountOutPlusProtocolFee)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: offer.receiving = offer.receiving.add(amountIn)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: SwappedOneOffer(offer.provider,direction,offerIdx,price,amountOutPlusProtocolFee,amountIn,offer.amount,offer.receiving)
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: (amountOut,tradeFeeCollected,protocolFeeCollected)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 13
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 18
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+
+Function: _swap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (idxList,amountList) = _decodeData(0xa4)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (fee[0],fee[1]) = IRestrictedFactory(factory).checkAndGetSwapParams()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: index < idxList.length
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: totalIn = totalIn.add(amountList[index])
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: thisIn = amountList[index].mul(amountIn).div(1e18)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: (amount[0],amount[1],amount[2]) = _swap2(direction,trader,idxList[index],thisIn,fee)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: totalOut = totalOut.add(amount[0])
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: totalTradeFeeCollected = totalTradeFeeCollected.add(amount[1])
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: totalProtocolFeeCollected = totalProtocolFeeCollected.add(amount[2])
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: index ++
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalIn == 1e18,Invalid input)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: Swap(trader,direction,amountIn,totalOut,totalTradeFeeCollected,totalProtocolFeeCollected)
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: (totalOut,totalProtocolFeeCollected)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 20
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 11
+  20 -> 21
+  21 -> 22
+
+Function: sync
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _sync()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _sync
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: (lastGovBalance,lastToken0Balance,lastToken1Balance) = getBalances()
+
+Edges:
+  0 -> 1
+
+Function: redeemProtocolFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: protocolFeeTo = IRestrictedFactory(factory).protocolFeeTo()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(govToken,protocolFeeTo,feeBalance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(token0,protocolFeeTo,protocolFeeBalance0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(token1,protocolFeeTo,protocolFeeBalance1)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: feeBalance = 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: protocolFeeBalance0 = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: protocolFeeBalance1 = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _sync()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: lock()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: unlocked = 1
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FEE_BASE = 10 ** 5
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WEI = 10 ** 18
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FEE_PER_ORDER = RestrictedPair.feePerOrder
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FEE_PER_TRADER = RestrictedPair.feePerTrader
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_DUR = RestrictedPair.maxDur
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SELECTOR = bytes4(keccak256(bytes)(bytes(transfer(address,uint256))))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: RestrictedPairCreator
+==================================================
+
+Function: createPair
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bytecode = type()(RestrictedPairFeeOnAmountOut).creationCode
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pair = create2(uint256,uint256,uint256,uint256)(0,bytecode + 32,mload(uint256)(bytecode),salt)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: pair
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: pair
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

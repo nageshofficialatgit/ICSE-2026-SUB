@@ -1,0 +1,46 @@
+Contract: SafeMath
+==================================================
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: OysterPearl
+==================================================
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(claimed[msg.sender] == 1 || block.timestamp >= 60)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = balanceOf[msg.sender].sub(claimAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

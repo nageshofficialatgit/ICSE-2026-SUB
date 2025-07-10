@@ -1,0 +1,33 @@
+Contract: Escrow
+==================================================
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = balances[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.call.value(balance)()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+

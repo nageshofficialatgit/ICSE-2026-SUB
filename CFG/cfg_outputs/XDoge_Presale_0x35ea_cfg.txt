@@ -1,0 +1,1438 @@
+Contract: IERC20
+==================================================
+
+
+Contract: AggregatorV3Interface
+==================================================
+
+
+Contract: XDoge_Presale
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: fundReceiver = address(_feeReceiver)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Token = IERC20(0x0000000000000000000000000000000000000000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = address(msg.sender)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: priceFeeD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokenDecimals = 18
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < tokensToSell.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: phases[i].tokensToSell = tokensToSell[i]
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: phases[i].tokenPerUsdPrice = tokenPerUsdPrice[i]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: totalStages = tokensToSell.length
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 13
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 9
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: updatePresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(phases[_phaseId].tokensToSell > 0,presale don't exist)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: phases[_phaseId].tokensToSell = _tokensToSell
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: phases[_phaseId].tokenPerUsdPrice = _tokenPerUsdPrice
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: getLatestPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,price,None,None,None) = priceFeeD.latestRoundData()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: uint256(price)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: buyToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_refAddress != msg.sender,You can't ref yourself)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isPresaleEnded,Presale ended!)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(presaleStatus, Presale is Paused, check back later)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: numberOfTokens = nativeToToken(msg.value,currentStage)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(phases[currentStage].totalSoldTokens + numberOfTokens <= phases[currentStage].tokensToSell,Phase Sold Out!)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: _refAddress != address(0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: referralCount[_refAddress] += 1
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].ref_reward += (numberOfTokens * refPercentToken) / 1000
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimAbleAmount += (numberOfTokens * refPercentToken) / 1000
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: refReward = ((msg.value * refPercent) / 1000)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: address(_refAddress).transfer(refReward)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: fundReceiver.transfer(msg.value - refReward)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: soldToken = soldToken + (numberOfTokens)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: phases[currentStage].totalSoldTokens += numberOfTokens
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: amountRaised = amountRaised + (msg.value)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: equivalentUSDT = nativeToUsd(msg.value)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: amountRaisedOverall = amountRaisedOverall + equivalentUSDT
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].eth_usdt_balance += equivalentUSDT
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].native_balance += msg.value
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: ! _isStake
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimAbleAmount += numberOfTokens
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: stake(numberOfTokens)
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: users[msg.sender].stake_count == 0
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: totalStaker ++
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: addUserBonus(users[msg.sender].claimAbleAmount,msg.sender)
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: BuyTokenETh(msg.sender,msg.value,numberOfTokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 15
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  24 -> 26
+  25 -> 30
+  26 -> 27
+  27 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+
+Function: buyTokenUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_refAddress != msg.sender,You can't ref yourself)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isPresaleEnded,Presale ended!)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(presaleStatus, Presale is Paused, check back later)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: numberOfTokens = usdtToToken(amount,currentStage)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(phases[currentStage].totalSoldTokens + numberOfTokens <= phases[currentStage].tokensToSell,Phase Sold Out!)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: _refAddress != address(0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: referralCount[_refAddress] += 1
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: users[_refAddress].ref_reward += (numberOfTokens * refPercentToken) / 1000
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimAbleAmount += (numberOfTokens * refPercentToken) / 1000
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: refReward = ((amount * refPercent) / 1000)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: USDT.transferFrom(msg.sender,_refAddress,refReward)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: USDT.transferFrom(msg.sender,fundReceiver,amount - refReward)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: soldToken = soldToken + (numberOfTokens)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: phases[currentStage].totalSoldTokens += numberOfTokens
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: amountRaisedUSDT = amountRaisedUSDT + (amount)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: amountRaisedOverall = amountRaisedOverall + (amount)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].usdt_balance += amount
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: ! _isStake
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimAbleAmount += numberOfTokens
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: stake(numberOfTokens)
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: users[msg.sender].stake_count == 0
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: totalStaker ++
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: addUserBonus(users[msg.sender].claimAbleAmount,msg.sender)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: BuyTokenUSDT(msg.sender,amount,numberOfTokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 14
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 23
+  22 -> 27
+  23 -> 24
+  24 -> 25
+  24 -> 26
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+
+Function: addUserBonus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: currentUsrTokens > 1287000000000000000000 && currentUsrTokens <= 3217000000000000000000
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].token_bonus = (currentUsrTokens * 5) / 100
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: users[_user].claimAbleAmount += Bonus[_user].token_bonus
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].level = 1
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: currentUsrTokens > 3217000000000000000000 && currentUsrTokens <= 6435000000000000000000
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].token_bonus = (currentUsrTokens * 10) / 100
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: users[_user].claimAbleAmount += Bonus[_user].token_bonus
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].level = 2
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: currentUsrTokens > 6435000000000000000000 && currentUsrTokens <= 12870000000000000000000
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].token_bonus = (currentUsrTokens * 15) / 100
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: users[_user].claimAbleAmount += Bonus[_user].token_bonus
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].level = 3
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: currentUsrTokens > 12870000000000000000000 && currentUsrTokens <= 64350000000000000000000
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].token_bonus = (currentUsrTokens * 20) / 100
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: users[_user].claimAbleAmount += Bonus[_user].token_bonus
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].level = 4
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: currentUsrTokens > 64350000000000000000000
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].token_bonus = (currentUsrTokens * 25) / 100
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: users[_user].claimAbleAmount += Bonus[_user].token_bonus
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: Bonus[_user].level = 5
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 25
+  5 -> 6
+  5 -> 9
+  6 -> 7
+  7 -> 8
+  8 -> 24
+  9 -> 10
+  9 -> 13
+  10 -> 11
+  11 -> 12
+  12 -> 23
+  13 -> 14
+  13 -> 17
+  14 -> 15
+  15 -> 16
+  16 -> 22
+  17 -> 18
+  17 -> 21
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+
+Function: stake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _usr = users[msg.sender]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: userStake = userStakes[msg.sender][_usr.stake_count]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: userStake.stakedTokens = _amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: userStake.stakeTime = block.timestamp
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _usr.stake_count ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalStakedAmount += _amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: unStake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _usr = users[msg.sender]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: userStake = userStakes[msg.sender][_index]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isPresaleEnded,Presale has not ended yet)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_usr.stake_count > 0,there is no stake)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(userStake.stakeTime > 0,No stake on this index)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= userStake.stakeTime + stakeDays,wait for end time)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! userStake.isUnstake,unstaked already)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: _reward = calculateReward(msg.sender,_index)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: _reward > 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Token.transfer(msg.sender,_reward)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: userStake.claimedReward += _reward
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: distributedReward += _reward
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: Token.transfer(msg.sender,userStake.stakedTokens)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: userStake.claimedTokens = userStake.stakedTokens
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: userStake.unstakeTime = block.timestamp
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: userStake.isUnstake = true
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: totalStakedAmount -= userStake.stakedTokens
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: ClaimToken(msg.sender,userStake.stakedTokens)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: ClaimToken(msg.sender,_reward)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 13
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+
+Function: calculateReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userStake = userStakes[_user][_index]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: rewardDuration = block.timestamp - (userStake.stakeTime)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _reward = (userStake.stakedTokens * (rewardDuration) * APY) / (percentDivider * (stakeDays))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _reward
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: claimVesting
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = users[msg.sender].claimAbleAmount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,No claimable amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(Token) != address(0),Presale token address not set)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= Token.balanceOf(address(this)),Not enough tokens in the contract)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isPresaleEnded,Claim is not enable)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: users[msg.sender].claimCount == 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: transferAmount = (amount * (initialClaimPercent)) / percentDivider
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].activePercentAmount = (amount * vestingPercentage) / percentDivider
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Token.transfer(msg.sender,transferAmount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimAbleAmount -= transferAmount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimedAmount += transferAmount
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimCount ++
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: users[msg.sender].claimAbleAmount >= users[msg.sender].activePercentAmount
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= vestingStartTime,wait for the vesting start time)
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: duration = block.timestamp - vestingStartTime
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: multiplier = duration / vestingTime
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: multiplier > totalClaimCycles
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: multiplier = totalClaimCycles
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.VARIABLE
+  Expression: _amount = multiplier * users[msg.sender].activePercentAmount
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: transferAmount = _amount - users[msg.sender].claimedVestingAmount
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(transferAmount > 0,Please wait till next claim)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: Token.transfer(msg.sender,transferAmount)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimAbleAmount -= transferAmount
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimedVestingAmount += transferAmount
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimedAmount += transferAmount
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimCount ++
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= vestingStartTime,wait for the vesting start time)
+
+  ID: 30
+  Type: NodeType.VARIABLE
+  Expression: duration_scope_0 = block.timestamp - vestingStartTime
+
+  ID: 31
+  Type: NodeType.VARIABLE
+  Expression: multiplier_scope_1 = duration_scope_0 / vestingTime
+
+  ID: 32
+  Type: NodeType.IF
+  Expression: multiplier_scope_1 > totalClaimCycles
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: transferAmount = users[msg.sender].claimAbleAmount
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(transferAmount > 0,Please wait till next claim)
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: Token.transfer(msg.sender,transferAmount)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimAbleAmount -= transferAmount
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimedAmount += transferAmount
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimedVestingAmount += transferAmount
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].claimCount ++
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Wait for next claim)
+
+  ID: 41
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 42
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 43
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: users[msg.sender].lastClaimTime = block.timestamp
+
+  ID: 45
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 14
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 43
+  14 -> 15
+  14 -> 29
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 42
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  32 -> 40
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 41
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+  44 -> 45
+
+Function: whitelistdAddresses
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_addresses.length == _tokenAmount.length,Addresses and amounts must be equal)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _addresses.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: users[_addresses[i]].claimAbleAmount += _tokenAmount[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 8
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  8 -> 1
+
+Function: endPresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isPresaleEnded = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: EnableClaim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: enableClaim = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: vestingStartTime = block.timestamp
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: isVestingStarted = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setPresaleStatus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: presaleStatus = _status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: nativeToUsd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: nativeTousd = (_amount * (getLatestPrice())) / (1e20)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: nativeTousd
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: nativeToToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: ethToUsd = (_amount * (getLatestPrice())) / (1000000000000000000)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: numberOfTokens = (ethToUsd * phases[phaseId].tokenPerUsdPrice) / (1e8)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: numberOfTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: usdtToToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: numberOfTokens = (_amount * phases[phaseId].tokenPerUsdPrice) / (1e6)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: numberOfTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _oldOwner = owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_oldOwner,_newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: setCurrentStage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: currentStage = _stageNum
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Token = IERC20(_token)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: USDT = IERC20(_USDT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: fundReceiver.transfer(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(msg.sender,_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setRefPercentages
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: refPercentToken = _updatedRefTokenValue
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: refPercent = _updatedRefValue
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDT = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalSupply = 42400000000000000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: refPercentToken = 50
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: refPercent = 100
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: initialClaimPercent = 10_00
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: vestingPercentage = 10_00
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalClaimCycles = 9
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: vestingTime = 864000
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tokenPerUsdPrice = (12870012870012870012,11454753722794959908,10288065843621399176,9496676163342830009,8992805755395683453,8510638297872340425,8058017727639000805,7627765064836003051,7220216606498194945,6835269993164730006)
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tokensToSell = (5_973_326 * 10 ** 18,5_316_465 * 10 ** 18,4_774_973 * 10 ** 18,4_407_668 * 10 ** 18,4_173_808 * 10 ** 18,3_950_021 * 10 ** 18,3_739_947 * 10 ** 18,3_540_255 * 10 ** 18,3_351_100 * 10 ** 18,3_172_437 * 10 ** 18)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: APY = 760_00
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: stakeDays = 31536000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: percentDivider = 100_00
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

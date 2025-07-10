@@ -1,0 +1,108 @@
+Contract: ModifierEntrancy
+==================================================
+
+Function: airDrop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenBalance[msg.sender] += 20
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: hasNoBalance()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: supportsToken()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Nu Token
+
+Edges:
+
+
+Contract: Bank
+==================================================
+
+Function: supportsToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (keccak256()(abi.encodePacked(Nu Token)))
+
+Edges:
+  0 -> 1
+
+
+Contract: attack
+==================================================
+
+Function: supportsToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! hasBeenCalled
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: hasBeenCalled = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ModifierEntrancy(msg.sender).airDrop()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (keccak256()(abi.encodePacked(Nu Token)))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: call
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ModifierEntrancy(token).airDrop()
+
+Edges:
+  0 -> 1
+
+

@@ -1,0 +1,68 @@
+Contract: TmpAdminInterestSettlemen
+==================================================
+
+Function: tmpSettleFeeRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interestTime = block.timestamp
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: interestTime > endTimestamp
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: interestTime = endTimestamp
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: itemCount ++
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: itemCount > 0
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: endTimestamp = 10
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: itemCount = 4
+
+Edges:
+  0 -> 1
+
+

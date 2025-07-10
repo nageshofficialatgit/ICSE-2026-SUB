@@ -1,0 +1,42 @@
+Contract: MoldCoin
+==================================================
+
+Function: allocateFounderTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp > endDatetime)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! founderAllocated)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: founderAllocated = true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: founderAllocated = false
+
+Edges:
+
+

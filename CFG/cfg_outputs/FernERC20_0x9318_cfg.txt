@@ -1,0 +1,515 @@
+Contract: FernERC20
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: initialize(_initialSupply,_cap,_feeRate,_stakingRate,_burnVaultAddress,_admin,_minter,_feeRecipient,_stakingManager,_upgradeManager)
+
+Edges:
+  0 -> 1
+
+Function: initialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! initialized,Contract already initialized)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_initialSupply <= _cap,Initial supply exceeds cap)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_initialAdmin != address(0),Invalid initial admin address)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: cap = _cap
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: feeRate = _feeRate
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: stakingRate = _stakingRate
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: burnVaultAddress = _burnVaultAddress
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: minter = _minter
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: feeRecipient = _feeRecipient
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: stakingManager = _stakingManager
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: upgradeManager = _upgradeManager
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: initialized = true
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: admins.push(_initialAdmin)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(_initialAdmin)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _mint(_initialAdmin,_initialSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(account,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyMinter()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),Minting: recipient cannot be the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_totalSupply + amount <= cap,Minting: amount exceeds cap)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TokensMinted(account,amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0),Transfer from zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),Transfer to zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_balances[sender] >= amount,Transfer amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[sender] -= amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[recipient] += amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: withdrawAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf(msg.sender) >= amount,Withdraw amount exceeds balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,feeRecipient,amount)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: fee = (amount * feeRate) / 10000
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= fee,Insufficient ETH for fees)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: address(feeRecipient).transfer(msg.value)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: triggeredInteractions[msg.sender] ++
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: triggeredInteractions[msg.sender] > 5
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Blacklisted for repeated invalid attempts)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Triggered(msg.sender,withdrawAll,msg.value)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: getAdmins
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: admins
+
+Edges:
+  0 -> 1
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newAdmin != address(0),Invalid new admin address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isAdmin(newAdmin),Address is already an admin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admins.length < 3,Admin limit reached)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: admins.push(newAdmin)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: AdminAdded(newAdmin)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admins.length > 1,Cannot remove the last admin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isAdmin(adminToRemove),Address is not an admin)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: admins[i] == adminToRemove
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: admins[i] = admins[admins.length - 1]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: admins.pop()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: AdminRemoved(adminToRemove)
+
+  ID: 11
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 12
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 4
+  12 -> 13
+  13 -> 6
+  14 -> 1
+
+Function: isAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: admins[i] == account
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 9
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 4
+
+Function: upgradeLogic
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newLogicAddress != address(0),Invalid logic contract address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newLogicContract = newLogicAddress
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Upgraded(newLogicAddress)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyUpgradeManager()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Fern
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = FERN
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

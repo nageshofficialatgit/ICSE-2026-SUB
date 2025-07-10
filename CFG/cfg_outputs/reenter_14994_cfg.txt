@@ -1,0 +1,42 @@
+Contract: DividendToken
+==================================================
+
+Function: collectOwedDividends
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: amount = creditedPoints[msg.sender] / 100
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: creditedPoints[msg.sender] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender.call.value(amount)())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dividendsCollected += amount
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: dividendsCollected
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

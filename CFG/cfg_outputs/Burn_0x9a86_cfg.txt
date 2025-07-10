@@ -1,0 +1,42 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Burn
+==================================================
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Amount must be greater than zero)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: success = IERC20(tokenAddress).transferFrom(msg.sender,address(this),amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Transfer to contract failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: success = IERC20(tokenAddress).transfer(address(0),amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Burn failed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

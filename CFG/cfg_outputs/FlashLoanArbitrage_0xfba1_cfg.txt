@@ -1,0 +1,619 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: ILendingPool
+==================================================
+
+
+Contract: ILendingPoolAddressesProvider
+==================================================
+
+
+Contract: IUniswapV2Router
+==================================================
+
+
+Contract: FlashLoanArbitrage
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: provider = ILendingPoolAddressesProvider(_addressProvider)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LENDING_POOL = ILendingPool(provider.getLendingPool())
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: executeOperation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == address(LENDING_POOL),Not called by lending pool)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_inFlashLoan,Not in flash loan)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: tokenIn = assets[0]
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: borrowedAmount = amounts[0]
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: fee = premiums[0]
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: tradeParams = _currentTrade
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenIn == tradeParams.tokenIn,Token mismatch)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(borrowedAmount == tradeParams.flashLoanAmount,Amount mismatch)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: profit = _executeArbitrage(tradeParams)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(profit >= tradeParams.minProfit,Arbitrage failed: profit less than minimum)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(profit >= fee,Arbitrage failed: insufficient profit to cover fee)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenIn).approve(address(LENDING_POOL),borrowedAmount + fee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _inFlashLoan = false
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: _executeArbitrage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokenIn = tradeParams.tokenIn
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenOut = tradeParams.tokenOut
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: initialBalance = IERC20(tokenIn).balanceOf(address(this))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = tokenIn
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = tokenOut
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenIn).approve(tradeParams.buyRouter,tradeParams.flashLoanAmount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: IUniswapV2Router(tradeParams.buyRouter).swapExactTokensForTokens(tradeParams.flashLoanAmount,0,path,address(this),block.timestamp + 60)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: tokenOutAmount = IERC20(tokenOut).balanceOf(address(this))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenOut).approve(tradeParams.sellRouter,tokenOutAmount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = tokenOut
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = tokenIn
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: IUniswapV2Router(tradeParams.sellRouter).swapExactTokensForTokens(tokenOutAmount,0,path,address(this),block.timestamp + 60)
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: finalBalance = IERC20(tokenIn).balanceOf(address(this))
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: ArbitrageExecuted(tokenIn,tokenOut,profit)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: profit
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: finalBalance > initialBalance
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: profit = finalBalance - initialBalance
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: profit = 0
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 18
+  16 -> 17
+  18 -> 19
+  18 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 16
+
+Function: executeFlashLoanArbitrage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _currentTrade = ArbitrageParams({tokenIn:tokenIn,tokenOut:tokenOut,buyRouter:buyRouter,sellRouter:sellRouter,flashLoanAmount:amount,minProfit:minProfit})
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: assets = new address[](1)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: assets[0] = tokenIn
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amounts = new uint256[](1)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: amounts[0] = amount
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: modes = new uint256[](1)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: modes[0] = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _inFlashLoan = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: LENDING_POOL.flashLoan(address(this),assets,amounts,modes,address(this),bytes(ARBITRAGE),0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: withdrawToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = IERC20(token).balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,No balance to withdraw)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).transfer(owner(),balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = address(this).balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,No ETH balance to withdraw)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(owner()).transfer(balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

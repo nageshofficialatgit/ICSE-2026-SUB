@@ -1,0 +1,71 @@
+Contract: TimeLock
+==================================================
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] += msg.value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lockTime[msg.sender] = now + 604800
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: increaseLockTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: lockTime[msg.sender] += _secondsToIncrease
+
+Edges:
+  0 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now > lockTime[msg.sender])
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: transferValue = balances[msg.sender]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(transferValue)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

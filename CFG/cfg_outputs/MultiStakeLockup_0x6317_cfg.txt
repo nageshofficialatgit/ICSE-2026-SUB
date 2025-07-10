@@ -1,0 +1,894 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IERC165
+==================================================
+
+
+Contract: IERC1363
+==================================================
+
+
+Contract: SafeERC20
+==================================================
+
+Function: safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeCall(token.transfer,(to,value)))
+
+Edges:
+  0 -> 1
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeCall(token.transferFrom,(from,to,value)))
+
+Edges:
+  0 -> 1
+
+Function: safeIncreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldAllowance = token.allowance(address(this),spender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: forceApprove(token,spender,oldAllowance + value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeDecreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = token.allowance(address(this),spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currentAllowance < requestedDecrease
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeERC20FailedDecreaseAllowance(address,uint256,uint256)(spender,currentAllowance,requestedDecrease)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: forceApprove(token,spender,currentAllowance - requestedDecrease)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: forceApprove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: approvalCall = abi.encodeCall(token.approve,(spender,value))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! _callOptionalReturnBool(token,approvalCall)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeCall(token.approve,(spender,0)))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,approvalCall)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: transferAndCallRelaxed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to.code.length == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: safeTransfer(token,to,value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! token.transferAndCall(to,value,data)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeERC20FailedOperation(address)(address(token))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 6
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: transferFromAndCallRelaxed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to.code.length == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: safeTransferFrom(token,from,to,value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! token.transferFromAndCall(from,to,value,data)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeERC20FailedOperation(address)(address(token))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 6
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: approveAndCallRelaxed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to.code.length == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: forceApprove(token,to,value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! token.approveAndCall(to,value,data)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeERC20FailedOperation(address)(address(token))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 6
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: _callOptionalReturn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: success__callOptionalReturn_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,data + 0x20,mload(uint256)(data),0,0x20)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! success__callOptionalReturn_asm_0
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: ptr__callOptionalReturn_asm_0 = mload(uint256)(0x40)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(ptr__callOptionalReturn_asm_0,0,returndatasize()())
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(ptr__callOptionalReturn_asm_0,returndatasize()())
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: returnSize = returndatasize()()
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: returnValue = mload(uint256)(0)
+
+  ID: 14
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeERC20FailedOperation(address)(address(token))
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: returnSize == 0
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: address(token).code.length == 0
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: returnValue != 1
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  6 -> 7
+  7 -> 12
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 7
+  12 -> 13
+  13 -> 14
+  14 -> 18
+  16 -> 17
+  18 -> 19
+  18 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 16
+  21 -> 17
+
+Function: _callOptionalReturnBool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),token,0,data + 0x20,mload(uint256)(data),0,0x20)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: returnSize = returndatasize()()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: returnValue = mload(uint256)(0)
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: returnSize == 0
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: success && address(token).code.length > 0
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: success && returnValue == 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  10 -> 11
+  10 -> 12
+
+
+Contract: MultiStakeLockup
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: stakingToken = _stakingToken
+
+Edges:
+  0 -> 1
+
+Function: stake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Amount must be > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (chosenPeriod,weightFactor) = _getLockupData(lockupChoice)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: stakingToken.safeTransferFrom(msg.sender,address(this),amount)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: stakeWeight = amount * weightFactor
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: newStake = StakeInfo({amount:amount,startTime:block.timestamp,lockupPeriod:chosenPeriod,weight:stakeWeight,withdrawn:false})
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: userStakes[msg.sender].push(newStake)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalStaked += amount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: totalWeight += stakeWeight
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(stakeIndex < userStakes[msg.sender].length,Invalid stake index)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentStake = userStakes[msg.sender][stakeIndex]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! currentStake.withdrawn,Stake already withdrawn)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp >= (currentStake.startTime + currentStake.lockupPeriod),Lockup period not finished)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: currentStake.withdrawn = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalStaked -= currentStake.amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalWeight -= currentStake.weight
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: stakingToken.safeTransfer(msg.sender,currentStake.amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: getUserStakeCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: userStakes[user].length
+
+Edges:
+  0 -> 1
+
+Function: getUserStakeInfo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(stakeIndex < userStakes[user].length,Invalid stake index)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: st = userStakes[user][stakeIndex]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (st.amount,st.startTime,st.lockupPeriod,st.weight,st.withdrawn)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (amount,startTime,lockupPeriod,weight,withdrawn)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getUserTotalStaked
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: total = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: stakesArray = userStakes[user]
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < stakesArray.length
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! stakesArray[i].withdrawn
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: total += stakesArray[i].amount
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: total
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 11
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 6
+
+Function: getUserTotalWeight
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: w = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: stakesArray = userStakes[user]
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < stakesArray.length
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! stakesArray[i].withdrawn
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: w += stakesArray[i].weight
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: w
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 11
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 6
+
+Function: getUserTier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userActiveStake = getUserTotalStaked(user)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: userActiveStake >= GOLD_THRESHOLD
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: Gold
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: userActiveStake >= SILVER_THRESHOLD
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: Silver
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: userActiveStake >= BRONZE_THRESHOLD
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: Bronze
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: None
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  6 -> 8
+
+Function: _getLockupData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: choice == 1
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (THREE_MONTHS,WEIGHT_3)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: choice == 2
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (SIX_MONTHS,WEIGHT_6)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: choice == 3
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (TWELVE_MONTHS,WEIGHT_12)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Invalid lockup choice)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (period,factor)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: THREE_MONTHS = 7776000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SIX_MONTHS = 15552000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TWELVE_MONTHS = 31104000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WEIGHT_3 = 1
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WEIGHT_6 = 2
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WEIGHT_12 = 4
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BRONZE_THRESHOLD = 1000000000000000000000000
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SILVER_THRESHOLD = 5000000000000000000000000
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GOLD_THRESHOLD = 10000000000000000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+

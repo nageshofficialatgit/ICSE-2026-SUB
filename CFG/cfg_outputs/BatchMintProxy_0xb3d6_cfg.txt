@@ -1,0 +1,791 @@
+Contract: ReentrancyGuard
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_status != _ENTERED,ReentrancyGuard: reentrant call)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _status = _ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == _ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: INFTMintingContract
+==================================================
+
+
+Contract: BatchMintProxy
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract = INFTMintingContract(_nftContractAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: publicMintPrice = _publicMintPrice
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whitelistMintPrice = _whitelistMintPrice
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whitelistEnabled = false
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mintPaused = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_status != _ENTERED,ReentrancyGuard: reentrant call)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _status = _ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == _ENTERED
+
+Edges:
+  0 -> 1
+
+Function: mintMultiple
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! mintPaused,Minting is paused)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(quantity > 0,Quantity must be positive)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: price = publicMintPrice
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: whitelistEnabled && whitelist[msg.sender]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: price = whitelistMintPrice
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= quantity * price,Insufficient payment)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: recipients = new address[](quantity)
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i < quantity
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: recipients[i] = msg.sender
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.batchMint(recipients)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: MintMultiple(msg.sender,quantity)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 17
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 15
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 12
+  15 -> 16
+  17 -> 1
+
+Function: batchMintMultiple
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.batchMintMultiple(recipients,quantity)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: pauseMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.pauseMint()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MintPaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpauseMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.unpauseMint()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MintUnpaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: setBaseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.setBaseURI(newBaseURI)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: BaseURIUpdated(newBaseURI)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: setMarketplaceListingEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.setMarketplaceListingEnabled(enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MarketplaceListingStatusChanged(enabled)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: setMaxMintPerWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.setMaxMintPerWallet(newMaxMintPerWallet)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MaxMintPerWalletUpdated(newMaxMintPerWallet)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: setPublicMintPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: publicMintPrice = newPrice
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: PublicMintPriceUpdated(newPrice)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setWhitelistMintPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: whitelistMintPrice = newPrice
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: WhitelistMintPriceUpdated(newPrice)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setWhitelistEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: whitelistEnabled = enabled
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: WhitelistStatusChanged(enabled)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: addToWhitelist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: whitelist[_addr] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AddressWhitelisted(_addr)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: removeFromWhitelist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: whitelist[_addr] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AddressRemovedFromWhitelist(_addr)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: batchAddToWhitelist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: len = addrs.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < len
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whitelist[addrs[i]] = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: BatchAddressesWhitelisted(addrs)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  9 -> 1
+
+Function: batchRemoveFromWhitelist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: len = addrs.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < len
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whitelist[addrs[i]] = false
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: BatchAddressesRemoved(addrs)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  9 -> 1
+
+Function: returnOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Invalid new owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nftContract.transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipReturned(newOwner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = address(this).balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,No funds to withdraw)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(owner).call{value: balance}()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Withdrawal failed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: setMintPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: mintPaused = paused
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: paused
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: MintPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: MintUnpaused()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+

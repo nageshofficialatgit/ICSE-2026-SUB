@@ -1,0 +1,216 @@
+Contract: IAggregator
+==================================================
+
+
+Contract: IReachToken
+==================================================
+
+
+Contract: ReachTokenSeller
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_priceFeed != address(0),Invalid price feed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_token != address(0),Invalid token address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_treasury != address(0),Invalid treasury address)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: priceFeed = IAggregator(_priceFeed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: reachToken = IReachToken(_token)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: treasury = _treasury
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: getLatestPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,answer,None,None,None) = priceFeed.latestRoundData()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(answer > 0,Invalid price)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint256(answer) * 1e10
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: sellTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAmount > 0,Amount must be greater than zero)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: price = getLatestPrice()
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: price < FLOOR_PRICE
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: price = FLOOR_PRICE
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: decimals = reachToken.decimals()
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: ethAmount = (tokenAmount * price) / (10 ** decimals) / 1e18
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= ethAmount,Insufficient ETH in contract)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: success = reachToken.transferFrom(msg.sender,treasury,tokenAmount)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Token transfer failed)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(ethAmount)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: TokensSold(msg.sender,tokenAmount,ethAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: setTreasury
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_treasury != address(0),Zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: treasury = _treasury
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLOOR_PRICE = 27 * 1e18
+
+Edges:
+
+

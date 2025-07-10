@@ -1,0 +1,28 @@
+Contract: H2OC
+==================================================
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalToken = totalToken - _burntAmount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalToken = totalToken + block.timestamp
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: totalToken
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

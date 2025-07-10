@@ -1,0 +1,43 @@
+Contract: ERC20Like
+==================================================
+
+Function: withdrawDirectDebit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: debtorAccount = accounts[debtor]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: debit = debtorAccount.instruments[msg.sender].directDebit
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: epoch = (block.timestamp - debit.info.startTime) + 1
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amount = epoch - (debit.epoch)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amount > 0)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

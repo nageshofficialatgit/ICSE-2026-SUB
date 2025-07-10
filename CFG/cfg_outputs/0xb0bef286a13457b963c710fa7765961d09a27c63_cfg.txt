@@ -1,0 +1,840 @@
+Contract: tokenRecipient
+==================================================
+
+
+Contract: IOCT_Coin
+==================================================
+
+Function: IOCT_Coin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 20000000000000000000000000
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[owner] = totalSupply
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: name = IotaConnect Token
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: symbol = IOCT
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 18
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: remaining = totalSupply
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ethRate = 718
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: icoStatus = 1
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: icoTokenPrice = 40
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: benAddress = 0xDB19E35e04D3Ab319b3391755e7978cb6D967DDc
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: bkaddress = 0x3706eeF0148D9408d89A0E86e09137f8dFEE02E8
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: allowTransferToken = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: remaining > 0 && icoStatus == 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: finalTokens = (msg.value * ethRate) / icoTokenPrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: finalTokens = finalTokens * (10 ** 2)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: finalTokens < remaining
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: remaining = remaining - finalTokens
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: amountCollected = amountCollected + (msg.value / 10 ** 18)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(owner,msg.sender,finalTokens)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: TransferSell(owner,msg.sender,finalTokens,Online)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 11
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 9
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  9 -> 10
+  10 -> 12
+  11 -> 12
+
+Function: sellOffline
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: remaining > 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: finalTokens = (token_amount * (10 ** 18))
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: finalTokens < remaining
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: remaining = remaining - finalTokens
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(owner,rec_address,finalTokens)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TransferSell(owner,rec_address,finalTokens,Offline)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  3 -> 7
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 8
+  8 -> 10
+  9 -> 10
+  11 -> 1
+
+Function: getEthRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ethRate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getConBal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: this.balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setEthRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ethRate = newEthRate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: icoTokenPrice
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: icoTokenPrice = newTokenRate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTransferStatus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowTransferToken = status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeIcoStatus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: icoStatus = statx
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (msg.sender == owner) || (msg.sender == bkaddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: benAddress.transfer(amountWith)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+  5 -> 1
+
+Function: withdraw_all
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: (msg.sender == owner) || (msg.sender == bkaddress)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amountWith = this.balance - 10000000000000000
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: benAddress.transfer(amountWith)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 5
+  4 -> 5
+  6 -> 1
+
+Function: mintToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: tokensToMint > 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalTokenToMint = tokensToMint * (10 ** 18)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[owner] += totalTokenToMint
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += totalTokenToMint
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(0,owner,totalTokenToMint)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: freezeAccount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: frozenAccount[target] = freeze
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: FrozenFunds(target,freeze)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getCollectedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: amountCollected
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balanceOf[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tsupply = totalSupply
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tsupply
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[owner] = 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[newOwner] = remaining
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: allowTransferToken == 1 || _from == owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! frozenAccount[_from])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != 0x0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[_from] > _value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[_to] + _value > balanceOf[_to])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  9 -> 10
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,_to,_value)
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_value < allowance[_from][msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = tokenRecipient(_spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: approve(_spender,_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: spender.receiveApproval(msg.sender,_value,this,_extraData)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  5 -> 6
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] > _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Burn(msg.sender,_value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: burnFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[_from] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_value <= allowance[_from][msg.sender])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Burn(_from,_value)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

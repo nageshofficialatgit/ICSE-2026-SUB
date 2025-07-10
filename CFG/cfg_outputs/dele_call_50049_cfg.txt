@@ -1,0 +1,28 @@
+Contract: Caller_delegatecall
+==================================================
+
+Function: callByAddr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner == msg.sender)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: methodId = bytes4(keccak256()(inc(uint256)))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: addr.delegatecall(methodId,2)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

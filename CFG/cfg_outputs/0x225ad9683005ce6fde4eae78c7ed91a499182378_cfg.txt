@@ -1,0 +1,1530 @@
+Contract: ERC721
+==================================================
+
+
+Contract: MobSquads
+==================================================
+
+Function: MobSquads
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: leadingHitCount = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: gangHits.length ++
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owns(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mobsterIndexToApproved[_tokenId] = _to
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownershipTokenCount[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: createMobster
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _createMobster(_name,address(this),_startPrice,_boss)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCLevel()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getMobster
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: id = _tokenId
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: mobster = mobsters[_tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: name = mobster.name
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: boss = mobster.boss
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: sellingPrice = mobsterIndexToPrice[_tokenId]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: owner = mobsterIndexToOwner[_tokenId]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: state = mobster.state
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: mobster.state == 1 && now > mobster.dazedExipryTime
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: state = 0
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: dazedExipryTime = mobster.dazedExipryTime
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: buyPrice = mobster.buyPrice
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: nextPrice = calculateNewPrice(_tokenId)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (id,name,boss,sellingPrice,owner,state,dazedExipryTime,buyPrice,nextPrice)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: setLethalBonusAtHits
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: lethalBonusAtHits = _count
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCLevel()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHitPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: hitPrice = _price
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCLevel()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: hitMobster
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: mobsterOwner = mobsterIndexToOwner[_victim]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender != mobsterOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == mobsterIndexToOwner[_hitter])
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: msg.value >= hitPrice && _victim != 0 && _hitter != 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mobsters[_victim].state = 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mobsters[_victim].dazedExipryTime = now + (2 * 60)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: gangNumber = SafeMath.div(mobsters[_hitter].boss,6) + 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: gangHits[gangNumber] ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: currentHitTotal ++
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: gangHits[gangNumber] > leadingHitCount
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: leadingHitCount = gangHits[gangNumber]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: leadingGang = gangNumber
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: currentHitTotal == lethalBonusAtHits
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: lethalBonus = SafeMath.mul(SafeMath.div(currentHitTotal * hitPrice,100),15)
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: winningMobsterIndex = (6 * (leadingGang - 1)) + 1
+
+  ID: 17
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: x = winningMobsterIndex
+
+  ID: 20
+  Type: NodeType.IFLOOP
+  Expression: x < 6 + winningMobsterIndex
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: mobsterIndexToOwner[x] != 0 && mobsterIndexToOwner[x] != address(this)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mobsterBalances[mobsterIndexToOwner[x]] += lethalBonus
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: x ++
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: currentHitTotal = 0
+
+  ID: 26
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: y = 0
+
+  ID: 29
+  Type: NodeType.IFLOOP
+  Expression: y < gangHits.length
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: gangHits[y] = 0
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: leadingHitCount = 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: leadingGang = 0
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: y ++
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 35
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 35
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 13
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 34
+  15 -> 16
+  16 -> 19
+  17 -> 20
+  18 -> 25
+  19 -> 17
+  20 -> 21
+  20 -> 18
+  21 -> 22
+  21 -> 23
+  22 -> 23
+  23 -> 24
+  24 -> 20
+  25 -> 28
+  26 -> 29
+  27 -> 34
+  28 -> 26
+  29 -> 30
+  29 -> 27
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 29
+  34 -> 35
+
+Function: implementsERC721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = mobsterIndexToOwner[_tokenId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner != address(0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _payout(_to)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCLevel()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: purchase
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = mobsterIndexToOwner[_tokenId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: sellingPrice = mobsterIndexToPrice[_tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalSupply() >= minimumTokensBeforeSale)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(oldOwner != msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(msg.sender))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= sellingPrice)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: contractFee = roundIt(uint256(SafeMath.mul(SafeMath.div(mobsters[_tokenId].buyPrice,1000),35)))
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: _tokenId == 0
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: poolPayment = roundIt(uint256(SafeMath.div(contractFee,5)))
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: winningMobsterIndex = (6 * (leadingGang - 1)) + 2
+
+  ID: 11
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: x = winningMobsterIndex
+
+  ID: 14
+  Type: NodeType.IFLOOP
+  Expression: x < 5 + winningMobsterIndex
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: mobsterIndexToOwner[x] != 0 && mobsterIndexToOwner[x] != address(this)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mobsterBalances[mobsterIndexToOwner[x]] += poolPayment
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: x ++
+
+  ID: 19
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.VARIABLE
+  Expression: y = 0
+
+  ID: 22
+  Type: NodeType.IFLOOP
+  Expression: y < gangHits.length
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: gangHits[y] = 0
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: leadingHitCount = 0
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: leadingGang = 0
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: y ++
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: godFatherFee = 0
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: _tokenId != 0
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: godFatherFee = contractFee
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.VARIABLE
+  Expression: bossFee = 0
+
+  ID: 33
+  Type: NodeType.IF
+  Expression: mobsters[_tokenId].boss != _tokenId && _tokenId != 0
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: bossFee = roundIt(uint256(SafeMath.div(mobsters[_tokenId].buyPrice,20)))
+
+  ID: 35
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 36
+  Type: NodeType.IF
+  Expression: godFatherFee > 0 && mobsterIndexToOwner[0] != address(this)
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: mobsterIndexToOwner[0].transfer(godFatherFee)
+
+  ID: 38
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 39
+  Type: NodeType.IF
+  Expression: _tokenId != 0 && bossFee > 0 && mobsterIndexToOwner[mobsters[_tokenId].boss] != address(this)
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: mobsterIndexToOwner[mobsters[_tokenId].boss].transfer(bossFee)
+
+  ID: 41
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 42
+  Type: NodeType.VARIABLE
+  Expression: previousOwnerPayout = roundIt(SafeMath.mul(SafeMath.div(mobsters[_tokenId].buyPrice,100),110))
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: mobsterIndexToPrice[_tokenId] = calculateNewPrice(_tokenId)
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: mobsters[_tokenId].state = 0
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: mobsters[_tokenId].buyPrice = sellingPrice
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(oldOwner,msg.sender,_tokenId)
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: oldOwner != address(this)
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: oldOwner.transfer(previousOwnerPayout)
+
+  ID: 49
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: TokenSold(_tokenId,sellingPrice,mobsterIndexToPrice[_tokenId],oldOwner,msg.sender)
+
+  ID: 51
+  Type: NodeType.IF
+  Expression: SafeMath.sub(msg.value,sellingPrice) > 0
+
+  ID: 52
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(SafeMath.sub(msg.value,sellingPrice))
+
+  ID: 53
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 27
+  9 -> 10
+  10 -> 13
+  11 -> 14
+  12 -> 21
+  13 -> 11
+  14 -> 15
+  14 -> 12
+  15 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 14
+  19 -> 22
+  20 -> 27
+  21 -> 19
+  22 -> 23
+  22 -> 20
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 22
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  29 -> 31
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  33 -> 35
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  36 -> 38
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  39 -> 41
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+  44 -> 45
+  45 -> 46
+  46 -> 47
+  47 -> 48
+  47 -> 49
+  48 -> 49
+  49 -> 50
+  50 -> 51
+  51 -> 52
+  51 -> 53
+  52 -> 53
+
+Function: priceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: mobsterIndexToPrice[_tokenId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: price
+
+Edges:
+  0 -> 1
+
+Function: nextPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: calculateNewPrice(_tokenId)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: nPrice
+
+Edges:
+  0 -> 1
+
+Function: claimMobsterFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: mobsterBalances[msg.sender] == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amount = mobsterBalances[msg.sender]
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: amount > 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mobsterBalances[msg.sender] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(amount)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+
+Function: calculateNewPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: sellingPrice = mobsterIndexToPrice[_tokenId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _tokenId == 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newPrice = roundIt(SafeMath.div(SafeMath.mul(sellingPrice,117),100))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: mobsters[_tokenId].boss == _tokenId && _tokenId != 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: newPrice = roundIt(SafeMath.div(SafeMath.mul(sellingPrice,117),100))
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: mobsters[_tokenId].boss != _tokenId
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: newPrice = roundIt(SafeMath.div(SafeMath.mul(sellingPrice,122),100))
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: newPrice
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: price
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+
+Function: setCEO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCEO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = _newCEO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setCOO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCOO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = _newCOO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: takeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: newOwner = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = mobsterIndexToOwner[_tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(newOwner))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_approved(newOwner,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(oldOwner,newOwner,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokenCount = balanceOf(_owner)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: tokenCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: new uint256[](0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: result = new uint256[](tokenCount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: totalmobsters = totalSupply()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: resultIndex = 0
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mobsterId = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: mobsterId <= totalmobsters
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: mobsterIndexToOwner[mobsterId] == _owner
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: result[resultIndex] = mobsterId
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: resultIndex ++
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mobsterId ++
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: ownerTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 17
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  12 -> 15
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 11
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: mobsters.length
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: total
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owns(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(_to))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owns(_from,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_approved(_to,_tokenId))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(_to))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _addressNotNull
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _to != address(0)
+
+Edges:
+  0 -> 1
+
+Function: _approved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: mobsterIndexToApproved[_tokenId] == _to
+
+Edges:
+  0 -> 1
+
+Function: _createMobster
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _mobster = Mobster({name:_name,boss:_boss,state:0,dazedExipryTime:0,buyPrice:_price,id:mobsters.length - 1})
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: newMobsterId = mobsters.push(_mobster) - 1
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mobsters[newMobsterId].id = newMobsterId
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: newMobsterId % 6 == 0 || newMobsterId == 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: gangHits.length ++
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newMobsterId == uint256(uint32(newMobsterId)))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Birth(newMobsterId,_name,_owner)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: mobsterIndexToPrice[newMobsterId] = _price
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(address(0),_owner,newMobsterId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _owns
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: claimant == mobsterIndexToOwner[_tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress.transfer(this.balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _to.transfer(this.balance)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownershipTokenCount[_to] ++
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mobsterIndexToOwner[_tokenId] = _to
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ownershipTokenCount[_from] --
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete mobsterIndexToApproved[_tokenId]
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: roundIt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = (amount / precision) * precision
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: precision = 1000000000000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: hitPrice = 5000000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minimumTokensBeforeSale = 13
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: lethalBonusAtHits = 200
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = MobSquads
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = MOBS
+
+Edges:
+  0 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c / a == b)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

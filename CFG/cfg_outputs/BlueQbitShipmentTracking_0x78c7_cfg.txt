@@ -1,0 +1,138 @@
+Contract: BlueQbitShipmentTracking
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: shipper = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: carrier = _carrier
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: shipmentStatus = Status.Created
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _logUpdate(Status.Created,msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: updateStatus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(uint256(_newStatus) > uint256(shipmentStatus),Non puoi tornare indietro)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: shipmentStatus = _newStatus
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _logUpdate(_newStatus,msg.sender)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _logUpdate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: updates.push(UpdateLog({status:_status,timestamp:block.timestamp,updatedBy:_by}))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StatusUpdated(_status,block.timestamp,_by)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getLatestUpdate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: latest = updates[updates.length - 1]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (latest.status,latest.timestamp,latest.updatedBy)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getUpdateLog
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index < updates.length,Indice non valido)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: log = updates[index]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (log.status,log.timestamp,log.updatedBy)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getUpdatesCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: updates.length
+
+Edges:
+  0 -> 1
+
+

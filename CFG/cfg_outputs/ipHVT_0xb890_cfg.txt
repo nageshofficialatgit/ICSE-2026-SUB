@@ -1,0 +1,466 @@
+Contract: ReentrancyGuard
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: SafeERC20
+==================================================
+
+Function: safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(to,value),SafeERC20: Transfer failed)
+
+Edges:
+  0 -> 1
+
+
+Contract: IERC721
+==================================================
+
+
+Contract: ipHVT
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner1 = 0x00060E123Fa9b8e33345b745626D1E2078992741
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner2 = 0x22334496fF93D0509FaeD9C418F3A865A200C624
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner3 = 0xBBb9900CF2890E97dD51381F83Bce7fCbDb48ce9
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: setTL
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(unlockTime == 0 || block.timestamp >= unlockTime,Time lock already set, wait until unlocked)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(durationAsSec > 0 && durationAsSec < 157680000,Invalid duration (max 5 years))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: unlockTime = block.timestamp + durationAsSec
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: TimeLockSet(unlockTime)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: wdETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ownerOption == 1 || ownerOption == 2 || ownerOption == 3,Invalid owner option)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amount = address(this).balance
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,No Ether to Withdraw)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: ipcss = (amount * 2) / 100
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: amountAfterIpcss = amount - ipcss
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (successIpcss,None) = IPCSService.call{value: ipcss}()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(successIpcss,IPCSS transfer failed)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: (successRecipient,None) = recipient.call{value: amountAfterIpcss}()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(successRecipient,IPCSS transfer failed)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: EtherWithdrawn(recipient,amount)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenUnlocked()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: ownerOption == 1
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: recipient = address(owner1)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: ownerOption == 2
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: recipient = address(owner2)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: recipient = address(owner3)
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 14
+  1 -> 17
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 16
+  16 -> 1
+  17 -> 18
+  17 -> 21
+  18 -> 20
+  20 -> 3
+  21 -> 22
+  21 -> 23
+  22 -> 24
+  23 -> 24
+  24 -> 20
+
+Function: wdERC20
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenContract != address(0),Invalid token contract address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ownerOption == 1 || ownerOption == 2 || ownerOption == 3,Invalid owner option)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenContract)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amount = token.balanceOf(address(this))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,No Tokens to Withdraw)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: ipcss = (amount * 2) / 100
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amountAfterIpcss = amount - ipcss
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: token.safeTransfer(IPCSService,ipcss)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: token.safeTransfer(recipient,amountAfterIpcss)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: TokensWithdrawn(tokenContract,recipient,amount)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: whenUnlocked()
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: ownerOption == 1
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: recipient = owner1
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: ownerOption == 2
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: recipient = owner2
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: recipient = owner3
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 15
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 13
+  13 -> 14
+  14 -> 1
+  15 -> 16
+  15 -> 19
+  16 -> 18
+  18 -> 4
+  19 -> 20
+  19 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 18
+
+Function: wdERC721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(nftContract != address(0),Invalid NFT contract address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ownerOption == 1 || ownerOption == 2 || ownerOption == 3,Invalid owner option)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC721(nftContract).ownerOf(tokenId) == address(this),No NFT to Withdraw)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: IERC721(nftContract).safeTransferFrom(address(this),recipient,tokenId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: NFTWithdrawn(nftContract,recipient,tokenId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: whenUnlocked()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: ownerOption == 1
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: recipient = owner1
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: ownerOption == 2
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: recipient = owner2
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: recipient = owner3
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 10
+  5 -> 6
+  7 -> 8
+  8 -> 9
+  9 -> 1
+  10 -> 11
+  10 -> 14
+  11 -> 13
+  13 -> 5
+  14 -> 15
+  14 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 13
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: EtherReceived(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IPCSService = 0x00060E123Fa9b8e33345b745626D1E2078992741
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: Version = v6.9.7
+
+Edges:
+  0 -> 1
+
+

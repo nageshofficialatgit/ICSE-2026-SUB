@@ -1,0 +1,28 @@
+Contract: BlocklancerToken
+==================================================
+
+Function: TimeLeftBeforeCrowdsale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: fundingStart > block.timestamp
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: fundingStart
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+

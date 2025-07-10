@@ -1,0 +1,64 @@
+Contract: NIZIGEN
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: true
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: balances[msg.sender] < _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender] - _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(msg.sender.call.value(_value)(_data))
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  1 -> 8
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 9
+  10 -> 1
+
+

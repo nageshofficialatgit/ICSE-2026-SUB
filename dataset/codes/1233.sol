@@ -1,0 +1,1 @@
+{"EIP20.sol":{"content":"/*\nImplements EIP20 token standard: https:

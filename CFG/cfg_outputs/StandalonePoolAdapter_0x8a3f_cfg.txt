@@ -1,0 +1,2504 @@
+Contract: IERC4626
+==================================================
+
+
+Contract: IUniswapV3SwapRouter
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: IERC20Permit
+==================================================
+
+
+Contract: Address
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: account.code.length > 0
+
+Edges:
+  0 -> 1
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Address: insufficient balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Address: unable to send value, recipient may have reverted)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: functionCallWithValue(target,data,0,errorMessage)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: value}(data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: functionStaticCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.staticcall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionDelegateCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.delegatecall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: verifyCallResultFromTarget
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: returndata.length == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: call to non-contract)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata,errorMessage)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 7
+
+Function: verifyCallResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata,errorMessage)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: _revert
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size__revert_asm_0 = mload(uint256)(returndata)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size__revert_asm_0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(errorMessage)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 7
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 8
+
+
+Contract: SafeERC20
+==================================================
+
+Function: safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeWithSelector(token.transfer.selector,to,value))
+
+Edges:
+  0 -> 1
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeWithSelector(token.transferFrom.selector,from,to,value))
+
+Edges:
+  0 -> 1
+
+Function: safeApprove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)((value == 0) || (token.allowance(address(this),spender) == 0),SafeERC20: approve from non-zero to non-zero allowance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeWithSelector(token.approve.selector,spender,value))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeIncreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: newAllowance = token.allowance(address(this),spender) + value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeWithSelector(token.approve.selector,spender,newAllowance))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeDecreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldAllowance = token.allowance(address(this),spender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(oldAllowance >= value,SafeERC20: decreased allowance below zero)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: newAllowance = oldAllowance - value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _callOptionalReturn(token,abi.encodeWithSelector(token.approve.selector,spender,newAllowance))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: safePermit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: nonceBefore = token.nonces(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: token.permit(owner,spender,value,deadline,v,r,s)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: nonceAfter = token.nonces(owner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(nonceAfter == nonceBefore + 1,SafeERC20: permit did not succeed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _callOptionalReturn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: returndata = address(token).functionCall(data,SafeERC20: low-level call failed)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(abi.decode(returndata,(bool)),SafeERC20: ERC20 operation did not succeed)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+
+Contract: ITokensWhitelist
+==================================================
+
+
+Contract: IOwnable
+==================================================
+
+
+Contract: BaseReentrancyGuard
+==================================================
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _reentrancyStatus == _REENTRANCY_ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: BaseOwnable
+==================================================
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: LightweightOwnable
+==================================================
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _reentrancyStatus == _REENTRANCY_ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: TokensWhitelist
+==================================================
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _reentrancyStatus == _REENTRANCY_ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ownerAddr != address(0),Owner required)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = ownerAddr
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: enableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _whitelistedTokens[addr],Already enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[addr] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenEnabled(addr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: enableTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arr.length > 0,Addresses required)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < arr.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arr[i] != address(0),Invalid address)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _whitelistedTokens[arr[i]],Already enabled)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[arr[i]] = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenEnabled(arr[i])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 11
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  12 -> 1
+
+Function: disableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[addr],Already disabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[addr] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenDisabled(addr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: disableTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < arr.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[arr[i]],Already disabled)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[arr[i]] = false
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenDisabled(arr[i])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 4
+  9 -> 10
+  10 -> 3
+
+Function: isWhitelistedToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _whitelistedTokens[addr]
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: BasePoolSwapper
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ownerAddr != address(0),Owner required)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = ownerAddr
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: enableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _whitelistedTokens[addr],Already enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[addr] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenEnabled(addr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: enableTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arr.length > 0,Addresses required)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < arr.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arr[i] != address(0),Invalid address)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _whitelistedTokens[arr[i]],Already enabled)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[arr[i]] = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenEnabled(arr[i])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 11
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  12 -> 1
+
+Function: disableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[addr],Already disabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[addr] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenDisabled(addr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: disableTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < arr.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[arr[i]],Already disabled)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[arr[i]] = false
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenDisabled(arr[i])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 4
+  9 -> 10
+  10 -> 3
+
+Function: isWhitelistedToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _whitelistedTokens[addr]
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _reentrancyStatus == _REENTRANCY_ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _updateSwapProviders
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < newSwapProviders.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapProviders[i].id > 0,Provider ID required)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapProviders[i].routerAddress != address(0),Router required)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapProviders[i].tokenTransferProxy != address(0),Transfer contract required)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: swapProviders[newSwapProviders[i].id] = newSwapProviders[i]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 3
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 4
+
+Function: _singleSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(swapProviders[item.bridgeId].enabled,Invalid bridge)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[address(item.srcToken)],Token not whitelisted)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: dstTokenBalanceBeforeSwap = item.dstToken.balanceOf(address(this))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: srcTokenBalanceBeforeSwap = item.srcToken.balanceOf(address(this))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: (srcTokenBalanceBeforeSwap > 0) && (collectorAddr != address(0))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(item.srcToken,collectorAddr,srcTokenBalanceBeforeSwap)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransferFrom(item.srcToken,msg.sender,address(this),item.amountIn)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: routerAddr = swapProviders[item.bridgeId].routerAddress
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: tokenTransferProxy = swapProviders[item.bridgeId].tokenTransferProxy
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeApprove(item.srcToken,tokenTransferProxy,item.amountIn)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = routerAddr.call{value: 0}(item.quoteData)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Swap failed)
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: amountReceived = item.dstToken.balanceOf(address(this)) - dstTokenBalanceBeforeSwap
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountReceived >= item.minAmountOut,Slippage check failed)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeApprove(item.srcToken,tokenTransferProxy,0)
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: remainingInputTokens = item.srcToken.balanceOf(address(this))
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: remainingInputTokens > 0
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(item.srcToken,msg.sender,remainingInputTokens)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: SwapProcessed(address(item.srcToken),address(item.dstToken),item.amountIn,amountReceived)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 22
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: StandalonePoolAdapter
+==================================================
+
+Function: _updateSwapProviders
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < newSwapProviders.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapProviders[i].id > 0,Provider ID required)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapProviders[i].routerAddress != address(0),Router required)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapProviders[i].tokenTransferProxy != address(0),Transfer contract required)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: swapProviders[newSwapProviders[i].id] = newSwapProviders[i]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 3
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 4
+
+Function: _singleSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(swapProviders[item.bridgeId].enabled,Invalid bridge)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[address(item.srcToken)],Token not whitelisted)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: dstTokenBalanceBeforeSwap = item.dstToken.balanceOf(address(this))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: srcTokenBalanceBeforeSwap = item.srcToken.balanceOf(address(this))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: (srcTokenBalanceBeforeSwap > 0) && (collectorAddr != address(0))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(item.srcToken,collectorAddr,srcTokenBalanceBeforeSwap)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransferFrom(item.srcToken,msg.sender,address(this),item.amountIn)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: routerAddr = swapProviders[item.bridgeId].routerAddress
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: tokenTransferProxy = swapProviders[item.bridgeId].tokenTransferProxy
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeApprove(item.srcToken,tokenTransferProxy,item.amountIn)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = routerAddr.call{value: 0}(item.quoteData)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Swap failed)
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: amountReceived = item.dstToken.balanceOf(address(this)) - dstTokenBalanceBeforeSwap
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountReceived >= item.minAmountOut,Slippage check failed)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeApprove(item.srcToken,tokenTransferProxy,0)
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: remainingInputTokens = item.srcToken.balanceOf(address(this))
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: remainingInputTokens > 0
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(item.srcToken,msg.sender,remainingInputTokens)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: SwapProcessed(address(item.srcToken),address(item.dstToken),item.amountIn,amountReceived)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 22
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newFeesCollectorAddr != address(0),Fees collector required)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapFee < 10000,Swap fee too high)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newPool.asset() != address(0),Invalid pool)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: feesCollector = newFeesCollectorAddr
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: swapFee = newSwapFee
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: routerAddress = routerAddr
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pool = newPool
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: poolAsset = IERC20(newPool.asset())
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _updateSwapProviders(newSwapProviders)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: TokensWhitelist(ownerAddr)
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: enableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _whitelistedTokens[addr],Already enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[addr] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenEnabled(addr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: enableTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arr.length > 0,Addresses required)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < arr.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arr[i] != address(0),Invalid address)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _whitelistedTokens[arr[i]],Already enabled)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[arr[i]] = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenEnabled(arr[i])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 11
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  12 -> 1
+
+Function: disableToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[addr],Already disabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[addr] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenDisabled(addr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: disableTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < arr.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_whitelistedTokens[arr[i]],Already disabled)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _whitelistedTokens[arr[i]] = false
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: OnTokenDisabled(arr[i])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 4
+  9 -> 10
+  10 -> 3
+
+Function: isWhitelistedToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _whitelistedTokens[addr]
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _reentrancyStatus == _REENTRANCY_ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _reentrancyStatus = _REENTRANCY_NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: swapAndDeposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(items.length > 0,Tokens required)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! isBlacklisted[msg.sender],Address blacklisted)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(poolAsset,feesCollector,poolAsset.balanceOf(address(this)))
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < items.length
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(items[i].srcToken) != address(poolAsset),Invalid asset)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: items[i].dstToken = poolAsset
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _singleSwap(items[i],feesCollector)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: effectiveDepositAmount = _applyFees()
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeApprove(poolAsset,address(pool),effectiveDepositAmount)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: shares = pool.deposit(effectiveDepositAmount,msg.sender)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeApprove(poolAsset,address(pool),0)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: ifNotPaused()
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: shares
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 12
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 7
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 18
+  16 -> 17
+  17 -> 1
+
+Function: updateSwapProviders
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _updateSwapProviders(newSwapProviders)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ifNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: updateFeesCollector
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newFeesCollectorAddr != address(0),Fees collector required)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: feesCollector = newFeesCollectorAddr
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ifNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: updateSwapFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newSwapFee < 10000,Swap fee too high)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: swapFee = newSwapFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ifNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isPaused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ifNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: resume
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isPaused,Already resumed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isPaused = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: addToBlacklist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(addr != _owner,Cannot blacklist owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isBlacklisted[addr] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: removeFromBlacklist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isBlacklisted[addr] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: _applyFees
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amountReceivedInUnderlyingTokens = poolAsset.balanceOf(address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: effectiveDepositAmount = amountReceivedInUnderlyingTokens - applicableFee
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: applicableFee > 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(poolAsset,feesCollector,applicableFee)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: SwapFeeApplied(amountReceivedInUnderlyingTokens,applicableFee,address(poolAsset))
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: (swapFee > 0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: applicableFee = (swapFee * amountReceivedInUnderlyingTokens) / 1e4
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: applicableFee = 0
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: effectiveDepositAmount
+
+Edges:
+  0 -> 1
+  1 -> 8
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 7
+  7 -> 12
+  8 -> 9
+  8 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _REENTRANCY_ENTERED = 2
+
+Edges:
+  0 -> 1
+
+

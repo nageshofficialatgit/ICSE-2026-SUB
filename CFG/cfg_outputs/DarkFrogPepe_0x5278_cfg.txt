@@ -1,0 +1,200 @@
+Contract: DarkFrogPepe
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = Dark Frog Pepe
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: symbol = DFEPE
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 8
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 20000000000000000
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = totalSupply
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,to,value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(value <= balanceOf[from])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(value <= allowance[from][msg.sender])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[from] -= value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowance[from][msg.sender] -= value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,value)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == address(this),Only the contract itself can mint tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Mint(to,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Contract does not accept Ether.)
+
+Edges:
+  0 -> 1
+
+

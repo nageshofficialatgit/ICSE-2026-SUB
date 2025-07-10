@@ -1,0 +1,471 @@
+Contract: IProxy
+==================================================
+
+
+Contract: GnosisSafeProxy
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_singleton != address(0),Adresse du singleton invalide)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: singleton = _singleton
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _singleton_fallback_asm_0 = sload(uint256)(0) & 0xffffffffffffffffffffffffffffffffffffffff
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: calldataload(uint256)(0) == 0xa619486e00000000000000000000000000000000000000000000000000000000
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,_singleton_fallback_asm_0)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(0,0,calldatasize()())
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: success_fallback_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),_singleton_fallback_asm_0,0,calldatasize()(),0,0)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,returndatasize()())
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: success_fallback_asm_0 == 0
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,returndatasize()())
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,returndatasize()())
+
+  ID: 16
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 14
+  12 -> 13
+  13 -> 15
+  14 -> 13
+  15 -> 16
+
+
+Contract: GnosisSafeProxyFactory
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: createProxy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: proxy = new GnosisSafeProxy(singleton)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: data.length > 0
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),proxy,0,data + 0x20,mload(uint256)(data),0,0) == 0
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 7
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: ProxyCreation(proxy,singleton)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: proxy
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  2 -> 8
+  3 -> 4
+  4 -> 6
+  4 -> 5
+  5 -> 7
+  6 -> 5
+  7 -> 8
+  8 -> 9
+  9 -> 11
+  10 -> 1
+
+Function: proxyRuntimeCode
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: type()(GnosisSafeProxy).runtimeCode
+
+Edges:
+  0 -> 1
+
+Function: proxyCreationCode
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: type()(GnosisSafeProxy).creationCode
+
+Edges:
+  0 -> 1
+
+Function: deployProxyWithNonce
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: salt = keccak256(bytes)(abi.encodePacked(keccak256(bytes)(initializer),saltNonce))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: deploymentData = abi.encodePacked(type()(GnosisSafeProxy).creationCode,uint256(uint160(_singleton)))
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: proxy = create2(uint256,uint256,uint256,uint256)(0x0,0x20 + deploymentData,mload(uint256)(deploymentData),salt)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(proxy) != address(0),Echec de Create2)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: proxy
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 1
+
+Function: createProxyWithNonce
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: proxy = deployProxyWithNonce(_singleton,initializer,saltNonce)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: initializer.length > 0
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),proxy,0,initializer + 0x20,mload(uint256)(initializer),0,0) == 0
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 7
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: ProxyCreation(proxy,_singleton)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: proxy
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  2 -> 8
+  3 -> 4
+  4 -> 6
+  4 -> 5
+  5 -> 7
+  6 -> 5
+  7 -> 8
+  8 -> 9
+  9 -> 11
+  10 -> 1
+
+Function: createProxyWithCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: saltNonceWithCallback = uint256(keccak256(bytes)(abi.encodePacked(saltNonce,callback)))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: proxy = createProxyWithNonce(_singleton,initializer,saltNonceWithCallback)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: address(callback) != address(0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: callback.proxyCreated(proxy,_singleton,initializer,saltNonce)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: proxy
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 7
+  6 -> 1
+
+Function: calculateCreateProxyWithNonceAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: proxy = deployProxyWithNonce(_singleton,initializer,saltNonce)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(string(abi.encodePacked(proxy)))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: proxy
+
+Edges:
+  0 -> 3
+  1 -> 2
+  2 -> 4
+  3 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),Adresse invalide)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= _amount,Fonds insuffisants)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = _to.call{value: _amount}()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Echec du retrait)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+
+Contract: IProxyCreationCallback
+==================================================
+
+

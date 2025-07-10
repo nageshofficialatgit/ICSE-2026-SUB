@@ -1,0 +1,364 @@
+Contract: IERC20
+==================================================
+
+
+Contract: AggregatorV3Interface
+==================================================
+
+
+Contract: RadwealthSell
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: radwealthToken = IERC20(_radwealthTokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: usdcToken = IERC20(_usdcAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: usdtToken = IERC20(_usdtAddress)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: priceFeed = AggregatorV3Interface(_aggregatorAddress)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ownerWallet = _ownerWallet
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: price = _price
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: sellTokensForETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAmount > 0,Amount should be greater than 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,ethPrice,None,None,None) = priceFeed.latestRoundData()
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: ethUSDPrice = uint256(ethPrice)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: ethToTransfer = (tokenAmount * price) / ethUSDPrice
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= ethToTransfer,Insufficient ETH liquidity)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(radwealthToken.transferFrom(msg.sender,ownerWallet,tokenAmount),Token transfer failed)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(msg.sender).call{value: ethToTransfer}()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETH transfer failed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: sellTokensForUSDC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAmount > 0,Amount should be greater than 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: usdcToTransfer = (tokenAmount * price) / (10 ** (18 - 6 + 8))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcToken.balanceOf(address(this)) >= usdcToTransfer,Insufficient USDC liquidity)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(radwealthToken.transferFrom(msg.sender,ownerWallet,tokenAmount),Token transfer failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcToken.transfer(msg.sender,usdcToTransfer),USDC transfer failed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: sellTokensForUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAmount > 0,Amount should be greater than 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: usdtToTransfer = (tokenAmount * price) / (10 ** (18 - 6 + 8))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.balanceOf(address(this)) >= usdtToTransfer,Insufficient USDT liquidity)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(radwealthToken.transferFrom(msg.sender,ownerWallet,tokenAmount),Token transfer failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.transfer(msg.sender,usdtToTransfer),USDT transfer failed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: setOwnerWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwnerWallet != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ownerWallet = newOwnerWallet
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setRadwealthToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newRadwealthToken != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: radwealthToken = IERC20(newRadwealthToken)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newPrice > 0,Price must be greater than 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: price = newPrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: depositUSDC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcToken.transferFrom(msg.sender,address(this),amount),USDC transfer failed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: depositUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.transferFrom(msg.sender,address(this),amount),USDT transfer failed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(ownerWallet).call{value: amount}()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETH withdrawal failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: withdrawUSDC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcToken.transfer(ownerWallet,amount),USDC withdrawal failed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawUSDT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.transfer(ownerWallet,amount),USDT withdrawal failed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+

@@ -1,0 +1,34 @@
+Contract: AppProxyBase2
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.value > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: addr.delegatecall(msg.value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+
+

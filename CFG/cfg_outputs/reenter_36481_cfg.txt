@@ -1,0 +1,63 @@
+Contract: MoldCoin
+==================================================
+
+Function: buyRecipient
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokens = msg.value * block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokens <= coinAllocation)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[recipient] = balances[recipient] + tokens
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: amountRaised = amountRaised + msg.value
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: ! founder.call.value(msg.value)()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: coinAllocation = 20 * 10 ** 8 * 10 ** 2
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: amountRaised = 0
+
+Edges:
+  0 -> 1
+
+

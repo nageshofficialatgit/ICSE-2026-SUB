@@ -1,0 +1,566 @@
+Contract: Hali
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[owner] = totalAmount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = totalAmount
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: reserveTokens = (totalAmount * 90) / 100
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[owner] -= reserveTokens
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[address(this)] = reserveTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid recipient)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,to,amount)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[_sender] >= amount,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[_sender][address(this)] >= amount,Allowance exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_sender][address(this)] -= amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_sender,recipient,amount)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: buyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= 1000000000000000,Must send at least 0.001 ETH)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokensToBuy = (msg.value * rate * (10 ** decimals)) / (10 ** 18)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokensToBuy > 0,ETH amount too low for any tokens)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[address(this)] >= tokensToBuy,Not enough tokens in contract)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[address(this)] -= tokensToBuy
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] += tokensToBuy
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: BoughtTokens(msg.sender,tokensToBuy)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buyTokens()
+
+Edges:
+  0 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_amount <= address(this).balance,Insufficient balance in contract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = _to.call{value: _amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Failed to send ETH)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: WithdrawETH(_to,_amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Insufficient balance to burn)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setDailyInterestRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dailyInterestRate = newRate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: stake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Insufficient balance to stake)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(stakes[msg.sender].amount == 0,You must unstake first before staking again)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: stakes[msg.sender] = StakeInfo(amount,block.timestamp)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Stake(msg.sender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: unstake
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userStake = stakes[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(userStake.amount > 0,No active stake)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: stakingDays = (block.timestamp - userStake.startTime) / 86400
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: interest = (userStake.amount * dailyInterestRate * stakingDays) / (10 ** 4)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: interest < 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: interest = 0
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: totalRedeem = userStake.amount + interest
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: stakes[msg.sender] = StakeInfo(0,0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: airdropAmounts[msg.sender] += totalRedeem
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalAirdropTokens += totalRedeem
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: Unstake(msg.sender,userStake.amount,interest)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: AirdropAssigned(msg.sender,totalRedeem)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: assignAirdrop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(accounts.length == amounts.length,Mismatched arrays)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < accounts.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: airdropAmounts[accounts[i]] += amounts[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalAirdropTokens += amounts[i]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: AirdropAssigned(accounts[i],amounts[i])
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 1
+
+Function: claimAirdrop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = airdropAmounts[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,No airdrop available)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[address(this)] >= amount,Not enough tokens in contract)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[address(this)] -= amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: airdropAmounts[msg.sender] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalAirdropTokens -= amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: AirdropClaimed(msg.sender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Hali Token
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = HALI
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 2
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rate = 1000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dailyInterestRate = 13700
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

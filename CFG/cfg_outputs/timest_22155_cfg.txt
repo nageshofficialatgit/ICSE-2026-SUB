@@ -1,0 +1,37 @@
+Contract: LemoSale
+==================================================
+
+Function: destroy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp >= endTime + 3600 * 24 * 30 * 3)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(owner)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: endTime = 0
+
+Edges:
+
+

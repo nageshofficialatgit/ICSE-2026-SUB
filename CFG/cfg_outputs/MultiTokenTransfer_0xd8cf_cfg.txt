@@ -1,0 +1,97 @@
+Contract: IERC20
+==================================================
+
+
+Contract: MultiTokenTransfer
+==================================================
+
+Function: sendMultipleTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAddresses.length == receivers.length,Token addresses and receivers mismatch)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(receivers.length == amounts.length,Receivers and amounts mismatch)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < tokenAddresses.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddresses[i])
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amount = amounts[i]
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: receiver = receivers[i]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.balanceOf(msg.sender) >= amount,Insufficient token balance)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: token.transferFrom(msg.sender,receiver,amount)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: TransactionExecuted(msg.sender,receivers[0],amounts,tokenAddresses)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 13
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 6
+
+Function: breakLinks
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Sender and receiver link has been broken.
+
+Edges:
+  0 -> 1
+
+

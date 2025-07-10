@@ -1,0 +1,28 @@
+Contract: TransactionManager
+==================================================
+
+Function: addToWhitelist
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: whitelistPeriod = 10
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: whitelistAfter = block.timestamp + whitelistPeriod
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: whitelistAfter
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

@@ -1,0 +1,28 @@
+Contract: IChain
+==================================================
+
+Function: finishDistribution
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender.call.value(amountRaised)())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender] - amountRaised
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

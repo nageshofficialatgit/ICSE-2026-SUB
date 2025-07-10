@@ -1,0 +1,37 @@
+Contract: DividendPool
+==================================================
+
+Function: startDividents
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(from > block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amount > 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalDividents = amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalDividents = 0
+
+Edges:
+
+

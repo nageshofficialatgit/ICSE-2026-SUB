@@ -1,0 +1,664 @@
+Contract: IERC20
+==================================================
+
+
+Contract: AggregatorV3Interface
+==================================================
+
+
+Contract: IOpenOracle
+==================================================
+
+
+Contract: initialReportBot
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oracle = IOpenOracle(_oracle)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ethUsdPriceFeed = AggregatorV3Interface(ETH_USD_PRICE_FEED)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: usdcUsdPriceFeed = AggregatorV3Interface(USDC_USD_PRICE_FEED)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: submitReport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: nextId = oracle.nextReportId()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(nextId > 1,No reports created yet)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = nextId - 1
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i >= startFromId
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: isReportSubmitted[i]
+
+  ID: 9
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: _isValidForSubmission(i)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _submitReportWithChainlinkPrice(i)
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: i == 1
+
+  ID: 16
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(No valid reports found for submission)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: nextId > MAX_REPORTS_TO_CHECK
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: startFromId = nextId - MAX_REPORTS_TO_CHECK
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: startFromId = 1
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 20
+  1 -> 2
+  2 -> 21
+  4 -> 7
+  5 -> 19
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 10
+  9 -> 18
+  10 -> 11
+  11 -> 12
+  11 -> 14
+  12 -> 13
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 5
+  17 -> 18
+  18 -> 7
+  20 -> 1
+  21 -> 22
+  21 -> 23
+  22 -> 24
+  23 -> 24
+  24 -> 6
+
+Function: _isValidForSubmission
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.TRY
+  Expression: (token1,token2,exactToken1Amount,fee) = oracle.reportMeta(reportId)
+
+  ID: 2
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,currentReporter,None,None,None,None,None,None,None,None) = oracle.reportStatus(reportId)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: currentReporter != address(0)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: token1 != WETH || token2 != USDC
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: exactToken1Amount < MIN_ETH_AMOUNT
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: minRequiredFee = (2 * exactToken1Amount * MIN_REPORT_FEE_PERCENT) / 10000
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: fee < minRequiredFee
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: ! _arePriceFeedsActive()
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 22
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 22
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  20 -> 21
+  22 -> 23
+
+Function: _arePriceFeedsActive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,ethUsdUpdatedAt,None) = ethUsdPriceFeed.latestRoundData()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,usdcUsdUpdatedAt,None) = usdcUsdPriceFeed.latestRoundData()
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (block.timestamp - ethUsdUpdatedAt < MAX_PRICE_FEED_DELAY && block.timestamp - usdcUsdUpdatedAt < MAX_PRICE_FEED_DELAY)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getChainlinkPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,ethUsdPrice,None,ethUsdUpdatedAt,None) = ethUsdPriceFeed.latestRoundData()
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: ethDecimals = ethUsdPriceFeed.decimals()
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (None,usdcUsdPrice,None,usdcUsdUpdatedAt,None) = usdcUsdPriceFeed.latestRoundData()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: usdcDecimals = usdcUsdPriceFeed.decimals()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ethUsdPrice > 0,Invalid ETH/USD price)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcUsdPrice > 0,Invalid USDC/USD price)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp - ethUsdUpdatedAt < MAX_PRICE_FEED_DELAY,ETH/USD price stale)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp - usdcUsdUpdatedAt < MAX_PRICE_FEED_DELAY,USDC/USD price stale)
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: scaledEthPrice = uint256(ethUsdPrice) * (10 ** (18 - ethDecimals))
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: scaledUsdcPrice = uint256(usdcUsdPrice) * (10 ** (18 - usdcDecimals))
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: usdcAmount = (wethAmount * scaledEthPrice * (10 ** 6)) / (scaledUsdcPrice * (10 ** 18))
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: usdcAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+
+Function: _submitReportWithChainlinkPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,None,exactToken1Amount,fee,None,None,None,None) = oracle.reportMeta(reportId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: token2Amount = getChainlinkPrice(exactToken1Amount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: success1 = IERC20(WETH).transferFrom(msg.sender,address(this),exactToken1Amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success1,WETH transfer failed)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: success2 = IERC20(USDC).transferFrom(msg.sender,address(this),token2Amount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success2,USDC transfer failed)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(WETH).approve(address(oracle),exactToken1Amount)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(USDC).approve(address(oracle),token2Amount)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: oracle.submitInitialReport(reportId,exactToken1Amount,token2Amount)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: isReportSubmitted[reportId] = true
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: botReward = (fee * BOT_REWARD_PERCENT) / 100
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: (sentETH,None) = address(msg.sender).call{value: botReward}()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sentETH,ETH transfer failed)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: ReportSubmitted(reportId,msg.sender,exactToken1Amount,token2Amount,botReward)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+
+Function: withdrawTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: success = IERC20(token).transfer(msg.sender,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Token transfer failed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(msg.sender).call{value: amount}()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETH transfer failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_REPORT_FEE_PERCENT = 100
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_ETH_AMOUNT = 11111111111111111
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_PRICE_FEED_DELAY = 3960
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_REPORTS_TO_CHECK = 3
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BOT_REWARD_PERCENT = 20
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_USD_PRICE_FEED = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDC_USD_PRICE_FEED = 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+

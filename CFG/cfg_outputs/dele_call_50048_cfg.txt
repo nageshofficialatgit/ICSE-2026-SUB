@@ -1,0 +1,34 @@
+Contract: Ownable2
+==================================================
+
+Function: delegate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner == msg.sender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! currentVersion.delegatecall(msg.data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+

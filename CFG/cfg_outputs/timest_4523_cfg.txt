@@ -1,0 +1,43 @@
+Contract: MMOToken
+==================================================
+
+Function: lockTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _value > block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lockAddress[_to] = _value
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  6 -> 1
+
+

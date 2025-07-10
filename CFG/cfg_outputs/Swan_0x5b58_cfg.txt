@@ -1,0 +1,180 @@
+Contract: IWETH9
+==================================================
+
+
+Contract: Swan
+==================================================
+
+Function: Swan
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_weth != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: weth = IWETH9(_weth)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: deployer = msg.sender
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: sensation = _sensation
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Cp = _Cp
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: address(weth).balance >= sensation
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: weth.withdraw(sensation)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: depositWETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: weth.deposit.value(msg.value)()
+
+Edges:
+  0 -> 1
+
+Function: withdrawWETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: weth.withdraw(Cp)
+
+Edges:
+  0 -> 1
+
+Function: withdrawEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == deployer)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: deployer.transfer(this.balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setCp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Cp = _Cp
+
+Edges:
+  0 -> 1
+
+Function: setSensation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: sensation = _sensation
+
+Edges:
+  0 -> 1
+
+Function: setWETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newWETH != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: weth = IWETH9(_newWETH)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: destroy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == deployer)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(deployer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,446 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IUniswapV2Router02
+==================================================
+
+
+Contract: tGtPresale
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_startTime < _endTime,Start time must be before end time)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: token = IERC20(_tokenAddress)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: startTime = _startTime
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: endTime = _endTime
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: buyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= minContribution && msg.value <= maxContribution,Contribution out of range)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalRaised + msg.value <= hardcap,Hardcap reached)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: totalTokenAmount = msg.value * rate
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: immediateTokens = totalTokenAmount / 2
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: lockedAmount = totalTokenAmount - immediateTokens
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.balanceOf(address(this)) >= totalTokenAmount,Not enough tokens in contract)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(msg.sender,immediateTokens),Token transfer failed)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: contributions[msg.sender] += msg.value
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: lockedTokens[msg.sender] += lockedAmount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: claimTimes[msg.sender] = endTime
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalRaised += msg.value
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: TokensPurchased(msg.sender,msg.value,totalTokenAmount)
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: totalRaised >= softcap
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: SoftcapReached(totalRaised)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: isActive()
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 15
+  14 -> 15
+  16 -> 1
+
+Function: claimTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(lockedTokens[msg.sender] > 0,No tokens to claim)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalLocked = lockedTokens[msg.sender]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: timeSinceListing = block.timestamp - endTime
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: claimableAmount = 0
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: timeSinceListing >= 46656000
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: claimableAmount = totalLocked
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: timeSinceListing >= 15552000
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: claimableAmount = totalLocked / 2
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Tokens are still locked)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.balanceOf(address(this)) >= claimableAmount,Not enough tokens in contract)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: lockedTokens[msg.sender] -= claimableAmount
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(msg.sender,claimableAmount),Token claim failed)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: TokensClaimed(msg.sender,claimableAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 11
+  7 -> 8
+  7 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: finalizePresale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp > endTime,Presale is not yet finished)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalRaised >= softcap,Softcap not reached)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! liquidityAdded,Liquidity already added)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: remainingTokens = token.balanceOf(address(this))
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: totalLiquidityTokens = remainingTokens + liquidityReserve
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.balanceOf(address(this)) >= totalLiquidityTokens,Not enough tokens in contract)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.approve(uniswapRouter,totalLiquidityTokens),Token approval failed)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: IUniswapV2Router02(uniswapRouter).addLiquidityETH{value: totalRaised}(address(token),totalLiquidityTokens,0,0,owner,block.timestamp + 300)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: liquidityAdded = true
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: LiquidityAdded(totalLiquidityTokens,totalRaised)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: PresaleEnded(totalRaised,totalLiquidityTokens)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: withdrawTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalRaised < softcap,Softcap reached, cannot withdraw)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: contractBalance = token.balanceOf(address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(contractBalance > 0,No tokens to withdraw)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(owner,contractBalance),Token transfer failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(owner,contractBalance)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalRaised < softcap,Cannot withdraw ETH after softcap reached)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: balance = address(this).balance
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,No ETH to withdraw)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(owner).call{value: balance}()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Withdraw failed)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(owner,balance)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buyTokens()
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: liquidityAdded = false
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rate = 26666666
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalTokensForSale = 400_000_000 * 10 ** 18
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: liquidityReserve = 200_000_000 * 10 ** 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: softcap = 9000000000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: hardcap = 14900000000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minContribution = 3000000000000000
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxContribution = 150000000000000000
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: uniswapRouter = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

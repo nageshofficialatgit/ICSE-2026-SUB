@@ -1,0 +1,817 @@
+Contract: tokenRecipient
+==================================================
+
+
+Contract: EtherSpeed
+==================================================
+
+Function: EtherSpeed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: director = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: name = EtherSpeed
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: symbol = ETS
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 4
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: saleClosed = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: directorLock = false
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: funds = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 0
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += 5000000 * 10 ** uint256(decimals)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: balances[director] = totalSupply
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: claimAmount = 5 * 10 ** (uint256(decimals) - 1)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: payAmount = 4 * 10 ** (uint256(decimals) - 1)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: feeAmount = 1 * 10 ** (uint256(decimals) - 1)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: epoch = 31536000
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: retentionMax = 40 * 10 ** uint256(decimals)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: transferDirector
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: director = newDirector
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirectorForce()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: director.transfer(this.balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirectorForce()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: selfLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(saleClosed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value == 10000000000000000000)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: directorLock = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirector()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: amendClaim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(claimAmountSet == (payAmountSet + feeAmountSet))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: claimAmount = claimAmountSet * 10 ** (uint256(decimals) - accuracy)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: payAmount = payAmountSet * 10 ** (uint256(decimals) - accuracy)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: feeAmount = feeAmountSet * 10 ** (uint256(decimals) - accuracy)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirector()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: amendEpoch
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: epoch = epochSet
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirector()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: amendRetention
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: retentionMax = retentionSet * 10 ** (uint256(decimals) - accuracy)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirector()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: closeSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! saleClosed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: saleClosed = true
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirector()
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: openSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(saleClosed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: saleClosed = false
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyDirector()
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: bury
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! buried[msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] >= claimAmount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] <= retentionMax)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: buried[msg.sender] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: claimed[msg.sender] = 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Bury(msg.sender,balances[msg.sender])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buried[msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_payout != _fee)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender != _payout)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender != _fee)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(claimed[msg.sender] == 1 || (block.timestamp - claimed[msg.sender]) >= epoch)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] >= claimAmount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: claimed[msg.sender] = block.timestamp
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: previousBalances = balances[msg.sender] + balances[_payout] + balances[_fee]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= claimAmount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: balances[_payout] += payAmount
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: balances[_fee] += feeAmount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: Claim(msg.sender,_payout,_fee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_payout,payAmount)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_fee,feeAmount)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(balances[msg.sender] + balances[_payout] + balances[_fee] == previousBalances)
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! saleClosed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= 1000000000000000)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amount = msg.value * 5000
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalSupply + amount <= (5000000 * 10 ** uint256(decimals)))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] += amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: funds += msg.value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(this,msg.sender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! buried[_from])
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: buried[_to]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[_to] + _value <= retentionMax)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != 0x0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[_from] >= _value)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[_to] + _value > balances[_to])
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: previousBalances = balances[_from] + balances[_to]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] -= _value
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(balances[_from] + balances[_to] == previousBalances)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,_to,_value)
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_value <= allowance[_from][msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! buried[msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = tokenRecipient(_spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: approve(_spender,_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: spender.receiveApproval(msg.sender,_value,this,_extraData)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  5 -> 6
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! buried[msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] >= _value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Burn(msg.sender,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: burnFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! buried[_from])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[_from] >= _value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_value <= allowance[_from][msg.sender])
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] -= _value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Burn(_from,_value)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+

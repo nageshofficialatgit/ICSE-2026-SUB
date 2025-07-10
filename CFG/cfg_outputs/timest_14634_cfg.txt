@@ -1,0 +1,47 @@
+Contract: MSCE
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(currentTime < block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleTotal > 0)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: crowdsaleEndTime = 1526831999
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: crowdsaleTotal = 2000 * 40000 * (10 ** 18)
+
+Edges:
+  0 -> 1
+
+

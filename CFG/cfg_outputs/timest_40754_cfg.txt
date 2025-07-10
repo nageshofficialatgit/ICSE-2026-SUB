@@ -1,0 +1,82 @@
+Contract: TimeLockedToken
+==================================================
+
+Function: epochsPassed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: timePassed = block.timestamp - LOCK_START
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: timePassed < FIRST_EPOCH_DELAY
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: totalEpochsPassed = (timePassed - FIRST_EPOCH_DELAY) / (EPOCH_DURATION)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: totalEpochsPassed > TOTAL_EPOCHS
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: TOTAL_EPOCHS
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: totalEpochsPassed
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  8 -> 9
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LOCK_START = 1595609911
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FIRST_EPOCH_DELAY = 2592000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EPOCH_DURATION = 7776000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOTAL_EPOCHS = 8
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

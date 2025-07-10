@@ -1,0 +1,49 @@
+Contract: RigIdle
+==================================================
+
+Function: UpdateMoney
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: m = miners[msg.sender]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: diff = block.timestamp - m.lastUpdateTime
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: revenue = 1123456
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: revenue > 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revenue *= diff
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+

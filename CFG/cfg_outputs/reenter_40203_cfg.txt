@@ -1,0 +1,38 @@
+Contract: Wallet
+==================================================
+
+Function: execute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _value == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _to.call.value(_value)(_data)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: _r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+
+

@@ -1,0 +1,636 @@
+Contract: IStateTransitionVerifier
+==================================================
+
+
+Contract: VerifierStateTransition
+==================================================
+
+Function: verifyProof
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pMem_verifyProof_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,pMem_verifyProof_asm_0 + pLastMem)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: checkField(calldataload(uint256)(_pubSignals + 0))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: checkField(calldataload(uint256)(_pubSignals + 32))
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: checkField(calldataload(uint256)(_pubSignals + 64))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: checkField(calldataload(uint256)(_pubSignals + 96))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: checkField(calldataload(uint256)(_pubSignals + 128))
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: isValid_verifyProof_asm_0 = checkPairing(_pA,_pB,_pC,_pubSignals,pMem_verifyProof_asm_0)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,isValid_verifyProof_asm_0)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+  ID: 14
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: checkField
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! v_verifyProof_asm_0_checkField < q
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  3 -> 4
+  5 -> 6
+  6 -> 4
+
+Function: g1_mulAccC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: mIn_verifyProof_asm_0_g1_mulAccC = mload(uint256)(0x40)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(mIn_verifyProof_asm_0_g1_mulAccC,x_verifyProof_asm_0_g1_mulAccC)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(mIn_verifyProof_asm_0_g1_mulAccC + 32,y_verifyProof_asm_0_g1_mulAccC)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(mIn_verifyProof_asm_0_g1_mulAccC + 64,s_verifyProof_asm_0_g1_mulAccC)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: success_verifyProof_asm_0_g1_mulAccC = staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()() - 2000,7,mIn_verifyProof_asm_0_g1_mulAccC,96,mIn_verifyProof_asm_0_g1_mulAccC,64)
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: ! success_verifyProof_asm_0_g1_mulAccC
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,0)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(mIn_verifyProof_asm_0_g1_mulAccC + 64,mload(uint256)(pR_verifyProof_asm_0_g1_mulAccC))
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(mIn_verifyProof_asm_0_g1_mulAccC + 96,mload(uint256)(pR_verifyProof_asm_0_g1_mulAccC + 32))
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: success_verifyProof_asm_0_g1_mulAccC = staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()() - 2000,6,mIn_verifyProof_asm_0_g1_mulAccC,128,pR_verifyProof_asm_0_g1_mulAccC,64)
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: ! success_verifyProof_asm_0_g1_mulAccC
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,0)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 16
+  14 -> 15
+  15 -> 18
+  16 -> 17
+  17 -> 15
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 23
+  21 -> 22
+  23 -> 24
+  24 -> 22
+
+Function: checkPairing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _pPairing_verifyProof_asm_0_checkPairing = pMem_verifyProof_asm_0_checkPairing + pPairing
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _pVk_verifyProof_asm_0_checkPairing = pMem_verifyProof_asm_0_checkPairing + pVk
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pVk_verifyProof_asm_0_checkPairing,IC0x)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pVk_verifyProof_asm_0_checkPairing + 32,IC0y)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: g1_mulAccC(_pVk_verifyProof_asm_0_checkPairing,IC1x,IC1y,calldataload(uint256)(pubSignals_verifyProof_asm_0_checkPairing + 0))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: g1_mulAccC(_pVk_verifyProof_asm_0_checkPairing,IC2x,IC2y,calldataload(uint256)(pubSignals_verifyProof_asm_0_checkPairing + 32))
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: g1_mulAccC(_pVk_verifyProof_asm_0_checkPairing,IC3x,IC3y,calldataload(uint256)(pubSignals_verifyProof_asm_0_checkPairing + 64))
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: g1_mulAccC(_pVk_verifyProof_asm_0_checkPairing,IC4x,IC4y,calldataload(uint256)(pubSignals_verifyProof_asm_0_checkPairing + 96))
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing,calldataload(uint256)(pA_verifyProof_asm_0_checkPairing))
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 32,q - calldataload(uint256)(pA_verifyProof_asm_0_checkPairing + 32) % q)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 64,calldataload(uint256)(pB_verifyProof_asm_0_checkPairing))
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 96,calldataload(uint256)(pB_verifyProof_asm_0_checkPairing + 32))
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 128,calldataload(uint256)(pB_verifyProof_asm_0_checkPairing + 64))
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 160,calldataload(uint256)(pB_verifyProof_asm_0_checkPairing + 96))
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 192,alphax)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 224,alphay)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 256,betax1)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 288,betax2)
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 320,betay1)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 352,betay2)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 384,mload(uint256)(pMem_verifyProof_asm_0_checkPairing + pVk))
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 416,mload(uint256)(pMem_verifyProof_asm_0_checkPairing + pVk + 32))
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 448,gammax1)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 480,gammax2)
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 512,gammay1)
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 544,gammay2)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 576,calldataload(uint256)(pC_verifyProof_asm_0_checkPairing))
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 608,calldataload(uint256)(pC_verifyProof_asm_0_checkPairing + 32))
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 640,deltax1)
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 672,deltax2)
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 704,deltay1)
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(_pPairing_verifyProof_asm_0_checkPairing + 736,deltay2)
+
+  ID: 42
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: success_verifyProof_asm_0_checkPairing = staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()() - 2000,8,_pPairing_verifyProof_asm_0_checkPairing,768,_pPairing_verifyProof_asm_0_checkPairing,0x20)
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: isOk_verifyProof_asm_0_checkPairing = success_verifyProof_asm_0_checkPairing & mload(uint256)(_pPairing_verifyProof_asm_0_checkPairing)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: r = 21888242871839275222246405745257275088548364400416034343698204186575808495617
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: q = 21888242871839275222246405745257275088696311157297823662689037894645226208583
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: alphax = 20491192805390485299153009773594534940189261866228447918068658471970481763042
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: alphay = 9383485363053290200918347156157836566562967994039712273449902621266178545958
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: betax1 = 4252822878758300859123897981450591353533073413197771768651442665752259397132
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: betax2 = 6375614351688725206403948262868962793625744043794305715222011528459656738731
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: betay1 = 21847035105528745403288232691147584728191162732299865338377159692350059136679
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: betay2 = 10505242626370262277552901082094356697409835680220590971873171140371331206856
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: gammax1 = 11559732032986387107991004021392285783925812861821192530917403151452391805634
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: gammax2 = 10857046999023057135944570762232829481370756359578518086990519993285655852781
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: gammay1 = 4082367875863433681332203403145435568316851327593401208105741076214120093531
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: gammay2 = 8495653923123431417604973247489272438418190587263600148770280649306958101930
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: deltax1 = 4246152484702050277565132335408650010216666048103975186858037423667921011245
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: deltax2 = 11761106885383518720174451196687963724495127702612880995502231202411849421701
+
+  ID: 14
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: deltay1 = 20662719780693521898375922787282175696841448037933826627867273008735335783602
+
+  ID: 15
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: deltay2 = 9540218714987219778576059617464635889429392349728954857252076100095683267633
+
+  ID: 16
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC0x = 16043291973889324756617069487195476149512574727363051659112556958735977616725
+
+  ID: 17
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC0y = 16864605224185193093062266789812233298859884301538621362226822022081041278677
+
+  ID: 18
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC1x = 15935621905201691307201070923038920580506689594547556653696264182846970978554
+
+  ID: 19
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC1y = 20793947184131761785325026067954699416249353321530615459908048240252442935417
+
+  ID: 20
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC2x = 15873695673932800019757092006642463598109301274410205214955538808836281067900
+
+  ID: 21
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC2y = 13581010826645089044340117513778871694012835043547906854734814490388643425494
+
+  ID: 22
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC3x = 436067793811322464859758359330968701378288169738014324837094148538366747065
+
+  ID: 23
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC3y = 5184689509856778472522887232562113210294765146488556347841833551753176606959
+
+  ID: 24
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC4x = 1580946655352989990810599848244095954566838172532565943008224849077018394283
+
+  ID: 25
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IC4y = 8901953775389474246223858845884219088656635610469822712500097959042485592148
+
+  ID: 26
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: pVk = 0
+
+  ID: 27
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: pPairing = 128
+
+  ID: 28
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: pLastMem = 896
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+
+

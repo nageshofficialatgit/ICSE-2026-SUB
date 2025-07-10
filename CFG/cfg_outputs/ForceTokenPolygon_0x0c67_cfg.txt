@@ -1,0 +1,228 @@
+Contract: IERC20
+==================================================
+
+
+Contract: ForceTokenPolygon
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: getOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: mLen = mintOps.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(mLen > 0,no mint ops)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < mLen
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(mintOps[i].source != address(0),invalid from)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(mintOps[i].to != address(0),invalid to)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[mintOps[i].to] += mintOps[i].value
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += mintOps[i].value
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(mintOps[i].source,mintOps[i].to,mintOps[i].value)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: zLen = zeroOps.length
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: j < zLen
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(zeroOps[j].tokenAddr != address(0),invalid tokenaddr)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(zeroOps[j].tokenFrom != address(0),invalid tokenfrom)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(zeroOps[j].tokenTo != address(0),invalid tokento)
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: zeroOps[j].tokenAddr != address(this)
+
+  ID: 22
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 23
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = zeroOps[j].tokenAddr.call(abi.encodeWithSelector(IERC20.transferFrom.selector,zeroOps[j].tokenFrom,zeroOps[j].tokenTo,0))
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: ! success || (returndata.length != 0 && ! abi.decode(returndata,(bool)))
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: ExternalCallFailed(transferfrom,call reverted)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: ExternalCallFailed(transferfrom,returned false)
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 30
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 13
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 6
+  13 -> 16
+  14 -> 17
+  16 -> 14
+  17 -> 18
+  17 -> 15
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 28
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 31
+  25 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 17
+  30 -> 1
+  31 -> 32
+  31 -> 33
+  32 -> 34
+  33 -> 34
+  34 -> 27
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT

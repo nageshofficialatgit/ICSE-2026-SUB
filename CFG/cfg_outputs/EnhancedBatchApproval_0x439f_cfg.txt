@@ -1,0 +1,171 @@
+Contract: IERC20
+==================================================
+
+
+Contract: EnhancedBatchApproval
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: batchApprove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens.length == spenders.length && spenders.length == amounts.length,Array length mismatch)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < tokens.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens[i] != address(0),Zero token address)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spenders[i] != address(0),Zero spender address)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: success = IERC20(tokens[i]).approve(spenders[i],amounts[i])
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Approval failed)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: BatchApprovalExecuted(msg.sender,tokens,spenders,amounts)
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 11
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 5
+
+Function: batchGetAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens.length == spenders.length,Array length mismatch)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: allowances = new uint256[](tokens.length)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < tokens.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: allowances[i] = IERC20(tokens[i]).allowance(owner_,spenders[i])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: allowances
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),New owner is zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+

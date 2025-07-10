@@ -1,0 +1,3312 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IUniswapV2Router01
+==================================================
+
+
+Contract: IUniswapV2Factory
+==================================================
+
+
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c >= a,SafeMath: addition overflow)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b <= a,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a - b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(c / a == b,SafeMath: multiplication overflow)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b > 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b != 0,errorMessage)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a % b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Context
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Ownable
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: SwapTokensBlock
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getAmountsOutBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: amountsOut = interfaceSwapRouter.getAmountsOut(amountIn,addressesPath)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (amountsOut)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: amountsOut
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getFactoryBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: addressFactory = interfaceSwapRouter.factory()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (addressFactory)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: addressFactory
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getPairBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: addressFactory = getFactoryBySwap(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: interfaceIUniswapV2Factory = IUniswapV2Factory(addressFactory)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: addressPair = interfaceIUniswapV2Factory.getPair(tokenA,tokenB)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (addressPair)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: addressPair
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: executeSwapTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: getAmountsOut = getAmountsOutBySwap(addressSwapRouter,amountIn,addressesPath)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountOutMin = getAmountsOut[getAmountsOut.length - 1]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: amountOutMin > 0
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: interfaceSwapRouter.WETH() == addressesPath[0]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactETHForTokens{value: amountIn}(amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: interfaceSwapRouter.WETH() == addressesPath[addressesPath.length - 1]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactTokensForETH(amountIn,amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactTokensForTokens(amountIn,amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: amounts
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: amounts
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 12
+  5 -> 6
+  5 -> 7
+  6 -> 11
+  7 -> 8
+  7 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+
+Contract: SwapBlock
+==================================================
+
+Function: getAmountsOutBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: amountsOut = interfaceSwapRouter.getAmountsOut(amountIn,addressesPath)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (amountsOut)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: amountsOut
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getFactoryBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: addressFactory = interfaceSwapRouter.factory()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (addressFactory)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: addressFactory
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getPairBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: addressFactory = getFactoryBySwap(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: interfaceIUniswapV2Factory = IUniswapV2Factory(addressFactory)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: addressPair = interfaceIUniswapV2Factory.getPair(tokenA,tokenB)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (addressPair)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: addressPair
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: executeSwapTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: getAmountsOut = getAmountsOutBySwap(addressSwapRouter,amountIn,addressesPath)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountOutMin = getAmountsOut[getAmountsOut.length - 1]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: amountOutMin > 0
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: interfaceSwapRouter.WETH() == addressesPath[0]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactETHForTokens{value: amountIn}(amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: interfaceSwapRouter.WETH() == addressesPath[addressesPath.length - 1]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactTokensForETH(amountIn,amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactTokensForTokens(amountIn,amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: amounts
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: amounts
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 12
+  5 -> 6
+  5 -> 7
+  6 -> 11
+  7 -> 8
+  7 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addSwapData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax > 0 && typeTax < 4,typeTax != 1,2,3. typeTax: 1 - TaxBuy, 2 - TaxSell, 3 - TaxTransfer)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax == 1 && keyTax < addressesTaxBuy.length,keyTax in addressesTaxBuy not found)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax == 2 && keyTax < addressesTaxSell.length,keyTax in addressesTaxSell not found)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax == 3 && keyTax < addressesTaxTransfer.length,keyTax in addressesTaxTransfer not found)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(addressesPath.length > 1,addressesPath < 1)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(addressesPath[0] == address(this),addressesPath[0] != token of this contract)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i < addressesPath.length
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: tokenA = addressesPath[i]
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: i > 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(getPairBySwap(addressSwapRouter,tokenA,tokenB) != address(0),Swap Pair in addressesPath not found)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tokenB = addressesPath[i]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: getAmountsOut = SwapTokensBlock.getAmountsOutBySwap(addressSwapRouter,IERC20(address(this)).totalSupply().div(1000),addressesPath)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(getAmountsOut.length > 0,Could not get price for this chain for 0.1% of tokens)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: mappingSwapData[typeTax][keyTax].addressSwapRouter = addressSwapRouter
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mappingSwapData[typeTax][keyTax].addressesPath = addressesPath
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 19
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 12
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: resetTaxInAnyToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: delete mappingSwapData[typeTax][keyTax].addressSwapRouter
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete mappingSwapData[typeTax][keyTax].addressesPath
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTaxInAnyToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addSwapData(typeTax,keyTax,addressSwapRouter,addressesPath)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getSwapData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (mappingSwapData[typeTax][keyTax].addressSwapRouter,mappingSwapData[typeTax][keyTax].addressesPath)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (addressSwapRouter,addressesPath)
+
+Edges:
+  0 -> 1
+
+Function: getTaxSum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _percentsTax.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TaxSum = TaxSum.add(_percentsTax[i])
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: TaxSum
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+
+Function: getPercentsTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: percentsTaxBuy
+
+Edges:
+  0 -> 1
+
+Function: getPercentsTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: percentsTaxSell
+
+Edges:
+  0 -> 1
+
+Function: getPercentsTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: percentsTaxTransfer
+
+Edges:
+  0 -> 1
+
+Function: getAddressesTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesTaxBuy
+
+Edges:
+  0 -> 1
+
+Function: getAddressesTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesTaxSell
+
+Edges:
+  0 -> 1
+
+Function: getAddressesTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesTaxTransfer
+
+Edges:
+  0 -> 1
+
+Function: checkAddressLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesLiquidity[_addressLiquidity]
+
+Edges:
+  0 -> 1
+
+Function: addAddressLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesLiquidity[_addressLiquidity] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: removeAddressLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesLiquidity[_addressLiquidity] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: checkAddressIgnoreTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesIgnoreTax[_addressIgnoreTax]
+
+Edges:
+  0 -> 1
+
+Function: addAddressIgnoreTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesIgnoreTax[_addressIgnoreTax] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: removeAddressIgnoreTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesIgnoreTax[_addressIgnoreTax] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_percentsTaxBuy.length == _addressesTaxBuy.length,_percentsTaxBuy.length != _addressesTaxBuy.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = getTaxSum(_percentsTaxBuy)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(TaxSum <= 20,TaxSum > 20)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: percentsTaxBuy = _percentsTaxBuy
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addressesTaxBuy = _addressesTaxBuy
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < _addressesTaxBuy.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: resetTaxInAnyToken(1,i)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 9
+  12 -> 1
+
+Function: setTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_percentsTaxSell.length == _addressesTaxSell.length,_percentsTaxSell.length != _addressesTaxSell.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = getTaxSum(_percentsTaxSell)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(TaxSum <= 20,TaxSum > 20)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: percentsTaxSell = _percentsTaxSell
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addressesTaxSell = _addressesTaxSell
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < _addressesTaxSell.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: resetTaxInAnyToken(2,i)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 9
+  12 -> 1
+
+Function: setTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_percentsTaxTransfer.length == _addressesTaxTransfer.length,_percentsTaxTransfer.length != _addressesTaxTransfer.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = getTaxSum(_percentsTaxTransfer)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(TaxSum <= 20,TaxSum > 20)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: percentsTaxTransfer = _percentsTaxTransfer
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addressesTaxTransfer = _addressesTaxTransfer
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < _addressesTaxTransfer.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: resetTaxInAnyToken(3,i)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 9
+  12 -> 1
+
+Function: showTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (percentsTaxBuy,addressesTaxBuy)
+
+Edges:
+  0 -> 1
+
+Function: showTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (percentsTaxSell,addressesTaxSell)
+
+Edges:
+  0 -> 1
+
+Function: showTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (percentsTaxTransfer,addressesTaxTransfer)
+
+Edges:
+  0 -> 1
+
+Function: showTaxBuySum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getTaxSum(percentsTaxBuy)
+
+Edges:
+  0 -> 1
+
+Function: showTaxSellSum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getTaxSum(percentsTaxSell)
+
+Edges:
+  0 -> 1
+
+Function: showTaxTransferSum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getTaxSum(percentsTaxTransfer)
+
+Edges:
+  0 -> 1
+
+
+Contract: SimpleToken
+==================================================
+
+Function: addSwapData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax > 0 && typeTax < 4,typeTax != 1,2,3. typeTax: 1 - TaxBuy, 2 - TaxSell, 3 - TaxTransfer)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax == 1 && keyTax < addressesTaxBuy.length,keyTax in addressesTaxBuy not found)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax == 2 && keyTax < addressesTaxSell.length,keyTax in addressesTaxSell not found)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(typeTax == 3 && keyTax < addressesTaxTransfer.length,keyTax in addressesTaxTransfer not found)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(addressesPath.length > 1,addressesPath < 1)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(addressesPath[0] == address(this),addressesPath[0] != token of this contract)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i < addressesPath.length
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: tokenA = addressesPath[i]
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: i > 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(getPairBySwap(addressSwapRouter,tokenA,tokenB) != address(0),Swap Pair in addressesPath not found)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tokenB = addressesPath[i]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: getAmountsOut = SwapTokensBlock.getAmountsOutBySwap(addressSwapRouter,IERC20(address(this)).totalSupply().div(1000),addressesPath)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(getAmountsOut.length > 0,Could not get price for this chain for 0.1% of tokens)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: mappingSwapData[typeTax][keyTax].addressSwapRouter = addressSwapRouter
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: mappingSwapData[typeTax][keyTax].addressesPath = addressesPath
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 19
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 12
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: resetTaxInAnyToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: delete mappingSwapData[typeTax][keyTax].addressSwapRouter
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete mappingSwapData[typeTax][keyTax].addressesPath
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTaxInAnyToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addSwapData(typeTax,keyTax,addressSwapRouter,addressesPath)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getSwapData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (mappingSwapData[typeTax][keyTax].addressSwapRouter,mappingSwapData[typeTax][keyTax].addressesPath)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (addressSwapRouter,addressesPath)
+
+Edges:
+  0 -> 1
+
+Function: getTaxSum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _percentsTax.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TaxSum = TaxSum.add(_percentsTax[i])
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: TaxSum
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 8
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+
+Function: getPercentsTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: percentsTaxBuy
+
+Edges:
+  0 -> 1
+
+Function: getPercentsTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: percentsTaxSell
+
+Edges:
+  0 -> 1
+
+Function: getPercentsTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: percentsTaxTransfer
+
+Edges:
+  0 -> 1
+
+Function: getAddressesTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesTaxBuy
+
+Edges:
+  0 -> 1
+
+Function: getAddressesTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesTaxSell
+
+Edges:
+  0 -> 1
+
+Function: getAddressesTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesTaxTransfer
+
+Edges:
+  0 -> 1
+
+Function: checkAddressLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesLiquidity[_addressLiquidity]
+
+Edges:
+  0 -> 1
+
+Function: addAddressLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesLiquidity[_addressLiquidity] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: removeAddressLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesLiquidity[_addressLiquidity] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: checkAddressIgnoreTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: addressesIgnoreTax[_addressIgnoreTax]
+
+Edges:
+  0 -> 1
+
+Function: addAddressIgnoreTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesIgnoreTax[_addressIgnoreTax] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: removeAddressIgnoreTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addressesIgnoreTax[_addressIgnoreTax] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_percentsTaxBuy.length == _addressesTaxBuy.length,_percentsTaxBuy.length != _addressesTaxBuy.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = getTaxSum(_percentsTaxBuy)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(TaxSum <= 20,TaxSum > 20)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: percentsTaxBuy = _percentsTaxBuy
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addressesTaxBuy = _addressesTaxBuy
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < _addressesTaxBuy.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: resetTaxInAnyToken(1,i)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 9
+  12 -> 1
+
+Function: setTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_percentsTaxSell.length == _addressesTaxSell.length,_percentsTaxSell.length != _addressesTaxSell.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = getTaxSum(_percentsTaxSell)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(TaxSum <= 20,TaxSum > 20)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: percentsTaxSell = _percentsTaxSell
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addressesTaxSell = _addressesTaxSell
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < _addressesTaxSell.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: resetTaxInAnyToken(2,i)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 9
+  12 -> 1
+
+Function: setTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_percentsTaxTransfer.length == _addressesTaxTransfer.length,_percentsTaxTransfer.length != _addressesTaxTransfer.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: TaxSum = getTaxSum(_percentsTaxTransfer)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(TaxSum <= 20,TaxSum > 20)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: percentsTaxTransfer = _percentsTaxTransfer
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addressesTaxTransfer = _addressesTaxTransfer
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < _addressesTaxTransfer.length
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: resetTaxInAnyToken(3,i)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 9
+  12 -> 1
+
+Function: showTaxBuy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (percentsTaxBuy,addressesTaxBuy)
+
+Edges:
+  0 -> 1
+
+Function: showTaxSell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (percentsTaxSell,addressesTaxSell)
+
+Edges:
+  0 -> 1
+
+Function: showTaxTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (percentsTaxTransfer,addressesTaxTransfer)
+
+Edges:
+  0 -> 1
+
+Function: showTaxBuySum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getTaxSum(percentsTaxBuy)
+
+Edges:
+  0 -> 1
+
+Function: showTaxSellSum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getTaxSum(percentsTaxSell)
+
+Edges:
+  0 -> 1
+
+Function: showTaxTransferSum
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getTaxSum(percentsTaxTransfer)
+
+Edges:
+  0 -> 1
+
+Function: getAmountsOutBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: amountsOut = interfaceSwapRouter.getAmountsOut(amountIn,addressesPath)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (amountsOut)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: amountsOut
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getFactoryBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: addressFactory = interfaceSwapRouter.factory()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (addressFactory)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: addressFactory
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getPairBySwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: addressFactory = getFactoryBySwap(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: interfaceIUniswapV2Factory = IUniswapV2Factory(addressFactory)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: addressPair = interfaceIUniswapV2Factory.getPair(tokenA,tokenB)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (addressPair)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: addressPair
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: executeSwapTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: interfaceSwapRouter = IUniswapV2Router01(addressSwapRouter)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: getAmountsOut = getAmountsOutBySwap(addressSwapRouter,amountIn,addressesPath)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountOutMin = getAmountsOut[getAmountsOut.length - 1]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: amountOutMin > 0
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: interfaceSwapRouter.WETH() == addressesPath[0]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactETHForTokens{value: amountIn}(amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: interfaceSwapRouter.WETH() == addressesPath[addressesPath.length - 1]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactTokensForETH(amountIn,amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: amounts = interfaceSwapRouter.swapExactTokensForTokens(amountIn,amountOutMin,addressesPath,addressRecipient,block.timestamp)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: amounts
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: amounts
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 12
+  5 -> 6
+  5 -> 7
+  6 -> 11
+  7 -> 8
+  7 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = VladimirGav
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = VladimirGav
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _decimals = 18
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = 1000000 * 1000000000000000000
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[msg.sender] = _totalSupply
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,_totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(msg.sender)
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: owner()
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _decimals
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[addressOwner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(sender,msg.sender,_allowances[sender][msg.sender].sub(amount,Transfer amount exceeds allowance))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: increaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,_allowances[msg.sender][spender].add(addedValue))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: decreaseAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(msg.sender,spender,_allowances[msg.sender][spender].sub(subtractedValue,Decreased allowance below zero))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sender != address(0),Transfer from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),Transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= _balances[sender],Transfer amount exceeds balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[sender] = _balances[sender].sub(amount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amountRecipient = getAmountAfterTax(sender,recipient,amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[recipient] = _balances[recipient].add(amountRecipient)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amountRecipient)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(addressOwner != address(0),Approve from the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),Approve to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[addressOwner][spender] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(addressOwner,spender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getAmountAfterTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: amountRecipient = amount
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! addressesIgnoreTax[sender] && ! addressesIgnoreTax[recipient]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amountTax = 0
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: addressesLiquidity[sender] && SwapBlock.getPercentsTaxBuy().length > 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: typeTax = 1
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: i < SwapBlock.getPercentsTaxBuy().length
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: amountTax = amount.div(100).mul(SwapBlock.getPercentsTaxBuy()[i])
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: addressesTax = SwapBlock.getAddressesTaxBuy()[i]
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: amountRecipient = amountRecipient.sub(amountTax)
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: (addressSwapRouter,addressesPath) = getSwapData(typeTax,i)
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: addressesPath.length > 0
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _balances[address(this)] = SafeMath.add(_balances[addressesTax],amountTax)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: executeSwapTokens(amountTax,addressesTax,addressSwapRouter,addressesPath)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: _balances[addressesTax] = SafeMath.add(_balances[addressesTax],amountTax)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,addressesTax,amountTax)
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: addressesLiquidity[recipient] && SwapBlock.getPercentsTaxSell().length > 0
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: typeTax = 2
+
+  ID: 27
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 28
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 29
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 30
+  Type: NodeType.IFLOOP
+  Expression: i_scope_0 < SwapBlock.getPercentsTaxSell().length
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: amountTax = amount.div(100).mul(SwapBlock.getPercentsTaxSell()[i_scope_0])
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: addressesTax = SwapBlock.getAddressesTaxSell()[i_scope_0]
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: amountRecipient = amountRecipient.sub(amountTax)
+
+  ID: 34
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 35
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: (addressSwapRouter_scope_1,addressesPath_scope_2) = getSwapData(typeTax,i_scope_0)
+
+  ID: 37
+  Type: NodeType.IF
+  Expression: addressesPath_scope_2.length > 0
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: _balances[address(this)] = SafeMath.add(_balances[addressesTax],amountTax)
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: executeSwapTokens(amountTax,addressesTax,addressSwapRouter_scope_1,addressesPath_scope_2)
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: _balances[addressesTax] = SafeMath.add(_balances[addressesTax],amountTax)
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,addressesTax,amountTax)
+
+  ID: 42
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_0 ++
+
+  ID: 44
+  Type: NodeType.IF
+  Expression: SwapBlock.getPercentsTaxTransfer().length > 0
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: typeTax = 3
+
+  ID: 46
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 47
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 48
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 49
+  Type: NodeType.IFLOOP
+  Expression: i_scope_3 < SwapBlock.getPercentsTaxTransfer().length
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: amountTax = amount.div(100).mul(SwapBlock.getPercentsTaxTransfer()[i_scope_3])
+
+  ID: 51
+  Type: NodeType.EXPRESSION
+  Expression: addressesTax = SwapBlock.getAddressesTaxTransfer()[i_scope_3]
+
+  ID: 52
+  Type: NodeType.EXPRESSION
+  Expression: amountRecipient = amountRecipient.sub(amountTax)
+
+  ID: 53
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 54
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 55
+  Type: NodeType.EXPRESSION
+  Expression: (addressSwapRouter_scope_4,addressesPath_scope_5) = getSwapData(typeTax,i_scope_3)
+
+  ID: 56
+  Type: NodeType.IF
+  Expression: addressesPath_scope_5.length > 0
+
+  ID: 57
+  Type: NodeType.EXPRESSION
+  Expression: _balances[address(this)] = SafeMath.add(_balances[addressesTax],amountTax)
+
+  ID: 58
+  Type: NodeType.EXPRESSION
+  Expression: executeSwapTokens(amountTax,addressesTax,addressSwapRouter_scope_4,addressesPath_scope_5)
+
+  ID: 59
+  Type: NodeType.EXPRESSION
+  Expression: _balances[addressesTax] = SafeMath.add(_balances[addressesTax],amountTax)
+
+  ID: 60
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,addressesTax,amountTax)
+
+  ID: 61
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 62
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_3 ++
+
+  ID: 63
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 64
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 65
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 66
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 67
+  Type: NodeType.RETURN
+  Expression: amountRecipient
+
+  ID: 68
+  Type: NodeType.RETURN
+  Expression: amountRecipient
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 66
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 25
+  7 -> 10
+  8 -> 11
+  9 -> 65
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 21
+  19 -> 20
+  20 -> 23
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 11
+  25 -> 26
+  25 -> 44
+  26 -> 29
+  27 -> 30
+  28 -> 64
+  29 -> 27
+  30 -> 31
+  30 -> 28
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  37 -> 40
+  38 -> 39
+  39 -> 42
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 30
+  44 -> 45
+  44 -> 63
+  45 -> 48
+  46 -> 49
+  47 -> 63
+  48 -> 46
+  49 -> 50
+  49 -> 47
+  50 -> 51
+  51 -> 52
+  52 -> 53
+  53 -> 54
+  54 -> 55
+  55 -> 56
+  56 -> 57
+  56 -> 59
+  57 -> 58
+  58 -> 61
+  59 -> 60
+  60 -> 61
+  61 -> 62
+  62 -> 49
+  63 -> 64
+  64 -> 65
+  65 -> 66
+  66 -> 67
+
+

@@ -1,0 +1,9731 @@
+Contract: IERC165
+==================================================
+
+
+Contract: IERC721
+==================================================
+
+
+Contract: IERC721Metadata
+==================================================
+
+
+Contract: IERC721Receiver
+==================================================
+
+
+Contract: IERC20Errors
+==================================================
+
+
+Contract: IERC721Errors
+==================================================
+
+
+Contract: IERC1155Errors
+==================================================
+
+
+Contract: ERC721Utils
+==================================================
+
+Function: checkOnERC721Received
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to.code.length > 0
+
+  ID: 2
+  Type: NodeType.TRY
+  Expression: retval = IERC721Receiver(to).onERC721Received(operator,from,tokenId,data)
+
+  ID: 3
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: retval != IERC721Receiver.onERC721Received.selector
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: IERC721Errors.ERC721InvalidReceiver(to)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: reason.length == 0
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: IERC721Errors.ERC721InvalidReceiver(to)
+
+  ID: 10
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + reason,mload(uint256)(reason))
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 14
+  2 -> 3
+  2 -> 7
+  2 -> 14
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 14
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 13
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+
+Contract: Panic
+==================================================
+
+Function: panic
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x4e487b71)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x20,code)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x24)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GENERIC = 0x00
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ASSERT = 0x01
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: UNDER_OVERFLOW = 0x11
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DIVISION_BY_ZERO = 0x12
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ENUM_CONVERSION_ERROR = 0x21
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: STORAGE_ENCODING_ERROR = 0x22
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EMPTY_ARRAY_POP = 0x31
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ARRAY_OUT_OF_BOUNDS = 0x32
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RESOURCE_ERROR = 0x41
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INVALID_INTERNAL_FUNCTION = 0x51
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+
+Contract: SafeCast
+==================================================
+
+Function: toUint248
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint248).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(248,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint248(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint240
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint240).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(240,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint240(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint232
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint232).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(232,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint232(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint224
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint224).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(224,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint224(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint216
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint216).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(216,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint216(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint208
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint208).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(208,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint208(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint200
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint200).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(200,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint200(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint192
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint192).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(192,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint192(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint184
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint184).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(184,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint184(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint176
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint176).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(176,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint176(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint168
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint168).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(168,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint168(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint160
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint160).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(160,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint160(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint152
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint152).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(152,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint152(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint144
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint144).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(144,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint144(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint136
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint136).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(136,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint136(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint128
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint128).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(128,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint128(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint120
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint120).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(120,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint120(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint112
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint112).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(112,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint112(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint104
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint104).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(104,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint104(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint96
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint96).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(96,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint96(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint88
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint88).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(88,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint88(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint80
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint80).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(80,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint80(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint72
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint72).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(72,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint72(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint64
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint64).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(64,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint64(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint56
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint56).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(56,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint56(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint48
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint48).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(48,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint48(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint40
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint40).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(40,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint40(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint32).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(32,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint32(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint24
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint24).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(24,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint24(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint16
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint16).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(16,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint16(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint8
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint8).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(8,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint8(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value < 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntToUint(int256)(value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint256(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toInt248
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int248(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(248,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt240
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int240(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(240,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt232
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int232(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(232,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt224
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int224(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(224,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt216
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int216(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(216,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt208
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int208(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(208,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt200
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int200(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(200,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt192
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int192(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(192,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt184
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int184(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(184,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt176
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int176(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(176,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt168
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int168(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(168,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt160
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int160(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(160,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt152
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int152(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(152,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt144
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int144(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(144,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt136
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int136(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(136,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt128
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int128(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(128,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt120
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int120(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(120,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt112
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int112(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(112,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt104
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int104(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(104,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt96
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int96(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(96,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt88
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int88(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(88,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt80
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int80(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(80,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt72
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int72(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(72,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt64
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int64(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(64,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt56
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int56(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(56,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt48
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int48(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(48,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt40
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int40(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(40,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int32(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(32,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt24
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int24(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(24,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt16
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int16(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(16,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt8
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int8(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(8,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > uint256(type()(int256).max)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintToInt(uint256)(value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: int256(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: u = ! ! b
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: u
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: Math
+==================================================
+
+Function: tryAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: c < a
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (true,c)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+
+Function: trySub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b > a
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a - b)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: tryMul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (true,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: c / a != b
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (true,c)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: tryDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a / b)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: tryMod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a % b)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: ternary
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: b ^ ((a ^ b) * SafeCast.toUint(condition))
+
+Edges:
+  0 -> 1
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ternary(a > b,a,b)
+
+Edges:
+  0 -> 1
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ternary(a < b,a,b)
+
+Edges:
+  0 -> 1
+
+Function: average
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (a & b) + (a ^ b) / 2
+
+Edges:
+  0 -> 1
+
+Function: ceilDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Panic.panic(Panic.DIVISION_BY_ZERO)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: SafeCast.toUint(a > 0) * ((a - 1) / b + 1)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: mulDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: mulDiv(x,y,denominator) + SafeCast.toUint(unsignedRoundsUp(rounding) && mulmod(uint256,uint256,uint256)(x,y,denominator) > 0)
+
+Edges:
+  0 -> 1
+
+Function: invMod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: n == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: remainder = a % n
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: gcd = n
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: x = 0
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: y = 1
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: remainder != 0
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: quotient = gcd / remainder
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: (gcd,remainder) = (remainder,gcd - remainder * quotient)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (x,y) = (y,x - y * int256(quotient))
+
+  ID: 13
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: gcd != 1
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: ternary(x < 0,n - uint256(- x),uint256(x))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 13
+  10 -> 11
+  11 -> 12
+  12 -> 9
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+
+Function: invModPrime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Math.modExp(a,p - 2,p)
+
+Edges:
+  0 -> 1
+
+Function: modExp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,result) = tryModExp(b,e,m)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Panic.panic(Panic.DIVISION_BY_ZERO)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: tryModExp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _zeroBytes(m)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,new bytes(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: mLen = m.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: result = abi.encodePacked(b.length,e.length,mLen,b,e,m)
+
+  ID: 6
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: dataPtr_tryModExp_asm_0 = result + 0x20
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: success = staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),0x05,dataPtr_tryModExp_asm_0,mload(uint256)(result),dataPtr_tryModExp_asm_0,mLen)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(result,mLen)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,dataPtr_tryModExp_asm_0 + mLen)
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: _zeroBytes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < byteArray.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: byteArray[i] != 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ++ i
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 9
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 4
+
+Function: sqrt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = sqrt(a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && result * result < a)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: log2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log2(value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && 1 << result < value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: log10
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log10(value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && 10 ** result < value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: log256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log256(value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && 1 << (result << 3) < value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: unsignedRoundsUp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint8(rounding) % 2 == 1
+
+Edges:
+  0 -> 1
+
+
+Contract: SignedMath
+==================================================
+
+Function: ternary
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: b ^ ((a ^ b) * int256(SafeCast.toUint(condition)))
+
+Edges:
+  0 -> 1
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ternary(a > b,a,b)
+
+Edges:
+  0 -> 1
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ternary(a < b,a,b)
+
+Edges:
+  0 -> 1
+
+Function: average
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: x = (a & b) + ((a ^ b) >> 1)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: x + (int256(uint256(x) >> 255) & (a ^ b))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: abs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: mask = n >> 255
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: uint256((n + mask) ^ mask)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Strings
+==================================================
+
+Function: toString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = Math.log10(value) + 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: buffer = new string(length)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ptr = buffer + 32 + length
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: ptr --
+
+  ID: 10
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore8(uint256,uint256)(ptr,byte(uint256,uint256)(value % 10,HEX_DIGITS))
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: value /= 10
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: value == 0
+
+  ID: 15
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: buffer
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 17
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  15 -> 17
+  16 -> 8
+  17 -> 18
+
+Function: toStringSigned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: value < 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: string.concat(-,toString(SignedMath.abs(value)))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: string.concat(,toString(SignedMath.abs(value)))
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: toHexString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: toHexString(uint256(uint160(addr)),ADDRESS_LENGTH)
+
+Edges:
+  0 -> 1
+
+Function: toChecksumHexString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: buffer = bytes(toHexString(addr))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: hashValue = keccak256(uint256,uint256)(buffer + 0x22,40) >> 96
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 41
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i > 1
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: hashValue & 0xf > 7 && uint8(buffer[i]) > 96
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: buffer[i] ^= 0x20
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: hashValue >>= 4
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: -- i
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: string(buffer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 15
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 9
+
+Function: equal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: bytes(a).length == bytes(b).length && keccak256(bytes)(bytes(a)) == keccak256(bytes)(bytes(b))
+
+Edges:
+  0 -> 1
+
+Function: parseUint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,value) = tryParseUint(input,begin,end)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert StringsInvalidChar()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: tryParseUint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: end > bytes(input).length || begin > end
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _tryParseUintUncheckedBounds(input,begin,end)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: _tryParseUintUncheckedBounds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: buffer = bytes(input)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: result = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = begin
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < end
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: chr = _tryParseChr(bytes1(_unsafeReadBytesOffset(buffer,i)))
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: chr > 9
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: result *= 10
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: result += chr
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: ++ i
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (true,result)
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: (success,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 14
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 6
+
+Function: parseInt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,value) = tryParseInt(input,begin,end)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert StringsInvalidChar()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: tryParseInt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: end > bytes(input).length || begin > end
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _tryParseIntUncheckedBounds(input,begin,end)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: _tryParseIntUncheckedBounds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: buffer = bytes(input)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: positiveSign = sign == bytes1(+)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: negativeSign = sign == bytes1(-)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: offset = (positiveSign || negativeSign).toUint()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (absSuccess,absValue) = tryParseUint(input,begin + offset,end)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: absSuccess && absValue < ABS_MIN_INT256
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: absSuccess && negativeSign && absValue == ABS_MIN_INT256
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: (true,type()(int256).min)
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: begin == end
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: sign = bytes1(0)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: sign = bytes1(_unsafeReadBytesOffset(buffer,begin))
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: negativeSign
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: (true,- int256(absValue))
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: (true,int256(absValue))
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: (success,value)
+
+Edges:
+  0 -> 1
+  1 -> 16
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 20
+  9 -> 11
+  11 -> 12
+  11 -> 13
+  16 -> 17
+  16 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 3
+  20 -> 21
+  20 -> 22
+
+Function: parseHexUint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,value) = tryParseHexUint(input,begin,end)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert StringsInvalidChar()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: tryParseHexUint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: end > bytes(input).length || begin > end
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _tryParseHexUintUncheckedBounds(input,begin,end)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: _tryParseHexUintUncheckedBounds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: buffer = bytes(input)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: hasPrefix = (end > begin + 1) && bytes2(_unsafeReadBytesOffset(buffer,begin)) == bytes2(0x)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: offset = hasPrefix.toUint() * 2
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: result = 0
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = begin + offset
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < end
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: chr = _tryParseChr(bytes1(_unsafeReadBytesOffset(buffer,i)))
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: chr > 15
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: result *= 16
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: result += chr
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: ++ i
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: (true,result)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: (success,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 16
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 8
+
+Function: parseAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,value) = tryParseAddress(input,begin,end)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert StringsInvalidAddressFormat()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: tryParseAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: end > bytes(input).length || begin > end
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: hasPrefix = (end > begin + 1) && bytes2(_unsafeReadBytesOffset(bytes(input),begin)) == bytes2(0x)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: expectedLength = 40 + hasPrefix.toUint() * 2
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: end - begin == expectedLength
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: (s,v) = _tryParseHexUintUncheckedBounds(input,begin,end)
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: (s,address(uint160(v)))
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (false,address(0))
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (success,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 11
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _tryParseChr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: value = uint8(chr)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: value > 47 && value < 58
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: value -= 48
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: value > 96 && value < 103
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: value -= 87
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: value > 64 && value < 71
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: value -= 55
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: type()(uint8).max
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 11
+  4 -> 5
+  4 -> 6
+  5 -> 10
+  6 -> 7
+  6 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: _unsafeReadBytesOffset
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: value = mload(uint256)(buffer + 0x20 + offset)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HEX_DIGITS = 0123456789abcdef
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ADDRESS_LENGTH = 20
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ABS_MIN_INT256 = 2 ** 255
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: ERC165
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC165).interfaceId
+
+Edges:
+  0 -> 1
+
+
+Contract: ERC721
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC721).interfaceId || interfaceId == type()(IERC721Metadata).interfaceId || super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _requireOwned(tokenId)
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: baseURI = _baseURI()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(baseURI).length > 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: string.concat(baseURI,tokenId.toString())
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId,_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _getApproved(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,_msgSender())
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transferFrom(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _isAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: spender != address(0) && (owner == spender || isApprovedForAll(owner,spender) || _getApproved(tokenId) == spender)
+
+Edges:
+  0 -> 1
+
+Function: _checkAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! _isAuthorized(owner,spender,tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InsufficientApproval(address,uint256)(spender,tokenId)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: _increaseBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] += value
+
+Edges:
+  0 -> 1
+
+Function: _update
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: from = _ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: auth != address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _checkAuthorized(from,auth,tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: from != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId,address(0),false)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] -= 1
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: to != address(0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,tokenId)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: from
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidSender(address)(address(0))
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(address(0),tokenId,address(0))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: emitEvent || auth != address(0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = _requireOwned(tokenId)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: auth != address(0) && owner != auth && ! isApprovedForAll(owner,auth)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidApprover(address)(auth)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: emitEvent
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,to,tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: operator == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOperator(address)(operator)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[owner][operator] = approved
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(owner,operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _requireOwned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+
+Contract: IERC721Enumerable
+==================================================
+
+
+Contract: ERC721Enumerable
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC721Enumerable).interfaceId || super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _requireOwned(tokenId)
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: baseURI = _baseURI()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(baseURI).length > 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: string.concat(baseURI,tokenId.toString())
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId,_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _getApproved(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,_msgSender())
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transferFrom(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _isAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: spender != address(0) && (owner == spender || isApprovedForAll(owner,spender) || _getApproved(tokenId) == spender)
+
+Edges:
+  0 -> 1
+
+Function: _checkAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! _isAuthorized(owner,spender,tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InsufficientApproval(address,uint256)(spender,tokenId)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: _increaseBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: amount > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721EnumerableForbiddenBatchMint()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: super._increaseBalance(account,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _update
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = super._update(to,tokenId,auth)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _addTokenToAllTokensEnumeration(tokenId)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: previousOwner != to
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _removeTokenFromOwnerEnumeration(previousOwner,tokenId)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _removeTokenFromAllTokensEnumeration(tokenId)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: previousOwner != to
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _addTokenToOwnerEnumeration(to,tokenId)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: previousOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 7
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 13
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidSender(address)(address(0))
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(address(0),tokenId,address(0))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: emitEvent || auth != address(0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = _requireOwned(tokenId)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: auth != address(0) && owner != auth && ! isApprovedForAll(owner,auth)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidApprover(address)(auth)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: emitEvent
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,to,tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: operator == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOperator(address)(operator)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[owner][operator] = approved
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(owner,operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _requireOwned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: tokenOfOwnerByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: index >= balanceOf(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721OutOfBoundsIndex(address,uint256)(owner,index)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _ownedTokens[owner][index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allTokens.length
+
+Edges:
+  0 -> 1
+
+Function: tokenByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: index >= totalSupply()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721OutOfBoundsIndex(address,uint256)(address(0),index)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _allTokens[index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _addTokenToOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = balanceOf(to) - 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokens[to][length] = tokenId
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[tokenId] = length
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _addTokenToAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[tokenId] = _allTokens.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.push(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _removeTokenFromOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = balanceOf(from)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _ownedTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: _ownedTokensByOwner = _ownedTokens[from]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: tokenIndex != lastTokenIndex
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _ownedTokensByOwner[lastTokenIndex]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensByOwner[tokenIndex] = lastTokenId
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokensIndex[tokenId]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokensByOwner[lastTokenIndex]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 8
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _removeTokenFromAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = _allTokens.length - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _allTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _allTokens[lastTokenIndex]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens[tokenIndex] = lastTokenId
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete _allTokensIndex[tokenId]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.pop()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+
+Contract: IERC4906
+==================================================
+
+
+Contract: ERC721URIStorage
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == ERC4906_INTERFACE_ID || super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _requireOwned(tokenId)
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _tokenURI = _tokenURIs[tokenId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: base = _baseURI()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(base).length == 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: _tokenURI
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: bytes(_tokenURI).length > 0
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: string.concat(base,_tokenURI)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: super.tokenURI(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId,_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _getApproved(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,_msgSender())
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transferFrom(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _isAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: spender != address(0) && (owner == spender || isApprovedForAll(owner,spender) || _getApproved(tokenId) == spender)
+
+Edges:
+  0 -> 1
+
+Function: _checkAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! _isAuthorized(owner,spender,tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InsufficientApproval(address,uint256)(spender,tokenId)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: _increaseBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] += value
+
+Edges:
+  0 -> 1
+
+Function: _update
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: from = _ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: auth != address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _checkAuthorized(from,auth,tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: from != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId,address(0),false)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] -= 1
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: to != address(0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,tokenId)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: from
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidSender(address)(address(0))
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(address(0),tokenId,address(0))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: emitEvent || auth != address(0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = _requireOwned(tokenId)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: auth != address(0) && owner != auth && ! isApprovedForAll(owner,auth)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidApprover(address)(auth)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: emitEvent
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,to,tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: operator == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOperator(address)(operator)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[owner][operator] = approved
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(owner,operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _requireOwned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: _setTokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenURIs[tokenId] = _tokenURI
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MetadataUpdate(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ERC4906_INTERFACE_ID = bytes4(0x49064906)
+
+Edges:
+
+
+Contract: Pausable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+Edges:
+  0 -> 1
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _requireNotPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: paused()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert EnforcedPause()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: _requirePaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! paused()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ExpectedPause()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: ERC721Pausable
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _requireNotPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: paused()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert EnforcedPause()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: _requirePaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! paused()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ExpectedPause()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC165).interfaceId
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _requireOwned(tokenId)
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: baseURI = _baseURI()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(baseURI).length > 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: string.concat(baseURI,tokenId.toString())
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId,_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _getApproved(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,_msgSender())
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transferFrom(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _isAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: spender != address(0) && (owner == spender || isApprovedForAll(owner,spender) || _getApproved(tokenId) == spender)
+
+Edges:
+  0 -> 1
+
+Function: _checkAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! _isAuthorized(owner,spender,tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InsufficientApproval(address,uint256)(spender,tokenId)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: _increaseBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _balances[account] += value
+
+Edges:
+  0 -> 1
+
+Function: _update
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: super._update(to,tokenId,auth)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidSender(address)(address(0))
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(address(0),tokenId,address(0))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: emitEvent || auth != address(0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = _requireOwned(tokenId)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: auth != address(0) && owner != auth && ! isApprovedForAll(owner,auth)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidApprover(address)(auth)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: emitEvent
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,to,tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: operator == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOperator(address)(operator)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[owner][operator] = approved
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(owner,operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _requireOwned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: initialOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(initialOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner() != _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableUnauthorizedAccount(address)(_msgSender())
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: OCDD
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: setHiddenURI(_hiddenURI)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: setMaxAmountPerTx(_maxAmountPerTx)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: setCost(_cost)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: setReserved(_initReserved)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _safeMint(msg.sender,0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: ERC721(OverseaCryptoDegenDudes,OCDD)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Ownable(msg.sender)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner() != _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableUnauthorizedAccount(address)(_msgSender())
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: _update
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: super._update(to,tokenId,auth)
+
+Edges:
+  0 -> 1
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _requireNotPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: paused()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert EnforcedPause()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: _requirePaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! paused()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ExpectedPause()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _requireOwned(tokenId)
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: revealed == false
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: hiddenURI
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(baseExtension).length > 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: string.concat(super.tokenURI(tokenId),baseExtension)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: super.tokenURI(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: string.concat(baseURI)
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId,_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _requireOwned(tokenId)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _getApproved(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,_msgSender())
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transferFrom(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: _isAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: spender != address(0) && (owner == spender || isApprovedForAll(owner,spender) || _getApproved(tokenId) == spender)
+
+Edges:
+  0 -> 1
+
+Function: _checkAuthorized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! _isAuthorized(owner,spender,tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InsufficientApproval(address,uint256)(spender,tokenId)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: _increaseBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: super._increaseBalance(account,value)
+
+Edges:
+  0 -> 1
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidSender(address)(address(0))
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(address(0),tokenId,address(0))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = _update(to,tokenId,address(0))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: previousOwner == address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: previousOwner != from
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721IncorrectOwner(address,uint256,address)(from,tokenId,previousOwner)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721Utils.checkOnERC721Received(_msgSender(),from,to,tokenId,data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: emitEvent || auth != address(0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = _requireOwned(tokenId)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: auth != address(0) && owner != auth && ! isApprovedForAll(owner,auth)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidApprover(address)(auth)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: emitEvent
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,to,tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: operator == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721InvalidOperator(address)(operator)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[owner][operator] = approved
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(owner,operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _requireOwned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721NonexistentToken(uint256)(tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: _setTokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenURIs[tokenId] = _tokenURI
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MetadataUpdate(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: tokenOfOwnerByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: index >= balanceOf(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721OutOfBoundsIndex(address,uint256)(owner,index)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _ownedTokens[owner][index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allTokens.length
+
+Edges:
+  0 -> 1
+
+Function: tokenByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: index >= totalSupply()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC721OutOfBoundsIndex(address,uint256)(address(0),index)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _allTokens[index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _addTokenToOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = balanceOf(to) - 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokens[to][length] = tokenId
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[tokenId] = length
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _addTokenToAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[tokenId] = _allTokens.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.push(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _removeTokenFromOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = balanceOf(from)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _ownedTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: _ownedTokensByOwner = _ownedTokens[from]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: tokenIndex != lastTokenIndex
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _ownedTokensByOwner[lastTokenIndex]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensByOwner[tokenIndex] = lastTokenId
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokensIndex[tokenId]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokensByOwner[lastTokenIndex]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 8
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _removeTokenFromAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = _allTokens.length - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _allTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _allTokens[lastTokenIndex]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens[tokenIndex] = lastTokenId
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete _allTokensIndex[tokenId]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.pop()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _pause()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _unpause()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _mintLoop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < _mintAmount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _safeMint(_receiver,totalSupply())
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 3
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(mintingIsLive,The contract is not ready to mint!)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= cost * _mintAmount,Insufficient funds!)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _mintLoop(msg.sender,_mintAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mintCompliance(_mintAmount)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: airdrop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mintLoop(_receiver,_mintAmount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: reserved -= _mintAmount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mintCompliance(_mintAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: walletOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokenCount = balanceOf(owner)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokensId = new uint256[](tokenCount)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < tokenCount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tokensId[i] = tokenOfOwnerByIndex(owner,i)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: tokensId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+Function: setBaseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: baseURI = uri
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBaseExtension
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: baseExtension = newBaseExtension
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHiddenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: hiddenURI = uri
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: toggleReveal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revealed = ! revealed
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: toggleMintingIsLive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: mintingIsLive = ! mintingIsLive
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setMaxAmountPerTx
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: maxAmountPerTx = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setCost
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: cost = newCost
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setReserved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: reserved = _reserved
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: checkBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount_ <= address(this).balance,The balance must be more than the amount for withdraw)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(msg.sender).call{value: amount_}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(success)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxSupply = 10000
+
+Edges:
+
+

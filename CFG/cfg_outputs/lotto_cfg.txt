@@ -1,0 +1,56 @@
+Contract: Lotto
+==================================================
+
+Function: sendToWinner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! payedOut)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: winner.send(winAmount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: payedOut = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: withdrawLeftOver
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(payedOut)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.send(this.balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: payedOut = false
+
+Edges:
+
+

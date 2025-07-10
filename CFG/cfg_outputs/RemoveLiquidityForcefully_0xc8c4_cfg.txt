@@ -1,0 +1,159 @@
+Contract: IUniswapV2Pair
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: IWETH
+==================================================
+
+
+Contract: RemoveLiquidityForcefully
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token0 = IUniswapV2Pair(pair).token0()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: token1 = IUniswapV2Pair(pair).token1()
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lpBalance = IERC20(pair).balanceOf(msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(lpBalance > 0,No LP tokens available)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(pair).transferFrom(msg.sender,address(this),lpBalance),LP transfer failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(pair).approve(pair,lpBalance),Approval failed)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (amount0,amount1) = IUniswapV2Pair(pair).burn(address(this))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(token0).transfer(recipient,amount0),Token0 transfer failed)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(token1).transfer(recipient,amount1),Token1 transfer failed)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: token0 == weth
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: IWETH(weth).withdraw(amount0)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: address(recipient).transfer(amount0)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: token1 == weth
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: IWETH(weth).withdraw(amount1)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: address(recipient).transfer(amount1)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 13
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: pair = 0x6C25CF2160dB4A1BE0f1317FC301F5a5cDbA9199
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: recipient = 0xd230b145af1165E68Cd3A24fe488CE63e80218B0
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

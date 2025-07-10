@@ -1,0 +1,38 @@
+Contract: InternetWall
+==================================================
+
+Function: addMessage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newMsg.timestamp = block.timestamp
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: messages[messagesIndex] = newMsg
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: messagesIndex ++
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: messagesIndex
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

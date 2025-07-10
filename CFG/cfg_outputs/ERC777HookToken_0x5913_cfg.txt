@@ -1,0 +1,158 @@
+Contract: IChain
+==================================================
+
+
+Contract: ERC777HookToken
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: chainAddr = _chainAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = 10000000000000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[from] >= value,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: msg.sender == chainAddr && attackCount < 5
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: attackCount ++
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Hooked(attackCount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: IChain(chainAddr).mint(owner,1000000000000000000)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balances[from] -= value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: balances[to] += value
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 6
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= value,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= value
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[who]
+
+Edges:
+  0 -> 1
+
+Function: startAttack
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: attackCount = 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: IChain(chainAddr).mint(owner,1000000000000000000)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setChainAddr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Only owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: chainAddr = _chainAddr
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

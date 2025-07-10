@@ -1,0 +1,38 @@
+Contract: CoinLock
+==================================================
+
+Function: lock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _expiration > block.timestamp && expiration == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: expiration = _expiration
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+
+

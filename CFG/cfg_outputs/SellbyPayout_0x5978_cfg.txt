@@ -1,0 +1,322 @@
+Contract: IERC20
+==================================================
+
+
+Contract: SafeERC20
+==================================================
+
+Function: safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: prevBalance = _token.balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: prevBalance < _value
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: address(_token).call(abi.encodeWithSignature(transfer(address,uint256),_to,_value))
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: prevBalance - _value == _token.balanceOf(address(this))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+
+
+Contract: SellbyPayout
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: distributeEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(recipients.length == amounts.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalAmount = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < amounts.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalAmount += amounts[i]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(this).balance >= totalAmount)
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: i_scope_0 = 0
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: i_scope_0 < recipients.length
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: address(recipients[i_scope_0]).transfer(amounts[i_scope_0])
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_0 ++
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+  9 -> 12
+  10 -> 13
+  12 -> 10
+  13 -> 14
+  13 -> 11
+  14 -> 15
+  15 -> 13
+  16 -> 1
+
+Function: distributeToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(recipients.length == amounts.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalAmount = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < amounts.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalAmount += amounts[i]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalAmount <= token.balanceOf(address(this)))
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: i_scope_0 = 0
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: i_scope_0 < recipients.length
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(token,recipients[i_scope_0],amounts[i_scope_0])
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_0 ++
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+  9 -> 12
+  10 -> 13
+  12 -> 10
+  13 -> 14
+  13 -> 11
+  14 -> 15
+  15 -> 13
+  16 -> 1
+
+Function: withraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(addr).transfer(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: SafeERC20.safeTransfer(token,to,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: balance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: balanceToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: token.balanceOf(address(this))
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

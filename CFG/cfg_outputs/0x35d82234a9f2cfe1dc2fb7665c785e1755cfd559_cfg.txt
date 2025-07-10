@@ -1,0 +1,987 @@
+Contract: MultiSigWallet
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.value > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(msg.sender,msg.value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: MultiSigWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < _owners.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: isOwner[_owners[i]] || _owners[i] == 0
+
+  ID: 6
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: isOwner[_owners[i]] = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: owners = _owners
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: required = _required
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: validRequirement(_owners.length,_required)
+
+Edges:
+  0 -> 12
+  1 -> 4
+  2 -> 10
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 4
+  10 -> 11
+  12 -> 3
+
+Function: addOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isOwner[owner] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owners.push(owner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnerAddition(owner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyWallet()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ownerDoesNotExist(owner)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: notNull(owner)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: validRequirement(owners.length + 1,required)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 1
+
+Function: removeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isOwner[owner] = false
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < owners.length - 1
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: owners[i] == owner
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: owners[i] = owners[owners.length - 1]
+
+  ID: 8
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: owners.length -= 1
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: required > owners.length
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: changeRequirement(owners.length)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: OwnerRemoval(owner)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: onlyWallet()
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: ownerExists(owner)
+
+Edges:
+  0 -> 16
+  1 -> 4
+  2 -> 5
+  3 -> 11
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 9
+  7 -> 8
+  8 -> 3
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  16 -> 17
+  17 -> 1
+
+Function: replaceOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < owners.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: owners[i] == owner
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: owners[i] = newOwner
+
+  ID: 7
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: isOwner[owner] = false
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: isOwner[newOwner] = true
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: OwnerRemoval(owner)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: OwnerAddition(newOwner)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyWallet()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: ownerExists(owner)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: ownerDoesNotExist(newOwner)
+
+Edges:
+  0 -> 14
+  1 -> 4
+  2 -> 10
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 2
+  8 -> 9
+  9 -> 4
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 16
+  16 -> 3
+
+Function: changeRequirement
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: required = _required
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: RequirementChange(_required)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyWallet()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: validRequirement(owners.length,_required)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: submitTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transactionId = addTransaction(destination,value,data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: confirmTransaction(transactionId)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: transactionId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: confirmTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: confirmations[transactionId][msg.sender] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Confirmation(msg.sender,transactionId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: executeTransaction(transactionId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ownerExists(msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transactionExists(transactionId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: notConfirmed(transactionId,msg.sender)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 1
+
+Function: revokeConfirmation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: confirmations[transactionId][msg.sender] = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Revocation(msg.sender,transactionId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ownerExists(msg.sender)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: confirmed(transactionId,msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: notExecuted(transactionId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: executeTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: isConfirmed(transactionId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tx = transactions[transactionId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tx.executed = true
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: tx.destination.call.value(tx.value)(tx.data)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Execution(transactionId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: ExecutionFailure(transactionId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tx.executed = false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: notExecuted(transactionId)
+
+Edges:
+  0 -> 10
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: isConfirmed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: count = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < owners.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: confirmations[transactionId][owners[i]]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: count += 1
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: count == required
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  11 -> 12
+  12 -> 5
+
+Function: addTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transactionId = transactionCount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: transactions[transactionId] = Transaction(destination,value,data,false)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: transactionCount += 1
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Submission(transactionId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: notNull(destination)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: transactionId
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  5 -> 1
+
+Function: getConfirmationCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < owners.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: confirmations[transactionId][owners[i]]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: count += 1
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: count
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 9
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 4
+
+Function: getTransactionCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < transactionCount
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: pending && ! transactions[i].executed || executed && transactions[i].executed
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: count += 1
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: count
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 9
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 4
+
+Function: getOwners
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: owners
+
+Edges:
+  0 -> 1
+
+Function: getConfirmations
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: confirmationsTemp = new address[](owners.length)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: count = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < owners.length
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: confirmations[transactionId][owners[i]]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: confirmationsTemp[count] = owners[i]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: count += 1
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _confirmations = new address[](count)
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: i < count
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _confirmations[i] = confirmationsTemp[i]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.RETURN
+  Expression: _confirmations
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 13
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 11
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 7
+  13 -> 16
+  14 -> 17
+  15 -> 20
+  16 -> 14
+  17 -> 18
+  17 -> 15
+  18 -> 19
+  19 -> 17
+
+Function: getTransactionIds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: transactionIdsTemp = new uint256[](transactionCount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: count = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < transactionCount
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: pending && ! transactions[i].executed || executed && transactions[i].executed
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: transactionIdsTemp[count] = i
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: count += 1
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _transactionIds = new uint256[](to - from)
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i = from
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: i < to
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _transactionIds[i - from] = transactionIdsTemp[i]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.RETURN
+  Expression: _transactionIds
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 13
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 11
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 7
+  13 -> 16
+  14 -> 17
+  15 -> 20
+  16 -> 14
+  17 -> 18
+  17 -> 15
+  18 -> 19
+  19 -> 17
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_OWNER_COUNT = 50
+
+Edges:
+
+

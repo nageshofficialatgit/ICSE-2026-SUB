@@ -1,0 +1,247 @@
+Contract: IERC20
+==================================================
+
+
+Contract: CreditSale
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_percentWallet1 + _percentWallet2 == 100,Total percentage must be 100)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: token = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: wallet1 = _wallet1
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: wallet2 = _wallet2
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: percentWallet1 = _percentWallet1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: percentWallet2 = _percentWallet2
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: options.push(CreditOption(1 * 10 ** 6,10))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: options.push(CreditOption(25 * 10 ** 6,30))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: options.push(CreditOption(40 * 10 ** 6,50))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: buyCredit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(optionIndex < options.length,Invalid option)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: option = options[optionIndex]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: balanceBefore = token.balanceOf(address(this))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: token.transferFrom(msg.sender,address(this),option.price)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: balanceAfter = token.balanceOf(address(this))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceAfter >= balanceBefore + option.price,Transfer failed)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: amount1 = (option.price * percentWallet1) / 100
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amount2 = (option.price * percentWallet2) / 100
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: token.transferFrom(address(this),wallet1,amount1)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: token.transferFrom(address(this),wallet2,amount2)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: credits[msg.sender] += option.amount
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: CreditPurchased(msg.sender,option.amount,option.price)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: updateCreditOption
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(optionIndex < options.length,Invalid option index)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: options[optionIndex] = CreditOption(newPrice,newAmount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: CreditOptionUpdated(optionIndex,newPrice,newAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateWallets
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newWallet1 != address(0) && newWallet2 != address(0),Invalid wallet address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: wallet1 = newWallet1
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: wallet2 = newWallet2
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: WalletsUpdated(newWallet1,newWallet2)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: updatePercentages
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newPercentWallet1 + newPercentWallet2 == 100,Total percentage must be 100)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: percentWallet1 = newPercentWallet1
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: percentWallet2 = newPercentWallet2
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: PercentageUpdated(newPercentWallet1,newPercentWallet2)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: getCreditBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: credits[user]
+
+Edges:
+  0 -> 1
+
+

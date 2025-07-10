@@ -1,0 +1,28 @@
+Contract: Redenom
+==================================================
+
+Function: pay055loyal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: new_amount = (block.timestamp % 100) + 55566600
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: new_amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+

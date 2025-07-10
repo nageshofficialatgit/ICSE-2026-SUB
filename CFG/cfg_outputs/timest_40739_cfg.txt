@@ -1,0 +1,23 @@
+Contract: DeflatingERC20
+==================================================
+
+Function: permit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(deadline >= block.timestamp,EXPIRED)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(recoveredAddress != address(0) && recoveredAddress == owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

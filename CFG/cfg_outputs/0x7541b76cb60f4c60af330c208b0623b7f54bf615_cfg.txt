@@ -1,0 +1,170 @@
+Contract: U_BANK
+==================================================
+
+Function: Put
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: acc = Acc[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: acc.balance += msg.value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: LogFile.AddMessage(msg.sender,msg.value,Put)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _unlockTime > now
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: acc.unlockTime = _unlockTime
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: acc.unlockTime = now
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 4
+
+Function: Collect
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: acc = Acc[msg.sender]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: acc.balance >= MinSum && acc.balance >= _am && now > acc.unlockTime
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: msg.sender.call.value(_am)()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: acc.balance -= _am
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: LogFile.AddMessage(msg.sender,_am,Collect)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Put(0)
+
+Edges:
+  0 -> 1
+
+Function: U_BANK
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: LogFile = Log(log)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MinSum = 2000000000000000000
+
+Edges:
+
+
+Contract: Log
+==================================================
+
+Function: AddMessage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: LastMsg.Sender = _adr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LastMsg.Time = now
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LastMsg.Val = _val
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: LastMsg.Data = _data
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: History.push(LastMsg)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

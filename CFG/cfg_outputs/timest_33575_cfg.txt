@@ -1,0 +1,38 @@
+Contract: RaiseFundsForACause
+==================================================
+
+Function: receiverWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp < (timeStarted + expirationInSeconds))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(hasBeenClaimed == false)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: hasBeenClaimed = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: receiver.transfer(this.balance)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

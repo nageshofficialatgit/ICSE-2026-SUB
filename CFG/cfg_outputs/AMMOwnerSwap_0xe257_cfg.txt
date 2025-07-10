@@ -1,0 +1,327 @@
+Contract: IERC20
+==================================================
+
+
+Contract: AggregatorV3Interface
+==================================================
+
+
+Contract: AMMOwnerSwap
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_usdtToken != address(0),Invalid USDT token address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_priceFeed != address(0),Invalid price feed address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: usdtToken = IERC20(_usdtToken)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: priceFeed = AggregatorV3Interface(_priceFeed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: minEthReserve = reserve0 * 2 / 100
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: addLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount0 > 0 && amount1 > 0,Amounts must be greater than 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == amount0,ETH amount mismatch)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.transferFrom(msg.sender,address(this),amount1),USDT transfer failed)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: reserve0 += amount0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: reserve1 += amount1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: LiquidityAdded(msg.sender,amount0,amount1)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: getMarketPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,price,None,None,None) = priceFeed.latestRoundData()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(price > 0,Invalid price data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint256(price)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: swap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(reserve0 > 0 && reserve1 > 0,Insufficient reserves)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: marketPrice = getMarketPrice()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: isEthToUsdt
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: amountIn = reserve0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = (amountIn * marketPrice) / 1e8
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: reserve0 = 0
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: reserve1 += amountOut
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.transfer(msg.sender,amountOut),USDT transfer failed)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: amountIn = reserve1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: amountOut = (amountIn * 1e8) / marketPrice
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountOut <= address(this).balance - minEthReserve,Not enough ETH for swap)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: reserve1 = 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: reserve0 += amountOut
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: (sent,None) = msg.sender.call{value: amountOut}()
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sent,ETH transfer failed)
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: Swap(msg.sender,amountIn,amountOut,isEthToUsdt)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 21
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 11
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 19
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  21 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: isETH
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= reserve0 - minEthReserve,Not enough ETH reserves)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: reserve0 -= amount
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (sent,None) = msg.sender.call{value: amount}()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sent,ETH transfer failed)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= reserve1,Not enough USDT reserves)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: reserve1 -= amount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdtToken.transfer(msg.sender,amount),USDT transfer failed)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawal(msg.sender,amount,isETH)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  1 -> 7
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 10
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

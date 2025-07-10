@@ -1,0 +1,61 @@
+Contract: MijnContract
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: eigenaar = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ontvangenBedrag = msg.value
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getSaldo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: stuurEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == eigenaar,Alleen de eigenaar kan Ether versturen)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bedrag <= address(this).balance,Onvoldoende saldo in het contract)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ontvanger.transfer(bedrag)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

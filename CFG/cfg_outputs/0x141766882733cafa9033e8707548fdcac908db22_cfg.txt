@@ -1,0 +1,8485 @@
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: EjectableOwnable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = 0x0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: JointOwnable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: assignAnotherOwner1
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_anotherOwner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AnotherOwnerAssigned(_anotherOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: anotherOwner1 = _anotherOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: assignAnotherOwner2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_anotherOwner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AnotherOwnerAssigned(_anotherOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: anotherOwner2 = _anotherOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: Pausable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+
+Contract: Destructible
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: Destructible
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: destroy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: destroyAndSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(_recipient)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c / a == b)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: PullPayment
+==================================================
+
+Function: withdrawPayments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payee = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: payment = payments[payee]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(payment != 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance >= payment)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.sub(payment)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: payments[payee] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(payee.send(payment))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payments[dest] = payments[dest].add(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.add(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: ERC721
+==================================================
+
+
+Contract: DungeonStructs
+==================================================
+
+
+Contract: DungeonToken
+==================================================
+
+Function: assignAnotherOwner1
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_anotherOwner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AnotherOwnerAssigned(_anotherOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: anotherOwner1 = _anotherOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: assignAnotherOwner2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_anotherOwner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AnotherOwnerAssigned(_anotherOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: anotherOwner2 = _anotherOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: dungeons.length
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownershipTokenCount[_owner]
+
+Edges:
+  0 -> 1
+
+Function: _owns
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokenIndexToOwner[_tokenId] == _claimant
+
+Edges:
+  0 -> 1
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenIndexToOwner[_tokenId] != address(0))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenIndexToOwner[_tokenId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownershipTokenCount[_to] ++
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToOwner[_tokenId] = _to
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ownerTokens[_to].push(_tokenId)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ownershipTokenCount[_from] --
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: fromTokens = ownerTokens[_from]
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: iFound = false
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: i < fromTokens.length - 1
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: iFound
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: fromTokens[i] = fromTokens[i + 1]
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: fromTokens[i] == _tokenId
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: iFound = true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: fromTokens[i] = fromTokens[i + 1]
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: fromTokens.length --
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 21
+  5 -> 6
+  6 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 20
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  12 -> 14
+  13 -> 18
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 11
+  20 -> 21
+  21 -> 22
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owns(msg.sender,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,_to,_tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: getOwnerTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerTokens[_owner]
+
+Edges:
+  0 -> 1
+
+Function: createDungeon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalSupply() < DUNGEON_CREATION_LIMIT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dungeons.push(Dungeon(uint32(now),0,uint8(_difficulty),uint16(_capacity),0,0,0,_seedGenes,0))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: newTokenId = dungeons.length - 1
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Mint(_owner,newTokenId,_difficulty,_capacity,_seedGenes)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: addDungeonNewFloor(newTokenId,0,_firstFloorGenes)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(0,_owner,newTokenId)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: newTokenId
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: eitherOwner()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: setDungeonStatus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeons[_id].status = uint8(_newStatus)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: eitherOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenExists(_id)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: addDungeonRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeons[_id].rewards += uint128(_additinalRewards)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: eitherOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenExists(_id)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: addDungeonNewFloor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: dungeon = dungeons[_id]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dungeon.floorNumber ++
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dungeon.floorCreationTime = uint32(now)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dungeon.rewards = uint128(_newRewards)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dungeon.floorGenes = _newFloorGenes
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: NewDungeonFloor(now,_id,dungeon.floorNumber,dungeon.rewards,dungeon.floorGenes)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: eitherOwner()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: tokenExists(_id)
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 8
+  8 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DUNGEON_CREATION_LIMIT = 1024
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Dungeon
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = DUNG
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: HeroToken
+==================================================
+
+Function: assignAnotherOwner1
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_anotherOwner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AnotherOwnerAssigned(_anotherOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: anotherOwner1 = _anotherOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: assignAnotherOwner2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_anotherOwner != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: AnotherOwnerAssigned(_anotherOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: anotherOwner2 = _anotherOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: heroes.length
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownershipTokenCount[_owner]
+
+Edges:
+  0 -> 1
+
+Function: _owns
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokenIndexToOwner[_tokenId] == _claimant
+
+Edges:
+  0 -> 1
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenIndexToOwner[_tokenId] != address(0))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenIndexToOwner[_tokenId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownershipTokenCount[_to] ++
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToOwner[_tokenId] = _to
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ownerTokens[_to].push(_tokenId)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ownershipTokenCount[_from] --
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: fromTokens = ownerTokens[_from]
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: iFound = false
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: i < fromTokens.length - 1
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: iFound
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: fromTokens[i] = fromTokens[i + 1]
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: fromTokens[i] == _tokenId
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: iFound = true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: fromTokens[i] = fromTokens[i + 1]
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: fromTokens.length --
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 21
+  5 -> 6
+  6 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 20
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  12 -> 14
+  13 -> 18
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 11
+  20 -> 21
+  21 -> 22
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owns(msg.sender,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,_to,_tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: getOwnerTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerTokens[_owner]
+
+Edges:
+  0 -> 1
+
+Function: createHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroes.push(Hero(uint64(now),0,0,_genes))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: newTokenId = heroes.length - 1
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Mint(_owner,newTokenId,_genes)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(0,_owner,newTokenId)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: newTokenId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: eitherOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: setHeroGenes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroes[_id].genes = _newGenes
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: eitherOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenExists(_id)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: triggerCooldown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hero = heroes[_id]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: hero.cooldownStartTime = uint64(now)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: hero.cooldownIndex ++
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: eitherOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokenExists(_id)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Hero
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = HERO
+
+Edges:
+  0 -> 1
+
+
+Contract: ChallengeScienceInterface
+==================================================
+
+
+Contract: TrainingScienceInterface
+==================================================
+
+
+Contract: DungeonBase
+==================================================
+
+Function: withdrawPayments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payee = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: payment = payments[payee]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(payment != 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance >= payment)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.sub(payment)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: payments[payee] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(payee.send(payment))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payments[dest] = payments[dest].add(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.add(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = 0x0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setDungeonTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract = DungeonToken(_newDungeonTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHeroTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract = HeroToken(_newHeroTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeScienceContract = ChallengeScienceInterface(_newChallengeScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTrainingScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: trainingScienceContract = TrainingScienceInterface(_newTrainingScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _getTop5HeroesPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroCount = heroTokenContract.balanceOf(_address)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: heroPowers = new uint256[](heroCount)
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < heroCount
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: heroId = heroTokenContract.ownerTokens(_address,i)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,genes) = heroTokenContract.heroes(heroId)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[i] = _getHeroPower(genes,_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IFLOOP
+  Expression: j < 5
+
+  ID: 22
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: k = 0
+
+  ID: 25
+  Type: NodeType.IFLOOP
+  Expression: k < heroPowers.length
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: heroPowers[k] > curMax
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: curMax = heroPowers[k]
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = k
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: k ++
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: result += curMax
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[curMaxIndex] = 0
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: curMax = 0
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = 0
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 36
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 15
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 9
+  15 -> 16
+  16 -> 17
+  17 -> 20
+  18 -> 21
+  19 -> 36
+  20 -> 18
+  21 -> 24
+  21 -> 19
+  22 -> 25
+  23 -> 31
+  24 -> 22
+  25 -> 26
+  25 -> 23
+  26 -> 27
+  26 -> 29
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 25
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 21
+
+Function: _getHeroPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,None,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: statsPower += _genes % 32 + 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: superRank = _genes % 32
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: j = 4
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: curGene = _genes % 32
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: equipmentPower += EQUIPMENT_POWERS[curGene]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: superRank != curGene
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: superRank = 0
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: isSuper = superRank >= 16
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: isSuper
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: superBoost = (difficulty - 1) * SUPER_HERO_MULTIPLIER
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: statsPower + equipmentPower + superBoost
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 15
+  13 -> 16
+  14 -> 24
+  15 -> 13
+  16 -> 17
+  16 -> 14
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 16
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+
+Function: _getDungeonPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPower += EQUIPMENT_POWERS[_genes % 32]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: dungeonPower
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 9
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EQUIPMENT_POWERS = (1,2,4,5,16,17,18,19,0,0,0,0,0,0,0,0,4,16,32,33,0,0,0,0,32,64,0,0,128,0,0,0)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SUPER_HERO_MULTIPLIER = 32
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: DungeonTransportation
+==================================================
+
+Function: setDungeonTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract = DungeonToken(_newDungeonTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHeroTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract = HeroToken(_newHeroTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeScienceContract = ChallengeScienceInterface(_newChallengeScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTrainingScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: trainingScienceContract = TrainingScienceInterface(_newTrainingScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _getTop5HeroesPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroCount = heroTokenContract.balanceOf(_address)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: heroPowers = new uint256[](heroCount)
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < heroCount
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: heroId = heroTokenContract.ownerTokens(_address,i)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,genes) = heroTokenContract.heroes(heroId)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[i] = _getHeroPower(genes,_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IFLOOP
+  Expression: j < 5
+
+  ID: 22
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: k = 0
+
+  ID: 25
+  Type: NodeType.IFLOOP
+  Expression: k < heroPowers.length
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: heroPowers[k] > curMax
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: curMax = heroPowers[k]
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = k
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: k ++
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: result += curMax
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[curMaxIndex] = 0
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: curMax = 0
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = 0
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 36
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 15
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 9
+  15 -> 16
+  16 -> 17
+  17 -> 20
+  18 -> 21
+  19 -> 36
+  20 -> 18
+  21 -> 24
+  21 -> 19
+  22 -> 25
+  23 -> 31
+  24 -> 22
+  25 -> 26
+  25 -> 23
+  26 -> 27
+  26 -> 29
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 25
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 21
+
+Function: _getHeroPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,None,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: statsPower += _genes % 32 + 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: superRank = _genes % 32
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: j = 4
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: curGene = _genes % 32
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: equipmentPower += EQUIPMENT_POWERS[curGene]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: superRank != curGene
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: superRank = 0
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: isSuper = superRank >= 16
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: isSuper
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: superBoost = (difficulty - 1) * SUPER_HERO_MULTIPLIER
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: statsPower + equipmentPower + superBoost
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 15
+  13 -> 16
+  14 -> 24
+  15 -> 13
+  16 -> 17
+  16 -> 14
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 16
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+
+Function: _getDungeonPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPower += EQUIPMENT_POWERS[_genes % 32]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: dungeonPower
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 9
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 5
+
+Function: withdrawPayments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payee = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: payment = payments[payee]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(payment != 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance >= payment)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.sub(payment)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: payments[payee] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(payee.send(payment))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payments[dest] = payments[dest].add(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.add(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = 0x0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: originDungeonId = playerToDungeonID[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_destinationDungeonId != originDungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,capacity,None,None,None,None,None) = dungeonTokenContract.dungeons(_destinationDungeonId)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: top5HeroesPower = _getTop5HeroesPower(msg.sender,_destinationDungeonId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(top5HeroesPower >= difficulty * 12)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: baseFee = difficulty * transportationFeeMultiplier
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: additionalFee = top5HeroesPower / 48 * transportationFeeMultiplier
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = baseFee + additionalFee
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(originDungeonId,requiredFee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _transport(originDungeonId,_destinationDungeonId)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTransport(_destinationDungeonId)
+
+Edges:
+  0 -> 15
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  16 -> 1
+
+Function: _transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: claimHero()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_originDungeonId] --
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_destinationDungeonId] ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: playerToDungeonID[msg.sender] = _destinationDungeonId
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: PlayerTransported(now,msg.sender,_originDungeonId,_destinationDungeonId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _getHeroGenesOrClaimFirstHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroId = _heroId
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: heroId = claimHero()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,heroGenes) = heroTokenContract.heroes(heroId)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (heroId,heroGenes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: claimHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: playerToDungeonID[msg.sender] == 0 && heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[0] ++
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: heroTokenContract.createHero(0,msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: setTransportationFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transportationFeeMultiplier = _newTransportationFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EQUIPMENT_POWERS = (1,2,4,5,16,17,18,19,0,0,0,0,0,0,0,0,4,16,32,33,0,0,0,0,32,64,0,0,128,0,0,0)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SUPER_HERO_MULTIPLIER = 32
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: transportationFeeMultiplier = 500000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: DungeonChallenge
+==================================================
+
+Function: transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: originDungeonId = playerToDungeonID[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_destinationDungeonId != originDungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,capacity,None,None,None,None,None) = dungeonTokenContract.dungeons(_destinationDungeonId)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: top5HeroesPower = _getTop5HeroesPower(msg.sender,_destinationDungeonId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(top5HeroesPower >= difficulty * 12)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: baseFee = difficulty * transportationFeeMultiplier
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: additionalFee = top5HeroesPower / 48 * transportationFeeMultiplier
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = baseFee + additionalFee
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(originDungeonId,requiredFee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _transport(originDungeonId,_destinationDungeonId)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTransport(_destinationDungeonId)
+
+Edges:
+  0 -> 15
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  16 -> 1
+
+Function: _transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: claimHero()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_originDungeonId] --
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_destinationDungeonId] ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: playerToDungeonID[msg.sender] = _destinationDungeonId
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: PlayerTransported(now,msg.sender,_originDungeonId,_destinationDungeonId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _getHeroGenesOrClaimFirstHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroId = _heroId
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: heroId = claimHero()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,heroGenes) = heroTokenContract.heroes(heroId)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (heroId,heroGenes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: claimHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: playerToDungeonID[msg.sender] == 0 && heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[0] ++
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: heroTokenContract.createHero(0,msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: setTransportationFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transportationFeeMultiplier = _newTransportationFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setDungeonTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract = DungeonToken(_newDungeonTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHeroTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract = HeroToken(_newHeroTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeScienceContract = ChallengeScienceInterface(_newChallengeScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTrainingScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: trainingScienceContract = TrainingScienceInterface(_newTrainingScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _getTop5HeroesPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroCount = heroTokenContract.balanceOf(_address)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: heroPowers = new uint256[](heroCount)
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < heroCount
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: heroId = heroTokenContract.ownerTokens(_address,i)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,genes) = heroTokenContract.heroes(heroId)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[i] = _getHeroPower(genes,_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IFLOOP
+  Expression: j < 5
+
+  ID: 22
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: k = 0
+
+  ID: 25
+  Type: NodeType.IFLOOP
+  Expression: k < heroPowers.length
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: heroPowers[k] > curMax
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: curMax = heroPowers[k]
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = k
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: k ++
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: result += curMax
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[curMaxIndex] = 0
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: curMax = 0
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = 0
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 36
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 15
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 9
+  15 -> 16
+  16 -> 17
+  17 -> 20
+  18 -> 21
+  19 -> 36
+  20 -> 18
+  21 -> 24
+  21 -> 19
+  22 -> 25
+  23 -> 31
+  24 -> 22
+  25 -> 26
+  25 -> 23
+  26 -> 27
+  26 -> 29
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 25
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 21
+
+Function: _getHeroPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,None,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: statsPower += _genes % 32 + 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: superRank = _genes % 32
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: j = 4
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: curGene = _genes % 32
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: equipmentPower += EQUIPMENT_POWERS[curGene]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: superRank != curGene
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: superRank = 0
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: isSuper = superRank >= 16
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: isSuper
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: superBoost = (difficulty - 1) * SUPER_HERO_MULTIPLIER
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: statsPower + equipmentPower + superBoost
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 15
+  13 -> 16
+  14 -> 24
+  15 -> 13
+  16 -> 17
+  16 -> 14
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 16
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+
+Function: _getDungeonPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPower += EQUIPMENT_POWERS[_genes % 32]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: dungeonPower
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 9
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 5
+
+Function: withdrawPayments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payee = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: payment = payments[payee]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(payment != 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance >= payment)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.sub(payment)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: payments[payee] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(payee.send(payment))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payments[dest] = payments[dest].add(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.add(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = 0x0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: challenge
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,seedGenes,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = difficulty * challengeFeeMultiplier
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _challengePart2(_dungeonId,_heroId)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanChallenge(_dungeonId)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToChallenge(_heroId)
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 10
+  10 -> 11
+  11 -> 1
+
+Function: _challengePart2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,floorNumber,None,rewards,None,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (_heroId,heroGenes) = _getHeroGenesOrClaimFirstHero(_heroId)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: success = _getChallengeSuccess(heroGenes,_dungeonId,floorGenes)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: newFloorGenes = _getNewFloorGene(_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: masterRewards = rewards * masterRewardsPercent / 100
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: floorNumber < rushTimeFloorCount
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: successRewards = rewards * rushTimeChallengeRewardsPercent / 100
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: newRewards = rewards * (100 - rushTimeChallengeRewardsPercent - masterRewardsPercent) / 100
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: successRewards = rewards * challengeRewardsPercent / 100
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: newRewards = rewards * (100 - challengeRewardsPercent - masterRewardsPercent) / 100
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(successRewards + masterRewards + newRewards <= rewards)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonNewFloor(_dungeonId,newRewards,newFloorGenes)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,successRewards)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(dungeonTokenContract.ownerOf(_dungeonId),masterRewards)
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract.triggerCooldown(_heroId)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: DungeonChallenged(now,msg.sender,_dungeonId,_heroId,heroGenes,floorNumber,floorGenes,success,newFloorGenes,successRewards,masterRewards)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 25
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 18
+  16 -> 17
+  17 -> 20
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+
+Function: _getChallengeSuccess
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroPower = _getHeroPower(_heroGenes,_dungeonId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: floorPower = _getDungeonPower(_floorGenes)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: heroPower > floorPower
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _getNewFloorGene
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,None,None,seedGenes,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: floorPower = _getDungeonPower(floorGenes)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: newFloorGenes = challengeScienceContract.mixGenes(floorGenes,seedGenes)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: newFloorPower = _getDungeonPower(newFloorGenes)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: newFloorPower < floorPower
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: newFloorGenes = floorGenes
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: newFloorGenes
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: setChallengeFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeFeeMultiplier = _newChallengeFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeRewardsPercent = _newChallengeRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setMasterRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: masterRewardsPercent = _newMasterRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeCooldownTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeCooldownTime = _newChallengeCooldownTime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setDungeonPreparationTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPreparationTime = _newDungeonPreparationTime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setRushTimeChallengeRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: rushTimeChallengeRewardsPercent = _newRushTimeChallengeRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setRushTimeFloorCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: rushTimeFloorCount = _newRushTimeFloorCount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EQUIPMENT_POWERS = (1,2,4,5,16,17,18,19,0,0,0,0,0,0,0,0,4,16,32,33,0,0,0,0,32,64,0,0,128,0,0,0)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SUPER_HERO_MULTIPLIER = 32
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: transportationFeeMultiplier = 500000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeFeeMultiplier = 1000000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeRewardsPercent = 64
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: masterRewardsPercent = 8
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeCooldownTime = 180
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dungeonPreparationTime = 3600
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rushTimeChallengeRewardsPercent = 30
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rushTimeFloorCount = 30
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+
+Contract: DungeonTraining
+==================================================
+
+Function: challenge
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,seedGenes,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = difficulty * challengeFeeMultiplier
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _challengePart2(_dungeonId,_heroId)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanChallenge(_dungeonId)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToChallenge(_heroId)
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 10
+  10 -> 11
+  11 -> 1
+
+Function: _challengePart2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,floorNumber,None,rewards,None,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (_heroId,heroGenes) = _getHeroGenesOrClaimFirstHero(_heroId)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: success = _getChallengeSuccess(heroGenes,_dungeonId,floorGenes)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: newFloorGenes = _getNewFloorGene(_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: masterRewards = rewards * masterRewardsPercent / 100
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: floorNumber < rushTimeFloorCount
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: successRewards = rewards * rushTimeChallengeRewardsPercent / 100
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: newRewards = rewards * (100 - rushTimeChallengeRewardsPercent - masterRewardsPercent) / 100
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: successRewards = rewards * challengeRewardsPercent / 100
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: newRewards = rewards * (100 - challengeRewardsPercent - masterRewardsPercent) / 100
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(successRewards + masterRewards + newRewards <= rewards)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonNewFloor(_dungeonId,newRewards,newFloorGenes)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,successRewards)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(dungeonTokenContract.ownerOf(_dungeonId),masterRewards)
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract.triggerCooldown(_heroId)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: DungeonChallenged(now,msg.sender,_dungeonId,_heroId,heroGenes,floorNumber,floorGenes,success,newFloorGenes,successRewards,masterRewards)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 25
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 18
+  16 -> 17
+  17 -> 20
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+
+Function: _getChallengeSuccess
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroPower = _getHeroPower(_heroGenes,_dungeonId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: floorPower = _getDungeonPower(_floorGenes)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: heroPower > floorPower
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _getNewFloorGene
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,None,None,seedGenes,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: floorPower = _getDungeonPower(floorGenes)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: newFloorGenes = challengeScienceContract.mixGenes(floorGenes,seedGenes)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: newFloorPower = _getDungeonPower(newFloorGenes)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: newFloorPower < floorPower
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: newFloorGenes = floorGenes
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: newFloorGenes
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: setChallengeFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeFeeMultiplier = _newChallengeFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeRewardsPercent = _newChallengeRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setMasterRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: masterRewardsPercent = _newMasterRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeCooldownTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeCooldownTime = _newChallengeCooldownTime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setDungeonPreparationTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPreparationTime = _newDungeonPreparationTime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setRushTimeChallengeRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: rushTimeChallengeRewardsPercent = _newRushTimeChallengeRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setRushTimeFloorCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: rushTimeFloorCount = _newRushTimeFloorCount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: originDungeonId = playerToDungeonID[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_destinationDungeonId != originDungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,capacity,None,None,None,None,None) = dungeonTokenContract.dungeons(_destinationDungeonId)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: top5HeroesPower = _getTop5HeroesPower(msg.sender,_destinationDungeonId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(top5HeroesPower >= difficulty * 12)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: baseFee = difficulty * transportationFeeMultiplier
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: additionalFee = top5HeroesPower / 48 * transportationFeeMultiplier
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = baseFee + additionalFee
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(originDungeonId,requiredFee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _transport(originDungeonId,_destinationDungeonId)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTransport(_destinationDungeonId)
+
+Edges:
+  0 -> 15
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  16 -> 1
+
+Function: _transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: claimHero()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_originDungeonId] --
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_destinationDungeonId] ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: playerToDungeonID[msg.sender] = _destinationDungeonId
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: PlayerTransported(now,msg.sender,_originDungeonId,_destinationDungeonId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _getHeroGenesOrClaimFirstHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroId = _heroId
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: heroId = claimHero()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,heroGenes) = heroTokenContract.heroes(heroId)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (heroId,heroGenes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: claimHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: playerToDungeonID[msg.sender] == 0 && heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[0] ++
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: heroTokenContract.createHero(0,msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: setTransportationFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transportationFeeMultiplier = _newTransportationFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setDungeonTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract = DungeonToken(_newDungeonTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHeroTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract = HeroToken(_newHeroTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeScienceContract = ChallengeScienceInterface(_newChallengeScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTrainingScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: trainingScienceContract = TrainingScienceInterface(_newTrainingScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _getTop5HeroesPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroCount = heroTokenContract.balanceOf(_address)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: heroPowers = new uint256[](heroCount)
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < heroCount
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: heroId = heroTokenContract.ownerTokens(_address,i)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,genes) = heroTokenContract.heroes(heroId)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[i] = _getHeroPower(genes,_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IFLOOP
+  Expression: j < 5
+
+  ID: 22
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: k = 0
+
+  ID: 25
+  Type: NodeType.IFLOOP
+  Expression: k < heroPowers.length
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: heroPowers[k] > curMax
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: curMax = heroPowers[k]
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = k
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: k ++
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: result += curMax
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[curMaxIndex] = 0
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: curMax = 0
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = 0
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 36
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 15
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 9
+  15 -> 16
+  16 -> 17
+  17 -> 20
+  18 -> 21
+  19 -> 36
+  20 -> 18
+  21 -> 24
+  21 -> 19
+  22 -> 25
+  23 -> 31
+  24 -> 22
+  25 -> 26
+  25 -> 23
+  26 -> 27
+  26 -> 29
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 25
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 21
+
+Function: _getHeroPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,None,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: statsPower += _genes % 32 + 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: superRank = _genes % 32
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: j = 4
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: curGene = _genes % 32
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: equipmentPower += EQUIPMENT_POWERS[curGene]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: superRank != curGene
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: superRank = 0
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: isSuper = superRank >= 16
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: isSuper
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: superBoost = (difficulty - 1) * SUPER_HERO_MULTIPLIER
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: statsPower + equipmentPower + superBoost
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 15
+  13 -> 16
+  14 -> 24
+  15 -> 13
+  16 -> 17
+  16 -> 14
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 16
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+
+Function: _getDungeonPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPower += EQUIPMENT_POWERS[_genes % 32]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: dungeonPower
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 9
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 5
+
+Function: withdrawPayments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payee = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: payment = payments[payee]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(payment != 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance >= payment)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.sub(payment)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: payments[payee] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(payee.send(payment))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payments[dest] = payments[dest].add(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.add(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = 0x0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: train1
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,0,1)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: train2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,0,2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: train3
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,0,3)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: trainEquipment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_equipmentIndex <= 8)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,_equipmentIndex,1)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: _train
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (creationTime,None,difficulty,None,floorNumber,None,rewards,seedGenes,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_trainingTimes < 10)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _equipmentIndex > 0
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: requiredFee = difficulty * equipmentTrainingFeeMultiplier * _trainingTimes
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: now < creationTime + dungeonPreparationTime
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: requiredFee = difficulty * preparationPeriodTrainingFeeMultiplier * _trainingTimes
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: requiredFee = difficulty * trainingFeeMultiplier * _trainingTimes
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: (_heroId,heroGenes) = _getHeroGenesOrClaimFirstHero(_heroId)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: _trainPart2(_dungeonId,_heroId,heroGenes,_equipmentIndex,_trainingTimes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 16
+  12 -> 13
+  12 -> 14
+  13 -> 15
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: _trainPart2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,floorNumber,None,None,None,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: heroPower = _getHeroPower(_heroGenes,_dungeonId)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: newHeroGenes = _heroGenes
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: newHeroPower = heroPower
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < _trainingTimes
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: tmpHeroGenes = trainingScienceContract.mixGenes(newHeroGenes,floorGenes,_equipmentIndex)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: tmpHeroPower = _getHeroPower(tmpHeroGenes,_dungeonId)
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: tmpHeroPower > newHeroPower
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: newHeroGenes = tmpHeroGenes
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: newHeroPower = tmpHeroPower
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: newHeroPower > heroPower
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract.setHeroGenes(_heroId,newHeroGenes)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: HeroTrained(now,msg.sender,_dungeonId,_heroId,_heroGenes,floorNumber,floorGenes,newHeroPower > heroPower,newHeroGenes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 18
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 16
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 10
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+
+Function: setTrainingFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: trainingFeeMultiplier = _newTrainingFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPreparationPeriodTrainingFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: preparationPeriodTrainingFeeMultiplier = _newPreparationPeriodTrainingFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setEquipmentTrainingFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: equipmentTrainingFeeMultiplier = _newEquipmentTrainingFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EQUIPMENT_POWERS = (1,2,4,5,16,17,18,19,0,0,0,0,0,0,0,0,4,16,32,33,0,0,0,0,32,64,0,0,128,0,0,0)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SUPER_HERO_MULTIPLIER = 32
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: transportationFeeMultiplier = 500000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeFeeMultiplier = 1000000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeRewardsPercent = 64
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: masterRewardsPercent = 8
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeCooldownTime = 180
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dungeonPreparationTime = 3600
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rushTimeChallengeRewardsPercent = 30
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rushTimeFloorCount = 30
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: trainingFeeMultiplier = 2000000000000000
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: preparationPeriodTrainingFeeMultiplier = 1800000000000000
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: equipmentTrainingFeeMultiplier = 500000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+
+Contract: DungeonCoreBeta
+==================================================
+
+Function: train1
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,0,1)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: train2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,0,2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: train3
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,0,3)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 1
+
+Function: trainEquipment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_equipmentIndex <= 8)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _train(_dungeonId,_heroId,_equipmentIndex,1)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTrain(_dungeonId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToTrain(_heroId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: _train
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (creationTime,None,difficulty,None,floorNumber,None,rewards,seedGenes,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_trainingTimes < 10)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _equipmentIndex > 0
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: requiredFee = difficulty * equipmentTrainingFeeMultiplier * _trainingTimes
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: now < creationTime + dungeonPreparationTime
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: requiredFee = difficulty * preparationPeriodTrainingFeeMultiplier * _trainingTimes
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: requiredFee = difficulty * trainingFeeMultiplier * _trainingTimes
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: (_heroId,heroGenes) = _getHeroGenesOrClaimFirstHero(_heroId)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: _trainPart2(_dungeonId,_heroId,heroGenes,_equipmentIndex,_trainingTimes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 16
+  12 -> 13
+  12 -> 14
+  13 -> 15
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: _trainPart2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,floorNumber,None,None,None,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: heroPower = _getHeroPower(_heroGenes,_dungeonId)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: newHeroGenes = _heroGenes
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: newHeroPower = heroPower
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < _trainingTimes
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: tmpHeroGenes = trainingScienceContract.mixGenes(newHeroGenes,floorGenes,_equipmentIndex)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: tmpHeroPower = _getHeroPower(tmpHeroGenes,_dungeonId)
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: tmpHeroPower > newHeroPower
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: newHeroGenes = tmpHeroGenes
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: newHeroPower = tmpHeroPower
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: newHeroPower > heroPower
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract.setHeroGenes(_heroId,newHeroGenes)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: HeroTrained(now,msg.sender,_dungeonId,_heroId,_heroGenes,floorNumber,floorGenes,newHeroPower > heroPower,newHeroGenes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 18
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 16
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 10
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+
+Function: setTrainingFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: trainingFeeMultiplier = _newTrainingFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setPreparationPeriodTrainingFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: preparationPeriodTrainingFeeMultiplier = _newPreparationPeriodTrainingFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setEquipmentTrainingFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: equipmentTrainingFeeMultiplier = _newEquipmentTrainingFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: challenge
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,seedGenes,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = difficulty * challengeFeeMultiplier
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(_dungeonId,requiredFee)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _challengePart2(_dungeonId,_heroId)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanChallenge(_dungeonId)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: heroAllowedToChallenge(_heroId)
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 10
+  10 -> 11
+  11 -> 1
+
+Function: _challengePart2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,floorNumber,None,rewards,None,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (_heroId,heroGenes) = _getHeroGenesOrClaimFirstHero(_heroId)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: success = _getChallengeSuccess(heroGenes,_dungeonId,floorGenes)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: newFloorGenes = _getNewFloorGene(_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: masterRewards = rewards * masterRewardsPercent / 100
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: floorNumber < rushTimeFloorCount
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: successRewards = rewards * rushTimeChallengeRewardsPercent / 100
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: newRewards = rewards * (100 - rushTimeChallengeRewardsPercent - masterRewardsPercent) / 100
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: successRewards = rewards * challengeRewardsPercent / 100
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: newRewards = rewards * (100 - challengeRewardsPercent - masterRewardsPercent) / 100
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(successRewards + masterRewards + newRewards <= rewards)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonNewFloor(_dungeonId,newRewards,newFloorGenes)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,successRewards)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(dungeonTokenContract.ownerOf(_dungeonId),masterRewards)
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract.triggerCooldown(_heroId)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: DungeonChallenged(now,msg.sender,_dungeonId,_heroId,heroGenes,floorNumber,floorGenes,success,newFloorGenes,successRewards,masterRewards)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 25
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 18
+  16 -> 17
+  17 -> 20
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+
+Function: _getChallengeSuccess
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroPower = _getHeroPower(_heroGenes,_dungeonId)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: floorPower = _getDungeonPower(_floorGenes)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: heroPower > floorPower
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _getNewFloorGene
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,None,None,seedGenes,floorGenes) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: floorPower = _getDungeonPower(floorGenes)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: newFloorGenes = challengeScienceContract.mixGenes(floorGenes,seedGenes)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: newFloorPower = _getDungeonPower(newFloorGenes)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: newFloorPower < floorPower
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: newFloorGenes = floorGenes
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: newFloorGenes
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+
+Function: setChallengeFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeFeeMultiplier = _newChallengeFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeRewardsPercent = _newChallengeRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setMasterRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: masterRewardsPercent = _newMasterRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeCooldownTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeCooldownTime = _newChallengeCooldownTime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setDungeonPreparationTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPreparationTime = _newDungeonPreparationTime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setRushTimeChallengeRewardsPercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: rushTimeChallengeRewardsPercent = _newRushTimeChallengeRewardsPercent
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setRushTimeFloorCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: rushTimeFloorCount = _newRushTimeFloorCount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: originDungeonId = playerToDungeonID[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_destinationDungeonId != originDungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,capacity,None,None,None,None,None) = dungeonTokenContract.dungeons(_destinationDungeonId)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: top5HeroesPower = _getTop5HeroesPower(msg.sender,_destinationDungeonId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(top5HeroesPower >= difficulty * 12)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: baseFee = difficulty * transportationFeeMultiplier
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: additionalFee = top5HeroesPower / 48 * transportationFeeMultiplier
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = baseFee + additionalFee
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= requiredFee)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract.addDungeonRewards(originDungeonId,requiredFee)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: asyncSend(msg.sender,msg.value - requiredFee)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _transport(originDungeonId,_destinationDungeonId)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: dungeonCanTransport(_destinationDungeonId)
+
+Edges:
+  0 -> 15
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  16 -> 1
+
+Function: _transport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: claimHero()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_originDungeonId] --
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[_destinationDungeonId] ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: playerToDungeonID[msg.sender] = _destinationDungeonId
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: PlayerTransported(now,msg.sender,_originDungeonId,_destinationDungeonId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _getHeroGenesOrClaimFirstHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroId = _heroId
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: heroId = claimHero()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,heroGenes) = heroTokenContract.heroes(heroId)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (heroId,heroGenes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: claimHero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: playerToDungeonID[msg.sender] == 0 && heroTokenContract.balanceOf(msg.sender) == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPlayerCount[0] ++
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: heroTokenContract.createHero(0,msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: setTransportationFeeMultiplier
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transportationFeeMultiplier = _newTransportationFeeMultiplier
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setDungeonTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract = DungeonToken(_newDungeonTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setHeroTokenContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract = HeroToken(_newHeroTokenContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setChallengeScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: challengeScienceContract = ChallengeScienceInterface(_newChallengeScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTrainingScienceContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: trainingScienceContract = TrainingScienceInterface(_newTrainingScienceAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _getTop5HeroesPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: heroCount = heroTokenContract.balanceOf(_address)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: heroCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: heroPowers = new uint256[](heroCount)
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < heroCount
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: heroId = heroTokenContract.ownerTokens(_address,i)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,genes) = heroTokenContract.heroes(heroId)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[i] = _getHeroPower(genes,_dungeonId)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IFLOOP
+  Expression: j < 5
+
+  ID: 22
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: k = 0
+
+  ID: 25
+  Type: NodeType.IFLOOP
+  Expression: k < heroPowers.length
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: heroPowers[k] > curMax
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: curMax = heroPowers[k]
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = k
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: k ++
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: result += curMax
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: heroPowers[curMaxIndex] = 0
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: curMax = 0
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: curMaxIndex = 0
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 36
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 15
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 9
+  15 -> 16
+  16 -> 17
+  17 -> 20
+  18 -> 21
+  19 -> 36
+  20 -> 18
+  21 -> 24
+  21 -> 19
+  22 -> 25
+  23 -> 31
+  24 -> 22
+  25 -> 26
+  25 -> 23
+  26 -> 27
+  26 -> 29
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 25
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 21
+
+Function: _getHeroPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,difficulty,None,None,None,None,None,None) = dungeonTokenContract.dungeons(_dungeonId)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: statsPower += _genes % 32 + 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: superRank = _genes % 32
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: j = 4
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: curGene = _genes % 32
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: equipmentPower += EQUIPMENT_POWERS[curGene]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: superRank != curGene
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: superRank = 0
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: isSuper = superRank >= 16
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: isSuper
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: superBoost = (difficulty - 1) * SUPER_HERO_MULTIPLIER
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: statsPower + equipmentPower + superBoost
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+  12 -> 15
+  13 -> 16
+  14 -> 24
+  15 -> 13
+  16 -> 17
+  16 -> 14
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 16
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+
+Function: _getDungeonPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: j < 12
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dungeonPower += EQUIPMENT_POWERS[_genes % 32]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _genes /= 32 ** 4
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: dungeonPower
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 9
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 5
+
+Function: withdrawPayments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payee = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: payment = payments[payee]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(payment != 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance >= payment)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.sub(payment)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: payments[payee] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(payee.send(payment))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payments[dest] = payments[dest].add(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalPayments = totalPayments.add(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = 0x0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: Destructible
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: destroy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: destroyAndSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(_recipient)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: DungeonCoreBeta
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonTokenContract = DungeonToken(_dungeonTokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: heroTokenContract = HeroToken(_heroTokenAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: challengeScienceContract = ChallengeScienceInterface(_challengeScienceAddress)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: trainingScienceContract = TrainingScienceInterface(_trainingScienceAddress)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getDungeonDetails
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_id < dungeonTokenContract.totalSupply())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (creationTime,status,difficulty,capacity,None,None,None,None,None) = dungeonTokenContract.dungeons(_id)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: isReady = creationTime + dungeonPreparationTime <= now
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: playerCount = dungeonPlayerCount[_id]
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (creationTime,status,difficulty,capacity,isReady,playerCount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getDungeonFloorDetails
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_id < dungeonTokenContract.totalSupply())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,floorNumber,floorCreationTime,rewards,seedGenes,floorGenes) = dungeonTokenContract.dungeons(_id)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (floorNumber,floorCreationTime,rewards,seedGenes,floorGenes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getHeroDetails
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_id < heroTokenContract.totalSupply())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (creationTime,cooldownStartTime,cooldownIndex,genes) = heroTokenContract.heroes(_id)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: isReady = cooldownStartTime + challengeCooldownTime <= now
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (creationTime,cooldownStartTime,cooldownIndex,genes,isReady)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getPlayerDetails
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dungeonId = playerToDungeonID[_address]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: payment = payments[_address]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (dungeonId,payment)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EQUIPMENT_POWERS = (1,2,4,5,16,17,18,19,0,0,0,0,0,0,0,0,4,16,32,33,0,0,0,0,32,64,0,0,128,0,0,0)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SUPER_HERO_MULTIPLIER = 32
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: transportationFeeMultiplier = 500000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeFeeMultiplier = 1000000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeRewardsPercent = 64
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: masterRewardsPercent = 8
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: challengeCooldownTime = 180
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dungeonPreparationTime = 3600
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rushTimeChallengeRewardsPercent = 30
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rushTimeFloorCount = 30
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: trainingFeeMultiplier = 2000000000000000
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: preparationPeriodTrainingFeeMultiplier = 1800000000000000
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: equipmentTrainingFeeMultiplier = 500000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+

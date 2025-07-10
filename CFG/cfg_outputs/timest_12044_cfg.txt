@@ -1,0 +1,37 @@
+Contract: ESS
+==================================================
+
+Function: withdrawPUB
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp > pubEnd)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: result = token.call(bytes4(keccak256()(transfer(address,uint256))),msg.sender,sold[msg.sender])
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: pubEnd = 0
+
+Edges:
+
+

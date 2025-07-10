@@ -1,0 +1,1431 @@
+Contract: SafeMath
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z >= x) && (z >= y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x >= y)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: z = x - y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((x == 0) || (z / x == y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: Haltable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: halt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: halted = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unhalt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: halted = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyInEmergency()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+
+Contract: ERC20Basic
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+
+Contract: BasicToken
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+
+Contract: StandardToken
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = balances[msg.sender].sub(_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] = balances[_to].add(_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] = balances[_from].sub(_value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] = _allowance.sub(_value)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_value == 0) || (allowed[msg.sender][_spender] == 0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+
+Contract: DogezerICOPublicCrowdSale
+==================================================
+
+Function: halt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: halted = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unhalt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: halted = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyInEmergency()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: DogezerICOPublicCrowdSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: beneficiary = addressOfBeneficiary
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenRewardPreDGZ = StandardToken(addressOfPreDGZToken)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward = StandardToken(addressOfDGZToken)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: tokensAvailableForSale = totalTokensAvailableForSale - preDGZTokensSold * preDGZtoDGZExchangeRate / 100000000 - privateSalesTokensSold
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokensSoldOnPublicRound = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == false)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokensAvailableForSale > tokensSoldOnPublicRound)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value > 500000000000000)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: (balanceOf[msg.sender] + msg.value) > maxPurchaseNonWhiteListed && whiteList[msg.sender] == false
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nonWLBalanceOf[msg.sender] += msg.value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: sendTokens(msg.sender,msg.value)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: stopInEmergency()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyAfterStart()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyBeforeEnd()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 7
+  6 -> 7
+  8 -> 9
+  9 -> 10
+  10 -> 1
+
+Function: addListToWhiteList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < _addresses.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: nonWLBalanceOf[_addresses[i]] > 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: sendTokens(_addresses[i],nonWLBalanceOf[_addresses[i]])
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nonWLBalanceOf[_addresses[i]] = 0
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: whiteList[_addresses[i]] = true
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 11
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 4
+  11 -> 3
+
+Function: addToWhiteList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: nonWLBalanceOf[_address] > 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sendTokens(_address,nonWLBalanceOf[_address])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: nonWLBalanceOf[_address] = 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whiteList[_address] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: finalizeSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == false)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: crowdsaleClosed = true
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: totalSold = tokensSoldOnPublicRound + preDGZTokensSold * preDGZtoDGZExchangeRate / 100000000 + privateSalesTokensSold
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: bountyAmount = totalSold / 980 * 15
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: yearlyTeamAmount = totalSold / 980 * 5 / 3
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: tokenBurn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == true)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward.transfer(address(0),_amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: bountyTokenWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == true)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(bountyPaid == false)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward.transfer(beneficiary,bountyAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: bountyPaid = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: yearlyOwnerTokenWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == true)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(((now > stopTime + 220752000) && (yearlyTeamTokensPaid[0] == false)) || ((now > stopTime + 441504000) && (yearlyTeamTokensPaid[1] == false)) || ((now > stopTime + 662256000) && (yearlyTeamTokensPaid[2] == false)))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward.transfer(beneficiary,yearlyTeamAmount)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: yearlyTeamTokensPaid[0] == false
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: yearlyTeamTokensPaid[0] = true
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: yearlyTeamTokensPaid[1] == false
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: yearlyTeamTokensPaid[1] = true
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: yearlyTeamTokensPaid[2] == false
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: yearlyTeamTokensPaid[2] = true
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 12
+  6 -> 7
+  6 -> 8
+  7 -> 11
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  13 -> 1
+
+Function: exchangePreDGZTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokenAmount = tokenRewardPreDGZ.allowance(msg.sender,this)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenAmount > 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenRewardPreDGZ.transferFrom(msg.sender,address(0),tokenAmount))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amountSendTokens = tokenAmount * preDGZtoDGZExchangeRate / 100000000
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: preBalanceOf[msg.sender] += tokenAmount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward.transfer(msg.sender,amountSendTokens)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: stopInEmergency()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyAfterStart()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 8
+  8 -> 1
+
+Function: manuallyExchangeContractPreDGZtoDGZ
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_address != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(preDGZAmount > 0)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountSendTokens = preDGZAmount * preDGZtoDGZExchangeRate / 100000000
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: preBalanceOf[_address] += preDGZAmount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward.transfer(_address,amountSendTokens)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: setTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == false)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(week >= 1 && week <= 3)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: week == 1
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: price1stWeek = (price,price5,price10)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: week == 2
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: price2ndWeek = (price,price5,price10)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: week == 3
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: price3rdWeek = (price,price5,price10)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 11
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: setPreDGZtoDgzRate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: preDGZtoDGZExchangeRate = rate
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokensAvailableForSale = totalTokensAvailableForSale - preDGZTokensSold * preDGZtoDGZExchangeRate / 100000000 - privateSalesTokensSold
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setPrivateSaleTokensSold
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: privateSalesTokensSold = tokens
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokensAvailableForSale = totalTokensAvailableForSale - preDGZTokensSold * preDGZtoDGZExchangeRate / 100000000 - privateSalesTokensSold
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: sendTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: prices = price1stWeek
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: now >= startTime + 1209600
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: prices = price3rdWeek
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: now >= startTime + 604800
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: prices = price2ndWeek
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: currentPrice = prices[0]
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: balanceOf[msg_sender] + msg_value >= discountValue5
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: currentPrice = prices[1]
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: balanceOf[msg_sender] + msg_value >= discountValue10
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: currentPrice = prices[2]
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: amountSendTokens = msg_value / currentPrice
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: amountSendTokens > (tokensAvailableForSale - tokensSoldOnPublicRound)
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: tokensAvailable = tokensAvailableForSale - tokensSoldOnPublicRound
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: refund = msg_value - (tokensAvailable * currentPrice)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: amountSendTokens = tokensAvailable
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: tokensSoldOnPublicRound += amountSendTokens
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: msg_sender.transfer(refund)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg_sender] += (msg_value - refund)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: tokensSoldOnPublicRound += amountSendTokens
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg_sender] += msg_value
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward.transfer(msg_sender,amountSendTokens)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: DGZTokensSold(msg_sender,amountSendTokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 7
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 14
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 23
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 25
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+
+Function: fundWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == true)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: beneficiary.transfer(_amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: FundsWithdrawal(beneficiary,_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: refundNonWhitelistedPerson
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: refundAmount = nonWLBalanceOf[_address]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nonWLBalanceOf[_address] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _address.transfer(refundAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: tokenWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == false)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenReward.transfer(beneficiary,_amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokensSoldOnPublicRound += _amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: DGZTokensWithdraw(beneficiary,_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: anyTokenWithdrawal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_address != address(tokenReward))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: token = StandardToken(_address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(beneficiary,_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: TokensWithdraw(beneficiary,_address,_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: changeBeneficiary
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _newBeneficiary != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: beneficiary = _newBeneficiary
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: reopenSale
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsaleClosed == true)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: crowdsaleClosed = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Dogezer Public Sale ITO
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: startTime = 1518699600
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: stopTime = 1520514000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalTokensAvailableForSale = 9800000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: preDGZTokensSold = 20699056632305
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: privateSalesTokensSold = 92644444444444
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tokensAvailableForSale = 0
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: tokensSoldOnPublicRound = 0
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: yearlyTeamTokensPaid = (false,false,false)
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: yearlyTeamAmount = 0
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: bountyPaid = false
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: bountyAmount = 0
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: crowdsaleClosed = false
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: preDGZtoDGZExchangeRate = 914285714
+
+  ID: 14
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: discountValue5 = 50.0 * 1000000000000000000
+
+  ID: 15
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: discountValue10 = 100.0 * 1000000000000000000
+
+  ID: 16
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: price1stWeek = (5625000,5343750,5062500)
+
+  ID: 17
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: price2ndWeek = (5940000,5643000,5346000)
+
+  ID: 18
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: price3rdWeek = (6250000,5937500,5625000)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxPurchaseNonWhiteListed = 10 * 1000000000000000000
+
+Edges:
+
+

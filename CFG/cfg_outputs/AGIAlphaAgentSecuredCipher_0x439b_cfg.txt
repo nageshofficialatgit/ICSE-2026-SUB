@@ -1,0 +1,234 @@
+Contract: IERC20
+==================================================
+
+
+Contract: AGIAlphaAgentSecuredCipher
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: requiredToken = _initialToken
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: requiredAmount = _initialAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: encodeCipher
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: p = bytes(plaintext)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: k = bytes(key)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(k.length > 0,Key cannot be empty)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: r = new bytes(p.length)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < p.length
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: r[i] = bytes1(uint8(p[i]) ^ uint8(k[i % k.length]))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: hexCipher = _toHex(r)
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: hexCipher
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 11
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 8
+  11 -> 12
+
+Function: updateSecureCipher
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: secureCipher = newCipher
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: SecureCipherUpdated(newCipher)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: updateTokenRequirement
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: requiredToken = newToken
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: requiredAmount = newAmount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: TokenRequirementUpdated(newToken,newAmount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: getSecureCipher
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(requiredToken).balanceOf(msg.sender) >= requiredAmount,Insufficient token balance)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: secureCipher
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _toHex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hexChars = 0123456789abcdef
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: hexString = new bytes(data.length * 2)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < data.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: hexString[i * 2] = hexChars[uint8(data[i] >> 4)]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: hexString[i * 2 + 1] = hexChars[uint8(data[i] & 0x0f)]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: string(hexString)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 10
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 6
+
+

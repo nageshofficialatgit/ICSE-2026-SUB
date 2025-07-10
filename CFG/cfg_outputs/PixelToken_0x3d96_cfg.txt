@@ -1,0 +1,868 @@
+Contract: MathGuard
+==================================================
+
+Function: plus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(result >= x,Math: addition error)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: minus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: reduce(x,y,Math: subtraction error)
+
+Edges:
+  0 -> 1
+
+Function: reduce
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(y <= x,err)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: x - y
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: times
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: x == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: result = x * y
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(result / x == y,Math: multiplication error)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: splitBy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: divide(x,y,Math: division error)
+
+Edges:
+  0 -> 1
+
+Function: divide
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(y > 0,err)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: x / y
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: BaseContract
+==================================================
+
+Function: _caller
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+
+Contract: Access
+==================================================
+
+Function: _caller
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: initiator = _caller()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _admin = initiator
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AccessChanged(address(0),initiator)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: admin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _admin
+
+Edges:
+  0 -> 1
+
+Function: surrender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: AccessChanged(_admin,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _admin = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _surrendered = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: restricted()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: IToken
+==================================================
+
+
+Contract: ILiquidityManager
+==================================================
+
+
+Contract: PixelToken
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _holdings[_caller()] = TOTAL_SUPPLY
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _whitelist[admin()] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _whitelist[treasury] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _whitelist[address(this)] = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_caller(),TOTAL_SUPPLY)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: admin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _admin
+
+Edges:
+  0 -> 1
+
+Function: surrender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: AccessChanged(_admin,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _admin = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _surrendered = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: restricted()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _caller
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: hasCode
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: codeSize = extcodesize(uint256)(target)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: codeSize > 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: TOKEN_NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: TOKEN_SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: PRECISION
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: TOTAL_SUPPLY
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _holdings[holder]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: isPool = to.code.length > 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: isPool && _unlockTime == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _unlockTime = block.timestamp + LOCK_DURATION
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _unlockTime != 0 && block.timestamp < _unlockTime
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isPool,Locked: wait 2 min)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _processTransfer(_caller(),to,amount)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _permissions[holder][operator]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setAllowance(_caller(),operator,amount)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: isPool = to.code.length > 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: isPool && _unlockTime == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _unlockTime = block.timestamp + LOCK_DURATION
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _unlockTime != 0 && block.timestamp < _unlockTime
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isPool,Locked: wait 2 min)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _processTransfer(from,to,amount)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _setAllowance(from,msg.sender,_permissions[from][msg.sender].reduce(amount,Token: exceeds allowance))
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _setAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(holder != address(0),Token: approve from zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(operator != address(0),Token: approve to zero)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _permissions[holder][operator] = amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Approval(holder,operator,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: requiresFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: applyFee = amount > 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: applyFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _setAllowance(from,treasury,amount)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: applyFee
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: _processTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(from != address(0),Token: from zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Token: to zero)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Token: zero amount)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: requiresFee(from,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _holdings[address(this)] = _holdings[address(this)].plus(0)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: fee = 0
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: ! _whitelist[from] && ! _whitelist[to]
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: hasCode(from) && from != ETH_WRAPPED && _buyCount < MAX_OPERATIONS
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: fee = amount.times(TAX_RATE).splitBy(100)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _buyCount ++
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: hasCode(to) && to != ETH_WRAPPED && _sellCount < MAX_OPERATIONS
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: fee = amount.times(TAX_RATE).splitBy(100)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _sellCount ++
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: fee > 0
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _holdings[from] = _holdings[from].minus(amount)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: _holdings[treasury] = _holdings[treasury].plus(fee)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: _holdings[to] = _holdings[to].plus(amount.minus(fee))
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,treasury,fee)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount.minus(fee))
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: _holdings[from] = _holdings[from].minus(amount)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: _holdings[to] = _holdings[to].plus(amount)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount)
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 17
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 16
+  12 -> 13
+  12 -> 15
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 24
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 27
+  24 -> 25
+  25 -> 26
+  26 -> 27
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: treasury = 0xbE2279A9d3AaF48fBDA023C834d196adA2d2e4f0
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PRECISION = 9
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOTAL_SUPPLY = 1000000000 * 10 ** PRECISION
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOKEN_NAME = Newt
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOKEN_SYMBOL = Newt
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_WRAPPED = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TAX_RATE = 3
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_OPERATIONS = 10
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LOCK_DURATION = 120
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

@@ -1,0 +1,37 @@
+Contract: Machine
+==================================================
+
+Function: addC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: calculator = addr
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addValuesWithDelegateCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: calculator.delegatecall(abi.encodeWithSignature(add(uint256,uint256),a,b))
+
+Edges:
+  0 -> 1
+
+

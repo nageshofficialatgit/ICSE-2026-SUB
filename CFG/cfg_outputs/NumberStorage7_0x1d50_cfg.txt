@@ -1,0 +1,101 @@
+Contract: NumberStorage7
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: caller = _caller
+
+Edges:
+  0 -> 1
+
+Function: storeNumbers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == caller,Not a caller)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete numbers
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < _numbers.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: numbers.push(_numbers[i])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+Function: getNumbers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: numbers
+
+Edges:
+  0 -> 1
+
+Function: getNumberByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_index < numbers.length,Index out of bounds)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: numbers[_index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,37 @@
+Contract: Authority
+==================================================
+
+Function: setdelegate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner == msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delegateCallers[num] = addr
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: delegate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: delegateCallers[id].delegatecall(data)
+
+Edges:
+  0 -> 1
+
+

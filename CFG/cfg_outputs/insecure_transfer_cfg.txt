@@ -1,0 +1,28 @@
+Contract: IntegerOverflowAdd
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

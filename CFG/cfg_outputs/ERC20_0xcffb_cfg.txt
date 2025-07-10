@@ -1,0 +1,354 @@
+Contract: ERC20
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: baseowner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[address(0)] = totalSupply * 10 ** decimals
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),address(0),totalSupply * 10 ** decimals)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.value > 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: fee = msg.value / 1000
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: pay = msg.value - fee
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: rate = currentRate * 10 ** decimals
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amount = (pay / rate)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[address(0)] >= amount * 10 ** decimals)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] += amount * 10 ** decimals
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[address(0)] -= amount * 10 ** decimals
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: address(baseowner).call{gas: 21600,value: fee}()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: currentRate += currentRate / 1000
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,amount)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: bal = address(this).balance
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: emt = (totalSupply * 10 ** decimals) - balanceOf[address(0)]
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: bid = bal / emt
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: amt = balanceOf[msg.sender] * bid
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).call{gas: 216000,value: amt}()
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,address(0),balanceOf[msg.sender])
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[address(0)] += balanceOf[msg.sender]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = 0
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: (currentRate - currentRate / 1001) > 6174
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: currentRate -= currentRate / 1001
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: currentRate = 6174
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 12
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 24
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 23
+  22 -> 23
+  23 -> 24
+
+Function: bid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (address(this).balance / ((totalSupply * 10 ** decimals) - balanceOf[address(0)]))
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= (amount + 1) * 10 ** decimals)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= (amount + 1 * 10 ** decimals)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[baseowner] += 1 * 10 ** decimals
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,recipient,amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,baseowner,1 * 10 ** decimals)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= (amount + 1 * 10 ** decimals))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((allowance[msg.sender][spender] + amount) <= balanceOf[msg.sender])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][baseowner] += 1 * 10 ** decimals
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,baseowner,1 * 10 ** decimals)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[sender] >= (amount + 1) * 10 ** decimals)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(allowance[sender][recipient] >= amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(allowance[sender][baseowner] >= 1 * 10 ** decimals)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowance[sender][recipient] -= amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowance[sender][baseowner] -= (1 * 10 ** decimals)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[sender] -= (amount + 1) * 10 ** decimals
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[baseowner] += 1 * 10 ** decimals
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amount)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,baseowner,1 * 10 ** decimals)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalSupply = 5123456789123456789
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: currentRate = 6174
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Self Liquidity Farm v7.1
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = SLF
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 6
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

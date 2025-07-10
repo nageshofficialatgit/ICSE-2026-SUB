@@ -1,0 +1,43 @@
+Contract: Ethex
+==================================================
+
+Function: cancelBuyOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: h = sha256()(token,price,msg.sender)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: remain = buyOrders[h]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete buyOrders[h]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! msg.sender.call.value(remain)()
+
+  ID: 5
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+
+

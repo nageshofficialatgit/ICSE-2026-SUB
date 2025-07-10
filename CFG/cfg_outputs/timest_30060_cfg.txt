@@ -1,0 +1,47 @@
+Contract: HorseTokenCrowdsale
+==================================================
+
+Function: checkGoalReached
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: block.timestamp <= fundingEndTime && block.timestamp >= fundingStartTime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: areFundsReleasedToBeneficiary = false
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: Eth < Softcap
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: response
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: areFundsReleasedToBeneficiary = false
+
+Edges:
+
+

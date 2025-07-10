@@ -1,0 +1,45 @@
+Contract: ProofOfExistence
+==================================================
+
+Function: notarize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: bytes(sha256).length == 64
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: proofs[sha256] == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: proofs[sha256] = block.timestamp
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

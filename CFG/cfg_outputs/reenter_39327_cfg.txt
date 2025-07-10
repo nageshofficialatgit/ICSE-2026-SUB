@@ -1,0 +1,54 @@
+Contract: Congress
+==================================================
+
+Function: executeProposal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: p = proposals[id]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: p.currentResult > majorityMargin
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! p.recipient.call.value(p.amount)(transactionBytecode)
+
+  ID: 4
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: p.proposalPassed = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: p.proposalPassed = false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 8
+
+

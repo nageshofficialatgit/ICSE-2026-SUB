@@ -1,0 +1,23 @@
+Contract: OysterPearl
+==================================================
+
+Function: claim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp >= 60)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= claimAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

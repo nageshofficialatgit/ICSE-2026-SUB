@@ -1,0 +1,437 @@
+Contract: Owned
+==================================================
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: execute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _dst.call.value(_value)(_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: Token
+==================================================
+
+
+Contract: TokenSender
+==================================================
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: execute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _dst.call.value(_value)(_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: TokenSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token = Token(_token)
+
+Edges:
+  0 -> 1
+
+Function: fill
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: next > 0
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: offset = transfers.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: transfers.length = transfers.length + data.length
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < data.length
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: addr = address(data[i] & (D160 - 1))
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: amount = data[i] / D160
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: transfers[offset + i].addr = addr
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: transfers[offset + i].amount = amount
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: acc += amount
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: totalToDistribute += acc
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 18
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 17
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 10
+  18 -> 1
+
+Function: run
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: transfers.length == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: mNext = next
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: next = transfers.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: (mNext == 0) && (token.balanceOf(this) != totalToDistribute)
+
+  ID: 7
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: (mNext < transfers.length) && (gas() > 150000)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: amount = transfers[mNext].amount
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: addr = transfers[mNext].addr
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: amount > 0
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: ! token.transfer(addr,transfers[mNext].amount)
+
+  ID: 15
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mNext ++
+
+  ID: 19
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: next = mNext
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 21
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 19
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 17
+  14 -> 15
+  14 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 10
+  19 -> 20
+  21 -> 1
+
+Function: hasTerminated
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: transfers.length == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: next < transfers.length
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+
+Function: nTransfers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: transfers.length
+
+Edges:
+  0 -> 1
+
+Function: gas
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _gas
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: D160 = 0x0010000000000000000000000000000000000000000
+
+Edges:
+
+

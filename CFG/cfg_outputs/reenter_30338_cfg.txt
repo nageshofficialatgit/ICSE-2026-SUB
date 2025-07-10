@@ -1,0 +1,53 @@
+Contract: PullPaymentCapable
+==================================================
+
+Function: withdrawPayments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: payment = payments[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: payments[msg.sender] = 0
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! msg.sender.call.value(payment)()
+
+  ID: 4
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: success = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 1
+
+

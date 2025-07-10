@@ -1,0 +1,172 @@
+Contract: IERC20
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: symbol = _symbol
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = _decimals
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = _initialSupply * 10 ** uint256(_decimals)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = totalSupply
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),ERC20: transfer to zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= _value,ERC20: insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_from != address(0),ERC20: transfer from zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),ERC20: transfer to zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[_from] >= _value,ERC20: insufficient balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[_from][msg.sender] >= _value,ERC20: insufficient allowance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+

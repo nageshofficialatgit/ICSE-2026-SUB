@@ -1,0 +1,255 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IUniswapV2Router01
+==================================================
+
+
+Contract: IUniswapV2Router02
+==================================================
+
+
+Contract: Arbitrage
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: uniswapRouter = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: sushiswapRouter = IUniswapV2Router02(0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ContractPaused(msg.sender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ContractUnpaused(msg.sender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: executeArbitrage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amountIn <= maxTradeAmount,Amount exceeds max trade limit)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenIn).transferFrom(msg.sender,address(this),amountIn)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenIn).approve(address(uniswapRouter),amountIn)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = tokenIn
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = tokenOut
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: amountsOut = uniswapRouter.getAmountsOut(amountIn,path)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amountOutMin = amountsOut[1] * (100 - slippageTolerance) / 100
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: uniswapRouter.swapExactTokensForTokens(amountIn,amountOutMin,path,address(this),block.timestamp + 60)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: balanceAfterSwap = IERC20(tokenOut).balanceOf(address(this))
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenOut).approve(address(sushiswapRouter),balanceAfterSwap)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = tokenOut
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = tokenIn
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: amountsOutSell = sushiswapRouter.getAmountsOut(balanceAfterSwap,path)
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: amountInMin = amountsOutSell[1] * (100 - slippageTolerance) / 100
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: balanceBeforeSwap = IERC20(tokenIn).balanceOf(address(this))
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: sushiswapRouter.swapExactTokensForTokens(balanceAfterSwap,amountInMin,path,address(this),block.timestamp + 60)
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: profit = IERC20(tokenIn).balanceOf(address(this)) - balanceBeforeSwap
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(profit > 0,Arbitrage not profitable)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: ArbitrageExecuted(tokenIn,tokenOut,amountIn,profit)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 21
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  21 -> 22
+  22 -> 1
+
+Function: withdrawFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = IERC20(token).balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,No funds to withdraw)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).transfer(owner,balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: FundsWithdrawn(token,balance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxTradeAmount = 100000000000000000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+  0 -> 1
+
+

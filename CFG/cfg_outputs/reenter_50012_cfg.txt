@@ -1,0 +1,28 @@
+Contract: AuctusTokenSale
+==================================================
+
+Function: finish
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: freeEthers = address(this).balance * 40 / 100
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(address(this).call.value(vestedEthers)())
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: vestedEthers = address(this).balance - freeEthers
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

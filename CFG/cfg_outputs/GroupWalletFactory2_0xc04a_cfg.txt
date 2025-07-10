@@ -1,0 +1,3777 @@
+Contract: ENS_F
+==================================================
+
+
+Contract: AbstractGWF_ENS
+==================================================
+
+
+Contract: AbstractGWF_ReverseRegistrar
+==================================================
+
+
+Contract: AbstractBaseRegistrar
+==================================================
+
+
+Contract: AbsIntentionsGWF
+==================================================
+
+
+Contract: AbstractGWF_GWP
+==================================================
+
+
+Contract: Abstract_TokenProxy
+==================================================
+
+
+Contract: AbstractETHRegController
+==================================================
+
+
+Contract: AbstractGWF_Resolver
+==================================================
+
+
+Contract: Abstract_GWF
+==================================================
+
+
+Contract: Abstract_GWPC
+==================================================
+
+
+Contract: Abs_AuctionRegistrar
+==================================================
+
+
+Contract: NWrapper
+==================================================
+
+
+Contract: I_NWrapper
+==================================================
+
+
+Contract: ProxyToken
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: masterCopy = _masterCopy
+
+Edges:
+  0 -> 1
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: master_fallback_asm_0 = sload(uint256)(0) & 0xffffffffffffffffffffffffffffffffffffffff
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: calldataload(uint256)(0) == 0xa619486e00000000000000000000000000000000000000000000000000000000
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,master_fallback_asm_0)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: ptr_fallback_asm_0 = mload(uint256)(0x40)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(ptr_fallback_asm_0,0,calldatasize()())
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: success_fallback_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),master_fallback_asm_0,ptr_fallback_asm_0,calldatasize()(),0,0)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,returndatasize()())
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: success_fallback_asm_0 == 0
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: returndatasize()() == 0
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0x404)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,returndatasize()())
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,returndatasize()())
+
+  ID: 21
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 16
+  14 -> 15
+  15 -> 20
+  16 -> 18
+  16 -> 17
+  17 -> 19
+  18 -> 17
+  19 -> 15
+  20 -> 21
+
+Function: upgrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(master != address(0x0) && masterCopy == msg.sender,pt!)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: masterCopy = master
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+
+
+Contract: ProxyGroupWallet
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: masterCopy = _masterCopy
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _reverse.setName(_domain)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: master_fallback_asm_0 = sload(uint256)(0) & 0xffffffffffffffffffffffffffffffffffffffff
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: calldataload(uint256)(0) == 0xa619486e00000000000000000000000000000000000000000000000000000000
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,master_fallback_asm_0)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: ptr_fallback_asm_0 = mload(uint256)(0x40)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(ptr_fallback_asm_0,0,calldatasize()())
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: success_fallback_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),master_fallback_asm_0,ptr_fallback_asm_0,calldatasize()(),0,0)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,returndatasize()())
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: success_fallback_asm_0 == 0
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: returndatasize()() == 0
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0x504)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,returndatasize()())
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,returndatasize()())
+
+  ID: 21
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 16
+  14 -> 15
+  15 -> 20
+  16 -> 18
+  16 -> 17
+  17 -> 19
+  18 -> 17
+  19 -> 15
+  20 -> 21
+
+Function: upgrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hash = bytes32(tArr[uint256(uint160(GWF))])
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: gwp = Abstract_GWF(GWF).getProxyToken(hash)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(master != address(0x0) && msg.sender == Abstract_GWPC(gwp).getMasterCopy(),gwp!)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: masterCopy = master
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+
+
+Contract: GroupWalletFactory2
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: size = extcodesize(uint256)(addr)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: size > 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getdHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: bytes32(gw.getTransactionRecord(uint256(uint160(gw.getGWF()))))
+
+Edges:
+  0 -> 1
+
+Function: getGWF
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this)
+
+Edges:
+  0 -> 1
+
+Function: getCommitment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint64((uint256(commitments[_domainHash] & k_commitMask) >> 160) & k_commit2Mask)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: comm
+
+Edges:
+  0 -> 1
+
+Function: getOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(uint160(commitments[_domainHash] & k_aMask))
+
+Edges:
+  0 -> 1
+
+Function: saveOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: commitments[_domainHash] = uint256(uint160(_iToken)) + uint256(commitments[_domainHash] & k_commitMask)
+
+Edges:
+  0 -> 1
+
+Function: saveCommitment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: commitments[_domainHash] = uint256((uint256(input) << 160) & k_commitMask) + uint256(commitments[_domainHash] & k_aMask)
+
+Edges:
+  0 -> 1
+
+Function: getInstallTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: i = uint256(installations[getCommitment(_domainHash)])
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: uint256((uint256(uint256(i) & k_commitMask) >> 160) & k_commit2Mask)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: iTime
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getProxyToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(uint160(uint256(uint256(installations[getCommitment(_domainHash)])) & k_aMask))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: p
+
+Edges:
+  0 -> 1
+
+Function: getGWProxy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(uint160(commitments[_dHash] & k_aMask))
+
+Edges:
+  0 -> 1
+
+Function: saveProxyToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hsh = getCommitment(_domainHash)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: i = uint256(installations[hsh])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: installations[hsh] = uint256(uint160(_iOwner)) + uint256(i & k_commitMask)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: saveInstallTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hsh = getCommitment(_domainHash)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: i = uint256(installations[hsh])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: installations[hsh] = uint256((uint256(input) << 160) & k_commitMask) + uint256(i & k_aMask)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getIsOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = commitments[_dHash]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: theGWPcontract = address(uint160(c & k_aMask))
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: theGWPcontract == msg.sender
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: AbstractGWF_GWP(theGWPcontract).getIsOwner(_owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+
+Function: getOwners
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = commitments[_dHash]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: getOwners_internal(c)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getOwners_internal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: a = address(uint160(c & k_aMask))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a != tx.origin
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: AbstractGWF_GWP(a).getOwners()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: empty
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: char
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: uint8(b) < uint8(10)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: bytes1(uint8(b) + 0x30)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: bytes1(uint8(b) + 0x57)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: strlen
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: bytelength = bytes(s).length
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: len = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < bytelength
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: b = bytes(s)[i]
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: b < 0x80
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i += 1
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: b < 0xE0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i += 2
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: b < 0xF0
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i += 3
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: b < 0xF8
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i += 4
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: b < 0xFC
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: i += 5
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: i += 6
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: len ++
+
+  ID: 26
+  Type: NodeType.RETURN
+  Expression: len
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 26
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 24
+  11 -> 12
+  11 -> 13
+  12 -> 23
+  13 -> 14
+  13 -> 15
+  14 -> 22
+  15 -> 16
+  15 -> 17
+  16 -> 21
+  17 -> 18
+  17 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 7
+
+Function: bytesToStr
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bArr = new bytes(len)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < len && i < 32
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: bArr[i] = _b[i]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: string(bArr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 4
+  7 -> 8
+
+Function: concatString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bArr = new bytes(32)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: off = 0
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: off == 0 && i < 32
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _b[i] != 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: bArr[i] = _b[i]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: off = i
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: len = strlen(_str)
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IFLOOP
+  Expression: i < len && i < 32
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: bArr[off + i] = bytes(_str)[i]
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 18
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: string(bArr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  5 -> 6
+  5 -> 11
+  6 -> 7
+  6 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 5
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 16
+  15 -> 16
+  15 -> 18
+  16 -> 17
+  17 -> 15
+  18 -> 19
+
+Function: stringMemoryTobytes32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: a = mload(uint256)(_data + 32)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: a
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: mb32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: a = mload(uint256)(_data + 32)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: a
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: keccak
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: my_require(offset + len <= self.length,k)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ret = keccak256(uint256,uint256)(self + 32 + offset,len)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: ret
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: memcpy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IFLOOP
+  Expression: len >= 32
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(dest,mload(uint256)(src))
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: dest += 32
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: src += 32
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: len -= 32
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: len == 0
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: mask = 256 ** (32 - len) - 1
+
+  ID: 14
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: srcpart_memcpy_asm_1 = mload(uint256)(src) & ~ mask
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: destpart_memcpy_asm_1 = mload(uint256)(dest) & mask
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(dest,destpart_memcpy_asm_1 | srcpart_memcpy_asm_1)
+
+  ID: 20
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 3
+  2 -> 10
+  3 -> 4
+  3 -> 2
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 3
+  10 -> 11
+  10 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+
+Function: substring
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: my_require(offset + len <= self.length,s)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: ret = new bytes(len)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: dest = ret + 32
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: src = self + 32 + offset
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: memcpy(dest,src,len)
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: ret
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: readBytes32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: my_require(idx + 32 <= self.length,b)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ret = mload(uint256)(self + 32 + idx)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: ret
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: bytes32ToAsciiString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: s = new bytes((len * 2) + 2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: s[0] = 0x30
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: s[1] = 0x78
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < len
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: b = bytes1(uint8(uint256(_bytes32) / (2 ** (8 * ((len - 1) - i)))))
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: hi = bytes1(uint8(b) / 16)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: lo = bytes1(uint8(b) - 16 * uint8(hi))
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: s[2 + (2 * i)] = char(hi)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: s[2 + (2 * i) + 1] = char(lo)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: string(s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 14
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 7
+
+Function: labelStrFromBytes32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: bytesToStr(_label,uint256(_label) & 0xff)
+
+Edges:
+  0 -> 1
+
+Function: reportValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(bytes32ToAsciiString(bytes32(uint256(a)),32),str))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+
+Function: getDomainHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked(base.baseNode(),keccak256(bytes)(bytes(_d))))
+
+Edges:
+  0 -> 1
+
+Function: my_require
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(b,str)
+
+Edges:
+  0 -> 1
+
+Function: reserve_ogn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returnData) = address(0xDadaDadadadadadaDaDadAdaDADAdadAdADaDADA).call{value: 0}(data)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: my_require(data.length > 0 && success && returnData.length == 0 && _commitment != 0x0,O)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: StructureDeployed(_domainHash)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: controllerContract.commit(_commitment)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: commitments[_domainHash] = uint256((uint256(_commitment) << 160) & k_commitMask) + uint256(uint160(msg.sender) & k_aMask)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: reserve_replicate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: controllerContract.commit(_commitment)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: commitments[_domainHash] = uint256((uint256(_commitment) << 160) & k_commitMask) + uint256(uint160(msg.sender) & k_aMask)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: isENSV3
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (address(ensNameWrapper) != k_add00)
+
+Edges:
+  0 -> 1
+
+Function: onERC1155Received
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: this.onERC1155Received.selector
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+
+Function: _allowNameWrapperAndResolver
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: I_NWrapper(controllerContract.nameWrapper()).setApprovalForAll(_owner,true)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract.setApprovalForAll(_owner,true)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _register
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: l_ProjectOwner = address(uint160(commitments[_dHash] & k_aMask))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: my_require((l_ProjectOwner == msg.sender || msg.sender == address(this)) && controllerContract.available(_name) && _secret != 0 && _dur != 0,Y)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: isENSV3()
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cmd = new bytes[](1)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: cmd[0] = abi.encodePacked(bytes4(0x8b95dd71),_dHash,uint256(0x3c),uint256(0x60),uint256(0x14),uint256(uint256(uint160(address(this))) << 96))
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (success,rdata) = address(controllerContract).call{value: _rent}(abi.encodeWithSignature(register(string,address,uint256,bytes32,address,bytes[],bool,uint16),_name,address(this),_dur,_secret,address(resolverContract),cmd,false,0))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: my_require(success && rdata.length == 0,string(rdata))
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: l_ProjectOwner == msg.sender
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _allowNameWrapperAndResolver(l_ProjectOwner)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: controllerContract.registerWithConfig{value: _rent}(_name,address(this),_dur,_secret,address(resolverContract),address(this))
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract.setName(_dHash,string(abi.encodePacked(_name,tld())))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 13
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 14
+  13 -> 14
+  14 -> 15
+
+Function: _setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract.setAddr(_domHash,_owner)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _label == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract.setText(_dHash,string(avatar),string(https://www.ungravel.com/ung.png))
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: ! isENSV3()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: base.ens().setOwner(_domHash,_owner)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: _label > 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: I_NWrapper(controllerContract.nameWrapper()).setSubnodeOwner(_dHash,labelStrFromBytes32(_label),_owner,0,0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _allowNameWrapperAndResolver(_owner)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 11
+  7 -> 8
+  7 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+
+Function: register_ki_
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _dur = uint256(_m[2]) >> 128
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _rent = uint256(_m[2]) & k_rentMask
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: _name = labelStrFromBytes32(_m[3])
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _register(_m[0],_rent,_name,_dur,_m[1])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _updateStructure
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract.setABI(_dHash,32,abi.encodePacked(_data32))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StructureDeployed(_dHash)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: update_P5q
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isInitiatorOrMember2(_dHash)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _updateStructure(_dHash,data32)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: lock_dfs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = commitments[_dHash]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: my_require((address(uint160(c & k_aMask)) == msg.sender || msg.sender == address(this)) && installations[uint64((uint256(c & k_commitMask) >> 160) & k_commit2Mask)] == 0x0,L)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: hsh = uint64((uint256(c & k_commitMask) >> 160) & k_commit2Mask)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: installations[hsh] = uint256(installations[hsh] & k_aMask) + k_lockedMask
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _updateStructure(_dHash,data32)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: registerAndLock_x3x
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = _m[0]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _dur = uint256(_m[2]) >> 128
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: _rent = uint256(_m[2]) & k_rentMask
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _name = labelStrFromBytes32(_m[3])
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _register(c,_rent,_name,_dur,_m[1])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: my_require(installations[uint64((uint256(uint256(c) & k_commitMask) >> 160) & k_commit2Mask)] == 0x0,r3)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: hsh = uint64((uint256(uint256(c) & k_commitMask) >> 160) & k_commit2Mask)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: installations[hsh] = uint256(installations[hsh] & k_aMask) + k_lockedMask
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _updateStructure(c,data32)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: domainReport
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stamp = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: nb = 32
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: dHash = getDomainHash(_dom)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: owner = base.ens().owner(dHash)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: hasCommitment = uint64(getCommitment(dHash)) > 0x0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(getInstallTime(dHash) & 0x1)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: ! base.ens().recordExists(dHash)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 2)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: owner == address(getGWProxy(dHash)) || owner == address(this)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 4)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: base.ens().resolver(dHash) == address(resolverContract)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 8)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: hasCommitment
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 16)
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: resolverContract.addr(dHash) == address(this)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 64)
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: (! isENSV3() && (uint256(stringMemoryTobytes32(resolverContract.text(dHash,use_color_table))) != 0x0000000f7573655f636f6c6f725f7461626c6500000000000000000000000000)) || (isENSV3() && strlen(resolverContract.text(dHash,use_color_table)) > 0)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 2048)
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: getProxyToken(dHash) != k_add00
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 4096)
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: owner == k_add00
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 256)
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.IF
+  Expression: controllerContract.available(_dom)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 512)
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IF
+  Expression: owner == address(tx.origin)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 1024)
+
+  ID: 37
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 38
+  Type: NodeType.IF
+  Expression: isENSV3() && (owner == controllerContract.nameWrapper())
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 8196)
+
+  ID: 40
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 41
+  Type: NodeType.IF
+  Expression: hasCommitment
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: (nb,abi32) = resolverContract.ABI(dHash,128)
+
+  ID: 43
+  Type: NodeType.IF
+  Expression: (nb == 128) && (abi32.length >= 224) && ((abi32.length % 32) == 0)
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 128)
+
+  ID: 45
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: (nb,abi32) = resolverContract.ABI(dHash,32)
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: (nb == 32) && (abi32.length > 32) && (abi32.length < 0x1000)
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(uint256(report) + 32)
+
+  ID: 49
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: nb = getOwners_internal(commitments[dHash]).length
+
+  ID: 51
+  Type: NodeType.EXPRESSION
+  Expression: stamp = uint256(stringMemoryTobytes32(resolverContract.text(dHash,use_timeStamp)))
+
+  ID: 52
+  Type: NodeType.IF
+  Expression: ! isENSV3() && (stamp == 0x0000000d7573655f74696d655374616d70000000000000000000000000000000)
+
+  ID: 53
+  Type: NodeType.EXPRESSION
+  Expression: stamp = 0
+
+  ID: 54
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 55
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 56
+  Type: NodeType.EXPRESSION
+  Expression: report = uint256(stamp) + uint256(uint256(report) << 128) + uint256(nb << 64) + uint256(getInstallTime(dHash))
+
+  ID: 57
+  Type: NodeType.IF
+  Expression: command == 0
+
+  ID: 58
+  Type: NodeType.RETURN
+  Expression: (report,getGWProxy(dHash),getProxyToken(dHash),address(this),abi32)
+
+  ID: 59
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 60
+  Type: NodeType.IF
+  Expression: command == 1
+
+  ID: 61
+  Type: NodeType.RETURN
+  Expression: (stamp,getGWProxy(dHash),getProxyToken(dHash),address(this),abi32)
+
+  ID: 62
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 63
+  Type: NodeType.RETURN
+  Expression: (report,gwpc,ptc,gwfc,structure)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  23 -> 25
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  29 -> 31
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  32 -> 34
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 37
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  38 -> 40
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  41 -> 55
+  42 -> 43
+  43 -> 44
+  43 -> 45
+  44 -> 45
+  45 -> 46
+  46 -> 47
+  47 -> 48
+  47 -> 49
+  48 -> 49
+  49 -> 50
+  50 -> 51
+  51 -> 52
+  52 -> 53
+  52 -> 54
+  53 -> 54
+  54 -> 55
+  55 -> 56
+  56 -> 57
+  57 -> 58
+  57 -> 59
+  59 -> 60
+  60 -> 61
+  60 -> 62
+  62 -> 63
+
+Function: inviteInstallToken_q31n
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _dHash = _mem[0]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: l = _mem.length - 5
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: time = uint64(block.timestamp * 1000) & uint64(0xffffffffffff0000)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: amount = uint256(msg.value / uint256((l / 5) + 3))
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: c = commitments[_dHash]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: my_require((address(uint160(c & k_aMask)) == msg.sender || address(msg.sender) == address(this)) && l >= 10 && l <= 160 && address(uint160(uint256(_mem[1]))) != k_add00 && msg.value > 0,w)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: GWowners = new address[](l / 5)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: GTowners = new uint256[]((l / 5) + 2)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: i = 5
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: nb = 0
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IFLOOP
+  Expression: (i - 5) < l && i <= 160
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: o = address(uint160(uint256(_mem[i + 2]) & k_aMask))
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: d = _mem[i + 1]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: my_require(o != k_add00 && _mem[i] != 0x0 && d != 0x0,v4)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: GWowners[nb] = o
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: GTowners[nb] = uint256(_mem[i + 2])
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: abiCmd = abi.encodePacked(abiCmd,_mem[i + 3])
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: my_require(address(address(uint160(o))).send(amount),v5)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(address(uint160(o)),amount)
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: ! isENSV3()
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: base.ens().setSubnodeRecord(_dHash,_mem[i],address(this),address(resolverContract),time)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: _setSubnodeRecordV3(_dHash,_mem[i],address(this),0)
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: avatar = bytesToStr(_mem[i + 4],32)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract.setText(d,string(avatar),avatar)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(d,o,_mem[i],_dHash)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: nb ++
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: i = i + 5
+
+  ID: 33
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: abiCmd = abi.encodePacked(k_abi80,k_abi80,k_abi80,bytes32(uint256((l / 5) + 1) << 5),abiCmd,_mem[2])
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract.setABI(_dHash,128,abiCmd)
+
+  ID: 36
+  Type: NodeType.VARIABLE
+  Expression: proxyGW = new ProxyGroupWallet(address(uint160(uint256(_mem[4]))),concatString(_mem[3],tld()),reverseContract)
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: AbstractGWF_GWP(address(proxyGW)).newProxyGroupWallet_j5O{value: amount}(GWowners)
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(_dHash,address(proxyGW),0x0,_dHash)
+
+  ID: 39
+  Type: NodeType.EXPRESSION
+  Expression: commitments[_dHash] = uint256(uint160(address(proxyGW)) & k_aMask) + uint256(c & k_commitMask)
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: ProxyGroupWalletCreation(proxyGW)
+
+  ID: 41
+  Type: NodeType.VARIABLE
+  Expression: proxy = new ProxyToken(address(uint160(uint256(_mem[1]))))
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: GTowners[(l / 5) + 0] = uint256(_mem[3])
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: GTowners[(l / 5) + 1] = uint256(uint160(address(proxyGW)))
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: Abstract_TokenProxy(address(proxy)).newToken{value: amount}(GTowners)
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: installations[uint64((uint256(c & k_commitMask) >> 160) & k_commit2Mask)] = uint256(uint160(address(proxy))) + uint256((uint256(time + 1) << 160) & k_commitMask)
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: ProxyTokenCreation(proxy)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 16
+  15 -> 16
+  15 -> 33
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  24 -> 26
+  25 -> 27
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 15
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+  44 -> 45
+  45 -> 46
+
+Function: _setSubnodeRecordV3
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: I_NWrapper(controllerContract.nameWrapper()).setSubnodeRecord(_dHash,labelStrFromBytes32(_labelStr),_owner,address(resolverContract),_timeStamp,0,0)
+
+Edges:
+  0 -> 1
+
+Function: upgradeGWF
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = commitments[_dHash]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: my_require(address(uint160(c & k_aMask)) == msg.sender && version() < Abstract_GWF(_GWF).version(),u)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Abstract_GWF(_GWF).importGWP(_dHash,c,installations[getCommitment(_dHash)])
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: calledByUngravelGWP()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyGWF(_GWF)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: importGWP
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: my_require(version() > Abstract_GWF(msg.sender).version(),i)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _GWP = Abstract_GWF(msg.sender).getGWProxy(_dHash)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: _PT = Abstract_GWF(msg.sender).getProxyToken(_dHash)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: my_require(installations[uint64((uint256(commitment & k_commitMask) >> 160) & k_commit2Mask)] == 0 && address(uint160(commitment & k_aMask)) == _GWP && _PT == address(uint160(uint256(installation) & k_aMask)) && commitments[_dHash] == 0,i5)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: installations[uint64((uint256(commitment & k_commitMask) >> 160) & k_commit2Mask)] = installation
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: commitments[_dHash] = uint256(uint160(_GWP) & k_aMask) + uint256(commitment & k_commitMask)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyGWF(msg.sender)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: calledByUNG_GWP(_dHash)
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 8
+  8 -> 1
+
+Function: replicate_group_l9Y
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: v = 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _m.length == 4
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: v = uint256(_m[2]) & k_rentMask
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: my_require(msg.value > 0 && v > 0 && msg.value > v && address(uint160(commitments[_m[0]] & k_aMask)) == msg.sender,G)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (this).registerAndLock_x3x{value: v}(_m,data32)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: _m.length == 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: my_require(msg.value > 0,H)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: isInitiatorOrMember2(_mem[0])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (this).lock_dfs(_mem[0],data32)
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: v = msg.value / 25
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: (this).inviteInstallToken_q31n{value: uint256(msg.value) - v}(_mem)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 6
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: isInitiatorOrMember2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = commitments[_dHash]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: address(uint160(c & k_aMask)) == msg.sender
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: memArr = getOwners_internal(c)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: l = memArr.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < l
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: memArr[i] == msg.sender
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: my_require(false,owner2)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  9 -> 10
+  9 -> 14
+  10 -> 11
+  10 -> 12
+  12 -> 13
+  13 -> 9
+  14 -> 15
+
+Function: isInitiatorOrMember
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = commitments[_dHash]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: address(uint160(c & k_aMask)) == msg.sender
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: address(uint160(uint256(installations[uint64((uint256(c & k_commitMask) >> 160) & k_commit2Mask)]) & k_aMask))
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: memArr = getOwners_internal(c)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: l = memArr.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: index = 32
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < l && index == 32
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: memArr[i] == msg.sender
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: index = i
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: my_require(index >= 0 && index < 32, - illegal/unknown initiator or owner.)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: address(uint160(uint256(installations[uint64((uint256(c & k_commitMask) >> 160) & k_commit2Mask)]) & k_aMask))
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: tProxy
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 11
+  10 -> 11
+  10 -> 15
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 10
+  15 -> 16
+  16 -> 17
+
+Function: transferOwner_v3m
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tProxy = isInitiatorOrMember(_dHash)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),tProxy,0,data + 0x20,mload(uint256)(data),0,0) == 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: TransferOwner(_dHash)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  3 -> 4
+  4 -> 6
+  5 -> 4
+  6 -> 7
+
+Function: setTokenPrices_dgw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tProxy = isInitiatorOrMember(_dHash)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),tProxy,0,data + 0x20,mload(uint256)(data),0,0) == 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: SetPrices(_dHash)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  3 -> 4
+  4 -> 6
+  5 -> 4
+  6 -> 7
+
+Function: freezeToken_LGS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tProxy = isInitiatorOrMember(_dHash)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),tProxy,0,data + 0x20,mload(uint256)(data),0,0) == 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: FreezeToken(_dHash)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  3 -> 4
+  4 -> 6
+  5 -> 4
+  6 -> 7
+
+Function: TransferToken_8uf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tProxy = isInitiatorOrMember(_dHash)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),tProxy,0,data + 0x20,mload(uint256)(data),0,0) == 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(this),address(uint160(uint256(uint256(mb32(substring(data,4,32))) & k_aMask))),uint256(mb32(substring(data,36,32))) / 100)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  3 -> 4
+  4 -> 6
+  5 -> 4
+  6 -> 7
+
+Function: TransferTokenFrom_VCv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tProxy = isInitiatorOrMember(_dHash)
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),tProxy,0,data + 0x20,mload(uint256)(data),0,0) == 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(uint160(uint256(uint256(mb32(substring(data,4,32))) & k_aMask))),address(uint160(uint256(uint256(mb32(substring(data,36,32))) & k_aMask))),uint256(mb32(substring(data,68,32))) / 100)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  3 -> 4
+  4 -> 6
+  5 -> 4
+  6 -> 7
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: my_require(address(address(uint160(msg.sender))).send(address(this).balance - 1),W)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyByOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setAuctionsContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: auctionContract = auctCtr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyByOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: tld
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: chainId = block.chainid
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: chainId == 1
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: .eth
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: chainId == 10
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: .op
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: chainId == 56
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: .bsc
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: chainId == 100
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: .gnosis
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: chainId == 130
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: .uni
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: chainId == 137
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: .matic
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: chainId == 1135
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: .lisk
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: chainId == 8453
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: .base
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: chainId == 42161
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: .one
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: chainId == 81457
+
+  ID: 30
+  Type: NodeType.RETURN
+  Expression: .blast
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.IF
+  Expression: chainId == 167000
+
+  ID: 33
+  Type: NodeType.RETURN
+  Expression: .tko
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IF
+  Expression: chainId == 421614
+
+  ID: 36
+  Type: NodeType.RETURN
+  Expression: .arb
+
+  ID: 37
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 38
+  Type: NodeType.IF
+  Expression: chainId == 534352
+
+  ID: 39
+  Type: NodeType.RETURN
+  Expression: .scroll
+
+  ID: 40
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 41
+  Type: NodeType.IF
+  Expression: chainId == 11155111
+
+  ID: 42
+  Type: NodeType.RETURN
+  Expression: .sepeth
+
+  ID: 43
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 44
+  Type: NodeType.IF
+  Expression: chainId == 11155420
+
+  ID: 45
+  Type: NodeType.RETURN
+  Expression: .opt
+
+  ID: 46
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 47
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  22 -> 23
+  23 -> 24
+  23 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  28 -> 29
+  29 -> 30
+  29 -> 31
+  31 -> 32
+  32 -> 33
+  32 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 37
+  37 -> 38
+  38 -> 39
+  38 -> 40
+  40 -> 41
+  41 -> 42
+  41 -> 43
+  43 -> 44
+  44 -> 45
+  44 -> 46
+  46 -> 47
+
+Function: minimumPrePaid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: chainId = block.chainid
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: chainId == 1
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 10000000000000000
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: chainId == 10
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 100000000000000
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: chainId == 56
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: 10000000000000000
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: chainId == 100
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: 100000000000000000
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: chainId == 130
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: 100000000000000
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: chainId == 137
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: 1000000000000000000
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: chainId == 1135
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: 100000000000000
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: chainId == 8453
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: 100000000000000
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: chainId == 42161
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: 100000000000000
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: chainId == 81457
+
+  ID: 30
+  Type: NodeType.RETURN
+  Expression: 100000000000000
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.IF
+  Expression: chainId == 167000
+
+  ID: 33
+  Type: NodeType.RETURN
+  Expression: 10000000000000000
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 35
+  Type: NodeType.IF
+  Expression: chainId == 421614
+
+  ID: 36
+  Type: NodeType.RETURN
+  Expression: 100000000000000000
+
+  ID: 37
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 38
+  Type: NodeType.IF
+  Expression: chainId == 534352
+
+  ID: 39
+  Type: NodeType.RETURN
+  Expression: 1000000000000000
+
+  ID: 40
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 41
+  Type: NodeType.IF
+  Expression: chainId == 11155111
+
+  ID: 42
+  Type: NodeType.RETURN
+  Expression: 250000000000000000
+
+  ID: 43
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 44
+  Type: NodeType.IF
+  Expression: chainId == 11155420
+
+  ID: 45
+  Type: NodeType.RETURN
+  Expression: 100000000000000000
+
+  ID: 46
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 47
+  Type: NodeType.RETURN
+  Expression: 150000000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  22 -> 23
+  23 -> 24
+  23 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  28 -> 29
+  29 -> 30
+  29 -> 31
+  31 -> 32
+  32 -> 33
+  32 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 37
+  37 -> 38
+  38 -> 39
+  38 -> 40
+  40 -> 41
+  41 -> 42
+  41 -> 43
+  43 -> 44
+  44 -> 45
+  44 -> 46
+  46 -> 47
+
+Function: version
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 20010088
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: v
+
+Edges:
+  0 -> 1
+
+Function: receivePayment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(msg.sender,msg.value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: my_require(false,fb)
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.value == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: GWFowner = tx.origin
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: controllerContract = _controller
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: resolverContract = _resolver
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: base = _base
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ens = _ens
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: reverseContract = _reverse
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ensNameWrapper = _nwrapper
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: auctionContract = _auctionMaster
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: k_aMask = 0x000000000000000000000000ffffffffffffffffffffffffffffffffffffffff
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: k_commitMask = 0xffffffffffffffffffffffff0000000000000000000000000000000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: k_commit2Mask = 0x0000000000000000000000000000000000000000ffffffffffffffffffffffff
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: k_lockedMask = 0x0000000000000000000000010000000000000000000000000000000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: k_abi80 = 0x0000000000000000000000000000000000000000000000000000000000000080
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: k_rentMask = 0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: k_add00 = address(0x0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

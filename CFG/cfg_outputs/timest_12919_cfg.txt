@@ -1,0 +1,28 @@
+Contract: Variation
+==================================================
+
+Function: random
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: randomValue = uint256(keccak256()(block.timestamp,uint256(randomSeed * block.difficulty)))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: randomSeed = uint256(randomValue * block.number)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: randomSeed
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

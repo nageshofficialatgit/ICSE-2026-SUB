@@ -1,0 +1,118 @@
+Contract: IProxy
+==================================================
+
+
+Contract: SafeProxy
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_singleton != address(0),Invalid singleton address provided)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: singleton = _singleton
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _singleton_fallback_asm_0 = sload(uint256)(0)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: calldataload(uint256)(0) == 0xa619486e00000000000000000000000000000000000000000000000000000000
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0,_singleton_fallback_asm_0 << 12 >> 12)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,0x20)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(0,0,calldatasize()())
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: success_fallback_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),_singleton_fallback_asm_0,0,calldatasize()(),0,0)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,returndatasize()())
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: success_fallback_asm_0 == 0
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,returndatasize()())
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,returndatasize()())
+
+  ID: 16
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 14
+  12 -> 13
+  13 -> 15
+  14 -> 13
+  15 -> 16
+
+

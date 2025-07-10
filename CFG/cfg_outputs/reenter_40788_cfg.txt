@@ -1,0 +1,43 @@
+Contract: Reentrance
+==================================================
+
+Function: withdrawBalance_fixed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = userBalance[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: userBalance[msg.sender] = 0
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! (msg.sender.call.value(amount)())
+
+  ID: 4
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  6 -> 1
+
+

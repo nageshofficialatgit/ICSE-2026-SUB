@@ -1,0 +1,642 @@
+Contract: IUniswapV2Pair
+==================================================
+
+
+Contract: ETHGames
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: games[1] = GameState({winCount:0,maxWins:2,enabled:true})
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: games[2] = GameState({winCount:0,maxWins:2,enabled:true})
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: games[3] = GameState({winCount:0,maxWins:2,enabled:true})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: games[4] = GameState({winCount:0,maxWins:2,enabled:true})
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: solveAddition
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[1].enabled,Game 1 is not enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[1].winCount < games[1].maxWins,Game 1 has reached max wins)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(answer == 2 + 2,Wrong answer to 2+2)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: games[1].winCount ++
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: games[1].winCount >= games[1].maxWins
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: games[1].enabled = false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = msg.sender.call{value: SMALL_REWARD}()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETHGames: reward transfer failed)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: GameWon(1,msg.sender,SMALL_REWARD)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: guessPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[2].enabled,Game 2 is not enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[2].winCount < games[2].maxWins,Game 2 has reached max wins)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: currentPrice = getEthUsdcPrice()
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: priceGuess > currentPrice
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: diff = priceGuess - currentPrice
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: diff = currentPrice - priceGuess
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: percentDiff = (diff * 1e18) / currentPrice
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: percentAccuracy = 1e18 - percentDiff
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: percentAccuracy < 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: percentAccuracy = 0
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: reward = (LARGE_REWARD * percentAccuracy) / 1e18
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: games[2].winCount ++
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: games[2].winCount >= games[2].maxWins
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: games[2].enabled = false
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = msg.sender.call{value: reward}()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETHGames: reward transfer failed)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: GameWon(2,msg.sender,reward)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 23
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  23 -> 1
+
+Function: solveCube
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[3].enabled,Game 3 is not enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[3].winCount < games[3].maxWins,Game 3 has reached max wins)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(answer * answer * answer == 125,Wrong answer to x^3=125)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: games[3].winCount ++
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: games[3].winCount >= games[3].maxWins
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: games[3].enabled = false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = msg.sender.call{value: SMALL_REWARD}()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETHGames: reward transfer failed)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: GameWon(3,msg.sender,SMALL_REWARD)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: depositETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[4].enabled,Game 4 is not enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[4].winCount < games[4].maxWins,Game 4 has reached max wins)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == SMALL_REWARD,Must deposit exactly 0.00025 ETH)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: depositBlocks[msg.sender] = block.number
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Deposited(msg.sender,msg.value)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(games[4].enabled,Game 4 is not enabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(depositBlocks[msg.sender] > 0,No deposit found)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.number >= depositBlocks[msg.sender] + 1,Must withdraw after at least one block)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: depositBlocks[msg.sender] = 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: games[4].winCount ++
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: games[4].winCount >= games[4].maxWins
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: games[4].enabled = false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = msg.sender.call{value: LARGE_REWARD}()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETHGames: reward transfer failed)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: GameWon(4,msg.sender,LARGE_REWARD)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(msg.sender,LARGE_REWARD)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 1
+
+Function: enableGame
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(gameId >= 1 && gameId <= 4,Invalid game ID)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: games[gameId].enabled = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: games[gameId].winCount = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: GameEnabled(gameId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: enableAllGames
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i <= 4
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: games[i].enabled = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: games[i].winCount = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: AllGamesEnabled()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 8
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  7 -> 4
+  9 -> 3
+
+Function: getEthUsdcPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pair = IUniswapV2Pair(UNISWAP_V2_ETH_USDC_PAIR)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: token0 = pair.token0()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (reserve0,reserve1,None) = pair.getReserves()
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: token0 == WETH
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: (uint256(reserve1) * 1e6) / uint256(reserve0)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (uint256(reserve0) * 1e6) / uint256(reserve1)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+
+Function: isGameEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(gameId >= 1 && gameId <= 4,Invalid game ID)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: games[gameId].enabled
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getGameWinCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(gameId >= 1 && gameId <= 4,Invalid game ID)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: games[gameId].winCount
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SMALL_REWARD = 250000000000000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LARGE_REWARD = 750000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: UNISWAP_V2_ETH_USDC_PAIR = 0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

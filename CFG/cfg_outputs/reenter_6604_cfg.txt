@@ -1,0 +1,43 @@
+Contract: HiroyukiCoinDark
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = balanceOf[msg.sender] - _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] = balanceOf[_to] + _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(msg.sender.call.value(0)())
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+

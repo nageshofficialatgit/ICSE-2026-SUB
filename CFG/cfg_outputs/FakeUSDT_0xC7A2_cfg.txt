@@ -1,0 +1,158 @@
+Contract: FakeUSDT
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 1_000_000 * 10 ** decimals
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = totalSupply
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= _amount,Not enough Fake USDT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[_from] >= _amount,Not enough Fake USDT)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[_from][msg.sender] >= _amount,Allowance exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] -= _amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_amount)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Tether USD
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = USDT
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 6
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,33 @@
+Contract: DAVToken
+==================================================
+
+Function: setPauseCutoffTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_pauseCutoffTime >= block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pauseCutoffTime = _pauseCutoffTime
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+

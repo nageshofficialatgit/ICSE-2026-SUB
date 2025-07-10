@@ -1,0 +1,39 @@
+Contract: Fomo3d
+==================================================
+
+Function: someFunction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! Jekyll_Island_Inc.call.value(msg.value)()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: depositSuccessful = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: depositSuccessful = true
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+  5 -> 1
+
+

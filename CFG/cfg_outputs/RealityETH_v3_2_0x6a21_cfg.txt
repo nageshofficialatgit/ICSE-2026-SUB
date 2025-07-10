@@ -1,0 +1,1923 @@
+Contract: BalanceHolder
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bal = balanceOf[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(bal)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: LogWithdraw(msg.sender,bal)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: RealityETH_v3_2
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bal = balanceOf[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(bal)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: LogWithdraw(msg.sender,bal)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: createTemplate({"title": "%s", "type": "bool", "description": "%s", "lang": "%s"})
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: createTemplate({"title": "%s", "type": "uint", "decimals": 18, "description": "%s", "lang": "%s"})
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: createTemplate({"title": "%s", "type": "single-select", "outcomes": [%s], "description": "%s", "lang": "%s"})
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: createTemplate({"title": "%s", "type": "multiple-select", "outcomes": [%s], "description": "%s", "lang": "%s"})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: createTemplate({"title": "%s", "type": "datetime", "description": "%s", "lang": "%s"})
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: createTemplate({"title": "%s", "type": "hash", "description": "%s", "lang": "%s"})
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: setQuestionFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: arbitrator_question_fees[msg.sender] = fee
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LogSetQuestionFee(msg.sender,fee)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: stateAny()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: createTemplate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: id = nextTemplateID
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: templates[id] = block.number
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: template_hashes[id] = keccak256(bytes)(abi.encodePacked(content))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: LogNewTemplate(id,msg.sender,content)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nextTemplateID = id + 1
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: id
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: stateAny()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: createTemplateAndAskQuestion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: template_id = createTemplate(content)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: askQuestion(template_id,question,arbitrator,timeout,opening_ts,nonce)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: askQuestion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(templates[template_id] > 0,template must exist)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: content_hash = keccak256(bytes)(abi.encodePacked(template_id,opening_ts,question))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: question_id = keccak256(bytes)(abi.encodePacked(content_hash,arbitrator,timeout,uint256(0),address(this),msg.sender,nonce))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: LogNewQuestion(question_id,msg.sender,template_id,question,content_hash,arbitrator,timeout,opening_ts,nonce,block.timestamp)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _askQuestion(question_id,content_hash,arbitrator,timeout,opening_ts,0)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: question_id
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: askQuestionWithMinBond
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(templates[template_id] > 0,template must exist)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: content_hash = keccak256(bytes)(abi.encodePacked(template_id,opening_ts,question))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: question_id = keccak256(bytes)(abi.encodePacked(content_hash,arbitrator,timeout,min_bond,address(this),msg.sender,nonce))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: LogNewQuestion(question_id,msg.sender,template_id,question,content_hash,arbitrator,timeout,opening_ts,nonce,block.timestamp)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _askQuestion(question_id,content_hash,arbitrator,timeout,opening_ts,min_bond)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: question_id
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _askQuestion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(timeout > 0,timeout must be positive)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(timeout < 31536000,timeout must be less than 365 days)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: bounty = msg.value
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: arbitrator != NULL_ADDRESS && msg.sender != arbitrator
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: question_fee = arbitrator_question_fees[arbitrator]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bounty >= question_fee,ETH provided must cover question fee)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: bounty = bounty - question_fee
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[arbitrator] = balanceOf[arbitrator] + question_fee
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].content_hash = content_hash
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].arbitrator = arbitrator
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].opening_ts = opening_ts
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].timeout = timeout
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: bounty > 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].bounty = bounty
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: LogFundAnswerBounty(question_id,bounty,bounty,msg.sender)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: min_bond > 0
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].min_bond = min_bond
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: LogMinimumBond(question_id,min_bond)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: stateNotCreated(question_id)
+
+Edges:
+  0 -> 22
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 9
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 21
+  19 -> 20
+  20 -> 21
+  22 -> 1
+
+Function: fundAnswerBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].bounty = questions[question_id].bounty + msg.value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LogFundAnswerBounty(question_id,msg.value,questions[question_id].bounty,msg.sender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: stateOpen(question_id)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: submitAnswer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _addAnswerToHistory(question_id,answer,msg.sender,msg.value,false)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _updateCurrentAnswer(question_id,answer)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: stateOpen(question_id)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: bondMustDoubleAndMatchMinimum(question_id)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: previousBondMustNotBeatMaxPrevious(question_id,max_previous)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 5
+  5 -> 1
+
+Function: submitAnswerFor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(answerer != NULL_ADDRESS,answerer must be non-zero)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _addAnswerToHistory(question_id,answer,answerer,msg.value,false)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _updateCurrentAnswer(question_id,answer)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: stateOpen(question_id)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: bondMustDoubleAndMatchMinimum(question_id)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: previousBondMustNotBeatMaxPrevious(question_id,max_previous)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 1
+
+Function: _storeCommitment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(commitments[commitment_id].reveal_ts == COMMITMENT_NON_EXISTENT,commitment must not already exist)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: commitment_timeout = questions[question_id].timeout / COMMITMENT_TIMEOUT_RATIO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: commitments[commitment_id].reveal_ts = uint32(block.timestamp) + commitment_timeout
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: submitAnswerCommitment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: commitment_id = keccak256(bytes)(abi.encodePacked(question_id,answer_hash,msg.value))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _storeCommitment(question_id,commitment_id)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _addAnswerToHistory(question_id,commitment_id,answerer,msg.value,true)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: stateOpen(question_id)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: bondMustDoubleAndMatchMinimum(question_id)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: previousBondMustNotBeatMaxPrevious(question_id,max_previous)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: (_answerer == NULL_ADDRESS)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: answerer = msg.sender
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: answerer = _answerer
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 5
+  1 -> 8
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  7 -> 1
+  8 -> 9
+  8 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 3
+
+Function: submitAnswerReveal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: answer_hash = keccak256(bytes)(abi.encodePacked(answer,nonce))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: commitment_id = keccak256(bytes)(abi.encodePacked(question_id,answer_hash,bond))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! commitments[commitment_id].is_revealed,commitment must not have been revealed yet)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(commitments[commitment_id].reveal_ts > uint32(block.timestamp),reveal deadline must not have passed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: commitments[commitment_id].revealed_answer = answer
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: commitments[commitment_id].is_revealed = true
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: bond == questions[question_id].bond
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _updateCurrentAnswer(question_id,answer)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: LogAnswerReveal(question_id,msg.sender,answer_hash,answer,nonce,bond)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: stateOpenOrPendingArbitration(question_id)
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: _addAnswerToHistory
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: new_history_hash = keccak256(bytes)(abi.encodePacked(questions[question_id].history_hash,answer_or_commitment_id,bond,answerer,is_commitment))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bond > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].bond = bond
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].history_hash = new_history_hash
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: LogNewAnswer(answer_or_commitment_id,question_id,new_history_hash,answerer,bond,block.timestamp,is_commitment)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _updateCurrentAnswer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].best_answer = answer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].finalize_ts = uint32(block.timestamp) + questions[question_id].timeout
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _updateCurrentAnswerByArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].best_answer = answer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].finalize_ts = uint32(block.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: notifyOfArbitrationRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(questions[question_id].finalize_ts > UNANSWERED,Question must already have an answer when arbitration is requested)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].is_pending_arbitration = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LogNotifyOfArbitrationRequest(question_id,requester)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyArbitrator(question_id)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: stateOpen(question_id)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: previousBondMustNotBeatMaxPrevious(question_id,max_previous)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 6
+  6 -> 1
+
+Function: cancelArbitration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].is_pending_arbitration = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].finalize_ts = uint32(block.timestamp) + questions[question_id].timeout
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: LogCancelArbitration(question_id)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyArbitrator(question_id)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: statePendingArbitration(question_id)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: submitAnswerByArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(answerer != NULL_ADDRESS,answerer must be provided)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LogFinalize(question_id,answer)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].is_pending_arbitration = false
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _addAnswerToHistory(question_id,answer,answerer,0,false)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _updateCurrentAnswerByArbitrator(question_id,answer)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyArbitrator(question_id)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: statePendingArbitration(question_id)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: assignWinnerAndSubmitAnswerByArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: is_commitment = _verifyHistoryInputOrRevert(questions[question_id].history_hash,last_history_hash,last_answer_or_commitment_id,questions[question_id].bond,last_answerer)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: is_commitment && ! commitments[last_answer_or_commitment_id].is_revealed
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(commitments[last_answer_or_commitment_id].reveal_ts < uint32(block.timestamp),You must wait for the reveal deadline before finalizing)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: payee = payee_if_wrong
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: submitAnswerByArbitrator(question_id,answer,payee)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: (questions[question_id].best_answer == answer)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: payee = last_answerer
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: payee = payee_if_wrong
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 9
+  4 -> 5
+  5 -> 7
+  7 -> 8
+  9 -> 10
+  9 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 7
+
+Function: isFinalized
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: finalize_ts = questions[question_id].finalize_ts
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (! questions[question_id].is_pending_arbitration && (finalize_ts > UNANSWERED) && (finalize_ts <= uint32(block.timestamp)))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getFinalAnswer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].best_answer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: stateFinalized(question_id)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: resultFor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].best_answer
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: stateFinalized(question_id)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: isSettledTooSoon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (resultFor(question_id) == UNRESOLVED_ANSWER)
+
+Edges:
+  0 -> 1
+
+Function: resultForOnceSettled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = resultFor(question_id)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: result == UNRESOLVED_ANSWER
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: replacement_id = reopened_questions[question_id]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(replacement_id != bytes32(0x0),Question was settled too soon and has not been reopened)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: result = resultFor(replacement_id)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(result != UNRESOLVED_ANSWER,Question replacement was settled too soon and has not been reopened)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: reopenQuestion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isSettledTooSoon(reopens_question_id),You can only reopen questions that resolved as settled too soon)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: content_hash = keccak256(bytes)(abi.encodePacked(template_id,opening_ts,question))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(content_hash == questions[reopens_question_id].content_hash,content hash mismatch)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arbitrator == questions[reopens_question_id].arbitrator,arbitrator mismatch)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(timeout == questions[reopens_question_id].timeout,timeout mismatch)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(opening_ts == questions[reopens_question_id].opening_ts,opening_ts mismatch)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(min_bond == questions[reopens_question_id].min_bond,min_bond mismatch)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! reopener_questions[reopens_question_id],Question is already reopening a previous question)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: existing_reopen_question_id = reopened_questions[reopens_question_id]
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: take_bounty_from_question_id = reopens_question_id
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: existing_reopen_question_id != bytes32(0)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isSettledTooSoon(existing_reopen_question_id),Question has already been reopened)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: reopener_questions[existing_reopen_question_id] = false
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: take_bounty_from_question_id = existing_reopen_question_id
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: question_id = askQuestionWithMinBond(template_id,question,arbitrator,timeout,opening_ts,nonce,min_bond)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: reopened_questions[reopens_question_id] = question_id
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: reopener_questions[question_id] = true
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].bounty = questions[take_bounty_from_question_id].bounty + questions[question_id].bounty
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: questions[take_bounty_from_question_id].bounty = 0
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: LogReopenQuestion(question_id,reopens_question_id)
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: question_id
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: getFinalAnswerIfMatches
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(content_hash == questions[question_id].content_hash,content hash must match)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(arbitrator == questions[question_id].arbitrator,arbitrator must match)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(min_timeout <= questions[question_id].timeout,timeout must be long enough)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(min_bond <= questions[question_id].bond,bond must be high enough)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: questions[question_id].best_answer
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: stateFinalized(question_id)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: claimWinnings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(history_hashes.length > 0,at least one history hash entry must be provided)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: payee = question_claims[question_id].payee
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: last_bond = question_claims[question_id].last_bond
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: queued_funds = question_claims[question_id].queued_funds
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: last_history_hash = questions[question_id].history_hash
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: best_answer = questions[question_id].best_answer
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: i < history_hashes.length
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: is_commitment = _verifyHistoryInputOrRevert(last_history_hash,history_hashes[i],answers[i],bonds[i],addrs[i])
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: queued_funds = queued_funds + last_bond
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: (queued_funds,payee) = _processHistoryItem(question_id,best_answer,queued_funds,payee,addrs[i],bonds[i],answers[i],is_commitment)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: last_bond = bonds[i]
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: last_bond != questions[question_id].bond
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: last_bond = last_bond - last_bond / BOND_CLAIM_FEE_PROPORTION
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: last_history_hash = history_hashes[i]
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: last_history_hash != NULL_HASH
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: payee != NULL_ADDRESS
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: _payPayee(question_id,payee,queued_funds)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: queued_funds = 0
+
+  ID: 25
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: question_claims[question_id].payee = payee
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: question_claims[question_id].last_bond = last_bond
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: question_claims[question_id].queued_funds = queued_funds
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: _payPayee(question_id,payee,queued_funds + last_bond)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: delete question_claims[question_id]
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].history_hash = last_history_hash
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: stateFinalized(question_id)
+
+Edges:
+  0 -> 33
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 10
+  8 -> 11
+  9 -> 21
+  10 -> 8
+  11 -> 12
+  11 -> 9
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 11
+  21 -> 22
+  21 -> 29
+  22 -> 23
+  22 -> 25
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 31
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  33 -> 1
+
+Function: _payPayee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[payee] = balanceOf[payee] + value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: LogClaim(question_id,payee,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _verifyHistoryInputOrRevert
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: last_history_hash == keccak256(bytes)(abi.encodePacked(history_hash,answer,bond,addr,true))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: last_history_hash == keccak256(bytes)(abi.encodePacked(history_hash,answer,bond,addr,false))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(History input provided did not match the expected hash)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+
+Function: _processHistoryItem
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: is_commitment
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: commitment_id = answer
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! commitments[commitment_id].is_revealed
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: delete commitments[commitment_id]
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (queued_funds,payee)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: answer = commitments[commitment_id].revealed_answer
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: delete commitments[commitment_id]
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: answer == best_answer
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: payee == NULL_ADDRESS
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: payee = addr
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: best_answer != UNRESOLVED_ANSWER && questions[question_id].bounty > 0
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _payPayee(question_id,payee,questions[question_id].bounty)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: questions[question_id].bounty = 0
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: addr != payee
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: _payPayee(question_id,payee,queued_funds - answer_takeover_fee)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: payee = addr
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: queued_funds = answer_takeover_fee
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.RETURN
+  Expression: (queued_funds,payee)
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: (queued_funds >= bond)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: answer_takeover_fee = bond
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: answer_takeover_fee = queued_funds
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 9
+  2 -> 3
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 24
+  11 -> 12
+  11 -> 17
+  12 -> 13
+  13 -> 14
+  13 -> 16
+  14 -> 15
+  15 -> 16
+  16 -> 23
+  17 -> 26
+  17 -> 22
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  26 -> 27
+  26 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 19
+
+Function: claimMultipleAndWithdrawBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: qi = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: qi < question_ids.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: qid = question_ids[qi]
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: ln = lengths[qi]
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: hh = new bytes32[](ln)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: ad = new address[](ln)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: bo = new uint256[](ln)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: an = new bytes32[](ln)
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: j = 0
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: j < ln
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: hh[j] = hist_hashes[i]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: ad[j] = addrs[i]
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: bo[j] = bonds[i]
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: an[j] = answers[i]
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: claimWinnings(qid,hh,ad,bo,an)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: qi ++
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: withdraw()
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: stateAny()
+
+Edges:
+  0 -> 27
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 26
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 16
+  14 -> 17
+  15 -> 24
+  16 -> 14
+  17 -> 18
+  17 -> 15
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 17
+  24 -> 25
+  25 -> 6
+  27 -> 1
+
+Function: getContentHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].content_hash
+
+Edges:
+  0 -> 1
+
+Function: getArbitrator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].arbitrator
+
+Edges:
+  0 -> 1
+
+Function: getOpeningTS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].opening_ts
+
+Edges:
+  0 -> 1
+
+Function: getTimeout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].timeout
+
+Edges:
+  0 -> 1
+
+Function: getFinalizeTS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].finalize_ts
+
+Edges:
+  0 -> 1
+
+Function: isPendingArbitration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].is_pending_arbitration
+
+Edges:
+  0 -> 1
+
+Function: getBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].bounty
+
+Edges:
+  0 -> 1
+
+Function: getBestAnswer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].best_answer
+
+Edges:
+  0 -> 1
+
+Function: getHistoryHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].history_hash
+
+Edges:
+  0 -> 1
+
+Function: getBond
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].bond
+
+Edges:
+  0 -> 1
+
+Function: getMinBond
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: questions[question_id].min_bond
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: nextTemplateID = 0
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NULL_ADDRESS = address(0)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NULL_HASH = bytes32(0)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: UNANSWERED = 0
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: COMMITMENT_NON_EXISTENT = 0
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: COMMITMENT_TIMEOUT_RATIO = 8
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BOND_CLAIM_FEE_PROPORTION = 40
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: UNRESOLVED_ANSWER = 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

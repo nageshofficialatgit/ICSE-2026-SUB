@@ -1,0 +1,203 @@
+Contract: CustomToken
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: symbol = _symbol
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 18
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = _initialSupply * 10 ** decimals
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = totalSupply
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = _taxAmount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: taxReceiver = _taxReceiver
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: setTaxAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: taxAmount = newTax
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTaxReceiver
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: taxReceiver = newReceiver
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= taxAmount,Insufficient ETH for tax)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(taxReceiver).transfer(msg.value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,recipient,amount)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[sender] >= amount,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[sender][msg.sender] >= amount,Allowance exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[recipient] += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: allowance[sender][msg.sender] -= amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(sender,recipient,amount)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

@@ -1,0 +1,28 @@
+Contract: VideoPoker
+==================================================
+
+Function: addPayTable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _today = uint32(block.timestamp / 86400)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: settings.lastDayAdded = _today
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

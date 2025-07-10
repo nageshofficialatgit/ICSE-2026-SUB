@@ -1,0 +1,37 @@
+Contract: FibonacciBalance
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: withdrawalCounter += 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(fibonacciLibrary.delegatecall(fibSig,withdrawalCounter))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(calculatedFibNumber * 1000000000000000000)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: fibSig = bytes4(sha3()(setFibonacci(uint256)))
+
+Edges:
+
+

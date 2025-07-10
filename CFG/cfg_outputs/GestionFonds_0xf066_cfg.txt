@@ -1,0 +1,70 @@
+Contract: IERC20
+==================================================
+
+
+Contract: GestionFonds
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: soldeToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IERC20(tokenAddress).balanceOf(address(this))
+
+Edges:
+  0 -> 1
+
+Function: retirerToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Seul le proprietaire peut retirer)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(montant > 0,Le montant doit etre superieur a 0)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddress)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.balanceOf(address(this)) >= montant,Solde insuffisant en tokens)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transfer(owner,montant),Echec du transfert)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

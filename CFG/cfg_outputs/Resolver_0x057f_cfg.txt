@@ -1,0 +1,3391 @@
+Contract: RLPReader
+==================================================
+
+Function: next
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(hasNext(self))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: ptr = self.nextPtr
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: itemLength = _itemLength(ptr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: self.nextPtr = ptr + itemLength
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: RLPItem(itemLength,ptr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: hasNext
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: item = self.item
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: self.nextPtr < item.memPtr + item.len
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: toRlpItem
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: memPtr = item + 0x20
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: RLPItem(item.length,memPtr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: iterator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isList(self))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: ptr = self.memPtr + _payloadOffset(self.memPtr)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: Iterator(self,ptr)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: rlpLen
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: item.len
+
+Edges:
+  0 -> 1
+
+Function: payloadLocation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: offset = _payloadOffset(item.memPtr)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: memPtr = item.memPtr + offset
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: len = item.len - offset
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (memPtr,len)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: payloadLen
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (None,len) = payloadLocation(item)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: len
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: toList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isList(item))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: items = numItems(item)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: result = new RLPReader.RLPItem[](items)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: memPtr = item.memPtr + _payloadOffset(item.memPtr)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < items
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: dataLen = _itemLength(memPtr)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: result[i] = RLPItem(dataLen,memPtr)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: memPtr = memPtr + dataLen
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 14
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 9
+
+Function: isList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: item.len == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: memPtr = item.memPtr
+
+  ID: 6
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: byte0 = byte(uint256,uint256)(0,mload(uint256)(memPtr))
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: byte0 < LIST_SHORT_START
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  11 -> 12
+
+Function: rlpBytesKeccak256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: ptr = item.memPtr
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: len = item.len
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: result = keccak256(uint256,uint256)(ptr,len)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: payloadKeccak256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (memPtr,len) = payloadLocation(item)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: result = keccak256(uint256,uint256)(memPtr,len)
+
+  ID: 7
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: toRlpBytes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = new bytes(item.len)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: result.length == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ptr = 0x20 + result
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: copy(item.memPtr,ptr,item.len)
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: toBoolean
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(item.len == 1)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: memPtr = item.memPtr
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: result = byte(uint256,uint256)(0,mload(uint256)(memPtr))
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: result == 0 || result == STRING_SHORT_START
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+
+Function: toAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(item.len == 21)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: address(uint160(toUint(item)))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: toUint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(item.len > 0 && item.len <= 33)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (memPtr,len) = payloadLocation(item)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: result = mload(uint256)(memPtr)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: len < 32
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: result = result / 256 ** 32 - len
+
+  ID: 11
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  8 -> 9
+  9 -> 11
+  10 -> 9
+  11 -> 12
+
+Function: toUintStrict
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(item.len == 33)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: memPtr = item.memPtr + 1
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: result = mload(uint256)(memPtr)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: toBytes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(item.len > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (memPtr,len) = payloadLocation(item)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: result = new bytes(len)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: destPtr = 0x20 + result
+
+  ID: 9
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: copy(memPtr,destPtr,len)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: numItems
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: item.len == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: count = 0
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: currPtr = item.memPtr + _payloadOffset(item.memPtr)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: endPtr = item.memPtr + item.len
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: currPtr < endPtr
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: currPtr = currPtr + _itemLength(currPtr)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: count ++
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: count
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 11
+  9 -> 10
+  10 -> 8
+  11 -> 12
+
+Function: _itemLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: byte0 = byte(uint256,uint256)(0,mload(uint256)(memPtr))
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: byte0 < STRING_SHORT_START
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: itemLen = 1
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: byte0 < STRING_LONG_START
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: itemLen = byte0 - STRING_SHORT_START + 1
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: byte0 < LIST_SHORT_START
+
+  ID: 11
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: byteLen__itemLength_asm_1 = byte0 - 0xb7
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: memPtr = memPtr + 1
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: dataLen__itemLength_asm_1 = mload(uint256)(memPtr) / 256 ** 32 - byteLen__itemLength_asm_1
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: itemLen = dataLen__itemLength_asm_1 + byteLen__itemLength_asm_1 + 1
+
+  ID: 18
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: byte0 < LIST_LONG_START
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: itemLen = byte0 - LIST_SHORT_START + 1
+
+  ID: 21
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 22
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: byteLen__itemLength_asm_2 = byte0 - 0xf7
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: memPtr = memPtr + 1
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: dataLen__itemLength_asm_2 = mload(uint256)(memPtr) / 256 ** 32 - byteLen__itemLength_asm_2
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: itemLen = dataLen__itemLength_asm_2 + byteLen__itemLength_asm_2 + 1
+
+  ID: 28
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 33
+  Type: NodeType.RETURN
+  Expression: itemLen
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 32
+  8 -> 9
+  8 -> 10
+  9 -> 31
+  10 -> 11
+  10 -> 19
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 30
+  19 -> 20
+  19 -> 21
+  20 -> 29
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+
+Function: _payloadOffset
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: byte0 = byte(uint256,uint256)(0,mload(uint256)(memPtr))
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: byte0 < STRING_SHORT_START
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: byte0 < STRING_LONG_START || (byte0 >= LIST_SHORT_START && byte0 < LIST_LONG_START)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: 1
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: byte0 < LIST_SHORT_START
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: byte0 - (STRING_LONG_START - 1) + 1
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: byte0 - (LIST_LONG_START - 1) + 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  9 -> 11
+
+Function: copy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: len == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: len >= WORD_SIZE
+
+  ID: 7
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(dest,mload(uint256)(src))
+
+  ID: 9
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: src += WORD_SIZE
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: dest += WORD_SIZE
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: len -= WORD_SIZE
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: len > 0
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: mask = 256 ** (WORD_SIZE - len) - 1
+
+  ID: 15
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: srcpart_copy_asm_1 = mload(uint256)(src) & ~ mask
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: destpart_copy_asm_1 = mload(uint256)(dest) & mask
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(dest,destpart_copy_asm_1 | srcpart_copy_asm_1)
+
+  ID: 21
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 6
+  5 -> 13
+  6 -> 7
+  6 -> 5
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 6
+  13 -> 14
+  13 -> 22
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: STRING_SHORT_START = 0x80
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: STRING_LONG_START = 0xb8
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LIST_SHORT_START = 0xc0
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: LIST_LONG_START = 0xf8
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WORD_SIZE = 32
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: MerklePatriciaProofVerifier
+==================================================
+
+Function: extractProofValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: mptKey = _decodeNibbles(path,0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: mptKeyOffset = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: stack.length == 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(rootHash == 0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: new bytes(0)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: i < stack.length
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: i == 0 && rootHash != stack[i].rlpBytesKeccak256()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(1)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: i != 0 && nodeHashHash != _mptHashHash(stack[i])
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(2)
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: node = stack[i].toList()
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: node.length == 2
+
+  ID: 22
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 23
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: (isLeaf,nodeKey) = _merklePatriciaCompactDecode(node[0].toBytes())
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: prefixLength = _sharedPrefixLength(mptKeyOffset,mptKey,nodeKey)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: mptKeyOffset += prefixLength
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: prefixLength < nodeKey.length
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: i < stack.length - 1
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(3)
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.RETURN
+  Expression: new bytes(0)
+
+  ID: 32
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 33
+  Type: NodeType.IF
+  Expression: isLeaf
+
+  ID: 34
+  Type: NodeType.IF
+  Expression: i < stack.length - 1
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(4)
+
+  ID: 36
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 37
+  Type: NodeType.IF
+  Expression: mptKeyOffset < mptKey.length
+
+  ID: 38
+  Type: NodeType.RETURN
+  Expression: new bytes(0)
+
+  ID: 39
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: rlpValue = node[1]
+
+  ID: 41
+  Type: NodeType.RETURN
+  Expression: rlpValue.toBytes()
+
+  ID: 42
+  Type: NodeType.IF
+  Expression: i == stack.length - 1
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(5)
+
+  ID: 44
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 45
+  Type: NodeType.IF
+  Expression: ! node[1].isList()
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: nodeHashHash = node[1].payloadKeccak256()
+
+  ID: 47
+  Type: NodeType.EXPRESSION
+  Expression: nodeHashHash = node[1].rlpBytesKeccak256()
+
+  ID: 48
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 49
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 50
+  Type: NodeType.IF
+  Expression: node.length == 17
+
+  ID: 51
+  Type: NodeType.IF
+  Expression: mptKeyOffset != mptKey.length
+
+  ID: 52
+  Type: NodeType.VARIABLE
+  Expression: nibble = uint8(mptKey[mptKeyOffset])
+
+  ID: 53
+  Type: NodeType.EXPRESSION
+  Expression: mptKeyOffset += 1
+
+  ID: 54
+  Type: NodeType.IF
+  Expression: nibble >= 16
+
+  ID: 55
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(6)
+
+  ID: 56
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 57
+  Type: NodeType.IF
+  Expression: _isEmptyBytesequence(node[nibble])
+
+  ID: 58
+  Type: NodeType.IF
+  Expression: i != stack.length - 1
+
+  ID: 59
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(7)
+
+  ID: 60
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 61
+  Type: NodeType.RETURN
+  Expression: new bytes(0)
+
+  ID: 62
+  Type: NodeType.IF
+  Expression: ! node[nibble].isList()
+
+  ID: 63
+  Type: NodeType.EXPRESSION
+  Expression: nodeHashHash = node[nibble].payloadKeccak256()
+
+  ID: 64
+  Type: NodeType.EXPRESSION
+  Expression: nodeHashHash = node[nibble].rlpBytesKeccak256()
+
+  ID: 65
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 66
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 67
+  Type: NodeType.IF
+  Expression: i != stack.length - 1
+
+  ID: 68
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(8)
+
+  ID: 69
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 70
+  Type: NodeType.RETURN
+  Expression: node[16].toBytes()
+
+  ID: 71
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 72
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 73
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 74
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 75
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 9
+  7 -> 8
+  9 -> 12
+  10 -> 13
+  11 -> 75
+  12 -> 10
+  13 -> 14
+  13 -> 11
+  14 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 50
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  27 -> 32
+  28 -> 29
+  28 -> 30
+  29 -> 30
+  30 -> 31
+  32 -> 33
+  33 -> 34
+  33 -> 42
+  34 -> 35
+  34 -> 36
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  37 -> 39
+  39 -> 40
+  40 -> 41
+  42 -> 43
+  42 -> 44
+  43 -> 44
+  44 -> 45
+  45 -> 46
+  45 -> 47
+  46 -> 48
+  47 -> 48
+  48 -> 49
+  49 -> 73
+  50 -> 51
+  50 -> 72
+  51 -> 52
+  51 -> 67
+  52 -> 53
+  53 -> 54
+  54 -> 55
+  54 -> 56
+  55 -> 56
+  56 -> 57
+  57 -> 58
+  57 -> 62
+  58 -> 59
+  58 -> 60
+  59 -> 60
+  60 -> 61
+  62 -> 63
+  62 -> 64
+  63 -> 65
+  64 -> 65
+  65 -> 66
+  66 -> 71
+  67 -> 68
+  67 -> 69
+  68 -> 69
+  69 -> 70
+  71 -> 72
+  72 -> 73
+  73 -> 74
+  74 -> 13
+
+Function: _mptHashHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: item.len < 32
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: item.rlpBytesKeccak256()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked(item.rlpBytesKeccak256()))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: _isEmptyBytesequence
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: item.len != 1
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: memPtr = item.memPtr
+
+  ID: 6
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: b = byte(uint256,uint256)(0,mload(uint256)(memPtr))
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: b == 0x80
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _merklePatriciaCompactDecode
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(compact.length > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: first_nibble = (uint8(compact[0]) >> 4) & 0xF
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: first_nibble == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: skipNibbles = 2
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: isLeaf = false
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: first_nibble == 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: skipNibbles = 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: isLeaf = false
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: first_nibble == 2
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: skipNibbles = 2
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: isLeaf = true
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: first_nibble == 3
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: skipNibbles = 1
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: isLeaf = true
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(9)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: (isLeaf,_decodeNibbles(compact,skipNibbles))
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: (isLeaf,nibbles)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 20
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 19
+  10 -> 11
+  10 -> 13
+  11 -> 12
+  12 -> 18
+  13 -> 14
+  13 -> 16
+  14 -> 15
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+
+Function: _decodeNibbles
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(compact.length > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: length = compact.length * 2
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(skipNibbles <= length)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: length -= skipNibbles
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: nibbles = new bytes(length)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: nibblesLength = 0
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = skipNibbles
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i < skipNibbles + length
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: i % 2 == 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: nibbles[nibblesLength] = bytes1((uint8(compact[i / 2]) >> 4) & 0xF)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: nibbles[nibblesLength] = bytes1((uint8(compact[i / 2]) >> 0) & 0xF)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: nibblesLength += 1
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i += 1
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(nibblesLength == nibbles.length)
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: nibbles
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 17
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  11 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 10
+  17 -> 18
+
+Function: _sharedPrefixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i + xsOffset < xs.length && i < ys.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: xs[i + xsOffset] != ys[i]
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: i
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 5
+
+
+Contract: StateProofVerifier
+==================================================
+
+Function: extractAccountFromProof
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: acctRlpBytes = MerklePatriciaProofVerifier.extractProofValue(_stateRootHash,abi.encodePacked(_addressHash),_proof)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: acctRlpBytes.length == 0
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: account
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: acctFields = acctRlpBytes.toRlpItem().toList()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(acctFields.length == 4)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: account.exists = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: account.nonce = acctFields[0].toUint()
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: account.balance = acctFields[1].toUint()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: account.storageRoot = bytes32(acctFields[2].toUint())
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: account.codeHash = bytes32(acctFields[3].toUint())
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: account
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: extractSlotValueFromProof
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: valueRlpBytes = MerklePatriciaProofVerifier.extractProofValue(_storageRootHash,abi.encodePacked(_slotHash),_proof)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: valueRlpBytes.length != 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: value.exists = true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: value.value = valueRlpBytes.toRlpItem().toUint()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HEADER_STATE_ROOT_INDEX = 3
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HEADER_NUMBER_INDEX = 8
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: HEADER_TIMESTAMP_INDEX = 11
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: INameWrapper
+==================================================
+
+
+Contract: ENS
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: Dispute
+==================================================
+
+
+Contract: Game
+==================================================
+
+
+Contract: Resolver
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: deployedRegistry = l2RegistryAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: url = _url
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < _signers.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: signers[_signers[i]] = true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: NewSigners(_signers)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+Function: addChain
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: addrOf[chainId].disputeOracle = oracle
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setURL
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: url = _url
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setSigners
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < _signers.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: signers[_signers[i]] = true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: NewSigners(_signers)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 8
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  8 -> 3
+
+Function: decodeData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: functionSelector = bytes4(callData)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: callDataWithoutSelector = callData
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: functionSelector == 0x3b3b57de
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: node = abi.decode(callDataWithoutSelector,(bytes32))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: functionSelector == 0xbc1c58d1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: node = abi.decode(callDataWithoutSelector,(bytes32))
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: functionSelector == 0xf1cb7e06
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (node,None) = abi.decode(callDataWithoutSelector,(bytes32,uint256))
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: functionSelector == 0x59d1d43c
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (node,None) = abi.decode(callDataWithoutSelector,(bytes32,string))
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Record type not supported)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: (functionSelector,callDataWithoutSelector,node)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: (functionSelector,callDataWithoutSelector,node)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 15
+  5 -> 6
+  5 -> 7
+  6 -> 14
+  7 -> 8
+  7 -> 9
+  8 -> 13
+  9 -> 10
+  9 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+
+Function: decodeNameAndComputeNamehashes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pos = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: labelsCount = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: pos < input.length
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: length = uint8(input[pos])
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: length == 0
+
+  ID: 7
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: pos += length + 1
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: labelsCount ++
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: pos = 0
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: labels = new string[](labelsCount)
+
+  ID: 14
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: labelIndex = 0
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: pos < input.length
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: length_scope_0 = uint8(input[pos])
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: length_scope_0 == 0
+
+  ID: 20
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(length_scope_0 > 0 && length_scope_0 <= 63,Invalid length)
+
+  ID: 23
+  Type: NodeType.VARIABLE
+  Expression: labelBytes = new bytes(length_scope_0)
+
+  ID: 24
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 25
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 26
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 27
+  Type: NodeType.IFLOOP
+  Expression: i < length_scope_0
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: labelBytes[i] = input[pos + i + 1]
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: labels[labelIndex] = string(labelBytes)
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: pos += length_scope_0 + 1
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: labelIndex ++
+
+  ID: 34
+  Type: NodeType.VARIABLE
+  Expression: namehashes = new bytes32[](upperDomainCount)
+
+  ID: 35
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 36
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 37
+  Type: NodeType.VARIABLE
+  Expression: i_scope_1 = 1
+
+  ID: 38
+  Type: NodeType.IFLOOP
+  Expression: i_scope_1 < labelsCount - 1
+
+  ID: 39
+  Type: NodeType.VARIABLE
+  Expression: domain = labels[i_scope_1]
+
+  ID: 40
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 41
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 42
+  Type: NodeType.VARIABLE
+  Expression: j = i_scope_1 + 1
+
+  ID: 43
+  Type: NodeType.IFLOOP
+  Expression: j < labelsCount
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: domain = string(abi.encodePacked(labels[j],.,domain))
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: namehashes[i_scope_1 - 1] = namehash(domain)
+
+  ID: 47
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_1 ++
+
+  ID: 48
+  Type: NodeType.RETURN
+  Expression: namehashes
+
+  ID: 49
+  Type: NodeType.IF
+  Expression: labelsCount > 1
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: upperDomainCount = labelsCount - 2
+
+  ID: 51
+  Type: NodeType.EXPRESSION
+  Expression: upperDomainCount = 0
+
+  ID: 52
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 11
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 4
+  11 -> 12
+  12 -> 13
+  13 -> 16
+  14 -> 17
+  15 -> 49
+  16 -> 14
+  17 -> 18
+  17 -> 15
+  18 -> 19
+  19 -> 20
+  19 -> 21
+  20 -> 15
+  21 -> 22
+  22 -> 23
+  23 -> 26
+  24 -> 27
+  25 -> 30
+  26 -> 24
+  27 -> 28
+  27 -> 25
+  28 -> 29
+  29 -> 27
+  30 -> 31
+  31 -> 32
+  32 -> 17
+  34 -> 37
+  35 -> 38
+  36 -> 48
+  37 -> 35
+  38 -> 39
+  38 -> 36
+  39 -> 42
+  40 -> 43
+  41 -> 46
+  42 -> 40
+  43 -> 44
+  43 -> 41
+  44 -> 45
+  45 -> 43
+  46 -> 47
+  47 -> 38
+  49 -> 50
+  49 -> 51
+  50 -> 52
+  51 -> 52
+  52 -> 34
+
+Function: namehash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: node = 0x0000000000000000000000000000000000000000000000000000000000000000
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bytes(name).length > 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: labels = splitLabels(name)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = labels.length
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i > 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: node = keccak256(bytes)(abi.encodePacked(node,keccak256(bytes)(abi.encodePacked(labels[i - 1]))))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: node
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 10
+  3 -> 6
+  4 -> 7
+  5 -> 10
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 7
+  10 -> 11
+
+Function: splitLabels
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: labelCount = 1
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < bytes(name).length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: bytes(name)[i] == .
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: labelCount ++
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: labels = new string[](labelCount)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: labelIndex = 0
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: start = 0
+
+  ID: 13
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: i_scope_0 = 0
+
+  ID: 16
+  Type: NodeType.IFLOOP
+  Expression: i_scope_0 <= bytes(name).length
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: i_scope_0 == bytes(name).length || bytes(name)[i_scope_0] == .
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: labelBytes = new bytes(i_scope_0 - start)
+
+  ID: 19
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 22
+  Type: NodeType.IFLOOP
+  Expression: j < labelBytes.length
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: labelBytes[j] = bytes(name)[start + j]
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: labels[labelIndex ++] = string(labelBytes)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: start = i_scope_0 + 1
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_0 ++
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: labels
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  12 -> 15
+  13 -> 16
+  14 -> 29
+  15 -> 13
+  16 -> 17
+  16 -> 14
+  17 -> 18
+  17 -> 27
+  18 -> 21
+  19 -> 22
+  20 -> 25
+  21 -> 19
+  22 -> 23
+  22 -> 20
+  23 -> 24
+  24 -> 22
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 16
+
+Function: findAuthorizedAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: namehashes = decodeNameAndComputeNamehashes(input)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < namehashes.length
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: authorized = ens.owner(namehashes[i])
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: authorized != address(0)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (authorized,namehashes[i])
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (address(0),0x0000000000000000000000000000000000000000000000000000000000000000)
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 11
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 5
+
+Function: getValueFromStateProof
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: proofs = proofsBlob.toRlpItem().toList()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(proofs.length == 2,total proofs)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: account = StateProofVerifier.extractAccountFromProof(keccak256(bytes)(abi.encodePacked(target)),stateRoot,proofs[0].toList())
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account.exists,Account does not exist or proof is incorrect)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: storageValue = StateProofVerifier.extractSlotValueFromProof(keccak256(bytes)(abi.encodePacked(slotPosition)),account.storageRoot,proofs[1].toList())
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(storageValue.exists,Storage Value not found)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: bytes32(storageValue.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: getOutputRoot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: index = (Dispute(oracle).gameCount()) - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (gameType,timestamp,gameAddr) = Dispute(oracle).gameAtIndex(index)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: outputRoot = Game(gameAddr).rootClaim()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: (outputRoot)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: compareOutputRoot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: outputRoot = getOutputRoot(oracle)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: calculatedOutputRoot = keccak256(bytes)(abi.encode(0,stateRoot,withdrawalStorageRoot,latestBlockhash))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (outputRoot == calculatedOutputRoot)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getL2Blocks
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: opAddr = addrOf[10].disputeOracle
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: baseAddr = addrOf[8453].disputeOracle
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: opIndex = (Dispute(opAddr).gameCount()) - 1
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: baseIndex = (Dispute(baseAddr).gameCount()) - 1
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,gameAddrOp) = Dispute(opAddr).gameAtIndex(opIndex)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,gameAddrBase) = Dispute(baseAddr).gameAtIndex(baseIndex)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: opBlock = Game(gameAddrOp).l2BlockNumber()
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: baseBlock = Game(gameAddrBase).l2BlockNumber()
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (opBlock,baseBlock)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: resolve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (functionSelector,callDataWithoutSelector,None) = decodeData(data)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: authorized = context
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (opBlock,baseBlock) = getL2Blocks()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: callData = abi.encode(functionSelector,callDataWithoutSelector,authorized,opBlock,baseBlock)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: urls = new string[](1)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: urls[0] = url
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert OffchainLookup(address,string[],bytes,bytes4,bytes)(address(this),urls,callData,Resolver.resolveWithProof.selector,callData)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: resolveWithProof
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (functionSelector,None,None) = abi.decode(extraData,(bytes4,bytes,address))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (chainId,encodedResult,proof.slotPosition,proof.proofsBlob,proof.stateRoot,withdrawalStorageRoot,latestBlockhash) = abi.decode(response,(uint256,bytes,bytes32,bytes,bytes32,bytes32,bytes32))
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: oracle = addrOf[chainId].disputeOracle
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(compareOutputRoot(oracle,proof.stateRoot,withdrawalStorageRoot,latestBlockhash) == true,Output root comparison failed)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: functionSelector == 0xf1cb7e06 || functionSelector == 0xbc1c58d1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(getValueFromStateProof(proof.stateRoot,deployedRegistry,proof.slotPosition,proof.proofsBlob) == keccak256(bytes)(abi.encodePacked(abi.decode(encodedResult,(bytes)))),StorageProof Value Mismatch)
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: encodedResult
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: functionSelector == 0x3b3b57de
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(getValueFromStateProof(proof.stateRoot,deployedRegistry,proof.slotPosition,proof.proofsBlob) == keccak256(bytes)(abi.encodePacked(abi.decode(encodedResult,(address)))),StorageProof Value Mismatch)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: encodedResult
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: functionSelector == 0x59d1d43c
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(getValueFromStateProof(proof.stateRoot,deployedRegistry,proof.slotPosition,proof.proofsBlob) == keccak256(bytes)(abi.encodePacked(abi.decode(encodedResult,(string)))),StorageProof Value Mismatch)
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: encodedResult
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 14
+  12 -> 13
+  14 -> 15
+  15 -> 16
+  15 -> 18
+  16 -> 17
+  18 -> 19
+  19 -> 20
+  19 -> 22
+  20 -> 21
+  22 -> 23
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceID == 0x9061b923 || interfaceID == 0xa0b7b54e || interfaceID == 0x01ffc9a7
+
+Edges:
+  0 -> 1
+
+Function: withdrawERC20
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(tokenAddr).transfer(_to,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _to.transfer(address(this).balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getOperationHandler
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: selector = bytes4(encodedFunction)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: selector == 0xd5fa2b00 || selector == 0x8b95dd71 || selector == 0x304e6ade || selector == 0x10f13a8c || selector == 0xac9650d8
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert OperationHandledOnchain(uint256,address)(10,deployedRegistry)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert FunctionNotSupported()()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ens = ENS(0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: nameWrapper = INameWrapper(0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401)
+
+Edges:
+  0 -> 1
+
+

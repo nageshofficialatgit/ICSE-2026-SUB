@@ -1,0 +1,6833 @@
+Contract: IERC165
+==================================================
+
+
+Contract: Math
+==================================================
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a > b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a < b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: average
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (a & b) + (a ^ b) / 2
+
+Edges:
+  0 -> 1
+
+Function: ceilDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (a - 1) / b + 1
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: mulDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = mulDiv(x,y,denominator)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && mulmod(uint256,uint256,uint256)(x,y,denominator) > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: result += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: sqrt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = sqrt(a)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && result * result < a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: log2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log2(value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && 1 << result < value
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: log10
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log10(value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && 10 ** result < value
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: log256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log256(value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && 1 << (result << 3) < value
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+
+Contract: SignedMath
+==================================================
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a > b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a < b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: average
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: x = (a & b) + ((a ^ b) >> 1)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: x + (int256(uint256(x) >> 255) & (a ^ b))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: abs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: n >= 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: uint256(n)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint256(- n)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+
+Contract: IAccessControlUpgradeable
+==================================================
+
+
+Contract: IERC1967Upgradeable
+==================================================
+
+
+Contract: IERC5267Upgradeable
+==================================================
+
+
+Contract: IERC1822ProxiableUpgradeable
+==================================================
+
+
+Contract: IBeaconUpgradeable
+==================================================
+
+
+Contract: AddressUpgradeable
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: account.code.length > 0
+
+Edges:
+  0 -> 1
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Address: insufficient balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Address: unable to send value, recipient may have reverted)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: functionCallWithValue(target,data,0,errorMessage)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: value}(data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: functionStaticCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.staticcall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionDelegateCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.delegatecall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: verifyCallResultFromTarget
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: returndata.length == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: call to non-contract)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata,errorMessage)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 7
+
+Function: verifyCallResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata,errorMessage)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: _revert
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size__revert_asm_0 = mload(uint256)(returndata)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size__revert_asm_0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(errorMessage)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 7
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 8
+
+
+Contract: StorageSlotUpgradeable
+==================================================
+
+Function: getAddressSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getBooleanSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getBytes32Slot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getUint256Slot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = slot
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getStringSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = store
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getBytesSlot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: r = store
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: IERC165Upgradeable
+==================================================
+
+
+Contract: MathUpgradeable
+==================================================
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a > b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a < b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: average
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (a & b) + (a ^ b) / 2
+
+Edges:
+  0 -> 1
+
+Function: ceilDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (a - 1) / b + 1
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: mulDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = mulDiv(x,y,denominator)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && mulmod(uint256,uint256,uint256)(x,y,denominator) > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: result += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: sqrt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = sqrt(a)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && result * result < a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: log2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log2(value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && 1 << result < value
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: log10
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log10(value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && 10 ** result < value
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: log256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log256(value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: rounding == Rounding.Up && 1 << (result << 3) < value
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result + 1
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: result + 0
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+
+Contract: SignedMathUpgradeable
+==================================================
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a > b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: a < b
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: a
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: b
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: average
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: x = (a & b) + ((a ^ b) >> 1)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: x + (int256(uint256(x) >> 255) & (a ^ b))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: abs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: n >= 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: uint256(n)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint256(- n)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+
+Contract: IMaterials
+==================================================
+
+
+Contract: IFairxyzMintStagesRegistry
+==================================================
+
+
+Contract: IDelegateRegistry
+==================================================
+
+
+Contract: IFusedMinter
+==================================================
+
+
+Contract: IWarmRegistry
+==================================================
+
+
+Contract: IERC721
+==================================================
+
+
+Contract: Initializable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+
+Contract: IFairxyzEditions
+==================================================
+
+
+Contract: Strings
+==================================================
+
+Function: toString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: value < 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(-,toString(SignedMath.abs(value))))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(,toString(SignedMath.abs(value))))
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: toHexString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: toHexString(uint256(uint160(addr)),_ADDRESS_LENGTH)
+
+Edges:
+  0 -> 1
+
+Function: equal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(bytes(a)) == keccak256(bytes)(bytes(b))
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _SYMBOLS = 0123456789abcdef
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ADDRESS_LENGTH = 20
+
+Edges:
+  0 -> 1
+
+
+Contract: ReentrancyGuardUpgradeable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __ReentrancyGuard_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __ReentrancyGuard_init_unchained()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __ReentrancyGuard_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_status != _ENTERED,ReentrancyGuard: reentrant call)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _status = _ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == _ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: ContextUpgradeable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+
+Contract: StringsUpgradeable
+==================================================
+
+Function: toString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: value < 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(-,toString(SignedMathUpgradeable.abs(value))))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(,toString(SignedMathUpgradeable.abs(value))))
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+Function: toHexString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: toHexString(uint256(uint160(addr)),_ADDRESS_LENGTH)
+
+Edges:
+  0 -> 1
+
+Function: equal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(bytes(a)) == keccak256(bytes)(bytes(b))
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _SYMBOLS = 0123456789abcdef
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ADDRESS_LENGTH = 20
+
+Edges:
+  0 -> 1
+
+
+Contract: ECDSA
+==================================================
+
+Function: _throwError
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: error == RecoverError.NoError
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: error == RecoverError.InvalidSignature
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ECDSA: invalid signature)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: error == RecoverError.InvalidSignatureLength
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ECDSA: invalid signature length)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: error == RecoverError.InvalidSignatureS
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ECDSA: invalid signature 's' value)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 11
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: tryRecover
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: uint256(s) > 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (address(0),RecoverError.InvalidSignatureS)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: signer = ecrecover(bytes32,uint8,bytes32,bytes32)(hash,v,r,s)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: signer == address(0)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (address(0),RecoverError.InvalidSignature)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (signer,RecoverError.NoError)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: recover
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (recovered,error) = tryRecover(hash,v,r,s)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _throwError(error)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: recovered
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: toEthSignedMessageHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked(Ethereum Signed Message:
+,Strings.toString(s.length),s))
+
+Edges:
+  0 -> 1
+
+Function: toTypedDataHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ptr_toTypedDataHash_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(ptr_toTypedDataHash_asm_0,)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(ptr_toTypedDataHash_asm_0 + 0x02,domainSeparator)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(ptr_toTypedDataHash_asm_0 + 0x22,structHash)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: data = keccak256(uint256,uint256)(ptr_toTypedDataHash_asm_0,0x42)
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: data
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: toDataWithIntendedValidatorHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked( ,validator,data))
+
+Edges:
+  0 -> 1
+
+
+Contract: PausableUpgradeable
+==================================================
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __Pausable_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __Pausable_init_unchained()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __Pausable_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _requireNotPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! paused(),Pausable: paused)
+
+Edges:
+  0 -> 1
+
+Function: _requirePaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(paused(),Pausable: not paused)
+
+Edges:
+  0 -> 1
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: ECDSAUpgradeable
+==================================================
+
+Function: _throwError
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: error == RecoverError.NoError
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: error == RecoverError.InvalidSignature
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ECDSA: invalid signature)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: error == RecoverError.InvalidSignatureLength
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ECDSA: invalid signature length)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: error == RecoverError.InvalidSignatureS
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ECDSA: invalid signature 's' value)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 11
+  5 -> 6
+  5 -> 7
+  6 -> 10
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: tryRecover
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: uint256(s) > 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (address(0),RecoverError.InvalidSignatureS)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: signer = ecrecover(bytes32,uint8,bytes32,bytes32)(hash,v,r,s)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: signer == address(0)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (address(0),RecoverError.InvalidSignature)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (signer,RecoverError.NoError)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: recover
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (recovered,error) = tryRecover(hash,v,r,s)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _throwError(error)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: recovered
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: toEthSignedMessageHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked(Ethereum Signed Message:
+,StringsUpgradeable.toString(s.length),s))
+
+Edges:
+  0 -> 1
+
+Function: toTypedDataHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ptr_toTypedDataHash_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(ptr_toTypedDataHash_asm_0,)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(ptr_toTypedDataHash_asm_0 + 0x02,domainSeparator)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(ptr_toTypedDataHash_asm_0 + 0x22,structHash)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: data = keccak256(uint256,uint256)(ptr_toTypedDataHash_asm_0,0x42)
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: data
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: toDataWithIntendedValidatorHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encodePacked( ,validator,data))
+
+Edges:
+  0 -> 1
+
+
+Contract: ERC165Upgradeable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __ERC165_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __ERC165_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC165Upgradeable).interfaceId
+
+Edges:
+  0 -> 1
+
+
+Contract: ERC1967UpgradeUpgradeable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __ERC1967Upgrade_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __ERC1967Upgrade_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _getImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(newImplementation),ERC1967: new implementation is not a contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newImplementation
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _upgradeTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Upgraded(newImplementation)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _upgradeToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeTo(newImplementation)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: data.length > 0 || forceCall
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AddressUpgradeable.functionDelegateCall(newImplementation,data)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _upgradeToAndCallUUPS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: StorageSlotUpgradeable.getBooleanSlot(_ROLLBACK_SLOT).value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 3
+  Type: NodeType.TRY
+  Expression: slot = IERC1822ProxiableUpgradeable(newImplementation).proxiableUUID()
+
+  ID: 4
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(slot == _IMPLEMENTATION_SLOT,ERC1967Upgrade: unsupported proxiableUUID)
+
+  ID: 6
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ERC1967Upgrade: new implementation is not UUPS)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeToAndCall(newImplementation,data,forceCall)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 9
+  3 -> 4
+  3 -> 6
+  3 -> 8
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _getAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_ADMIN_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newAdmin != address(0),ERC1967: new admin is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_ADMIN_SLOT).value = newAdmin
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _changeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: AdminChanged(_getAdmin(),newAdmin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setAdmin(newAdmin)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _getBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_BEACON_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(newBeacon),ERC1967: new beacon is not a contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(IBeaconUpgradeable(newBeacon).implementation()),ERC1967: beacon implementation is not a contract)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_BEACON_SLOT).value = newBeacon
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _upgradeBeaconToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setBeacon(newBeacon)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: BeaconUpgraded(newBeacon)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: data.length > 0 || forceCall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AddressUpgradeable.functionDelegateCall(IBeaconUpgradeable(newBeacon).implementation(),data)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ROLLBACK_SLOT = 0x4910fdfa16fed3260ed0e7147f7cc6da11a60208b5b9406d12a635614ffd9143
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _BEACON_SLOT = 0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: UUPSUpgradeable
+==================================================
+
+Function: __ERC1967Upgrade_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __ERC1967Upgrade_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _getImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(newImplementation),ERC1967: new implementation is not a contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newImplementation
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _upgradeTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Upgraded(newImplementation)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _upgradeToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeTo(newImplementation)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: data.length > 0 || forceCall
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AddressUpgradeable.functionDelegateCall(newImplementation,data)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _upgradeToAndCallUUPS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: StorageSlotUpgradeable.getBooleanSlot(_ROLLBACK_SLOT).value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 3
+  Type: NodeType.TRY
+  Expression: slot = IERC1822ProxiableUpgradeable(newImplementation).proxiableUUID()
+
+  ID: 4
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(slot == _IMPLEMENTATION_SLOT,ERC1967Upgrade: unsupported proxiableUUID)
+
+  ID: 6
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ERC1967Upgrade: new implementation is not UUPS)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeToAndCall(newImplementation,data,forceCall)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 9
+  3 -> 4
+  3 -> 6
+  3 -> 8
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _getAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_ADMIN_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newAdmin != address(0),ERC1967: new admin is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_ADMIN_SLOT).value = newAdmin
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _changeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: AdminChanged(_getAdmin(),newAdmin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setAdmin(newAdmin)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _getBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_BEACON_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(newBeacon),ERC1967: new beacon is not a contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(IBeaconUpgradeable(newBeacon).implementation()),ERC1967: beacon implementation is not a contract)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_BEACON_SLOT).value = newBeacon
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _upgradeBeaconToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setBeacon(newBeacon)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: BeaconUpgraded(newBeacon)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: data.length > 0 || forceCall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AddressUpgradeable.functionDelegateCall(IBeaconUpgradeable(newBeacon).implementation(),data)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __UUPSUpgradeable_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __UUPSUpgradeable_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: proxiableUUID
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _IMPLEMENTATION_SLOT
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: notDelegated()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: upgradeTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _authorizeUpgrade(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeToAndCallUUPS(newImplementation,new bytes(0),false)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyProxy()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: upgradeToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _authorizeUpgrade(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeToAndCallUUPS(newImplementation,data,true)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyProxy()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: __self = address(this)
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _BEACON_SLOT = 0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: EIP712Upgradeable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __EIP712_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __EIP712_init_unchained(name,version)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __EIP712_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _version = version
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _hashedName = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _hashedVersion = 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _domainSeparatorV4
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _buildDomainSeparator()
+
+Edges:
+  0 -> 1
+
+Function: _buildDomainSeparator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encode(_TYPE_HASH,_EIP712NameHash(),_EIP712VersionHash(),block.chainid,address(this)))
+
+Edges:
+  0 -> 1
+
+Function: _hashTypedDataV4
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ECDSAUpgradeable.toTypedDataHash(_domainSeparatorV4(),structHash)
+
+Edges:
+  0 -> 1
+
+Function: eip712Domain
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_hashedName == 0 && _hashedVersion == 0,EIP712: Uninitialized)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (,_EIP712Name(),_EIP712Version(),block.chainid,address(this),bytes32(0),new uint256[](0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (fields,name,version,chainId,verifyingContract,salt,extensions)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _EIP712Name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: _EIP712Version
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _version
+
+Edges:
+  0 -> 1
+
+Function: _EIP712NameHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: name = _EIP712Name()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bytes(name).length > 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(bytes(name))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: hashedName = _hashedName
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: hashedName != 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: hashedName
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+
+Function: _EIP712VersionHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: version = _EIP712Version()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bytes(version).length > 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(bytes(version))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: hashedVersion = _hashedVersion
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: hashedVersion != 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: hashedVersion
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _TYPE_HASH = keccak256(bytes)(EIP712Domain(string name,string version,uint256 chainId,address verifyingContract))
+
+Edges:
+
+
+Contract: AccessControlUpgradeable
+==================================================
+
+Function: __ERC165_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __ERC165_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IAccessControlUpgradeable).interfaceId || super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: __AccessControl_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __AccessControl_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: hasRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _roles[role].members[account]
+
+Edges:
+  0 -> 1
+
+Function: _checkRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! hasRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(string(abi.encodePacked(AccessControl: account ,StringsUpgradeable.toHexString(account), is missing role ,StringsUpgradeable.toHexString(uint256(role),32))))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: getRoleAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _roles[role].adminRole
+
+Edges:
+  0 -> 1
+
+Function: grantRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: revokeRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _revokeRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: renounceRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account == _msgSender(),AccessControl: can only renounce roles for self)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _revokeRole(role,account)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _setupRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(role,account)
+
+Edges:
+  0 -> 1
+
+Function: _setRoleAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousAdminRole = getRoleAdmin(role)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _roles[role].adminRole = adminRole
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RoleAdminChanged(role,previousAdminRole,adminRole)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _grantRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! hasRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _roles[role].members[account] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RoleGranted(role,account,_msgSender())
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+
+Function: _revokeRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: hasRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _roles[role].members[account] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RoleRevoked(role,account,_msgSender())
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DEFAULT_ADMIN_ROLE = 0x00
+
+Edges:
+
+
+Contract: FusedMinterUpgradable
+==================================================
+
+Function: __EIP712_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __EIP712_init_unchained(name,version)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __EIP712_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _version = version
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _hashedName = 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _hashedVersion = 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _domainSeparatorV4
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _buildDomainSeparator()
+
+Edges:
+  0 -> 1
+
+Function: _buildDomainSeparator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(abi.encode(_TYPE_HASH,_EIP712NameHash(),_EIP712VersionHash(),block.chainid,address(this)))
+
+Edges:
+  0 -> 1
+
+Function: _hashTypedDataV4
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ECDSAUpgradeable.toTypedDataHash(_domainSeparatorV4(),structHash)
+
+Edges:
+  0 -> 1
+
+Function: eip712Domain
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_hashedName == 0 && _hashedVersion == 0,EIP712: Uninitialized)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (,_EIP712Name(),_EIP712Version(),block.chainid,address(this),bytes32(0),new uint256[](0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (fields,name,version,chainId,verifyingContract,salt,extensions)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _EIP712Name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: _EIP712Version
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _version
+
+Edges:
+  0 -> 1
+
+Function: _EIP712NameHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: name = _EIP712Name()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bytes(name).length > 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(bytes(name))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: hashedName = _hashedName
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: hashedName != 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: hashedName
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+
+Function: _EIP712VersionHash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: version = _EIP712Version()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bytes(version).length > 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)(bytes(version))
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: hashedVersion = _hashedVersion
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: hashedVersion != 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: hashedVersion
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: keccak256(bytes)()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __ReentrancyGuard_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __ReentrancyGuard_init_unchained()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __ReentrancyGuard_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_status != _ENTERED,ReentrancyGuard: reentrant call)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _status = _ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == _ENTERED
+
+Edges:
+  0 -> 1
+
+Function: __AccessControl_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __AccessControl_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC165Upgradeable).interfaceId
+
+Edges:
+  0 -> 1
+
+Function: hasRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _roles[role].members[account]
+
+Edges:
+  0 -> 1
+
+Function: _checkRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! hasRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(string(abi.encodePacked(AccessControl: account ,StringsUpgradeable.toHexString(account), is missing role ,StringsUpgradeable.toHexString(uint256(role),32))))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: getRoleAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _roles[role].adminRole
+
+Edges:
+  0 -> 1
+
+Function: grantRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: revokeRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _revokeRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(getRoleAdmin(role))
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: renounceRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account == _msgSender(),AccessControl: can only renounce roles for self)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _revokeRole(role,account)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _setupRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(role,account)
+
+Edges:
+  0 -> 1
+
+Function: _setRoleAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousAdminRole = getRoleAdmin(role)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _roles[role].adminRole = adminRole
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RoleAdminChanged(role,previousAdminRole,adminRole)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _grantRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! hasRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _roles[role].members[account] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RoleGranted(role,account,_msgSender())
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+
+Function: _revokeRole
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: hasRole(role,account)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _roles[role].members[account] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RoleRevoked(role,account,_msgSender())
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+
+Function: __ERC165_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __ERC165_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: __Pausable_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __Pausable_init_unchained()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __Pausable_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: paused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _paused
+
+Edges:
+  0 -> 1
+
+Function: _requireNotPaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! paused(),Pausable: paused)
+
+Edges:
+  0 -> 1
+
+Function: _requirePaused
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(paused(),Pausable: not paused)
+
+Edges:
+  0 -> 1
+
+Function: _pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Paused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpaused(_msgSender())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: __UUPSUpgradeable_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __UUPSUpgradeable_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: proxiableUUID
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _IMPLEMENTATION_SLOT
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: notDelegated()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: upgradeTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _authorizeUpgrade(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeToAndCallUUPS(newImplementation,new bytes(0),false)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyProxy()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: upgradeToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _authorizeUpgrade(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeToAndCallUUPS(newImplementation,data,true)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyProxy()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: __ERC1967Upgrade_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __ERC1967Upgrade_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _getImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setImplementation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(newImplementation),ERC1967: new implementation is not a contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newImplementation
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _upgradeTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Upgraded(newImplementation)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _upgradeToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeTo(newImplementation)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: data.length > 0 || forceCall
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AddressUpgradeable.functionDelegateCall(newImplementation,data)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: _upgradeToAndCallUUPS
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: StorageSlotUpgradeable.getBooleanSlot(_ROLLBACK_SLOT).value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setImplementation(newImplementation)
+
+  ID: 3
+  Type: NodeType.TRY
+  Expression: slot = IERC1822ProxiableUpgradeable(newImplementation).proxiableUUID()
+
+  ID: 4
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(slot == _IMPLEMENTATION_SLOT,ERC1967Upgrade: unsupported proxiableUUID)
+
+  ID: 6
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ERC1967Upgrade: new implementation is not UUPS)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _upgradeToAndCall(newImplementation,data,forceCall)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 9
+  3 -> 4
+  3 -> 6
+  3 -> 8
+  4 -> 5
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _getAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_ADMIN_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newAdmin != address(0),ERC1967: new admin is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_ADMIN_SLOT).value = newAdmin
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _changeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: AdminChanged(_getAdmin(),newAdmin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setAdmin(newAdmin)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _getBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: StorageSlotUpgradeable.getAddressSlot(_BEACON_SLOT).value
+
+Edges:
+  0 -> 1
+
+Function: _setBeacon
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(newBeacon),ERC1967: new beacon is not a contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(AddressUpgradeable.isContract(IBeaconUpgradeable(newBeacon).implementation()),ERC1967: beacon implementation is not a contract)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: StorageSlotUpgradeable.getAddressSlot(_BEACON_SLOT).value = newBeacon
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _upgradeBeaconToAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setBeacon(newBeacon)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: BeaconUpgraded(newBeacon)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: data.length > 0 || forceCall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AddressUpgradeable.functionDelegateCall(IBeaconUpgradeable(newBeacon).implementation(),data)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: oathCollectionAddress_ == address(0) || maycCollectionAddress_ == address(0) || baycCollectionAddress_ == address(0) || materialsAddress_ == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__constructor__InvalidCollectionAddress()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: OATH_COLLECTION_ADDRESS = oathCollectionAddress_
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: MAYC_COLLECTION_ADDRESS = maycCollectionAddress_
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: BAYC_COLLECTION_ADDRESS = baycCollectionAddress_
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: materialsAddress = materialsAddress_
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: warmRegistry = IWarmRegistry(warmRegistry_)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delegateRegistry = IDelegateRegistry(delegateRegistry_)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _disableInitializers()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: initialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __EIP712_init(FusedMinter,1)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(DEFAULT_ADMIN_ROLE,msg.sender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(ADMIN_ROLE,msg.sender)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _grantRole(PAUSER_ROLE,msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _pause()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: initializer()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: _authorizeUpgrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(ADMIN_ROLE)
+
+Edges:
+  0 -> 1
+
+Function: _validateAllocation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: allocationParamsLength = allocationParams.length
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: allocationParamsLength == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: totalAllocation = 0
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < allocationParamsLength
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: params = allocationParams[i]
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: tokenParamsLength = params.tokenParams.length
+
+  ID: 12
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 15
+  Type: NodeType.IFLOOP
+  Expression: j < tokenParamsLength
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: tokenParam = params.tokenParams[j]
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: tokenCollectionAddress = _getCollectionAddress(tokenParam.collectionId)
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: usedTokens[tokenCollectionAddress][tokenParam.tokenId]
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__validateAllocation__TokenAlreadyUsed()()
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: _validateSigner(params.signer,params.signature)
+
+  ID: 23
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: j_scope_0 = 0
+
+  ID: 26
+  Type: NodeType.IFLOOP
+  Expression: j_scope_0 < tokenParamsLength
+
+  ID: 27
+  Type: NodeType.VARIABLE
+  Expression: tokenParam_scope_1 = params.tokenParams[j_scope_0]
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: tokenCollectionAddress_scope_2 = _getCollectionAddress(tokenParam_scope_1.collectionId)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: _validateTokenOwner(params.signer,tokenParam_scope_1.walletType,IERC721(tokenCollectionAddress_scope_2),tokenParam_scope_1.tokenId)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: usedTokens[tokenCollectionAddress_scope_2][tokenParam_scope_1.tokenId] = true
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: totalAllocation += _getCollectionAllocation(tokenParam_scope_1.collectionId,tokenParam_scope_1.tokenId)
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: TokenUsed(tokenCollectionAddress_scope_2,tokenParam_scope_1.tokenId)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: j_scope_0 ++
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 35
+  Type: NodeType.RETURN
+  Expression: totalAllocation
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 35
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 14
+  12 -> 15
+  13 -> 22
+  14 -> 12
+  15 -> 16
+  15 -> 13
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 15
+  22 -> 25
+  23 -> 26
+  24 -> 34
+  25 -> 23
+  26 -> 27
+  26 -> 24
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 26
+  34 -> 9
+
+Function: _validateSigner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: signer == msg.sender
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: digest = getDigest(msg.sender,signer)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: recoveredSigner = ECDSA.recover(digest,signature)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: recoveredSigner != signer
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__validateAllocation__InvalidSignature()()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+
+Function: _validateTokenOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = collection.ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: walletType == WALLET_TYPE_WARMXYZ
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: coldWallets = warmRegistry.getColdWallets(signer)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < coldWallets.length
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: coldWallets[i] == owner
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__validateTokenOwner__InvalidTokenOwner()()
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: walletType == WALLET_TYPE_DELEGATEXYZ
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: hasValidDelegation = delegateRegistry.checkDelegateForERC721(signer,owner,address(collection),tokenId,bytes32(0))
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: ! hasValidDelegation
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__validateTokenOwner__InvalidTokenOwner()()
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: owner != signer
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__validateTokenOwner__InvalidTokenOwner()()
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 13
+  3 -> 6
+  4 -> 7
+  5 -> 12
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 7
+  12 -> 22
+  13 -> 14
+  13 -> 18
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 21
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: _getCollectionAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: collectionId == OATH_COLLECTION_ID
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: OATH_COLLECTION_ADDRESS
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: collectionId == MAYC_COLLECTION_ID
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: MAYC_COLLECTION_ADDRESS
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: collectionId == BAYC_COLLECTION_ID
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: BAYC_COLLECTION_ADDRESS
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__getCollectionAddress__InvalidCollectionId()()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: _getCollectionAllocation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: collectionId < OATH_COLLECTION_ID || collectionId > BAYC_COLLECTION_ID
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__getCollectionAllocation__InvalidCollectionId()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: collectionId == OATH_COLLECTION_ID
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: firstDigit = tokenId / 1e9
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: 1
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: firstDigit == 2
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: 2
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 9
+  7 -> 8
+  9 -> 10
+  9 -> 11
+
+Function: _getFusedType
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = materials.length
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: length < 2 || length > 3
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__InvalidMintParams()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: length == 3
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: foundCanopic = false
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i < 3
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: materials[i] == 5
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: foundCanopic = true
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: mat1 == 0
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mat1 = materials[i]
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: mat2 = materials[i]
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: ! foundCanopic
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__InvalidMintParams()()
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: mat1 > mat2
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: (mat1,mat2) = (mat2,mat1)
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.VARIABLE
+  Expression: recipeKey = (mat1 << 3) | mat2
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: recipeKey == ((2 << 3) | 3) || recipeKey == ((1 << 3) | 4) || recipeKey == ((3 << 3) | 4) || recipeKey == ((1 << 3) | 2)
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: AWAKENED_EDITION_ID
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 33
+  Type: NodeType.VARIABLE
+  Expression: recipeKey_scope_2 = (mat1_scope_0 << 3) | mat2_scope_1
+
+  ID: 34
+  Type: NodeType.IF
+  Expression: recipeKey_scope_2 == ((2 << 3) | 3)
+
+  ID: 35
+  Type: NodeType.RETURN
+  Expression: REAPER_EDITION_ID
+
+  ID: 36
+  Type: NodeType.IF
+  Expression: recipeKey_scope_2 == ((3 << 3) | 4)
+
+  ID: 37
+  Type: NodeType.RETURN
+  Expression: IRONBOUND_EDITION_ID
+
+  ID: 38
+  Type: NodeType.IF
+  Expression: recipeKey_scope_2 == ((1 << 3) | 4)
+
+  ID: 39
+  Type: NodeType.RETURN
+  Expression: JUGGERNAUT_EDITION_ID
+
+  ID: 40
+  Type: NodeType.IF
+  Expression: recipeKey_scope_2 == ((1 << 3) | 2)
+
+  ID: 41
+  Type: NodeType.RETURN
+  Expression: BERSERKER_EDITION_ID
+
+  ID: 42
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 43
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 44
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 45
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 46
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 47
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__InvalidMintParams()()
+
+  ID: 48
+  Type: NodeType.IF
+  Expression: materials[0] < materials[1]
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: mat1_scope_0 = materials[0]
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: mat1_scope_0 = materials[1]
+
+  ID: 51
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 52
+  Type: NodeType.IF
+  Expression: materials[0] < materials[1]
+
+  ID: 53
+  Type: NodeType.EXPRESSION
+  Expression: mat2_scope_1 = materials[1]
+
+  ID: 54
+  Type: NodeType.EXPRESSION
+  Expression: mat2_scope_1 = materials[0]
+
+  ID: 55
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 48
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 21
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  13 -> 15
+  14 -> 19
+  15 -> 16
+  15 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 12
+  21 -> 22
+  21 -> 23
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  24 -> 26
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  28 -> 30
+  30 -> 46
+  33 -> 34
+  34 -> 35
+  34 -> 36
+  36 -> 37
+  36 -> 38
+  38 -> 39
+  38 -> 40
+  40 -> 41
+  40 -> 42
+  42 -> 43
+  43 -> 44
+  44 -> 45
+  45 -> 46
+  46 -> 47
+  48 -> 49
+  48 -> 50
+  49 -> 51
+  50 -> 51
+  51 -> 52
+  52 -> 53
+  52 -> 54
+  53 -> 55
+  54 -> 55
+  55 -> 33
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: collectionAddress == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__InvalidCollectionAddress()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: params.receiver == address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__InvalidReceiverAddress()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: params.recipeParams.length == 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__InvalidMintParams()()
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: collection = IFairxyzEditions(collectionAddress)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: computeAllocation = _validateAllocation(params.allocationParams)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: usedMaterials = new uint256[](6)
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: mintedEditions = new uint256[](6)
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: mintedEditionsCount = 0
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: recipeParamsLength = params.recipeParams.length
+
+  ID: 16
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 19
+  Type: NodeType.IFLOOP
+  Expression: i < recipeParamsLength
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: recipeParam = params.recipeParams[i]
+
+  ID: 21
+  Type: NodeType.VARIABLE
+  Expression: amount = recipeParam.amount
+
+  ID: 22
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: materialIndex = 0
+
+  ID: 25
+  Type: NodeType.IFLOOP
+  Expression: materialIndex < recipeParam.materials.length
+
+  ID: 26
+  Type: NodeType.VARIABLE
+  Expression: materialId = recipeParam.materials[materialIndex]
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: materialId > 5 || materialId == 0
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__InvalidMaterialId()()
+
+  ID: 29
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: usedMaterials[materialId] += amount
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: materialIndex ++
+
+  ID: 32
+  Type: NodeType.VARIABLE
+  Expression: typeId = _getFusedType(recipeParam.materials)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: mintedEditions[typeId] += amount
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: mintedEditionsCount += amount
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 36
+  Type: NodeType.IF
+  Expression: mintedEditionsCount > computeAllocation
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__mint__AllocationExceeded()()
+
+  ID: 38
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 39
+  Type: NodeType.VARIABLE
+  Expression: materials = IMaterials(materialsAddress)
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: materials.burnMaterials(usedMaterials,msg.sender)
+
+  ID: 41
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 42
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 43
+  Type: NodeType.VARIABLE
+  Expression: i_scope_0 = REAPER_EDITION_ID
+
+  ID: 44
+  Type: NodeType.IFLOOP
+  Expression: i_scope_0 <= AWAKENED_EDITION_ID
+
+  ID: 45
+  Type: NodeType.IF
+  Expression: mintedEditions[i_scope_0] > 0
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: collection.mintEdition(i_scope_0,params.receiver,mintedEditions[i_scope_0],0,0,)
+
+  ID: 47
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: i_scope_0 ++
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 50
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 49
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 18
+  16 -> 19
+  17 -> 36
+  18 -> 16
+  19 -> 20
+  19 -> 17
+  20 -> 21
+  21 -> 24
+  22 -> 25
+  23 -> 32
+  24 -> 22
+  25 -> 26
+  25 -> 23
+  26 -> 27
+  27 -> 28
+  27 -> 29
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 25
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 19
+  36 -> 37
+  36 -> 38
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 43
+  41 -> 44
+  43 -> 41
+  44 -> 45
+  44 -> 42
+  45 -> 46
+  45 -> 47
+  46 -> 47
+  47 -> 48
+  48 -> 44
+  49 -> 50
+  50 -> 1
+
+Function: preSaleMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: collectionAddress == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__preSaleMint__InvalidCollectionAddress()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: receiver == address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__preSaleMint__InvalidReceiverAddress()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: collection = IFairxyzEditions(collectionAddress)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: tokensPerEdition.length != 6
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__preSaleMint__InvalidMintParams()()
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: editionIdx = REAPER_EDITION_ID
+
+  ID: 14
+  Type: NodeType.IFLOOP
+  Expression: editionIdx <= AWAKENED_EDITION_ID
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: tokensPerEdition[editionIdx] > 0
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: collection.mintEdition(editionIdx,receiver,tokensPerEdition[editionIdx],0,0,)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: editionIdx ++
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(ADMIN_ROLE)
+
+Edges:
+  0 -> 19
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 13
+  11 -> 14
+  13 -> 11
+  14 -> 15
+  14 -> 12
+  15 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 14
+  19 -> 20
+  20 -> 21
+  21 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _pause()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(ADMIN_ROLE)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _unpause()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(ADMIN_ROLE)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setCollectionAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: collectionAddress_ == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert FusedMinterUpgradable__setCollectionAddress__InvalidCollectionAddress()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: collectionAddress = collectionAddress_
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: CollectionAddressSet(collectionAddress,collectionAddress_)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(ADMIN_ROLE)
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: getDigest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _hashTypedDataV4(keccak256(bytes)(abi.encode(ALLOCATION_TYPEHASH,minterAddress,signerAddress)))
+
+Edges:
+  0 -> 1
+
+Function: resetUsedTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: collectionAddress_ = _getCollectionAddress(collectionId)
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < tokenIds.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: usedTokens[collectionAddress_][tokenIds[i]] = false
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyRole(ADMIN_ROLE)
+
+Edges:
+  0 -> 8
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 5
+  8 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _BEACON_SLOT = 0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DEFAULT_ADMIN_ROLE = 0x00
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: OATH_COLLECTION_ID = 1
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAYC_COLLECTION_ID = 2
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BAYC_COLLECTION_ID = 3
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: REAPER_EDITION_ID = 1
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: IRONBOUND_EDITION_ID = 2
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: JUGGERNAUT_EDITION_ID = 3
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BERSERKER_EDITION_ID = 4
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AWAKENED_EDITION_ID = 5
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+

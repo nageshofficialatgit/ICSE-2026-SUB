@@ -1,0 +1,37 @@
+Contract: HorseyPilot
+==================================================
+
+Function: makeProposal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: currentProposal.timestamp = block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: currentProposal.parameter = parameter
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: proposalInProgress = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: proposalInProgress = false
+
+Edges:
+
+

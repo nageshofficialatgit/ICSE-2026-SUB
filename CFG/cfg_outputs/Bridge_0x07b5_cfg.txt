@@ -1,0 +1,955 @@
+Contract: ERC20Essential
+==================================================
+
+
+Contract: usdtContract
+==================================================
+
+
+Contract: owned
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: changeSigner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: signer[_signer] = _status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: SignerUpdated(_signer,_status)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: Bridge
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: noControl[0xdAC17F958D2ee523a2206206994597C13D831ec7] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: noControl[0x55d398326f99059fF775485246999027B3197955] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: noControl[0xc2132D05D31c914a87C6611C10748AEb04B58e8F] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: tokenFundThreshold[0xdAC17F958D2ee523a2206206994597C13D831ec7] = 100e6
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokenFundThreshold[0x55d398326f99059fF775485246999027B3197955] = 100e18
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: tokenFundThreshold[0xc2132D05D31c914a87C6611C10748AEb04B58e8F] = 100e6
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: changeSigner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: signer[_signer] = _status
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: SignerUpdated(_signer,_status)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = _newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newOwner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: coinIn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: orderID ++
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amount = msg.value
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (afterTax,tax) = processTax(amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: address(feeWallet).transfer(tax)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: address(this).balance >= reserveFundThreshold
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: address(reserveWallet).transfer(afterTax)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: CoinIn(orderID,msg.sender,afterTax,outputCurrency)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: coinOut
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(user).transfer(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: CoinOut(_orderID,user,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: tokenIn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: orderID ++
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (afterTax,tax) = processTax(tokenAmount)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: noControl[tokenAddress]
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: tokenAddress == usdtAddress
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: usdtContract(tokenAddress).transferFrom(msg.sender,address(this),tokenAmount)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: usdtContract(tokenAddress).transfer(feeWallet,tax)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: usdtContract(tokenAddress).balanceOf(address(this)) >= tokenFundThreshold[tokenAddress]
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: usdtContract(tokenAddress).transfer(owner,afterTax)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).transferFrom(msg.sender,address(this),tokenAmount)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).transfer(feeWallet,tax)
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: usdtContract(tokenAddress).balanceOf(address(this)) >= tokenFundThreshold[tokenAddress]
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).transfer(owner,afterTax)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(afterTax >= minTx,Minimum amount is required)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(afterTax <= maxTx,Exceeds max amount)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).transferFrom(msg.sender,address(this),tokenAmount)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).transfer(feeWallet,tax)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: burnt = burnTokens(tokenAddress,afterTax)
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: TokenIn(orderID,tokenAddress,msg.sender,afterTax,chainID,outputCurrency)
+
+  ID: 26
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 19
+  7 -> 8
+  7 -> 13
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 18
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 24
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+
+Function: tokenOut
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: minted = tokenAmount
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: noControl[tokenAddress]
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: tokenAddress == usdtAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: usdtContract(tokenAddress).transfer(user,tokenAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).transfer(user,tokenAmount)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (minted,None) = mintTokens(tokenAddress,user,tokenAmount)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: TokenOut(_orderID,tokenAddress,user,minted,chainID)
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlySigner()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: processTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: deductedTax = (transferTax * amount) / 1e5
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: afterTax = amount - deductedTax
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (afterTax,deductedTax)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: mintTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).mint(userAddress,amountToMint)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: minted = amountToMint
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: toAddress = userAddress
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (minted,toAddress)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: burnTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(tokenAddress).burn(address(this),amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: burnt = amount
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: burnt
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: setFeeWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oldWallet = feeWallet
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: feeWallet = _feeWallet
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: newWallet = feeWallet
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (oldWallet,newWallet)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  4 -> 1
+
+Function: setReserveWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oldWallet = reserveWallet
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: reserveWallet = _reserveWallet
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: newWallet = reserveWallet
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (oldWallet,newWallet)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  4 -> 1
+
+Function: setUSDTAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_tokenAddress != address(0),zero address not allowed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_tokenAddress != usdtAddress,same as old address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: usdtAddress = _tokenAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newAddress = usdtAddress
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: newAddress
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  5 -> 1
+
+Function: setFundThreshold
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: oldAmount = reserveFundThreshold
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: reserveFundThreshold = _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: newAmount = _amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (oldAmount,newAmount)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  3 -> 5
+  4 -> 1
+
+Function: transferTokenOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ofTokenAddress != address(0) && toAddress != address(0),zero address not allowed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oldOwner = ERC20Essential(ofTokenAddress).owner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ERC20Essential(ofTokenAddress).transferOwnership(toAddress)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newOwner = ERC20Essential(ofTokenAddress).owner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (oldOwner,newOwner)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  5 -> 1
+
+Function: setNoControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAddress != address(0),cannot set zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: noControl[tokenAddress] = status
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTokenReserveThreshold
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenFundThreshold[forToken] = threshold
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setTransferTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_transferTax <= 50000,Cannot set transfer tax to more then 50%)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: transferTax = _transferTax
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: transferTaxUpdated(transferTax)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateMinMaxTx
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: minTx = newMinTx
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: maxTx = newMaxTx
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: minMaxTxUpdated(minTx,maxTx)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: getMinMaxTxValues
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _minTx = minTx
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _maxTx = maxTx
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (_minTx,_maxTx)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getTransferTax
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferTax = transferTax
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _transferTax
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: usdtAddress = 0xb5b5158B0A8AAe70D3c0cF091a91faFFB808CBE0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: reserveFundThreshold = 10e18
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: transferTax = 1
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minTx = 1000000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxTx = 5_000_000 * 1e18
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

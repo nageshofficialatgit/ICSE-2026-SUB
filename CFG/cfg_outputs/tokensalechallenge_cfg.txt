@@ -1,0 +1,84 @@
+Contract: TokenSaleChallenge
+==================================================
+
+Function: TokenSaleChallenge
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value == 1000000000000000000)
+
+Edges:
+  0 -> 1
+
+Function: isComplete
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance < 1000000000000000000
+
+Edges:
+  0 -> 1
+
+Function: buy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value == numTokens * PRICE_PER_TOKEN)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] += numTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= numTokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= numTokens
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(numTokens * PRICE_PER_TOKEN)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PRICE_PER_TOKEN = 1000000000000000000
+
+Edges:
+
+

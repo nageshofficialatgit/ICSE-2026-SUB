@@ -1,0 +1,33 @@
+Contract: EcfToken
+==================================================
+
+Function: maintenance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp > (lastUpdate + 2592000))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amount <= (totalSupply / 10))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += amount
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

@@ -1,0 +1,338 @@
+Contract: Token
+==================================================
+
+Function: getOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: symbol = _symbol
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = _decimals
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = _totalSupply
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = _totalSupply
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: isIssuer[msg.sender] = true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),msg.sender,_totalSupply)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_to,_amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: issuerOnly()
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,address(0),_amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: issuerOnly()
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: burnFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,address(0),_amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: issuerOnly()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_amount)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newOwner != address(0),Invalid address: should not be 0x0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: TransferOwnership(owner,_newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: restricted()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setIssuerRights
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isIssuer[_issuer] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: IssuerRights(_issuer,_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: restricted()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+

@@ -1,0 +1,69 @@
+Contract: IERC20
+==================================================
+
+
+Contract: USMCTokenFaucet
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token = IERC20(_tokenAddress)
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == 0,Cannot send ETH to the contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.balanceOf(address(this)) >= amountToSend,Not enough tokens in the contract)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(msg.sender,amountToSend)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: depositTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token.transferFrom(msg.sender,address(this),amount),Token transfer failed)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: amountToSend = 1776 * 10 ** 18
+
+Edges:
+
+

@@ -1,0 +1,58 @@
+Contract: PGOMonthlyInternalVault
+==================================================
+
+Function: vestedAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: timme = block.timestamp
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: timme >= cliff
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: time = timme - (cliff)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: elapsedOffsets = time / (21)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: vested = vested + (elapsedOffsets)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: vested
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 6
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: vested = 0
+
+Edges:
+
+

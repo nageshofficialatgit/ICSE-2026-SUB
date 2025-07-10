@@ -1,0 +1,41 @@
+Contract: IERC721
+==================================================
+
+
+Contract: NFTRecoveryImplementation
+==================================================
+
+Function: recoverNFT
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC721(TOKEN_ADDRESS).safeTransferFrom(address(this),RECIPIENT,38167)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: IERC721(TOKEN_ADDRESS).safeTransferFrom(address(this),RECIPIENT,17471)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOKEN_ADDRESS = 0x889edC2eDab5f40e902b864aD4d7AdE8E412F9B1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RECIPIENT = 0xF2bcac173F4cfa46A625d75CEac3dE8fA62456B5
+
+Edges:
+  0 -> 1
+
+

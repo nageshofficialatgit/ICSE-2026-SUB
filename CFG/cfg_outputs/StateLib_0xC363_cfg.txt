@@ -1,0 +1,441 @@
+Contract: ArrayUtils
+==================================================
+
+Function: calculateBounds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(length > 0,Length should be greater than 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(length <= limit,Length limit exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(start < arrLength,Start index out of bounds)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: end = start + length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: end > arrLength
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: end = arrLength
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (start,end)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+
+
+Contract: StateLib
+==================================================
+
+Function: addState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _addState(self,id,state,block.timestamp,block.number)
+
+Edges:
+  0 -> 1
+
+Function: addGenesisState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! idExists(self,id),Zero timestamp and block should be only in the first identity state)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _addState(self,id,state,0,0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getStateInfoById
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stateEntries = self.stateEntries[id]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: se = stateEntries[stateEntries.length - 1]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: EntryInfo({id:id,state:se.state,replacedByState:0,createdAtTimestamp:se.timestamp,replacedAtTimestamp:0,createdAtBlock:se.block,replacedAtBlock:0})
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyExistingId(self,id)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: getStateInfoHistoryLengthById
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self.stateEntries[id].length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyExistingId(self,id)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getStateInfoHistoryById
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (start,end) = ArrayUtils.calculateBounds(self.stateEntries[id].length,startIndex,length,ID_HISTORY_RETURN_LIMIT)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: result = new StateLib.EntryInfo[](end - start)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = start
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < end
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: result[i - start] = _getStateInfoByIndex(self,id,i)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyExistingId(self,id)
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 11
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 8
+  12 -> 1
+
+Function: getStateInfoByIdAndState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _getStateInfoByState(self,id,state)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyExistingState(self,id,state)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getStateInfoListLengthByIdAndState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self.stateIndexes[id][state].length
+
+Edges:
+  0 -> 1
+
+Function: getStateInfoListByIdAndState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stateIndexes = self.stateIndexes[id][state]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (start,end) = ArrayUtils.calculateBounds(stateIndexes.length,startIndex,length,ID_HISTORY_RETURN_LIMIT)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: result = new StateLib.EntryInfo[](end - start)
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = start
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < end
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: result[i - start] = _getStateInfoByIndex(self,id,stateIndexes[i])
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyExistingState(self,id,state)
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 12
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  11 -> 9
+  13 -> 1
+
+Function: idExists
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self.stateEntries[id].length > 0
+
+Edges:
+  0 -> 1
+
+Function: stateExists
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self.stateIndexes[id][state].length > 0
+
+Edges:
+  0 -> 1
+
+Function: _addState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stateEntries = self.stateEntries[id]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: stateEntries.push(Entry({state:state,timestamp:_timestamp,block:_block}))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: self.stateIndexes[id][state].push(stateEntries.length - 1)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: StateUpdated(id,_block,_timestamp,state)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _getStateInfoByState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: indexes = self.stateIndexes[id][state]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: lastIndex = indexes[indexes.length - 1]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _getStateInfoByIndex(self,id,lastIndex)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _getStateInfoByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: isLastState = index == self.stateEntries[id].length - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: se = self.stateEntries[id][index]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: isLastState
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: EntryInfo({id:id,state:se.state,replacedByState:0,createdAtTimestamp:se.timestamp,replacedAtTimestamp:0,createdAtBlock:se.block,replacedAtBlock:0})
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: EntryInfo({id:id,state:se.state,replacedByState:self.stateEntries[id][index + 1].state,createdAtTimestamp:se.timestamp,replacedAtTimestamp:self.stateEntries[id][index + 1].timestamp,createdAtBlock:se.block,replacedAtBlock:self.stateEntries[id][index + 1].block})
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ID_HISTORY_RETURN_LIMIT = 1000
+
+Edges:
+
+

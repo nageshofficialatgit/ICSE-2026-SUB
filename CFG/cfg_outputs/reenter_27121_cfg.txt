@@ -1,0 +1,54 @@
+Contract: MultiSigWallet
+==================================================
+
+Function: executeTransaction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: transactionId > 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tx = transactions[transactionId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tx.executed = true
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: tx.destination.call.value(tx.value)(tx.data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: tx.executed = false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 8
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+
+

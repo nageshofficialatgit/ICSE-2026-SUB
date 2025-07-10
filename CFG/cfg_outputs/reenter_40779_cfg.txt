@@ -1,0 +1,23 @@
+Contract: Vault
+==================================================
+
+Function: redeem
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.call.value(balances[msg.sender])()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

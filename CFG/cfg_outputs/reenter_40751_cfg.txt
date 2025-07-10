@@ -1,0 +1,28 @@
+Contract: Owner
+==================================================
+
+Function: WithdrawReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amountToWithdraw = rewardsForA[recipient]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: rewardsForA[recipient] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(recipient.call.value(amountToWithdraw)())
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

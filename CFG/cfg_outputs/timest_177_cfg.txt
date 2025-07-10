@@ -1,0 +1,23 @@
+Contract: IcoRocketFuel
+==================================================
+
+Function: finalize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(crowdsales[_token].earlyClosure || (block.timestamp >= crowdsales[_token].closingTime))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: crowdsales[_token].state = States.Closed
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,44 @@
+Contract: TokenTimelock
+==================================================
+
+Function: release
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: chunksNeeded = (block.timestamp - (cliffPeriod))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: chunksNeeded > 10
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: chunksNeeded = 10
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: chunksAlreadyVested = chunksNeeded
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: chunksAlreadyVested
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

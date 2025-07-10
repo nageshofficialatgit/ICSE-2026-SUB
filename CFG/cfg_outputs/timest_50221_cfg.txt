@@ -1,0 +1,23 @@
+Contract: KingOfTheHill
+==================================================
+
+Function: takeAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp >= withdrawDelay)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(this.balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

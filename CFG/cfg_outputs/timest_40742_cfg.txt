@@ -1,0 +1,37 @@
+Contract: KingOfTheEtherThrone
+==================================================
+
+Function: KingOfTheEtherThrone
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: wizardAddress = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: currentClaimPrice = startingClaimPrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: currentMonarch = Monarch(wizardAddress,[Vacant],0,block.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: startingClaimPrice = 100000000000000000
+
+Edges:
+
+

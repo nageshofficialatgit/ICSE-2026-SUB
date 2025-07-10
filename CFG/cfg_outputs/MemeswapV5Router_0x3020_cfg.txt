@@ -1,0 +1,827 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IPermit2
+==================================================
+
+
+Contract: TransferHelper
+==================================================
+
+Function: safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),TransferHelper: TRANSFER_FAILED)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),TransferHelper: TRANSFER_FROM_FAILED)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: safeTransferETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = to.call{value: value}(new bytes(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,TransferHelper: ETH_TRANSFER_FAILED)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: MemeswapV5Router
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_permit2 != address(0),Invalid PERMIT2 address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: PERMIT2 = _permit2
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: admins[msg.sender] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admin != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! admins[admin],Already admin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: admins[admin] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admins[admin],Not an admin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admin != owner,Owner cannot be removed as admin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: admins[admin] = false
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: addRecipient
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowedRecipients[recipient] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: removeRecipient
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowedRecipients[recipient],Recipient not found)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete allowedRecipients[recipient]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferWithPermit2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowedRecipients[recipient],Recipient not allowed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(token).balanceOf(sender) >= amount,Insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= type()(uint160).max,Amount exceeds uint160)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: transferDetails = new IPermit2.AllowanceTransferDetails[](1)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transferDetails[0] = IPermit2.AllowanceTransferDetails({from:sender,to:recipient,amount:uint160(amount),token:token})
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IPermit2(PERMIT2).transferFrom(transferDetails)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: rescueETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid recipient address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Not enough ETH balance)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(to).call{value: amount}()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Rescue ETH transfer failed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: EtherSwapIn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,No ETH sent)
+
+Edges:
+  0 -> 1
+
+Function: TokenSwapIn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Amount must be greater than 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: TransferHelper.safeTransferFrom(token,msg.sender,address(this),amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: resqueToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = IERC20(token).balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance >= amount,Insufficient token balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: TransferHelper.safeTransfer(token,owner,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: bulkTokenSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < tokens.length
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: balance = IERC20(tokens[i]).balanceOf(address(this))
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: balance > 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: TransferHelper.safeTransfer(tokens[i],owner,balance)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 10
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 4
+  10 -> 3
+
+Function: ETHStakeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,No ETH sent)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(lockPeriod > 0,Lock period must be greater than 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ethStakes[msg.sender].push(Stake({amount:msg.value,lockTimestamp:block.timestamp,lockPeriod:lockPeriod,unlocked:false}))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ETHStaked(msg.sender,msg.value,lockPeriod)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: ETHStakeUnlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stakes = ethStakes[msg.sender]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalUnlocked = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < stakes.length
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! stakes[i].unlocked && block.timestamp >= stakes[i].lockTimestamp + stakes[i].lockPeriod
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalUnlocked += stakes[i].amount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: stakes[i].unlocked = true
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalUnlocked > 0,No ETH available for unlock)
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = msg.sender.call{value: totalUnlocked}()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETH transfer failed)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: ETHUnlocked(msg.sender,totalUnlocked)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 12
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 6
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+
+Function: TokenStakeLock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Amount must be greater than 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(lockPeriod > 0,Lock period must be greater than 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: TransferHelper.safeTransferFrom(token,msg.sender,address(this),amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: tokenStakes[msg.sender][token].push(Stake({amount:amount,lockTimestamp:block.timestamp,lockPeriod:lockPeriod,unlocked:false}))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TokenStaked(msg.sender,token,amount,lockPeriod)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: TokenStakeUnlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stakes = tokenStakes[msg.sender][token]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalUnlocked = 0
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < stakes.length
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! stakes[i].unlocked && block.timestamp >= stakes[i].lockTimestamp + stakes[i].lockPeriod
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: totalUnlocked += stakes[i].amount
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: stakes[i].unlocked = true
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(totalUnlocked > 0,No tokens available for unlock)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).transfer(msg.sender,totalUnlocked)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: TokenUnlocked(msg.sender,token,totalUnlocked)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 12
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 6
+  12 -> 13
+  13 -> 14
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),INVALID_OWNER)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != owner,ALREADY_SET)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: checkAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: allowance = IERC20(token).allowance(ownerAddress,address(this))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: allowance >= requiredAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferFromToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: allowance = IERC20(token).allowance(from,address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance >= amount,Insufficient allowance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: TransferHelper.safeTransferFrom(token,from,address(this),amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: EmergencyUnlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,ETH is required)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(dataInput).length > 0,Input data cannot be empty)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: EmergencyUnstakeTriggered(msg.sender,dataInput,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: addSpender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(spender != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isSpender[spender] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: removeSpender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isSpender[spender],Not a spender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isSpender[spender] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+

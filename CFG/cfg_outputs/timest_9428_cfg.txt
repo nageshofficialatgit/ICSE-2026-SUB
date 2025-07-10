@@ -1,0 +1,23 @@
+Contract: DiceRoll
+==================================================
+
+Function: createWinner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tmNow = uint64(block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tmNow >= nextJackpotTime)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

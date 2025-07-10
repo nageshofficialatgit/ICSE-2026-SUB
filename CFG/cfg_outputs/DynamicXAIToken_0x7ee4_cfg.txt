@@ -1,0 +1,467 @@
+Contract: DynamicXAIToken
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = initialOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 1_000_000 * (10 ** decimals)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[owner] = totalSupply
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: tokenPrice = 100000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,recipient,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][spender] = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,amount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[sender] >= amount,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowance[sender][msg.sender] >= amount,Allowance exceeded)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: allowance[sender][msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(sender,recipient,amount)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: buyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,Send ETH to buy tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenPrice > 0,Token price not set)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountToBuy = msg.value / tokenPrice
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[owner] >= amountToBuy,Not enough tokens)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(owner,msg.sender,amountToBuy)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalBought += amountToBuy
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _updateTokenPrice(true)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: TokensBought(msg.sender,amountToBuy)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: sellTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sellingAllowed,Selling disabled)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balanceOf[msg.sender] >= amount,Not enough tokens)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: ethToReturn = (amount * tokenPrice) / (10 ** decimals)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= ethToReturn,Not enough ETH)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: fee = (ethToReturn * feePercent) / 1000
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: payout = ethToReturn - fee
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,owner,amount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(payout)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalSold += amount
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _updateTokenPrice(false)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: TokensSold(msg.sender,amount,payout)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: _updateTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: isBuying
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenPrice += (priceFactor * totalBought / 1000)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: newPrice = tokenPrice - (priceFactor * totalSold / 1000)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: newPrice > minTokenPrice
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tokenPrice = newPrice
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: tokenPrice = minTokenPrice
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 5
+  3 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 5
+
+Function: setPriceFactor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: priceFactor = newFactor
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setFeePercent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newFee <= 50,Fee too high)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: feePercent = newFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setSellingAllowed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: sellingAllowed = allowed
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: TradingStatusChanged(allowed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance > 0,No ETH to withdraw)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(address(this).balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getContractBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid recipient)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[from] -= amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[to] += amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = DynamicX.AIToken
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = xAI
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: priceFactor = 1
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minTokenPrice = 100000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: feePercent = 5
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: sellingAllowed = false
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: locked = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

@@ -1,0 +1,689 @@
+Contract: ERC20Interface
+==================================================
+
+
+Contract: StringUtils1
+==================================================
+
+
+Contract: OpenRugPull
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: symbol = ORP2
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: name = OpenRugPull V2 (COME PULL THE RUG!!!)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 8
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: decimalFactor = uint64(10 ** uint256(decimals))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: creator = address(msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: initialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(libStrUtil) == address(0x0),The contract has already been initialized.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(libAdr) != address(0x0),Bruh)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: libStrUtil = StringUtils1(libAdr)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply = 100000000 * decimalFactor
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: oneFifth = _totalSupply / 5
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,address(0x0),oneFifth)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(address(this),address(0x0),_totalSupply - oneFifth)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: rugpullBlock = block.number + uint256(8 * 3600 + 600) / 13
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: rugpull
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender.code.length == 0,Contracts cannot call this function.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(rugpullBlock <= block.number,You can't rugpull yet, be patient!)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= decimalFactor,You must hold some OpenRugPull to rugpull!)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[address(this)] >= (_totalSupply * 3) / 5,You can't rugpull yet, be patient!)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: requiredFee = 1000000000000000000 / 100
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= requiredFee,Insufficient ETH sent for rugpull!)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: creator.transfer(requiredFee)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(msg.value - requiredFee)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,address(this),balances[address(this)])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: renameContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: cost = (_totalSupply / 20)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= cost,Insufficient balance to rename the contract)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: strippedName = libStrUtil.stripWhitespace(newName)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(strippedName).length >= 4,Name must be at least 4 characters long after stripping)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(strippedName).length <= 32,Name must be at most 32 characters)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(address(this),msg.sender,cost)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! libStrUtil.isBadString(strippedName),Name contains retard nonsense words.)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: name = strippedName
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: CurrencyNameChanged(msg.sender,strippedName)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: postBulletinMessage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: cost = (_totalSupply / 200)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= cost,Insufficient balance to post bulletin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(address(this),msg.sender,cost)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: BulletinMessagePosted(msg.sender,message)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[tokenOwner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens <= balances[msg.sender],Insufficient funds)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(to,msg.sender,uint64(tokens))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][spender] = uint64(tokens)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,spender,tokens)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens <= balances[from],Insufficient funds)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokens <= allowed[from][msg.sender],Allowance exceeded)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowed[from][msg.sender] = allowed[from][msg.sender] - uint64(tokens)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(to,from,uint64(tokens))
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(to != address(0x0))
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: tokens != 0 && to.code.length == 0 && to != address(0x0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: numCirculating += tokens
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: from != address(0x0) && from.code.length == 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: numCirculating -= tokens
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: balances[to] += tokens
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: from != address(0x0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: balances[from] -= tokens
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,uint256(tokens))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[tokenOwner][spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: sqrt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: x == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: xx = x
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: r = 1
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: xx >= 0x100000000000000000000000000000000
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: xx >>= 128
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: r <<= 64
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: xx >= 0x10000000000000000
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: xx >>= 64
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: r <<= 32
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: xx >= 0x100000000
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: xx >>= 32
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: r <<= 16
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: xx >= 0x10000
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: xx >>= 16
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: r <<= 8
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: xx >= 0x100
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: xx >>= 8
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: r <<= 4
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: xx >= 0x10
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: xx >>= 4
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: r <<= 2
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: xx >= 0x8
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: r <<= 1
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: r = (r + x / r) >> 1
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: r = (r + x / r) >> 1
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: r = (r + x / r) >> 1
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: r = (r + x / r) >> 1
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: r = (r + x / r) >> 1
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: r = (r + x / r) >> 1
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: r = (r + x / r) >> 1
+
+  ID: 39
+  Type: NodeType.VARIABLE
+  Expression: r1 = x / r
+
+  ID: 42
+  Type: NodeType.IF
+  Expression: r < r1
+
+  ID: 43
+  Type: NodeType.RETURN
+  Expression: uint128(r)
+
+  ID: 44
+  Type: NodeType.RETURN
+  Expression: uint128(r1)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 16
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 20
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  21 -> 24
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  25 -> 28
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  29 -> 31
+  30 -> 31
+  31 -> 32
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 42
+  42 -> 43
+  42 -> 44
+
+

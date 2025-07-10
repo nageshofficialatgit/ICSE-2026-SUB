@@ -1,0 +1,1232 @@
+Contract: Token
+==================================================
+
+
+Contract: SafeMath
+==================================================
+
+Function: safeMul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(a == 0 || c / a == b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a && c >= b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: AccountModifiersInterface
+==================================================
+
+
+Contract: TradeTrackerInterface
+==================================================
+
+
+Contract: TokenStore
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: safeMul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(a == 0 || c / a == b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a && c >= b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: TokenStore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: feeAccount = owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: fee = _fee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: predecessor = _predecessor
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: deprecated = false
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: predecessor != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: version = TokenStore(predecessor).version() + 1
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: version = 1
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 8
+  7 -> 8
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: deprecate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: deprecated = _deprecated
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: successor = _successor
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: changeFeeAccount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_feeAccount != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: feeAccount = _feeAccount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: changeAccountModifiers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: accountModifiers = _accountModifiers
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeTradeTracker
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tradeTracker = _tradeTracker
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_fee <= fee)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: fee = _fee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getAccountModifiers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: accountModifiers != address(0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: AccountModifiersInterface(accountModifiers).accountModifiers(msg.sender)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (0,0)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (takeFeeDiscount,rebatePercentage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokens[0][msg.sender] = safeAdd(tokens[0][msg.sender],msg.value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(0,msg.sender,msg.value,tokens[0][msg.sender])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: deprecable()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokens[0][msg.sender] >= _amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokens[0][msg.sender] = safeSub(tokens[0][msg.sender],_amount)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: ! msg.sender.call.value(_amount)()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Withdraw(0,msg.sender,_amount,tokens[0][msg.sender])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+Function: depositToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_token != 0)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! Token(_token).transferFrom(msg.sender,this,_amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_token][msg.sender] = safeAdd(tokens[_token][msg.sender],_amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(_token,msg.sender,_amount,tokens[_token][msg.sender])
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: deprecable()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: withdrawToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_token != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokens[_token][msg.sender] >= _amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_token][msg.sender] = safeSub(tokens[_token][msg.sender],_amount)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! Token(_token).transfer(msg.sender,_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Withdraw(_token,msg.sender,_amount,tokens[_token][msg.sender])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokens[_token][_user]
+
+Edges:
+  0 -> 1
+
+Function: trade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hash = sha256()(this,_tokenGet,_amountGet,_tokenGive,_amountGive,_expires,_nonce)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ecrecover(bytes32,uint8,bytes32,bytes32)(sha3()(Ethereum Signed Message:
+32,hash),_v,_r,_s) != _user || block.number > _expires || safeAdd(orderFills[_user][hash],_amount) > _amountGet
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tradeBalances(_tokenGet,_amountGet,_tokenGive,_amountGive,_user,msg.sender,_amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: orderFills[_user][hash] = safeAdd(orderFills[_user][hash],_amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Trade(_tokenGet,_amount,_tokenGive,_amountGive * _amount / _amountGet,_user,msg.sender,_nonce)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: tradeBalances
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: feeTakeValue = safeMul(_amount,fee) / (1000000000000000000)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: rebateValue = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: tokenGiveValue = safeMul(_amountGive,_amount) / _amountGet
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: accountModifiers != address(0)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: (feeTakeDiscount,rebatePercentage) = AccountModifiersInterface(accountModifiers).tradeModifiers(_user,_caller)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: feeTakeDiscount > 100
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: feeTakeDiscount = 0
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: rebatePercentage > 100
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: rebatePercentage = 0
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: feeTakeValue = safeMul(feeTakeValue,100 - feeTakeDiscount) / 100
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: rebateValue = safeMul(rebatePercentage,feeTakeValue) / 100
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_tokenGet][_user] = safeAdd(tokens[_tokenGet][_user],safeAdd(_amount,rebateValue))
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_tokenGet][_caller] = safeSub(tokens[_tokenGet][_caller],safeAdd(_amount,feeTakeValue))
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_tokenGive][_user] = safeSub(tokens[_tokenGive][_user],tokenGiveValue)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_tokenGive][_caller] = safeAdd(tokens[_tokenGive][_caller],tokenGiveValue)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_tokenGet][feeAccount] = safeAdd(tokens[_tokenGet][feeAccount],safeSub(feeTakeValue,rebateValue))
+
+  ID: 22
+  Type: NodeType.IF
+  Expression: tradeTracker != address(0)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: TradeTrackerInterface(tradeTracker).tradeComplete(_tokenGet,_amount,_tokenGive,tokenGiveValue,_user,_caller,feeTakeValue,rebateValue)
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 16
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  22 -> 24
+  23 -> 24
+
+Function: testTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: tokens[_tokenGet][_sender] < _amount || availableVolume(_tokenGet,_amountGet,_tokenGive,_amountGive,_expires,_nonce,_user,_v,_r,_s) < _amount
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: availableVolume
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hash = sha256()(this,_tokenGet,_amountGet,_tokenGive,_amountGive,_expires,_nonce)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ecrecover(bytes32,uint8,bytes32,bytes32)(sha3()(Ethereum Signed Message:
+32,hash),_v,_r,_s) != _user || block.number > _expires
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: available1 = safeSub(_amountGet,orderFills[_user][hash])
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: available2 = safeMul(tokens[_tokenGive][_user],_amountGet) / _amountGive
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: available1 < available2
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: available1
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: available2
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+
+Function: amountFilled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hash = sha256()(this,_tokenGet,_amountGet,_tokenGive,_amountGive,_expires,_nonce)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: orderFills[_user][hash]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: cancelOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: hash = sha256()(this,_tokenGet,_amountGet,_tokenGive,_amountGive,_expires,_nonce)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! (ecrecover(bytes32,uint8,bytes32,bytes32)(sha3()(Ethereum Signed Message:
+32,hash),_v,_r,_s) == msg.sender)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: orderFills[msg.sender][hash] = _amountGet
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Cancel(_tokenGet,_amountGet,_tokenGive,_amountGive,_expires,_nonce,msg.sender,_v,_r,_s)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: migrateFunds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(successor != address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: newExchange = TokenStore(successor)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: n = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: n < 20
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: nextSuccessor = newExchange.successor()
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: nextSuccessor == address(this)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: nextSuccessor == address(0)
+
+  ID: 12
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: newExchange = TokenStore(nextSuccessor)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: n ++
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: etherAmount = tokens[0][msg.sender]
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: etherAmount > 0
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: tokens[0][msg.sender] = 0
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: newExchange.depositForUser.value(etherAmount)(msg.sender)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: n = 0
+
+  ID: 24
+  Type: NodeType.IFLOOP
+  Expression: n < _tokens.length
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: token = _tokens[n]
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(token != address(0))
+
+  ID: 27
+  Type: NodeType.VARIABLE
+  Expression: tokenAmount = tokens[token][msg.sender]
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: tokenAmount == 0
+
+  ID: 29
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: ! Token(token).approve(newExchange,tokenAmount)
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 33
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: tokens[token][msg.sender] = 0
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: newExchange.depositTokenForUser(token,tokenAmount,msg.sender)
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: n ++
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: FundsMigrated(msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 16
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 4
+  13 -> 14
+  14 -> 15
+  15 -> 6
+  16 -> 17
+  17 -> 18
+  17 -> 20
+  18 -> 19
+  19 -> 20
+  20 -> 23
+  21 -> 24
+  22 -> 37
+  23 -> 21
+  24 -> 25
+  24 -> 22
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  28 -> 30
+  29 -> 36
+  30 -> 31
+  31 -> 32
+  31 -> 33
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  36 -> 24
+
+Function: depositForUser
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_user != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value > 0)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: caller = TokenStore(msg.sender)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(caller.version() > 0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokens[0][_user] = safeAdd(tokens[0][_user],msg.value)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: deprecable()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: depositTokenForUser
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_token != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_user != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amount > 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: caller = TokenStore(msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(caller.version() > 0)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! Token(_token).transferFrom(msg.sender,this,_amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: tokens[_token][_user] = safeAdd(tokens[_token][_user],_amount)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: deprecable()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+

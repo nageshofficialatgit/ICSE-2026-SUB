@@ -1,0 +1,88 @@
+Contract: CallProxy
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: i_target = target
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: TargetSet(target)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: target = i_target
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(0,0,calldatasize()())
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: success_fallback_asm_0 = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),target,callvalue()(),0,calldatasize()(),0,0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,returndatasize()())
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: success_fallback_asm_0
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,returndatasize()())
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,returndatasize()())
+
+  ID: 11
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  7 -> 8
+  8 -> 10
+  9 -> 8
+  10 -> 11
+
+

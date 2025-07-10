@@ -1,0 +1,47 @@
+Contract: Relay
+==================================================
+
+Function: changeContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == owner)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: currentVersion = newVersion
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transation
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! currentVersion.delegatecall(msg.data)
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+

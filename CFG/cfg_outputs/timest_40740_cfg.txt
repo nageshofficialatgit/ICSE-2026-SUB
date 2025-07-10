@@ -1,0 +1,33 @@
+Contract: ExampleSlidingWindowOracle
+==================================================
+
+Function: consult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: timeElapsed = block.timestamp - 10
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(timeElapsed <= windowSize)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(timeElapsed >= windowSize - periodSize * 2)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: amountOut
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

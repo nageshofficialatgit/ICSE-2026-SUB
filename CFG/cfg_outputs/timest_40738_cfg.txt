@@ -1,0 +1,38 @@
+Contract: DebtCache
+==================================================
+
+Function: takeDebtSnapshot
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _cacheTimestamp = block.timestamp
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _cacheTimestamp >= 10
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+
+

@@ -1,0 +1,6030 @@
+Contract: BCFBase
+==================================================
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setEditor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newEditor != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: editor = newEditor
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+
+Contract: ERC721
+==================================================
+
+
+Contract: BCFData
+==================================================
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setEditor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newEditor != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: editor = newEditor
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: implementsERC721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards.length
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: approved = playerCards[_tokenId].approvedForTransfer
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: approved
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _owner = playerCards[_tokenId].owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != address(0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(_to,_tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_to,_tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(_from,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isApprovedForTransferTo(_to,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(_from,_to,_tokenId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(msg.sender,_to,_tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenIds
+
+Edges:
+  0 -> 1
+
+Function: addCardToOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].push(_cardId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[_cardId] = ownerToCardsOwned[_owner].length - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeCardFromOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: index = cardIdToOwnerArrayIndex[_cardId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: swapCard = ownerToCardsOwned[_owner][length - 1]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner][index] = swapCard
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[swapCard] = index
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete ownerToCardsOwned[_owner][length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].length --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: transferUnconditionally
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: removeCardFromOwnersList(_from,_cardId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].owner = _to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: addCardToOwnersList(_to,_cardId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_cardId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: isApprovedForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].approvedForTransfer == _approved
+
+Edges:
+  0 -> 1
+
+Function: approveForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = _approved
+
+Edges:
+  0 -> 1
+
+Function: ownsPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].owner == _cardOwner
+
+Edges:
+  0 -> 1
+
+Function: setPlayerForm
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(players[_playerId].form > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_form > 0 && _form <= 200)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: players[_playerId].form = _form
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: createPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_playerId > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _player = players[_playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_player.overall > 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _cardInstance = PlayerCard({playerId:_playerId,owner:_newOwner,approvedForTransfer:address(0),isFirstGeneration:isFirstOfKind})
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: cardId = playerCards.push(_cardInstance) - 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(0,_newOwner,cardId)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: cardId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: totalPlayerCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: players.length
+
+Edges:
+  0 -> 1
+
+Function: getPlayerForCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _playerCard = playerCards[_cardId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: player = players[_playerCard.playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _overall = player.overall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _pace = player.pace
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _shooting = player.shooting
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _passing = player.passing
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _dribbling = player.dribbling
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _defending = player.defending
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _physical = player.physical
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _level = player.level
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _position = player.position
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _fullName = player.name
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _form = player.form
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName,_form)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: isOwnerOfAllPlayerCards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner != address(0))
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _cardIds.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! ownsPlayerCard(owner,_cardIds[i])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: setExtendedPlayerAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerIdToExtendedAttributes[playerId] = attributes
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: getExtendedAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: playerIdToExtendedAttributes[playerId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = BlockchainFootball
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = BCF
+
+Edges:
+  0 -> 1
+
+
+Contract: BCFBuyMarket
+==================================================
+
+Function: implementsERC721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards.length
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: approved = playerCards[_tokenId].approvedForTransfer
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: approved
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _owner = playerCards[_tokenId].owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != address(0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(_to,_tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_to,_tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(_from,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isApprovedForTransferTo(_to,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(_from,_to,_tokenId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(msg.sender,_to,_tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenIds
+
+Edges:
+  0 -> 1
+
+Function: addCardToOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].push(_cardId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[_cardId] = ownerToCardsOwned[_owner].length - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeCardFromOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: index = cardIdToOwnerArrayIndex[_cardId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: swapCard = ownerToCardsOwned[_owner][length - 1]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner][index] = swapCard
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[swapCard] = index
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete ownerToCardsOwned[_owner][length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].length --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: transferUnconditionally
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: removeCardFromOwnersList(_from,_cardId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].owner = _to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: addCardToOwnersList(_to,_cardId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_cardId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: isApprovedForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].approvedForTransfer == _approved
+
+Edges:
+  0 -> 1
+
+Function: approveForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = _approved
+
+Edges:
+  0 -> 1
+
+Function: ownsPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].owner == _cardOwner
+
+Edges:
+  0 -> 1
+
+Function: setPlayerForm
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(players[_playerId].form > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_form > 0 && _form <= 200)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: players[_playerId].form = _form
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: createPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_playerId > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _player = players[_playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_player.overall > 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _cardInstance = PlayerCard({playerId:_playerId,owner:_newOwner,approvedForTransfer:address(0),isFirstGeneration:isFirstOfKind})
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: cardId = playerCards.push(_cardInstance) - 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(0,_newOwner,cardId)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: cardId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: totalPlayerCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: players.length
+
+Edges:
+  0 -> 1
+
+Function: getPlayerForCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _playerCard = playerCards[_cardId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: player = players[_playerCard.playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _overall = player.overall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _pace = player.pace
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _shooting = player.shooting
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _passing = player.passing
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _dribbling = player.dribbling
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _defending = player.defending
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _physical = player.physical
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _level = player.level
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _position = player.position
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _fullName = player.name
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _form = player.form
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName,_form)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: isOwnerOfAllPlayerCards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner != address(0))
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _cardIds.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! ownsPlayerCard(owner,_cardIds[i])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: setExtendedPlayerAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerIdToExtendedAttributes[playerId] = attributes
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: getExtendedAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: playerIdToExtendedAttributes[playerId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setEditor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newEditor != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: editor = newEditor
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: setBuyingEscrowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buyingEscrowAddress = _address
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: createCardForAcquiredPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,newOwner,false)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: createCardForAcquiredPlayers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardIds = new uint256[](playerIds.length)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < playerIds.length
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerIds[i],newOwner,false)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: cardIds[i] = cardId
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: cardIds
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 12
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 8
+  13 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isBCFBuyMarket = true
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = BlockchainFootball
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = BCF
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: Pausable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+
+Contract: BCFAuction
+==================================================
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Pause()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Unpause()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: BCFAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(cutValue <= 10000)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: auctioneerCut = cutValue
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: candidateDataStoreContract = ERC721(dataStoreAddress)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(candidateDataStoreContract.implementsERC721())
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: dataStore = candidateDataStoreContract
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: withdrawBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: storageAddress = address(dataStore)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == owner || msg.sender == storageAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: storageAddress.transfer(this.balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: createAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(startPrice == uint256(uint128(startPrice)))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(endPrice == uint256(uint128(endPrice)))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(duration == uint256(uint64(duration)))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(seller != address(0))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(dataStore) != address(0))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == address(dataStore))
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _escrow(seller,cardId)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: auction = CardAuction(seller,uint128(startPrice),uint128(endPrice),uint64(duration),uint64(now))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _addAuction(cardId,auction)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: bid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _bid(cardId,msg.value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,cardId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: cancelAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: auction = playerCardIdToAuction[cardId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isOnAuction(auction))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: seller = auction.seller
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == seller)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _cancelAuction(cardId,seller)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: getAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: auction = playerCardIdToAuction[cardId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isOnAuction(auction))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (auction.seller,auction.startPrice,auction.endPrice,auction.duration,auction.startedAt)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (seller,startingPrice,endingPrice,duration,startedAt)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getCurrentPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: auction = playerCardIdToAuction[cardId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isOnAuction(auction))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: currentPrice(auction)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: ownsPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (dataStore.ownerOf(cardId) == cardOwner)
+
+Edges:
+  0 -> 1
+
+Function: _escrow
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dataStore.transferFrom(owner,this,cardId)
+
+Edges:
+  0 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dataStore.transfer(receiver,cardId)
+
+Edges:
+  0 -> 1
+
+Function: _addAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(auction.duration >= 60 && auction.duration <= 1209600)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerCardIdToAuction[cardId] = auction
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AuctionCreated(cardId,auction.startPrice,auction.endPrice,auction.duration)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _removeAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: delete playerCardIdToAuction[cardId]
+
+Edges:
+  0 -> 1
+
+Function: _cancelAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _removeAuction(cardId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(seller,cardId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AuctionCancelled(cardId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: isOnAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (auction.startedAt > 0)
+
+Edges:
+  0 -> 1
+
+Function: _bid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: auction = playerCardIdToAuction[cardId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isOnAuction(auction))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: price = currentPrice(auction)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(bidAmount >= price)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: seller = auction.seller
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _removeAuction(cardId)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: price > 0
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: handlerCut = calculateAuctioneerCut(price)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: sellerProceeds = price - handlerCut
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: seller.transfer(sellerProceeds)
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: bidExcess = bidAmount - price
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(bidExcess)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: AuctionSuccessful(cardId,price,msg.sender)
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: price
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: currentPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: secondsPassed = 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: now > auction.startedAt
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: secondsPassed = now - auction.startedAt
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: calculateCurrentPrice(auction.startPrice,auction.endPrice,auction.duration,secondsPassed)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: calculateCurrentPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: secondsElapsed >= duration
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: endPrice
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: totalPriceChange = int256(endPrice) - int256(startPrice)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: currentPriceChange = totalPriceChange * int256(secondsElapsed) / int256(duration)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: _currentPrice = int256(startPrice) + currentPriceChange
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: uint256(_currentPrice)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: calculateAuctioneerCut
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: finalCut = sellPrice * auctioneerCut / 10000
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: finalCut
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+Edges:
+
+
+Contract: BCFTransferMarket
+==================================================
+
+Function: setBuyingEscrowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buyingEscrowAddress = _address
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: createCardForAcquiredPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,newOwner,false)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: createCardForAcquiredPlayers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardIds = new uint256[](playerIds.length)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < playerIds.length
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerIds[i],newOwner,false)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: cardIds[i] = cardId
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: cardIds
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 12
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 8
+  13 -> 1
+
+Function: implementsERC721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards.length
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: approved = playerCards[_tokenId].approvedForTransfer
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: approved
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _owner = playerCards[_tokenId].owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != address(0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(_to,_tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_to,_tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(_from,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isApprovedForTransferTo(_to,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(_from,_to,_tokenId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(msg.sender,_to,_tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenIds
+
+Edges:
+  0 -> 1
+
+Function: addCardToOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].push(_cardId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[_cardId] = ownerToCardsOwned[_owner].length - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeCardFromOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: index = cardIdToOwnerArrayIndex[_cardId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: swapCard = ownerToCardsOwned[_owner][length - 1]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner][index] = swapCard
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[swapCard] = index
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete ownerToCardsOwned[_owner][length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].length --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: transferUnconditionally
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: removeCardFromOwnersList(_from,_cardId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].owner = _to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: addCardToOwnersList(_to,_cardId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_cardId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: isApprovedForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].approvedForTransfer == _approved
+
+Edges:
+  0 -> 1
+
+Function: approveForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = _approved
+
+Edges:
+  0 -> 1
+
+Function: ownsPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].owner == _cardOwner
+
+Edges:
+  0 -> 1
+
+Function: setPlayerForm
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(players[_playerId].form > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_form > 0 && _form <= 200)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: players[_playerId].form = _form
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: createPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_playerId > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _player = players[_playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_player.overall > 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _cardInstance = PlayerCard({playerId:_playerId,owner:_newOwner,approvedForTransfer:address(0),isFirstGeneration:isFirstOfKind})
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: cardId = playerCards.push(_cardInstance) - 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(0,_newOwner,cardId)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: cardId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: totalPlayerCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: players.length
+
+Edges:
+  0 -> 1
+
+Function: getPlayerForCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _playerCard = playerCards[_cardId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: player = players[_playerCard.playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _overall = player.overall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _pace = player.pace
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _shooting = player.shooting
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _passing = player.passing
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _dribbling = player.dribbling
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _defending = player.defending
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _physical = player.physical
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _level = player.level
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _position = player.position
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _fullName = player.name
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _form = player.form
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName,_form)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: isOwnerOfAllPlayerCards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner != address(0))
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _cardIds.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! ownsPlayerCard(owner,_cardIds[i])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: setExtendedPlayerAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerIdToExtendedAttributes[playerId] = attributes
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: getExtendedAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: playerIdToExtendedAttributes[playerId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setEditor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newEditor != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: editor = newEditor
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: setAuctionAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newAddress != address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: candidateContract = BCFAuction(newAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress = candidateContract
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: createTransferAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(auctionAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,playerCardId))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(auctionAddress,playerCardId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.createAuction(playerCardId,startPrice,endPrice,duration,msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: withdrawAuctionBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.withdrawBalance()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isBCFBuyMarket = true
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = BlockchainFootball
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = BCF
+
+Edges:
+  0 -> 1
+
+
+Contract: BCFSeeding
+==================================================
+
+Function: setAuctionAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newAddress != address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: candidateContract = BCFAuction(newAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress = candidateContract
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: createTransferAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(auctionAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,playerCardId))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(auctionAddress,playerCardId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.createAuction(playerCardId,startPrice,endPrice,duration,msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: withdrawAuctionBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.withdrawBalance()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBuyingEscrowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buyingEscrowAddress = _address
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: createCardForAcquiredPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,newOwner,false)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: createCardForAcquiredPlayers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardIds = new uint256[](playerIds.length)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < playerIds.length
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerIds[i],newOwner,false)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: cardIds[i] = cardId
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: cardIds
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 12
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 8
+  13 -> 1
+
+Function: implementsERC721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards.length
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: approved = playerCards[_tokenId].approvedForTransfer
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: approved
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _owner = playerCards[_tokenId].owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != address(0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(_to,_tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_to,_tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(_from,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isApprovedForTransferTo(_to,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(_from,_to,_tokenId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(msg.sender,_to,_tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenIds
+
+Edges:
+  0 -> 1
+
+Function: addCardToOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].push(_cardId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[_cardId] = ownerToCardsOwned[_owner].length - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeCardFromOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: index = cardIdToOwnerArrayIndex[_cardId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: swapCard = ownerToCardsOwned[_owner][length - 1]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner][index] = swapCard
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[swapCard] = index
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete ownerToCardsOwned[_owner][length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].length --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: transferUnconditionally
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: removeCardFromOwnersList(_from,_cardId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].owner = _to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: addCardToOwnersList(_to,_cardId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_cardId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: isApprovedForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].approvedForTransfer == _approved
+
+Edges:
+  0 -> 1
+
+Function: approveForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = _approved
+
+Edges:
+  0 -> 1
+
+Function: ownsPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].owner == _cardOwner
+
+Edges:
+  0 -> 1
+
+Function: setPlayerForm
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(players[_playerId].form > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_form > 0 && _form <= 200)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: players[_playerId].form = _form
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: createPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_playerId > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _player = players[_playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_player.overall > 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _cardInstance = PlayerCard({playerId:_playerId,owner:_newOwner,approvedForTransfer:address(0),isFirstGeneration:isFirstOfKind})
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: cardId = playerCards.push(_cardInstance) - 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(0,_newOwner,cardId)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: cardId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: totalPlayerCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: players.length
+
+Edges:
+  0 -> 1
+
+Function: getPlayerForCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _playerCard = playerCards[_cardId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: player = players[_playerCard.playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _overall = player.overall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _pace = player.pace
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _shooting = player.shooting
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _passing = player.passing
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _dribbling = player.dribbling
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _defending = player.defending
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _physical = player.physical
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _level = player.level
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _position = player.position
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _fullName = player.name
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _form = player.form
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName,_form)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: isOwnerOfAllPlayerCards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner != address(0))
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _cardIds.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! ownsPlayerCard(owner,_cardIds[i])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: setExtendedPlayerAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerIdToExtendedAttributes[playerId] = attributes
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: getExtendedAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: playerIdToExtendedAttributes[playerId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setEditor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newEditor != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: editor = newEditor
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: createPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_overall > 0 && _overall < 100)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_pace > 0 && _pace < 100)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_shooting > 0 && _shooting < 100)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_passing > 0 && _passing < 100)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_dribbling > 0 && _dribbling < 100)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_defending > 0 && _defending < 100)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_physical > 0 && _physical < 100)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_level > 0 && _level < 100)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_position.length > 0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(bytes(_fullName).length > 0)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: _playerInstance = Player({overall:_overall,pace:_pace,shooting:_shooting,passing:_passing,dribbling:_dribbling,defending:_defending,physical:_physical,form:100,level:_level,position:_position,name:_fullName})
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: players.push(_playerInstance) - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: createPlayerOnAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: playerId = createPlayer(_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,address(this),true)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(auctionAddress,cardId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.createAuction(cardId,_startPrice,1000000000000000,604800,address(this))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: createPlayerAndAssign
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(assignee != address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: playerId = createPlayer(_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,assignee,true)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isBCFBuyMarket = true
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = BlockchainFootball
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = BCF
+
+Edges:
+  0 -> 1
+
+
+Contract: BCFMain
+==================================================
+
+Function: createPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_overall > 0 && _overall < 100)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_pace > 0 && _pace < 100)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_shooting > 0 && _shooting < 100)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_passing > 0 && _passing < 100)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_dribbling > 0 && _dribbling < 100)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_defending > 0 && _defending < 100)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_physical > 0 && _physical < 100)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_level > 0 && _level < 100)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_position.length > 0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(bytes(_fullName).length > 0)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: _playerInstance = Player({overall:_overall,pace:_pace,shooting:_shooting,passing:_passing,dribbling:_dribbling,defending:_defending,physical:_physical,form:100,level:_level,position:_position,name:_fullName})
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: players.push(_playerInstance) - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: createPlayerOnAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: playerId = createPlayer(_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,address(this),true)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(auctionAddress,cardId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.createAuction(cardId,_startPrice,1000000000000000,604800,address(this))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: createPlayerAndAssign
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(assignee != address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: playerId = createPlayer(_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,assignee,true)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 1
+
+Function: setAuctionAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newAddress != address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: candidateContract = BCFAuction(newAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress = candidateContract
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: createTransferAuction
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(auctionAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,playerCardId))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(auctionAddress,playerCardId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.createAuction(playerCardId,startPrice,endPrice,duration,msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: withdrawAuctionBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: auctionAddress.withdrawBalance()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBuyingEscrowAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: buyingEscrowAddress = _address
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: createCardForAcquiredPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerId,newOwner,false)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: cardId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: createCardForAcquiredPlayers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(buyingEscrowAddress == msg.sender)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: cardIds = new uint256[](playerIds.length)
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: i < playerIds.length
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: cardId = createPlayerCard(playerIds[i],newOwner,false)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: cardIds[i] = cardId
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: cardIds
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 12
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  11 -> 8
+  13 -> 1
+
+Function: implementsERC721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards.length
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: approved = playerCards[_tokenId].approvedForTransfer
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: approved
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _owner = playerCards[_tokenId].owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != address(0))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: approveForTransferTo(_to,_tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_to,_tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(_from,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(isApprovedForTransferTo(_to,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(_from,_to,_tokenId)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(ownsPlayerCard(msg.sender,_tokenId))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(msg.sender,_to,_tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ownerToCardsOwned[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: tokenIds
+
+Edges:
+  0 -> 1
+
+Function: addCardToOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].push(_cardId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[_cardId] = ownerToCardsOwned[_owner].length - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: removeCardFromOwnersList
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = ownerToCardsOwned[_owner].length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: index = cardIdToOwnerArrayIndex[_cardId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: swapCard = ownerToCardsOwned[_owner][length - 1]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner][index] = swapCard
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: cardIdToOwnerArrayIndex[swapCard] = index
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete ownerToCardsOwned[_owner][length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ownerToCardsOwned[_owner].length --
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: transferUnconditionally
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: removeCardFromOwnersList(_from,_cardId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].owner = _to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: addCardToOwnersList(_to,_cardId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_cardId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: isApprovedForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].approvedForTransfer == _approved
+
+Edges:
+  0 -> 1
+
+Function: approveForTransferTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: playerCards[_cardId].approvedForTransfer = _approved
+
+Edges:
+  0 -> 1
+
+Function: ownsPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: playerCards[_cardId].owner == _cardOwner
+
+Edges:
+  0 -> 1
+
+Function: setPlayerForm
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(players[_playerId].form > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_form > 0 && _form <= 200)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: players[_playerId].form = _form
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: createPlayerCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_playerId > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _player = players[_playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_player.overall > 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _cardInstance = PlayerCard({playerId:_playerId,owner:_newOwner,approvedForTransfer:address(0),isFirstGeneration:isFirstOfKind})
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: cardId = playerCards.push(_cardInstance) - 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: transferUnconditionally(0,_newOwner,cardId)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: cardId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: totalPlayerCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: players.length
+
+Edges:
+  0 -> 1
+
+Function: getPlayerForCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _playerCard = playerCards[_cardId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: player = players[_playerCard.playerId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _overall = player.overall
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _pace = player.pace
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _shooting = player.shooting
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _passing = player.passing
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _dribbling = player.dribbling
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _defending = player.defending
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _physical = player.physical
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _level = player.level
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _position = player.position
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _fullName = player.name
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _form = player.form
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (_overall,_pace,_shooting,_passing,_dribbling,_defending,_physical,_level,_position,_fullName,_form)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: isOwnerOfAllPlayerCards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(owner != address(0))
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < _cardIds.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! ownsPlayerCard(owner,_cardIds[i])
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: setExtendedPlayerAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: playerIdToExtendedAttributes[playerId] = attributes
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyEditor()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: getExtendedAttributesForPlayer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(playerId > 0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: playerIdToExtendedAttributes[playerId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setEditor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newEditor != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: editor = newEditor
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: BCFMain
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: editor = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: createPlayer(1,4,4,2,3,5,2,11,CAM,Thiago Messi)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == address(auctionAddress) || msg.sender == owner || msg.sender == buyingEscrowAddress)
+
+Edges:
+  0 -> 1
+
+Function: withdrawBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner.transfer(this.balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isBCFBuyMarket = true
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = BlockchainFootball
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = BCF
+
+Edges:
+  0 -> 1
+
+

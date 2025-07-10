@@ -1,0 +1,48 @@
+Contract: Halo3D
+==================================================
+
+Function: payCharity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: ethToPay = totalEthCharityCollected - totalEthCharityRecieved
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! giveEthCharityAddress.call.value(ethToPay).gas(400000)()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalEthCharityRecieved = totalEthCharityRecieved - ethToPay
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalEthCharityRecieved = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalEthCharityCollected = 100
+
+Edges:
+  0 -> 1
+
+

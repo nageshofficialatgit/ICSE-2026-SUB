@@ -1,0 +1,829 @@
+Contract: IPausableFactory
+==================================================
+
+
+Contract: IRestrictedFactory
+==================================================
+
+
+Contract: IGovernance
+==================================================
+
+
+Contract: IPausablePair
+==================================================
+
+
+Contract: IPairBase
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: msgSender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msgSender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(address(0),msgSender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+
+Contract: PausableFactory
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: governance = _governance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isLive = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setLive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isLive = _isLive
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: isLive
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Restarted()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Shutdowned()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyShutdownAdminOrVoting()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  6 -> 1
+
+Function: setLiveForPair
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IPausablePair(pair).setLive(live)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: live
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: PairRestarted(pair)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: PairShutdowned(pair)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyShutdownAdminOrVoting()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  6 -> 1
+
+
+Contract: RestrictedFactory
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: whitelistFactory = _whitelistFactory
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pairCreator = _pairCreator
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: configStore = _configStore
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: tradeFee = _tradeFee
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: protocolFee = _protocolFee
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: protocolFeeTo = _protocolFeeTo
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: PausableFactory(_governance)
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(_owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: this
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setLive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isLive = _isLive
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: isLive
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Restarted()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Shutdowned()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyShutdownAdminOrVoting()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  6 -> 1
+
+Function: setLiveForPair
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IPausablePair(pair).setLive(live)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: live
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: PairRestarted(pair)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: PairShutdowned(pair)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyShutdownAdminOrVoting()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  6 -> 1
+
+Function: init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(restrictedLiquidityProvider == address(0),RestrictedLiquidityProvider already set)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: restrictedLiquidityProvider = _restrictedLiquidityProvider
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getCreateAddresses
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (governance,whitelistFactory,restrictedLiquidityProvider,configStore)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (_governance,_whitelistFactory,_restrictedLiquidityProvider,_configStore)
+
+Edges:
+  0 -> 1
+
+Function: pairLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: getPair[tokenA][tokenB].length
+
+Edges:
+  0 -> 1
+
+Function: allPairsLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allPairs.length
+
+Edges:
+  0 -> 1
+
+Function: createPair
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenA != tokenB,IDENTICAL_ADDRESSES)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(token0 != address(0),ZERO_ADDRESS)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: salt = keccak256(bytes)(abi.encodePacked(token0,token1,getPair[token0][token1].length))
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: (success,data) = pairCreator.delegatecall(abi.encodeWithSelector(0xED25A5A2,salt))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Failed to create pair)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: (pair) = abi.decode(data,(address))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: IPairBase(pair).initialize(token0,token1)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: getPair[token0][token1].push(pair)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: getPair[token1][token0].push(pair)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: pairIdx[pair] = allPairs.length
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: allPairs.push(pair)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: PairCreated(token0,token1,pair,getPair[token0][token1].length,allPairs.length)
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: tokenA < tokenB
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: (token0,token1) = (tokenA,tokenB)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: (token0,token1) = (tokenB,tokenA)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: pair
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 18
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 22
+  18 -> 19
+  18 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 5
+
+Function: isPair
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allPairs.length != 0 && allPairs[pairIdx[pair]] == pair
+
+Edges:
+  0 -> 1
+
+Function: setTradeFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_tradeFee <= FEE_BASE,INVALID_TRADE_FEE)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tradeFee = _tradeFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ParamSet(tradeFee,bytes32(tradeFee))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyVoting()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setProtocolFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_protocolFee <= FEE_BASE,INVALID_PROTOCOL_FEE)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: protocolFee = _protocolFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ParamSet(protocolFee,bytes32(protocolFee))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyVoting()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setProtocolFeeTo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: protocolFeeTo = _protocolFeeTo
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ParamSet(protocolFeeTo,bytes32(bytes20(protocolFeeTo)))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyVoting()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: checkAndGetSwapParams
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isLive,GLOBALLY PAUSED)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (tradeFee,protocolFee)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (tradeFee_,protocolFee_)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FEE_BASE = 10 ** 5
+
+Edges:
+
+

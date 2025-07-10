@@ -1,0 +1,3330 @@
+Contract: IERC165
+==================================================
+
+
+Contract: IERC721
+==================================================
+
+
+Contract: IERC721Enumerable
+==================================================
+
+
+Contract: ERC165
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC165).interfaceId
+
+Edges:
+  0 -> 1
+
+
+Contract: Strings
+==================================================
+
+Function: toString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: temp = value
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: temp != 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: digits ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: temp /= 10
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: buffer = new bytes(digits)
+
+  ID: 12
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: value != 0
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: digits -= 1
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: buffer[digits] = bytes1(uint8(48 + uint256(value % 10)))
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: value /= 10
+
+  ID: 17
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: string(buffer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 7
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 17
+  14 -> 15
+  15 -> 16
+  16 -> 13
+  17 -> 18
+
+Function: toHexString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: buffer = new bytes(2 * length + 2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: buffer[0] = 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: buffer[1] = x
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 2 * length + 1
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i > 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: buffer[i] = _HEX_SYMBOLS[value & 0xf]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: value >>= 4
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: -- i
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(value == 0,Strings: hex length insufficient)
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: string(buffer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _HEX_SYMBOLS = 0123456789abcdef
+
+Edges:
+
+
+Contract: Address
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: size = extcodesize(uint256)(account)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: size > 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Address: insufficient balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Address: unable to send value, recipient may have reverted)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: functionCallWithValue(target,data,0,errorMessage)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: call to non-contract)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: value}(data)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: verifyCallResult(success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: functionStaticCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: static call to non-contract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.staticcall(data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: verifyCallResult(success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: functionDelegateCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: delegate call to non-contract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.delegatecall(data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: verifyCallResult(success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: verifyCallResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 4
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size_verifyCallResult_asm_0 = mload(uint256)(returndata)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size_verifyCallResult_asm_0)
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(errorMessage)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 9
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  9 -> 10
+  10 -> 11
+
+
+Contract: IERC721Metadata
+==================================================
+
+
+Contract: IERC721Receiver
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+
+Contract: ERC721
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC721).interfaceId || interfaceId == type()(IERC721Metadata).interfaceId || super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC721: balance query for the zero address)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _owners[tokenId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC721: owner query for nonexistent token)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721Metadata: URI query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: baseURI = _baseURI()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(baseURI).length > 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(baseURI,tokenId.toString()))
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != owner,ERC721: approval to current owner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_msgSender() == owner || isApprovedForAll(owner,_msgSender()),ERC721: approve caller is not owner nor approved for all)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721: approved query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(operator != _msgSender(),ERC721: approve to caller)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[_msgSender()][operator] = approved
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isApprovedOrOwner(_msgSender(),tokenId),ERC721: transfer caller is not owner nor approved)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isApprovedOrOwner(_msgSender(),tokenId),ERC721: transfer caller is not owner nor approved)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(from,to,tokenId,_data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_checkOnERC721Received(from,to,tokenId,_data),ERC721: transfer to non ERC721Receiver implementer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _exists
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId] != address(0)
+
+Edges:
+  0 -> 1
+
+Function: _isApprovedOrOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721: operator query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner,spender))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_checkOnERC721Received(address(0),to,tokenId,_data),ERC721: transfer to non ERC721Receiver implementer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC721: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _exists(tokenId),ERC721: token already minted)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(address(0),to,tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(owner,address(0),tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[owner] -= 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete _owners[tokenId]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(owner,address(0),tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ERC721.ownerOf(tokenId) == from,ERC721: transfer of token that is not own)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC721: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(from,to,tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] -= 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(ERC721.ownerOf(tokenId),to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _checkOnERC721Received
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to.isContract()
+
+  ID: 2
+  Type: NodeType.TRY
+  Expression: retval = IERC721Receiver(to).onERC721Received(_msgSender(),from,tokenId,_data)
+
+  ID: 3
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: retval == IERC721Receiver.onERC721Received.selector
+
+  ID: 5
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: reason.length == 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ERC721: transfer to non ERC721Receiver implementer)
+
+  ID: 8
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + reason,mload(uint256)(reason))
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 12
+  2 -> 3
+  2 -> 5
+  2 -> 13
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 13
+
+Function: _beforeTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+
+Contract: ERC721Enumerable
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC721Enumerable).interfaceId || super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC721: balance query for the zero address)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _owners[tokenId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC721: owner query for nonexistent token)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721Metadata: URI query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: baseURI = _baseURI()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(baseURI).length > 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(baseURI,tokenId.toString()))
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != owner,ERC721: approval to current owner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_msgSender() == owner || isApprovedForAll(owner,_msgSender()),ERC721: approve caller is not owner nor approved for all)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721: approved query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(operator != _msgSender(),ERC721: approve to caller)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[_msgSender()][operator] = approved
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isApprovedOrOwner(_msgSender(),tokenId),ERC721: transfer caller is not owner nor approved)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isApprovedOrOwner(_msgSender(),tokenId),ERC721: transfer caller is not owner nor approved)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(from,to,tokenId,_data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_checkOnERC721Received(from,to,tokenId,_data),ERC721: transfer to non ERC721Receiver implementer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _exists
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId] != address(0)
+
+Edges:
+  0 -> 1
+
+Function: _isApprovedOrOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721: operator query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner,spender))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_checkOnERC721Received(address(0),to,tokenId,_data),ERC721: transfer to non ERC721Receiver implementer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC721: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _exists(tokenId),ERC721: token already minted)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(address(0),to,tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(owner,address(0),tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[owner] -= 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete _owners[tokenId]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(owner,address(0),tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ERC721.ownerOf(tokenId) == from,ERC721: transfer of token that is not own)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC721: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(from,to,tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] -= 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(ERC721.ownerOf(tokenId),to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _checkOnERC721Received
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to.isContract()
+
+  ID: 2
+  Type: NodeType.TRY
+  Expression: retval = IERC721Receiver(to).onERC721Received(_msgSender(),from,tokenId,_data)
+
+  ID: 3
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: retval == IERC721Receiver.onERC721Received.selector
+
+  ID: 5
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: reason.length == 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ERC721: transfer to non ERC721Receiver implementer)
+
+  ID: 8
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + reason,mload(uint256)(reason))
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 12
+  2 -> 3
+  2 -> 5
+  2 -> 13
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 13
+
+Function: _beforeTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: super._beforeTokenTransfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: from == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _addTokenToAllTokensEnumeration(tokenId)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: from != to
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _removeTokenFromOwnerEnumeration(from,tokenId)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _removeTokenFromAllTokensEnumeration(tokenId)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: to != from
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _addTokenToOwnerEnumeration(to,tokenId)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 7
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 13
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: tokenOfOwnerByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index < ERC721.balanceOf(owner),ERC721Enumerable: owner index out of bounds)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _ownedTokens[owner][index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allTokens.length
+
+Edges:
+  0 -> 1
+
+Function: tokenByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index < ERC721Enumerable.totalSupply(),ERC721Enumerable: global index out of bounds)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _allTokens[index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _addTokenToOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = ERC721.balanceOf(to)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokens[to][length] = tokenId
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[tokenId] = length
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _addTokenToAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[tokenId] = _allTokens.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.push(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _removeTokenFromOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = ERC721.balanceOf(from) - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _ownedTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: tokenIndex != lastTokenIndex
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _ownedTokens[from][lastTokenIndex]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokens[from][tokenIndex] = lastTokenId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokensIndex[tokenId]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokens[from][lastTokenIndex]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 7
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _removeTokenFromAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = _allTokens.length - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _allTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _allTokens[lastTokenIndex]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens[tokenIndex] = lastTokenId
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete _allTokensIndex[tokenId]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.pop()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(_msgSender())
+
+Edges:
+  0 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: GOPL
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: setBaseURI(_initBaseURI)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ERC721(_name,_symbol)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setOwner(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC165).interfaceId
+
+Edges:
+  0 -> 1
+
+Function: tokenOfOwnerByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index < ERC721.balanceOf(owner),ERC721Enumerable: owner index out of bounds)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _ownedTokens[owner][index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allTokens.length
+
+Edges:
+  0 -> 1
+
+Function: tokenByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index < ERC721Enumerable.totalSupply(),ERC721Enumerable: global index out of bounds)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _allTokens[index]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _beforeTokenTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: _addTokenToOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: length = ERC721.balanceOf(to)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokens[to][length] = tokenId
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[tokenId] = length
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _addTokenToAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[tokenId] = _allTokens.length
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.push(tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _removeTokenFromOwnerEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = ERC721.balanceOf(from) - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _ownedTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: tokenIndex != lastTokenIndex
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _ownedTokens[from][lastTokenIndex]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokens[from][tokenIndex] = lastTokenId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _ownedTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokensIndex[tokenId]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: delete _ownedTokens[from][lastTokenIndex]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 7
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _removeTokenFromAllTokensEnumeration
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: lastTokenIndex = _allTokens.length - 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIndex = _allTokensIndex[tokenId]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: lastTokenId = _allTokens[lastTokenIndex]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens[tokenIndex] = lastTokenId
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _allTokensIndex[lastTokenId] = tokenIndex
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: delete _allTokensIndex[tokenId]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _allTokens.pop()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC721: balance query for the zero address)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _balances[owner]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _owners[tokenId]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner != address(0),ERC721: owner query for nonexistent token)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: tokenURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721Metadata: URI query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: currentBaseURI = _baseURI()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: bytes(currentBaseURI).length > 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(currentBaseURI,tokenId.toString(),baseExtension))
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: _baseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: baseURI
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != owner,ERC721: approval to current owner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_msgSender() == owner || isApprovedForAll(owner,_msgSender()),ERC721: approve caller is not owner nor approved for all)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getApproved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721: approved query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _tokenApprovals[tokenId]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setApprovalForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(operator != _msgSender(),ERC721: approve to caller)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _operatorApprovals[_msgSender()][operator] = approved
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalForAll(_msgSender(),operator,approved)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: isApprovedForAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _operatorApprovals[owner][operator]
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isApprovedOrOwner(_msgSender(),tokenId),ERC721: transfer caller is not owner nor approved)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: safeTransferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_isApprovedOrOwner(_msgSender(),tokenId),ERC721: transfer caller is not owner nor approved)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _safeTransfer(from,to,tokenId,_data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _safeTransfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_checkOnERC721Received(from,to,tokenId,_data),ERC721: transfer to non ERC721Receiver implementer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _exists
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owners[tokenId] != address(0)
+
+Edges:
+  0 -> 1
+
+Function: _isApprovedOrOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_exists(tokenId),ERC721: operator query for nonexistent token)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner,spender))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _safeMint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _mint(to,tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_checkOnERC721Received(address(0),to,tokenId,_data),ERC721: transfer to non ERC721Receiver implementer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC721: mint to the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _exists(tokenId),ERC721: token already minted)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(address(0),to,tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = ERC721.ownerOf(tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(owner,address(0),tokenId)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _balances[owner] -= 1
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete _owners[tokenId]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(owner,address(0),tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ERC721.ownerOf(tokenId) == from,ERC721: transfer of token that is not own)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),ERC721: transfer to the zero address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _beforeTokenTransfer(from,to,tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _approve(address(0),tokenId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] -= 1
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += 1
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _owners[tokenId] = to
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenApprovals[tokenId] = to
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(ERC721.ownerOf(tokenId),to,tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _checkOnERC721Received
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: to.isContract()
+
+  ID: 2
+  Type: NodeType.TRY
+  Expression: retval = IERC721Receiver(to).onERC721Received(_msgSender(),from,tokenId,_data)
+
+  ID: 3
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: retval == IERC721Receiver.onERC721Received.selector
+
+  ID: 5
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: reason.length == 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(ERC721: transfer to non ERC721Receiver implementer)
+
+  ID: 8
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + reason,mload(uint256)(reason))
+
+  ID: 10
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 12
+  2 -> 3
+  2 -> 5
+  2 -> 13
+  3 -> 4
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 13
+
+Function: mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: supply = totalSupply()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! paused)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_mintAmount > 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_mintAmount <= maxMintAmount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(supply + _mintAmount <= maxSupply)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: msg.sender != owner()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= cost * _mintAmount)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: i = 1
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: i <= _mintAmount
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _safeMint(msg.sender,supply + i)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 12
+
+Function: walletOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: ownerTokenCount = balanceOf(_owner)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: tokenIds = new uint256[](ownerTokenCount)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < ownerTokenCount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tokenIds[i] = tokenOfOwnerByIndex(_owner,i)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: tokenIds
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+Function: reveal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revealed = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setCost
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: cost = _newCost
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setmaxMintAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: maxMintAmount = _newmaxMintAmount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBaseURI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: baseURI = _newBaseURI
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setBaseExtension
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: baseExtension = _newBaseExtension
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = _state
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (os,None) = address(owner()).call{value: address(this).balance}()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(os)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: baseExtension = .json
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: cost = 100000000000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxSupply = 999
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxMintAmount = 5
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: revealed = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

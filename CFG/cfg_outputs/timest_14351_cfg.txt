@@ -1,0 +1,33 @@
+Contract: Serpent
+==================================================
+
+Function: CollectReturns
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentTime = uint256(block.timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(currentTime > SerpentCountDown)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: investorReturn[msg.sender] = 0
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

@@ -1,0 +1,28 @@
+Contract: A2ACrowdsale
+==================================================
+
+Function: mintETHRewards
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amount <= wingsETHRewards)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_contract.call.value(_amount)())
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_contract] -= _amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

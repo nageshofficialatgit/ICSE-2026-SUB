@@ -1,0 +1,2400 @@
+Contract: Roles
+==================================================
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! has(role,account),Roles: account already has role)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: role.bearer[account] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: remove
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(has(role,account),Roles: account does not have role)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: role.bearer[account] = false
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: has
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(account != address(0),Roles: account is the zero address)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: role.bearer[account]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Initializable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+
+Contract: ContextUpgradeable
+==================================================
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+
+Contract: OwnableUpgradeable
+==================================================
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: __Ownable_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __Ownable_init_unchained()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __Ownable_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(_msgSender())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner() == _msgSender(),Ownable: caller is not the owner)
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: AgentRoleUpgradeable
+==================================================
+
+Function: __Ownable_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __Ownable_init_unchained()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __Ownable_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(_msgSender())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner() == _msgSender(),Ownable: caller is not the owner)
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: addAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_agent != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _agents.add(_agent)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AgentAdded(_agent)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_agent != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _agents.remove(_agent)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AgentRemoved(_agent)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: isAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _agents.has(_agent)
+
+Edges:
+  0 -> 1
+
+
+Contract: IRStorage
+==================================================
+
+
+Contract: ITrustedIssuersRegistry
+==================================================
+
+
+Contract: IIdentityRegistryStorage
+==================================================
+
+
+Contract: IIdentityRegistry
+==================================================
+
+
+Contract: IClaimTopicsRegistry
+==================================================
+
+
+Contract: AddressUpgradeable
+==================================================
+
+Function: isContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: account.code.length > 0
+
+Edges:
+  0 -> 1
+
+Function: sendValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Address: insufficient balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = recipient.call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Address: unable to send value, recipient may have reverted)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: functionCallWithValue(target,data,0,errorMessage)
+
+Edges:
+  0 -> 1
+
+Function: functionCallWithValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= value,Address: insufficient balance for call)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.call{value: value}(data)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: functionStaticCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.staticcall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: functionDelegateCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returndata) = target.delegatecall(data)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: verifyCallResultFromTarget(target,success,returndata,errorMessage)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: verifyCallResultFromTarget
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: returndata.length == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isContract(target),Address: call to non-contract)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata,errorMessage)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 7
+
+Function: verifyCallResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: returndata
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _revert(returndata,errorMessage)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: _revert
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: returndata.length > 0
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: returndata_size__revert_asm_0 = mload(uint256)(returndata)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(32 + returndata,returndata_size__revert_asm_0)
+
+  ID: 6
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(errorMessage)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 7
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 8
+  7 -> 8
+
+
+Contract: IERC734
+==================================================
+
+
+Contract: IERC735
+==================================================
+
+
+Contract: IIdentity
+==================================================
+
+
+Contract: IClaimIssuer
+==================================================
+
+
+Contract: IdentityRegistry
+==================================================
+
+Function: addAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_agent != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _agents.add(_agent)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AgentAdded(_agent)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_agent != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _agents.remove(_agent)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: AgentRemoved(_agent)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: isAgent
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _agents.has(_agent)
+
+Edges:
+  0 -> 1
+
+Function: __Ownable_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: __Ownable_init_unchained()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: __Ownable_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(_msgSender())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(owner() == _msgSender(),Ownable: caller is not the owner)
+
+Edges:
+  0 -> 1
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Ownable: new owner is the zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: __Context_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: __Context_init_unchained
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyInitializing()
+
+Edges:
+  0 -> 1
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _disableInitializers
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initializing,Initializable: contract is initializing)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _initialized != type()(uint8).max
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = type()(uint8).max
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Initialized(type()(uint8).max)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+
+Function: _getInitializedVersion
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initialized
+
+Edges:
+  0 -> 1
+
+Function: _isInitializing
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _initializing
+
+Edges:
+  0 -> 1
+
+Function: init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_trustedIssuersRegistry != address(0) && _claimTopicsRegistry != address(0) && _identityStorage != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _tokenTopicsRegistry = IClaimTopicsRegistry(_claimTopicsRegistry)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIssuersRegistry = ITrustedIssuersRegistry(_trustedIssuersRegistry)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIdentityStorage = IIdentityRegistryStorage(_identityStorage)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: ClaimTopicsRegistrySet(_claimTopicsRegistry)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TrustedIssuersRegistrySet(_trustedIssuersRegistry)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: IdentityStorageSet(_identityStorage)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: __Ownable_init()
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: initializer()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: addWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(walletToIdentity[newWallet] == address(0),Wallet is already registered or linked)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _identity = walletToIdentity[msg.sender]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_identity != address(0),Caller is not linked to any identity)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IdentityToPrimaryWallet[_identity] == msg.sender,Caller is not the primary wallet)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: walletToIdentity[newWallet] = _identity
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: primaryWallet = IdentityToPrimaryWallet[_identity]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: linkedWallets[_identity].push(newWallet)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: PrimaryToLinked[primaryWallet].push(newWallet)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: WalletAdded(msg.sender,newWallet,_identity)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: removeWallet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _identity = walletToIdentity[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_identity != address(0),Caller is not linked to any identity)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IdentityToPrimaryWallet[_identity] == msg.sender,Caller is not the primary wallet)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(walletToIdentity[walletToRemove] == _identity,Wallet is not linked to the identity)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: delete walletToIdentity[walletToRemove]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _removeFromArray(linkedWallets[_identity],walletToRemove)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: primaryWallet = IdentityToPrimaryWallet[_identity]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _removeFromArray(PrimaryToLinked[primaryWallet],walletToRemove)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: WalletRemoved(msg.sender,walletToRemove,_identity)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _removeFromArray
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < array.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: array[i] == walletToRemove
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: array[i] = array[array.length - 1]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: array.pop()
+
+  ID: 8
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 3
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 9
+  6 -> 7
+  7 -> 8
+  8 -> 2
+  9 -> 10
+  10 -> 4
+
+Function: getLinkedWallets
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: linkedWallets[_identity]
+
+Edges:
+  0 -> 1
+
+Function: getprimaryTOLinkedWallets
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: PrimaryToLinked[walletaddress]
+
+Edges:
+  0 -> 1
+
+Function: batchRegisterIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < _userAddresses.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: registerIdentity(_userAddresses[i],_identities[i],_countries[i],investorTypes[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+Edges:
+  0 -> 3
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+
+Function: updateIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldIdentity = identity(_userAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIdentityStorage.modifyStoredIdentity(_userAddress,_identity)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IdentityUpdated(oldIdentity,_identity)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAgent()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateCountry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIdentityStorage.modifyStoredInvestorCountry(_userAddress,_country)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: CountryUpdated(_userAddress,_country)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAgent()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: deleteIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldIdentity = identity(_userAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIdentityStorage.removeIdentityFromStorage(_userAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IdentityRemoved(_userAddress,oldIdentity)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAgent()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: setIdentityRegistryStorage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIdentityStorage = IIdentityRegistryStorage(_identityRegistryStorage)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: IdentityStorageSet(_identityRegistryStorage)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setClaimTopicsRegistry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenTopicsRegistry = IClaimTopicsRegistry(_claimTopicsRegistry)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ClaimTopicsRegistrySet(_claimTopicsRegistry)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setTrustedIssuersRegistry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIssuersRegistry = ITrustedIssuersRegistry(_trustedIssuersRegistry)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: TrustedIssuersRegistrySet(_trustedIssuersRegistry)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: isVerified
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: identityAddress = walletToIdentity[_userAddress]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: identityAddress != address(0)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: primaryWallet = IdentityToPrimaryWallet[identityAddress]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: _userAddress != primaryWallet
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _userAddress = primaryWallet
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: address(identity(_userAddress)) == address(0)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: requiredClaimTopics = _tokenTopicsRegistry.getClaimTopics()
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: requiredClaimTopics.length == 0
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 19
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 21
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: claimTopic = 0
+
+  ID: 24
+  Type: NodeType.IFLOOP
+  Expression: claimTopic < requiredClaimTopics.length
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: trustedIssuers = _tokenIssuersRegistry.getTrustedIssuersForClaimTopic(requiredClaimTopics[claimTopic])
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: trustedIssuers.length == 0
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.VARIABLE
+  Expression: claimIds = new bytes32[](trustedIssuers.length)
+
+  ID: 30
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 31
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 32
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 33
+  Type: NodeType.IFLOOP
+  Expression: i < trustedIssuers.length
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: claimIds[i] = keccak256(bytes)(abi.encode(trustedIssuers[i],requiredClaimTopics[claimTopic]))
+
+  ID: 35
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 36
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 37
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 38
+  Type: NodeType.VARIABLE
+  Expression: j = 0
+
+  ID: 39
+  Type: NodeType.IFLOOP
+  Expression: j < claimIds.length
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: (foundClaimTopic,scheme,issuer,sig,data,None) = identity(_userAddress).getClaim(claimIds[j])
+
+  ID: 41
+  Type: NodeType.IF
+  Expression: foundClaimTopic == requiredClaimTopics[claimTopic]
+
+  ID: 42
+  Type: NodeType.TRY
+  Expression: _validity = IClaimIssuer(issuer).isClaimValid(identity(_userAddress),requiredClaimTopics[claimTopic],sig,data)
+
+  ID: 43
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 44
+  Type: NodeType.IF
+  Expression: _validity
+
+  ID: 45
+  Type: NodeType.EXPRESSION
+  Expression: j = claimIds.length
+
+  ID: 46
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 47
+  Type: NodeType.IF
+  Expression: ! _validity && j == (claimIds.length - 1)
+
+  ID: 48
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 49
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 50
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 51
+  Type: NodeType.IF
+  Expression: j == (claimIds.length - 1)
+
+  ID: 52
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 53
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 54
+  Type: NodeType.IF
+  Expression: j == (claimIds.length - 1)
+
+  ID: 55
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 56
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 57
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 58
+  Type: NodeType.EXPRESSION
+  Expression: j ++
+
+  ID: 59
+  Type: NodeType.EXPRESSION
+  Expression: claimTopic ++
+
+  ID: 60
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 23
+  21 -> 24
+  22 -> 60
+  23 -> 21
+  24 -> 25
+  24 -> 22
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  28 -> 29
+  29 -> 32
+  30 -> 33
+  31 -> 38
+  32 -> 30
+  33 -> 34
+  33 -> 31
+  34 -> 35
+  35 -> 33
+  36 -> 39
+  37 -> 59
+  38 -> 36
+  39 -> 40
+  39 -> 37
+  40 -> 41
+  41 -> 42
+  41 -> 54
+  42 -> 43
+  42 -> 50
+  42 -> 57
+  43 -> 44
+  44 -> 45
+  44 -> 46
+  45 -> 46
+  46 -> 47
+  47 -> 48
+  47 -> 49
+  49 -> 57
+  50 -> 51
+  51 -> 52
+  51 -> 53
+  53 -> 57
+  54 -> 55
+  54 -> 56
+  56 -> 57
+  57 -> 58
+  58 -> 39
+  59 -> 24
+
+Function: investorCountry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenIdentityStorage.storedInvestorCountry(_userAddress)
+
+Edges:
+  0 -> 1
+
+Function: issuersRegistry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenIssuersRegistry
+
+Edges:
+  0 -> 1
+
+Function: topicsRegistry
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenTopicsRegistry
+
+Edges:
+  0 -> 1
+
+Function: identityStorage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenIdentityStorage
+
+Edges:
+  0 -> 1
+
+Function: contains
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: address(identity(_userAddress)) == address(0)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: registerIdentity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keccak256(bytes)(abi.encodePacked(investorType)) == keccak256(bytes)(abi.encodePacked(Encrypted1)) || keccak256(bytes)(abi.encodePacked(investorType)) == keccak256(bytes)(abi.encodePacked(Encrypted2)) || keccak256(bytes)(abi.encodePacked(investorType)) == keccak256(bytes)(abi.encodePacked(Encrypted3)),Invalid investor type)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _tokenIdentityStorage.addIdentityToStorage(_userAddress,_identity,_country,investorType)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: InvestorType[_userAddress] = investorType
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: IdentityToPrimaryWallet[address(_identity)] = _userAddress
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: walletToIdentity[_userAddress] = address(_identity)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IdentityRegistered(_userAddress,_identity)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyAgent()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: getInvestorType
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: InvestorType[_walletAddress]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: Investortype
+
+Edges:
+  0 -> 1
+
+Function: identity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _tokenIdentityStorage.storedIdentity(_userAddress)
+
+Edges:
+  0 -> 1
+
+

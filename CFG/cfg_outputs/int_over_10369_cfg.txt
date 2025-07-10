@@ -1,0 +1,53 @@
+Contract: MuskTokenVault
+==================================================
+
+Function: teamVestingStage
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: stage = block.timestamp - lockedAt
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: stage > teamVestingStages
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: stage = teamVestingStages
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: stage
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: teamVestingStages = 8
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: lockedAt = 0
+
+Edges:
+  0 -> 1
+
+

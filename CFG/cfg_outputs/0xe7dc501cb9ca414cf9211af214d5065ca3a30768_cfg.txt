@@ -1,0 +1,7193 @@
+Contract: PullPayInterface
+==================================================
+
+
+Contract: Governable
+==================================================
+
+Function: Governable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins.length = 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[0] = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_admin != admins[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(admins.length < 10)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: admins[admins.length ++] = _admin
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 3
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pos = admins.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _admin == admins[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pos = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(pos < admins.length)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: pos < admins.length - 1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: admins[pos] = admins[admins.length - 1]
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: admins.length --
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 15
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+
+Contract: StorageEnabled
+==================================================
+
+Function: StorageEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: storageAddr = _storageAddr
+
+Edges:
+  0 -> 1
+
+Function: babzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Nutz,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setBabzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Nutz,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: activeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,activeSupply)
+
+Edges:
+  0 -> 1
+
+Function: _setActiveSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,activeSupply,_newActiveSupply)
+
+Edges:
+  0 -> 1
+
+Function: burnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,burnPool)
+
+Edges:
+  0 -> 1
+
+Function: _setBurnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,burnPool,_newBurnPool)
+
+Edges:
+  0 -> 1
+
+Function: powerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,powerPool)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,powerPool,_newPowerPool)
+
+Edges:
+  0 -> 1
+
+Function: powerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Power,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Power,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: outstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,outstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: _setOutstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,outstandingPower,_newOutstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: authorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,authorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: _setAuthorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,authorizedPower,_newAuthorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: downs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: rawBytes = Storage(storageAddr).getBal(PowerDown,_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: start = uint64(rawBytes)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: left = uint96(rawBytes >> (64))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: total = uint96(rawBytes >> (96 + 64))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (total,left,start)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _setDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = uint64(start) + (left << 64) + (total << (96 + 64))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(PowerDown,_holder,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Pausable
+==================================================
+
+Function: Governable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins.length = 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[0] = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_admin != admins[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(admins.length < 10)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: admins[admins.length ++] = _admin
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 3
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pos = admins.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _admin == admins[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pos = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(pos < admins.length)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: pos < admins.length - 1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: admins[pos] = admins[admins.length - 1]
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: admins.length --
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 15
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = true
+
+Edges:
+
+
+Contract: ERC20Basic
+==================================================
+
+
+Contract: ERC223Basic
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+
+Contract: Ownable
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+
+Contract: Power
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).powerBalanceOf(_holder)
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).powerTotalSupply()
+
+Edges:
+  0 -> 1
+
+Function: activeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).outstandingPower()
+
+Edges:
+  0 -> 1
+
+Function: slashPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Slashing(_holder,_value,_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: powerUp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(address(0),_holder,_value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to == address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ControllerInterface(owner).createDownRequest(msg.sender,_amountPower)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,address(0),_amountPower)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: downtime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ControllerInterface(owner).downtime
+
+Edges:
+  0 -> 1
+
+Function: downTick
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ControllerInterface(owner).downTick(_owner,now)
+
+Edges:
+  0 -> 1
+
+Function: downs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).downs(_owner)
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Acebusters Power
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = ABP
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 12
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Storage
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setUInt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: crates[_crate].uints[_key] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getUInt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: crates[_crate].uints[_key]
+
+Edges:
+  0 -> 1
+
+Function: setAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: crates[_crate].addresses[_key] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: crates[_crate].addresses[_key]
+
+Edges:
+  0 -> 1
+
+Function: setBool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: crates[_crate].bools[_key] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getBool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: crates[_crate].bools[_key]
+
+Edges:
+  0 -> 1
+
+Function: setBal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: crates[_crate].bals[_key] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getBal
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: crates[_crate].bals[_key]
+
+Edges:
+  0 -> 1
+
+
+Contract: NutzEnabled
+==================================================
+
+Function: StorageEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: storageAddr = _storageAddr
+
+Edges:
+  0 -> 1
+
+Function: babzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Nutz,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setBabzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Nutz,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: activeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,activeSupply)
+
+Edges:
+  0 -> 1
+
+Function: _setActiveSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,activeSupply,_newActiveSupply)
+
+Edges:
+  0 -> 1
+
+Function: burnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,burnPool)
+
+Edges:
+  0 -> 1
+
+Function: _setBurnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,burnPool,_newBurnPool)
+
+Edges:
+  0 -> 1
+
+Function: powerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,powerPool)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,powerPool,_newPowerPool)
+
+Edges:
+  0 -> 1
+
+Function: powerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Power,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Power,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: outstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,outstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: _setOutstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,outstandingPower,_newOutstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: authorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,authorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: _setAuthorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,authorizedPower,_newAuthorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: downs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: rawBytes = Storage(storageAddr).getBal(PowerDown,_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: start = uint64(rawBytes)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: left = uint96(rawBytes >> (64))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: total = uint96(rawBytes >> (96 + 64))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (total,left,start)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _setDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = uint64(start) + (left << 64) + (total << (96 + 64))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(PowerDown,_holder,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: Governable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins.length = 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[0] = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_admin != admins[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(admins.length < 10)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: admins[admins.length ++] = _admin
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 3
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pos = admins.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _admin == admins[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pos = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(pos < admins.length)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: pos < admins.length - 1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: admins[pos] = admins[admins.length - 1]
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: admins.length --
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 15
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+Function: NutzEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nutzAddr = _nutzAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageEnabled(_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply()
+
+Edges:
+  0 -> 1
+
+Function: completeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply().add(powerPool()).add(burnPool())
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != _spender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_owner][_spender] = _amountBabz
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz > 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_from != _to)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_to,babzBalanceOf(_to).add(_amountBabz))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][_sender] = allowed[_from][_sender].sub(_amountBabz)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = true
+
+Edges:
+
+
+Contract: ERC223ReceivingContract
+==================================================
+
+
+Contract: ControllerInterface
+==================================================
+
+
+Contract: PullPayment
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint192(payments[_owner])
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: value
+
+Edges:
+  0 -> 1
+
+Function: paymentOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: value = uint192(payments[_owner])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: date = (payments[_owner] >> 192)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (value,date)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: changeDailyLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: dailyLimit = _dailyLimit
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeWithdrawalDate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: payments[_owner] = (_newDate << 192) + uint192(payments[_owner])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: newValue = msg.value.add(uint192(payments[_dest]))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: isUnderLimit(msg.value)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: date = payments[_dest] >> 192
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: newDate = now.add(259200)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: spentToday = spentToday.add(msg.value)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: payments[_dest] = (newDate << 192) + uint192(newValue)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: (date > now)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: newDate = date
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: newDate = now
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 12
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  11 -> 1
+  12 -> 13
+  12 -> 14
+  13 -> 15
+  14 -> 15
+  15 -> 8
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: untrustedRecipient = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amountWei = uint192(payments[untrustedRecipient])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amountWei != 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now >= (payments[untrustedRecipient] >> 192))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(this.balance >= amountWei)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: payments[untrustedRecipient] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(untrustedRecipient.call.gas(1000).value(amountWei)())
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: isUnderLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: now > lastDay.add(86400)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lastDay = now
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: spentToday = 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: spentToday + amount > dailyLimit || spentToday + amount < spentToday
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dailyLimit = 1000000000000000000000
+
+Edges:
+
+
+Contract: Nutz
+==================================================
+
+Function: Ownable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newOwner != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).babzBalanceOf(_owner)
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).totalSupply()
+
+Edges:
+  0 -> 1
+
+Function: activeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).activeSupply()
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).allowance(_owner,_spender)
+
+Edges:
+  0 -> 1
+
+Function: floor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).floor()
+
+Edges:
+  0 -> 1
+
+Function: ceiling
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).ceiling()
+
+Edges:
+  0 -> 1
+
+Function: powerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ControllerInterface(owner).powerPool()
+
+Edges:
+  0 -> 1
+
+Function: _checkDestination
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: codeLength > 0
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: untrustedReceiver = ERC223ReceivingContract(_to)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: untrustedReceiver.tokenFallback(_from,_value,_data)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 7
+  5 -> 6
+  6 -> 7
+
+Function: powerDown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _checkDestination(powerAddr,_holder,_amountBabz,empty)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(powerAddr,_holder,_amountBabz)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: asyncSend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(_amountWei <= this.balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: PullPayInterface(_pullAddr).asyncSend.value(_amountWei)(_dest)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ControllerInterface(owner).approve(msg.sender,_spender,_amountBabz)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_amountBabz)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: transfer(_to,_amountBabz,empty)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: transfer(_to,_amountBabz,_data)
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: transferFrom(_from,_to,_amountBabz,empty)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: price = ControllerInterface(owner).ceiling()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: purchase(price)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value > 0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: purchase
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value > 0)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amountBabz = ControllerInterface(owner).purchase(msg.sender,msg.value,_price)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(owner,msg.sender,amountBabz)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _checkDestination(address(this),msg.sender,amountBabz,empty)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: sell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz != 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ControllerInterface(owner).sell(msg.sender,_price,_amountBabz)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Sell(msg.sender,_amountBabz)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: powerUp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,owner,_amountBabz)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ControllerInterface(owner).powerUp(msg.sender,msg.sender,_amountBabz)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: name = Acebusters Nutz
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: symbol = NTZ
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 12
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: MarketEnabled
+==================================================
+
+Function: NutzEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nutzAddr = _nutzAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageEnabled(_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply()
+
+Edges:
+  0 -> 1
+
+Function: completeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply().add(powerPool()).add(burnPool())
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != _spender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_owner][_spender] = _amountBabz
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz > 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_from != _to)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_to,babzBalanceOf(_to).add(_amountBabz))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][_sender] = allowed[_from][_sender].sub(_amountBabz)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: StorageEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: storageAddr = _storageAddr
+
+Edges:
+  0 -> 1
+
+Function: babzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Nutz,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setBabzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Nutz,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: activeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,activeSupply)
+
+Edges:
+  0 -> 1
+
+Function: _setActiveSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,activeSupply,_newActiveSupply)
+
+Edges:
+  0 -> 1
+
+Function: burnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,burnPool)
+
+Edges:
+  0 -> 1
+
+Function: _setBurnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,burnPool,_newBurnPool)
+
+Edges:
+  0 -> 1
+
+Function: powerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,powerPool)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,powerPool,_newPowerPool)
+
+Edges:
+  0 -> 1
+
+Function: powerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Power,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Power,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: outstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,outstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: _setOutstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,outstandingPower,_newOutstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: authorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,authorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: _setAuthorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,authorizedPower,_newAuthorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: downs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: rawBytes = Storage(storageAddr).getBal(PowerDown,_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: start = uint64(rawBytes)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: left = uint96(rawBytes >> (64))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: total = uint96(rawBytes >> (96 + 64))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (total,left,start)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _setDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = uint64(start) + (left << 64) + (total << (96 + 64))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(PowerDown,_holder,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: Governable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins.length = 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[0] = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_admin != admins[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(admins.length < 10)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: admins[admins.length ++] = _admin
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 3
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pos = admins.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _admin == admins[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pos = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(pos < admins.length)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: pos < admins.length - 1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: admins[pos] = admins[admins.length - 1]
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: admins.length --
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 15
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+Function: MarketEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: pullAddr = _pullAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: NutzEnabled(_nutzAddr,_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: ceiling
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: purchasePrice
+
+Edges:
+  0 -> 1
+
+Function: floor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: nutzAddr.balance == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: INFINITY
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: maxFloor = activeSupply().mul(1000000).div(nutzAddr.balance)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: maxFloor >= salePrice
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: maxFloor
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: salePrice
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 6
+  6 -> 7
+  6 -> 8
+
+Function: moveCeiling
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newPurchasePrice <= salePrice)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: purchasePrice = _newPurchasePrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: moveFloor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newSalePrice >= purchasePrice)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _newSalePrice < INFINITY
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(nutzAddr.balance >= activeSupply().mul(1000000).div(_newSalePrice))
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: salePrice = _newSalePrice
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: purchase
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(purchasePrice > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_price == purchasePrice)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountBabz = purchasePrice.mul(_value).div(1000000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amountBabz > 0)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: activeSup = activeSupply()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: powPool > 0
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: powerShare = powPool.mul(amountBabz).div(activeSup.add(burnPool()))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.add(powerShare))
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSup.add(amountBabz))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_sender,babzBalanceOf(_sender).add(amountBabz))
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: amountBabz
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 1
+
+Function: sell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: effectiveFloor = floor()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz != 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(effectiveFloor != INFINITY)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_price == effectiveFloor)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amountWei = _amountBabz.mul(1000000).div(effectiveFloor)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amountWei > 0)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: activeSup = activeSupply()
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: powPool > 0
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: powerShare = powPool.mul(_amountBabz).div(activeSup.add(burnPool()))
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.sub(powerShare))
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSup.sub(_amountBabz))
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).asyncSend(pullAddr,_from,amountWei)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  16 -> 17
+  17 -> 1
+
+Function: allocateEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountWei > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(nutzAddr.balance.sub(_amountWei) >= activeSupply().mul(1000000).div(salePrice))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).asyncSend(pullAddr,_beneficiary,_amountWei)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = true
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INFINITY = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+Edges:
+
+
+Contract: PowerEnabled
+==================================================
+
+Function: MarketEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: pullAddr = _pullAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: NutzEnabled(_nutzAddr,_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: ceiling
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: purchasePrice
+
+Edges:
+  0 -> 1
+
+Function: floor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: nutzAddr.balance == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: INFINITY
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: maxFloor = activeSupply().mul(1000000).div(nutzAddr.balance)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: maxFloor >= salePrice
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: maxFloor
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: salePrice
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 6
+  6 -> 7
+  6 -> 8
+
+Function: moveCeiling
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newPurchasePrice <= salePrice)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: purchasePrice = _newPurchasePrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: moveFloor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newSalePrice >= purchasePrice)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _newSalePrice < INFINITY
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(nutzAddr.balance >= activeSupply().mul(1000000).div(_newSalePrice))
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: salePrice = _newSalePrice
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: purchase
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(purchasePrice > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_price == purchasePrice)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountBabz = purchasePrice.mul(_value).div(1000000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amountBabz > 0)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: activeSup = activeSupply()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: powPool > 0
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: powerShare = powPool.mul(amountBabz).div(activeSup.add(burnPool()))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.add(powerShare))
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSup.add(amountBabz))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_sender,babzBalanceOf(_sender).add(amountBabz))
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: amountBabz
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 1
+
+Function: sell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: effectiveFloor = floor()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz != 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(effectiveFloor != INFINITY)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_price == effectiveFloor)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amountWei = _amountBabz.mul(1000000).div(effectiveFloor)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amountWei > 0)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: activeSup = activeSupply()
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: powPool > 0
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: powerShare = powPool.mul(_amountBabz).div(activeSup.add(burnPool()))
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.sub(powerShare))
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSup.sub(_amountBabz))
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).asyncSend(pullAddr,_from,amountWei)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  16 -> 17
+  17 -> 1
+
+Function: allocateEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountWei > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(nutzAddr.balance.sub(_amountWei) >= activeSupply().mul(1000000).div(salePrice))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).asyncSend(pullAddr,_beneficiary,_amountWei)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: NutzEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nutzAddr = _nutzAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageEnabled(_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply()
+
+Edges:
+  0 -> 1
+
+Function: completeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply().add(powerPool()).add(burnPool())
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != _spender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_owner][_spender] = _amountBabz
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz > 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_from != _to)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_to,babzBalanceOf(_to).add(_amountBabz))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][_sender] = allowed[_from][_sender].sub(_amountBabz)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: StorageEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: storageAddr = _storageAddr
+
+Edges:
+  0 -> 1
+
+Function: babzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Nutz,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setBabzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Nutz,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: activeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,activeSupply)
+
+Edges:
+  0 -> 1
+
+Function: _setActiveSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,activeSupply,_newActiveSupply)
+
+Edges:
+  0 -> 1
+
+Function: burnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,burnPool)
+
+Edges:
+  0 -> 1
+
+Function: _setBurnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,burnPool,_newBurnPool)
+
+Edges:
+  0 -> 1
+
+Function: powerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,powerPool)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,powerPool,_newPowerPool)
+
+Edges:
+  0 -> 1
+
+Function: powerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Power,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Power,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: outstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,outstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: _setOutstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,outstandingPower,_newOutstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: authorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,authorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: _setAuthorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,authorizedPower,_newAuthorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: downs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: rawBytes = Storage(storageAddr).getBal(PowerDown,_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: start = uint64(rawBytes)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: left = uint96(rawBytes >> (64))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: total = uint96(rawBytes >> (96 + 64))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (total,left,start)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _setDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = uint64(start) + (left << 64) + (total << (96 + 64))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(PowerDown,_holder,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: Governable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins.length = 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[0] = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_admin != admins[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(admins.length < 10)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: admins[admins.length ++] = _admin
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 3
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pos = admins.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _admin == admins[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pos = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(pos < admins.length)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: pos < admins.length - 1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: admins[pos] = admins[admins.length - 1]
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: admins.length --
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 15
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+Function: PowerEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: powerAddr = _powerAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MarketEnabled(_pullAddr,_nutzAddr,_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setMaxPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(outstandingPower() <= _maxPower && _maxPower < authorizedPower())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: maxPower = _maxPower
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setDowntime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downtime = _downtime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: minimumPowerUpSizeBabz
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: completeSupplyBabz = completeSupply()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: completeSupplyBabz == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: INFINITY
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: completeSupplyBabz.div(MIN_SHARE_OF_POWER)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+
+Function: dilutePower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: authorizedPow = authorizedPower()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalBabz = completeSupply()
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: authorizedPow == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setAuthorizedPower(authorizedPow.mul(totalBabz.add(_amountBabz)).div(totalBabz))
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _setBurnPool(burnPool().add(_amountBabz))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: (_amountPower > 0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _setAuthorizedPower(_amountPower)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setAuthorizedPower(_amountBabz.add(totalBabz))
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 9
+  3 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+  9 -> 10
+  9 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 6
+
+Function: _slashPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previouslyOutstanding = outstandingPower()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setOutstandingPower(previouslyOutstanding.sub(_value))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: slashingBabz = _value.mul(powPool).div(previouslyOutstanding)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.sub(slashingBabz))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Power(powerAddr).slashPower(_holder,_value,_data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: slashPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerBalanceOf(_holder,powerBalanceOf(_holder).sub(_value))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _slashPower(_holder,_value,_data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slashDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (total,left,start) = downs(_holder)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: left = left.sub(_value)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _setDownRequest(_holder,total,left,start)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _slashPower(_holder,_value,_data)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: powerUp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: authorizedPow = authorizedPower()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(authorizedPow != 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz != 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: totalBabz = completeSupply()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalBabz != 0)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: amountPow = _amountBabz.mul(authorizedPow).div(totalBabz)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: outstandingPow = outstandingPower()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(outstandingPow.add(amountPow) <= maxPower)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: powBal = powerBalanceOf(_from).add(amountPow)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(powBal >= authorizedPow.div(MIN_SHARE_OF_POWER))
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: _sender != _from
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][_sender] = allowed[_from][_sender].sub(_amountBabz)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _setOutstandingPower(outstandingPow.add(amountPow))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerBalanceOf(_from,powBal)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSupply().sub(_amountBabz))
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powerPool().add(_amountBabz))
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: Power(powerAddr).powerUp(_from,amountPow)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 20
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 1
+
+Function: powerTotalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: issuedPower = authorizedPower().div(2)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: maxPower >= issuedPower
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: maxPower
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: issuedPower
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: _vestedDown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _now <= _start
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: timePassed = _now.sub(_start)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: timePassed > downtime
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: timePassed = downtime
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amountVested = _total.mul(timePassed).div(downtime)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: amountFrozen = _total.sub(amountVested)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _left <= amountFrozen
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: _left.sub(amountFrozen)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  12 -> 13
+
+Function: createDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountPower >= authorizedPower().div(MIN_SHARE_OF_POWER))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerBalanceOf(_owner,powerBalanceOf(_owner).sub(_amountPower))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: left = downs(_owner)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: total = _amountPower.add(left)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setDownRequest(_owner,total,total,now)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyPower()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: downTick
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (total,left,start) = downs(_holder)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amountPow = _vestedDown(total,left,start,_now)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: minStep = total.div(10)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(left <= minStep || minStep <= amountPow)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amountBabz = amountPow.mul(completeSupply()).div(authorizedPower())
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _setOutstandingPower(outstandingPower().sub(amountPow))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: left = left.sub(amountPow)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powerPool().sub(amountBabz))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSupply().add(amountBabz))
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_holder,babzBalanceOf(_holder).add(amountBabz))
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: left == 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: start = 0
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: total = 0
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _setDownRequest(_holder,total,left,start)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).powerDown(powerAddr,_holder,amountBabz)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyPower()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 20
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = true
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxPower = 0
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INFINITY = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_SHARE_OF_POWER = 100000
+
+Edges:
+  0 -> 1
+
+
+Contract: SafeMath
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(a == 0 || c / a == b)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Controller
+==================================================
+
+Function: PowerEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: powerAddr = _powerAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: MarketEnabled(_pullAddr,_nutzAddr,_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setMaxPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(outstandingPower() <= _maxPower && _maxPower < authorizedPower())
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: maxPower = _maxPower
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setDowntime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downtime = _downtime
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: minimumPowerUpSizeBabz
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: completeSupplyBabz = completeSupply()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: completeSupplyBabz == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: INFINITY
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: completeSupplyBabz.div(MIN_SHARE_OF_POWER)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+
+Function: dilutePower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: authorizedPow = authorizedPower()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: totalBabz = completeSupply()
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: authorizedPow == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setAuthorizedPower(authorizedPow.mul(totalBabz.add(_amountBabz)).div(totalBabz))
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _setBurnPool(burnPool().add(_amountBabz))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: (_amountPower > 0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _setAuthorizedPower(_amountPower)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setAuthorizedPower(_amountBabz.add(totalBabz))
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 9
+  3 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+  9 -> 10
+  9 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 6
+
+Function: _slashPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previouslyOutstanding = outstandingPower()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setOutstandingPower(previouslyOutstanding.sub(_value))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: slashingBabz = _value.mul(powPool).div(previouslyOutstanding)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.sub(slashingBabz))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Power(powerAddr).slashPower(_holder,_value,_data)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: slashPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerBalanceOf(_holder,powerBalanceOf(_holder).sub(_value))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _slashPower(_holder,_value,_data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slashDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (total,left,start) = downs(_holder)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: left = left.sub(_value)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _setDownRequest(_holder,total,left,start)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _slashPower(_holder,_value,_data)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: powerUp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: authorizedPow = authorizedPower()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(authorizedPow != 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz != 0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: totalBabz = completeSupply()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalBabz != 0)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: amountPow = _amountBabz.mul(authorizedPow).div(totalBabz)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: outstandingPow = outstandingPower()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(outstandingPow.add(amountPow) <= maxPower)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: powBal = powerBalanceOf(_from).add(amountPow)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(powBal >= authorizedPow.div(MIN_SHARE_OF_POWER))
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: _sender != _from
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][_sender] = allowed[_from][_sender].sub(_amountBabz)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _setOutstandingPower(outstandingPow.add(amountPow))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerBalanceOf(_from,powBal)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSupply().sub(_amountBabz))
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powerPool().add(_amountBabz))
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: Power(powerAddr).powerUp(_from,amountPow)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 20
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 1
+
+Function: powerTotalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: issuedPower = authorizedPower().div(2)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: maxPower >= issuedPower
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: maxPower
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: issuedPower
+
+Edges:
+  0 -> 1
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: _vestedDown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _now <= _start
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: timePassed = _now.sub(_start)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: timePassed > downtime
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: timePassed = downtime
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amountVested = _total.mul(timePassed).div(downtime)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: amountFrozen = _total.sub(amountVested)
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _left <= amountFrozen
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: _left.sub(amountFrozen)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  12 -> 13
+
+Function: createDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountPower >= authorizedPower().div(MIN_SHARE_OF_POWER))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerBalanceOf(_owner,powerBalanceOf(_owner).sub(_amountPower))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: left = downs(_owner)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: total = _amountPower.add(left)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setDownRequest(_owner,total,total,now)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyPower()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: downTick
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (total,left,start) = downs(_holder)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amountPow = _vestedDown(total,left,start,_now)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: minStep = total.div(10)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(left <= minStep || minStep <= amountPow)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amountBabz = amountPow.mul(completeSupply()).div(authorizedPower())
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _setOutstandingPower(outstandingPower().sub(amountPow))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: left = left.sub(amountPow)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powerPool().sub(amountBabz))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSupply().add(amountBabz))
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_holder,babzBalanceOf(_holder).add(amountBabz))
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: left == 0
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: start = 0
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: total = 0
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _setDownRequest(_holder,total,left,start)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).powerDown(powerAddr,_holder,amountBabz)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyPower()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 20
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 1
+
+Function: MarketEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: pullAddr = _pullAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: NutzEnabled(_nutzAddr,_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: ceiling
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: purchasePrice
+
+Edges:
+  0 -> 1
+
+Function: floor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: nutzAddr.balance == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: INFINITY
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: maxFloor = activeSupply().mul(1000000).div(nutzAddr.balance)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: maxFloor >= salePrice
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: maxFloor
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: salePrice
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 6
+  6 -> 7
+  6 -> 8
+
+Function: moveCeiling
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newPurchasePrice <= salePrice)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: purchasePrice = _newPurchasePrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: moveFloor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newSalePrice >= purchasePrice)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _newSalePrice < INFINITY
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(nutzAddr.balance >= activeSupply().mul(1000000).div(_newSalePrice))
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: salePrice = _newSalePrice
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: purchase
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(purchasePrice > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_price == purchasePrice)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amountBabz = purchasePrice.mul(_value).div(1000000)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amountBabz > 0)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: activeSup = activeSupply()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: powPool > 0
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: powerShare = powPool.mul(amountBabz).div(activeSup.add(burnPool()))
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.add(powerShare))
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSup.add(amountBabz))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_sender,babzBalanceOf(_sender).add(amountBabz))
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: amountBabz
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 1
+
+Function: sell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: effectiveFloor = floor()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz != 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(effectiveFloor != INFINITY)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_price == effectiveFloor)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amountWei = _amountBabz.mul(1000000).div(effectiveFloor)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amountWei > 0)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: powPool = powerPool()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: activeSup = activeSupply()
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: powPool > 0
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: powerShare = powPool.mul(_amountBabz).div(activeSup.add(burnPool()))
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _setPowerPool(powPool.sub(powerShare))
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _setActiveSupply(activeSup.sub(_amountBabz))
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).asyncSend(pullAddr,_from,amountWei)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  16 -> 17
+  17 -> 1
+
+Function: allocateEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountWei > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(nutzAddr.balance.sub(_amountWei) >= activeSupply().mul(1000000).div(salePrice))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Nutz(nutzAddr).asyncSend(pullAddr,_beneficiary,_amountWei)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: NutzEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: nutzAddr = _nutzAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: StorageEnabled(_storageAddr)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply()
+
+Edges:
+  0 -> 1
+
+Function: completeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: activeSupply().add(powerPool()).add(burnPool())
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_owner != _spender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_owner][_spender] = _amountBabz
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(this))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != address(0))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_amountBabz > 0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_from != _to)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_from,babzBalanceOf(_from).sub(_amountBabz))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _setBabzBalanceOf(_to,babzBalanceOf(_to).add(_amountBabz))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][_sender] = allowed[_from][_sender].sub(_amountBabz)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_amountBabz,_data)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyNutz()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: StorageEnabled
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: storageAddr = _storageAddr
+
+Edges:
+  0 -> 1
+
+Function: babzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Nutz,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setBabzBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Nutz,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: activeSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,activeSupply)
+
+Edges:
+  0 -> 1
+
+Function: _setActiveSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,activeSupply,_newActiveSupply)
+
+Edges:
+  0 -> 1
+
+Function: burnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,burnPool)
+
+Edges:
+  0 -> 1
+
+Function: _setBurnPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,burnPool,_newBurnPool)
+
+Edges:
+  0 -> 1
+
+Function: powerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Nutz,powerPool)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerPool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Nutz,powerPool,_newPowerPool)
+
+Edges:
+  0 -> 1
+
+Function: powerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getBal(Power,_owner)
+
+Edges:
+  0 -> 1
+
+Function: _setPowerBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(Power,_owner,_newValue)
+
+Edges:
+  0 -> 1
+
+Function: outstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,outstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: _setOutstandingPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,outstandingPower,_newOutstandingPower)
+
+Edges:
+  0 -> 1
+
+Function: authorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Storage(storageAddr).getUInt(Power,authorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: _setAuthorizedPower
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setUInt(Power,authorizedPower,_newAuthorizedPower)
+
+Edges:
+  0 -> 1
+
+Function: downs
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: rawBytes = Storage(storageAddr).getBal(PowerDown,_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: start = uint64(rawBytes)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: left = uint96(rawBytes >> (64))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: total = uint96(rawBytes >> (96 + 64))
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (total,left,start)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: _setDownRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = uint64(start) + (left << 64) + (total << (96 + 64))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Storage(storageAddr).setBal(PowerDown,_holder,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: pause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenNotPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: unpause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 2
+  2 -> 3
+  3 -> 1
+
+Function: Governable
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins.length = 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[0] = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_admin != admins[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(admins.length < 10)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: admins[admins.length ++] = _admin
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  9 -> 3
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pos = admins.length
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < admins.length
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _admin == admins[i]
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: pos = i
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(pos < admins.length)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: pos < admins.length - 1
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: admins[pos] = admins[admins.length - 1]
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: admins.length --
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 15
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  15 -> 1
+
+Function: Controller
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: PowerEnabled(_powerAddr,_pullAddr,_nutzAddr,_storageAddr)
+
+Edges:
+  0 -> 1
+
+Function: setContracts
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: storageAddr = _storageAddr
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: nutzAddr = _nutzAddr
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: powerAddr = _powerAddr
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: pullAddr = _pullAddr
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 1
+
+Function: changeDailyLimit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: PullPayment(pullAddr).changeDailyLimit(_dailyLimit)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: kill
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: powerAddr != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Ownable(powerAddr).transferOwnership(msg.sender)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: pullAddr != address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Ownable(pullAddr).transferOwnership(msg.sender)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: nutzAddr != address(0)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Ownable(nutzAddr).transferOwnership(msg.sender)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: storageAddr != address(0)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Ownable(storageAddr).transferOwnership(msg.sender)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: selfdestruct(address)(_newController)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmins()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: whenPaused()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = true
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxPower = 0
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INFINITY = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_SHARE_OF_POWER = 100000
+
+Edges:
+  0 -> 1
+
+

@@ -1,0 +1,270 @@
+Contract: IUniswapV2Factory
+==================================================
+
+
+Contract: IUniswapV2Router
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: AutoSnipingBot
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: uniswapRouter = IUniswapV2Router(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: uniswapFactory = IUniswapV2Factory(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: autoSnipe
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: pair = uniswapFactory.getPair(token0,token1)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(pair != address(0),Pair does not exist)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: token0 == WETH
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: tokenToSnipe = token1
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: token1 == WETH
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tokenToSnipe = token0
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: amountETH = 50000000000000000
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: minTokensOut = 0
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: deadline = block.timestamp + 60
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = WETH
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = tokenToSnipe
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: amounts = uniswapRouter.swapExactETHForTokens{value: amountETH}(minTokensOut,path,address(this),deadline)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: SnipeExecuted(tokenToSnipe,amountETH,amounts[1],keccak256(bytes)(abi.encodePacked(blockhash(uint256)(block.number - 1))))
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 19
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 10
+  6 -> 7
+  6 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  19 -> 1
+
+Function: sellToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(deadline >= block.timestamp,Deadline passed)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: balance = IERC20(token).balanceOf(address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance >= amount,Insufficient token balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).approve(address(uniswapRouter),amount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: path = new address[](2)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = token
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = WETH
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: amounts = uniswapRouter.swapExactTokensForETH(amount,minEthOut,path,address(this),deadline)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: TokensSold(token,amount,amounts[1])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 10
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  10 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(token).transfer(owner,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getTokenBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IERC20(token).balanceOf(address(this))
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

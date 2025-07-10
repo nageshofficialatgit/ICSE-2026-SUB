@@ -1,0 +1,57 @@
+Contract: AmIOnTheFork
+==================================================
+
+
+Contract: Ethsplit
+==================================================
+
+Function: split
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: amIOnTheFork.forked()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: fee = msg.value / 100
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: fees.send(fee)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: etcAddress.call.value(msg.value)()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: amIOnTheFork = AmIOnTheFork(0x2bd2326c993dfaef84f696526064ff22eba5b362)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: fees = 0xdE17a240b031a4607a575FE13122d5195B43d6fC
+
+Edges:
+  0 -> 1
+
+

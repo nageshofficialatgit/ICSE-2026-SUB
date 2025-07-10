@@ -1,0 +1,44 @@
+Contract: BasicToken
+==================================================
+
+Function: ComputeVestSpend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: vestingDays = int256(mVestingDays[target])
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: vestingProgress = int256(block.timestamp) - int256(mVestingBegins[target])
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: vestingProgress > vestingDays
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: vestingProgress = vestingDays
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+
+

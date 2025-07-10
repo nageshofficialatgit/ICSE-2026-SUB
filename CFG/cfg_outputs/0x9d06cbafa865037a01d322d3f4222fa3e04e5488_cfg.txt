@@ -1,0 +1,216 @@
+Contract: Delta
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokens_buy()
+
+Edges:
+  0 -> 1
+
+Function: tokens_buy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(active > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= token_price)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: tokens_buy = msg.value * 10 ** 18 / token_price
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokens_buy > 0)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: ! c.call(bytes4(sha3()(transferFrom(address,address,uint256))),owner,msg.sender,tokens_buy)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: sum2 = msg.value * 3 / 10
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: owner2.send(sum2)
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balance = this.balance
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _amount > 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balance = _amount
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: owner.send(balance)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: change_token_price
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: token_price = _token_price
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: change_active
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: active = _active
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: c = 0xF85A2E95FA30d005F629cBe6c6d2887D979ffF2A
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: owner = 0x788c45dd60ae4dbe5055b5ac02384d5dc84677b0
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: owner2 = 0x0C6561edad2017c01579Fd346a58197ea01A0Cf3
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: active = 1
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: token_price = 10 ** 18 * 1 / 1000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

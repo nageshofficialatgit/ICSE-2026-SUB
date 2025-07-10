@@ -1,0 +1,115 @@
+Contract: WasteTracking
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: recordPickup
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(pickupRequests[_pr_id].pr_id).length == 0,Pickup Request already exists!)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pickupRequests[_pr_id] = PickupRequest(string(abi.encodePacked(_pr_id)),string(abi.encodePacked(_fo_id)),_ftcw,_ctfw,string(abi.encodePacked(_eka)),string(abi.encodePacked(_wt_id)),_f_id,Pending)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: PickupRecorded(_pr_id,_fo_id,_ftcw,_ctfw,_eka,_wt_id,_f_id,Pending,block.timestamp)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateFacilityWeight
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(pickupRequests[_pr_id].pr_id).length != 0,Pickup Request does not exist!)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keccak256(bytes)(bytes(pickupRequests[_pr_id].status)) != keccak256(bytes)(bytes(Updated)),Facility weight already updated!)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pickupRequests[_pr_id].ctfw = _new_ctfw
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: pickupRequests[_pr_id].status = Updated
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: PickupRecorded(string(abi.encodePacked(_pr_id)),string(abi.encodePacked(pickupRequests[_pr_id].fo_id)),pickupRequests[_pr_id].ftcw,_new_ctfw,string(abi.encodePacked(pickupRequests[_pr_id].eka)),string(abi.encodePacked(pickupRequests[_pr_id].wt_id)),pickupRequests[_pr_id].f_id,Updated,block.timestamp)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: getPickupRequest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(pickupRequests[_pr_id].pr_id).length != 0,Pickup Request not found!)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: request = pickupRequests[_pr_id]
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (request.pr_id,request.fo_id,request.ftcw,request.ctfw,request.eka,request.wt_id,request.f_id,request.status)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+

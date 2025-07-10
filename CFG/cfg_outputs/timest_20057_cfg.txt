@@ -1,0 +1,88 @@
+Contract: Test
+==================================================
+
+Function: buyPreIcoTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: percents = 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: block.timestamp - dateStart <= 864000
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: percents = 20
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: tokens = _weiAmount * (rateBase) * (2)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: percents > 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tokens = tokens + (tokens * (percents) / (100))
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalSupply + (tokens) <= maxPreIcoTokens)
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: tokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: dateStart = 1511987870
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: rateBase = 35000
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxPreIcoTokens = 100000000000000000000000000
+
+Edges:
+
+

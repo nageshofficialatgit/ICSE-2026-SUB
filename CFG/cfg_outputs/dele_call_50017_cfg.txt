@@ -1,0 +1,39 @@
+Contract: ProtocolSettings
+==================================================
+
+Function: setSupportedTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: withApprovals
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: data = abi.encodeWithSelector(0x4a99e3a1,addr)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: addr.delegatecall(data)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+

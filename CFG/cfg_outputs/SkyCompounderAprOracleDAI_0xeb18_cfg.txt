@@ -1,0 +1,644 @@
+Contract: Governance
+==================================================
+
+Function: _checkGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(governance == msg.sender,!governance)
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: governance = _governance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceTransferred(address(0),_governance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newGovernance != address(0),ZERO ADDRESS)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldGovernance = governance
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: governance = _newGovernance
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceTransferred(oldGovernance,_newGovernance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+
+Contract: AprOracleBase
+==================================================
+
+Function: _checkGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(governance == msg.sender,!governance)
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: name = _name
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Governance(_governance)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newGovernance != address(0),ZERO ADDRESS)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldGovernance = governance
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: governance = _newGovernance
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceTransferred(oldGovernance,_newGovernance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+
+Contract: IUniswapV2Router01
+==================================================
+
+
+Contract: IUniswapV2Router02
+==================================================
+
+
+Contract: SkyCompounderAprOracleDAI
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: AprOracleBase(SkyCompounder DAI & USDS APR Oracle,0xFEB4acf3df3cDEA7399794D0869ef76A6EfAff52)
+
+Edges:
+  0 -> 1
+
+Function: _checkGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(governance == msg.sender,!governance)
+
+Edges:
+  0 -> 1
+
+Function: transferGovernance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newGovernance != address(0),ZERO ADDRESS)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldGovernance = governance
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: governance = _newGovernance
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: GovernanceTransferred(oldGovernance,_newGovernance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyGovernance()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: aprAfterDebtChange
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: staking = 0x0650CAF159C5A49f711e8169D4336ECB9b950275
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: SKY = 0x56072C95FAA701256059aa122697B133aDEd9279
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: USDS = 0xdC035D45d973E3EC169d2276DDab16f1e407384F
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: totalSupply = IStake(staking).totalSupply()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = uint256(int256(totalSupply) + _delta)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: rewardRate = IStake(staking).rewardRate()
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: price = _getAmountOut(SKY,USDS,WAD)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: profitMaxUnlockTime = IStrategy(_strategy).profitMaxUnlockTime()
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: profitMaxUnlockTime == 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: profitMaxUnlockTime = 1
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: rate = rewardRate * profitMaxUnlockTime * price * WAD / totalSupply / WAD
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (rpow(rate + WAD,secondsPerYear / profitMaxUnlockTime,WAD) - WAD) + 1e16
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: _getAmountOut
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amounts = IUniswapV2Router02(uniV2router).getAmountsOut(_amountIn,_getTokenOutPath(_from,_to))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: amounts[amounts.length - 1]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: _getTokenOutPath
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _path = new address[](2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _path[0] = _tokenIn
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _path[1] = _tokenOut
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _path
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: rpow
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_10340_997_0_rpow_asm_0 = x
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: switch_expr_10340_997_0_rpow_asm_0 == 0
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_10357_44_0_rpow_asm_0 = n
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: switch_expr_10357_44_0_rpow_asm_0 == 0
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: z = base
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: z = 0
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_10445_56_0_rpow_asm_0 = n % 2
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: switch_expr_10445_56_0_rpow_asm_0 == 0
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: z = base
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: z = x
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: half_rpow_asm_0 = base / 2
+
+  ID: 20
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: n = n / 2
+
+  ID: 23
+  Type: NodeType.IFLOOP
+  Expression: n
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: xx_rpow_asm_0 = x * x
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: ! xx_rpow_asm_0 / x == x
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 29
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: xxRound_rpow_asm_0 = xx_rpow_asm_0 + half_rpow_asm_0
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: xxRound_rpow_asm_0 < xx_rpow_asm_0
+
+  ID: 32
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: x = xxRound_rpow_asm_0 / base
+
+  ID: 35
+  Type: NodeType.IF
+  Expression: n % 2
+
+  ID: 36
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 37
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 38
+  Type: NodeType.EXPRESSION
+  Expression: zx_rpow_asm_0 = z * x
+
+  ID: 39
+  Type: NodeType.IF
+  Expression: ! ! x & ! zx_rpow_asm_0 / x == z
+
+  ID: 40
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 41
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 42
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: zxRound_rpow_asm_0 = zx_rpow_asm_0 + half_rpow_asm_0
+
+  ID: 44
+  Type: NodeType.IF
+  Expression: zxRound_rpow_asm_0 < zx_rpow_asm_0
+
+  ID: 45
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 46
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,0)
+
+  ID: 47
+  Type: NodeType.EXPRESSION
+  Expression: z = zxRound_rpow_asm_0 / base
+
+  ID: 48
+  Type: NodeType.EXPRESSION
+  Expression: n = n / 2
+
+  ID: 49
+  Type: NodeType.EXPRESSION
+  Expression: z = z + base / 200
+
+  ID: 50
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 51
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  4 -> 12
+  5 -> 50
+  6 -> 7
+  7 -> 8
+  8 -> 10
+  8 -> 11
+  9 -> 5
+  10 -> 9
+  11 -> 9
+  12 -> 13
+  13 -> 14
+  14 -> 16
+  14 -> 17
+  15 -> 18
+  16 -> 15
+  17 -> 15
+  18 -> 19
+  19 -> 20
+  20 -> 22
+  21 -> 49
+  22 -> 23
+  23 -> 21
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 28
+  26 -> 27
+  27 -> 29
+  28 -> 27
+  29 -> 30
+  30 -> 31
+  31 -> 33
+  31 -> 32
+  32 -> 34
+  33 -> 32
+  34 -> 35
+  35 -> 37
+  35 -> 36
+  36 -> 48
+  37 -> 38
+  38 -> 39
+  39 -> 41
+  39 -> 40
+  40 -> 42
+  41 -> 40
+  42 -> 43
+  43 -> 44
+  44 -> 46
+  44 -> 45
+  45 -> 47
+  46 -> 45
+  47 -> 36
+  48 -> 23
+  49 -> 5
+  50 -> 51
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WAD = 1e18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RAY = 1e27
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: secondsPerYear = 31536000
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: uniV2router = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IStake
+==================================================
+
+
+Contract: IStrategy
+==================================================
+
+

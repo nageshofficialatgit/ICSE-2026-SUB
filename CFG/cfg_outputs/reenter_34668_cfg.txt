@@ -1,0 +1,33 @@
+Contract: MilestoneTracker
+==================================================
+
+Function: authorizePayment
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: milestone = milestones[_idMilestone]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! milestone.paymentSource.call.value(0)()
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+
+

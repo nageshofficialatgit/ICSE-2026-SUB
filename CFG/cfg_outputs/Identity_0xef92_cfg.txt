@@ -1,0 +1,1276 @@
+Contract: Structs
+==================================================
+
+
+Contract: Storage
+==================================================
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialized = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _canInteract = false
+
+Edges:
+  0 -> 1
+
+
+Contract: Version
+==================================================
+
+Function: version
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 2.2.1
+
+Edges:
+  0 -> 1
+
+
+Contract: IERC734
+==================================================
+
+
+Contract: IERC735
+==================================================
+
+
+Contract: IIdentity
+==================================================
+
+
+Contract: IClaimIssuer
+==================================================
+
+
+Contract: Identity
+==================================================
+
+Function: version
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 2.2.1
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(initialManagementKey != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! _isLibrary
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: __Identity_init(initialManagementKey)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+
+Function: initialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(initialManagementKey != address(0),invalid argument - zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: __Identity_init(initialManagementKey)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: execute
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _executionId = _executionNonce
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _executions[_executionId].to = _to
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _executions[_executionId].value = _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _executions[_executionId].data = _data
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _executionNonce ++
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: ExecutionRequested(_executionId,_to,_value,_data)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: keyHasPurpose(keccak256(bytes)(abi.encode(msg.sender)),1)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: approve(_executionId,true)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: _to != address(this) && keyHasPurpose(keccak256(bytes)(abi.encode(msg.sender)),2)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: approve(_executionId,true)
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: _executionId
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: delegatedOnly()
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: executionId
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 12
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 1
+
+Function: getKey
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (_keys[_key].purposes,_keys[_key].keyType,_keys[_key].key)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (purposes,keyType,key)
+
+Edges:
+  0 -> 1
+
+Function: getKeyPurposes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (_keys[_key].purposes)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _purposes
+
+Edges:
+  0 -> 1
+
+Function: getKeysByPurpose
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _keysByPurpose[_purpose]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: keys
+
+Edges:
+  0 -> 1
+
+Function: getClaimIdsByTopic
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _claimsByTopic[_topic]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: claimIds
+
+Edges:
+  0 -> 1
+
+Function: addKey
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _keys[_key].key == _key
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _purposes = _keys[_key].purposes
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: keyPurposeIndex = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: keyPurposeIndex < _purposes.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: purpose = _purposes[keyPurposeIndex]
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: purpose == _purpose
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Conflict: Key already has purpose)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: keyPurposeIndex ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].purposes.push(_purpose)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].key = _key
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].purposes = (_purpose)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].keyType = _type
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _keysByPurpose[_purpose].push(_key)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: KeyAdded(_key,_purpose,_type)
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: delegatedOnly()
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: onlyManager()
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 20
+  1 -> 2
+  1 -> 13
+  2 -> 5
+  3 -> 6
+  4 -> 12
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 6
+  12 -> 16
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  20 -> 21
+  21 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_id < _executionNonce,Cannot approve a non-existing execution)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _executions[_id].executed,Request already executed)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _executions[_id].to == address(this)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keyHasPurpose(keccak256(bytes)(abi.encode(msg.sender)),1),Sender does not have management key)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(keyHasPurpose(keccak256(bytes)(abi.encode(msg.sender)),2),Sender does not have action key)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Approved(_id,_approve)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: _approve == true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _executions[_id].approved = true
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = _executions[_id].to.call{value: (_executions[_id].value)}(_executions[_id].data)
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _executions[_id].executed = true
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Executed(_id,_executions[_id].to,_executions[_id].value,_executions[_id].data)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: ExecutionFailed(_id,_executions[_id].to,_executions[_id].value,_executions[_id].data)
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _executions[_id].approved = false
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: delegatedOnly()
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 21
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 18
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  18 -> 19
+  19 -> 20
+  21 -> 1
+
+Function: removeKey
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_keys[_key].key == _key,NonExisting: Key isn't registered)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: _purposes = _keys[_key].purposes
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: purposeIndex = 0
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: _purposes[purposeIndex] != _purpose
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: purposeIndex ++
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: purposeIndex == _purposes.length
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(NonExisting: Key doesn't have such purpose)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _purposes[purposeIndex] = _purposes[_purposes.length - 1]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].purposes = _purposes
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].purposes.pop()
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: keyIndex = 0
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: arrayLength = _keysByPurpose[_purpose].length
+
+  ID: 16
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IFLOOP
+  Expression: _keysByPurpose[_purpose][keyIndex] != _key
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: keyIndex ++
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: keyIndex >= arrayLength
+
+  ID: 20
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: _keysByPurpose[_purpose][keyIndex] = _keysByPurpose[_purpose][arrayLength - 1]
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: _keysByPurpose[_purpose].pop()
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: keyType = _keys[_key].keyType
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: _purposes.length - 1 == 0
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: delete _keys[_key]
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: KeyRemoved(_key,_purpose,keyType)
+
+  ID: 30
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: delegatedOnly()
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: onlyManager()
+
+  ID: 33
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 31
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 10
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 5
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 22
+  18 -> 19
+  19 -> 20
+  19 -> 21
+  20 -> 22
+  21 -> 17
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  31 -> 32
+  32 -> 1
+
+Function: addClaim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _issuer != address(this)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(isClaimValid(IIdentity(address(this)),_topic,_signature,_data),invalid claim)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: claimId = keccak256(bytes)(abi.encode(_issuer,_topic))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _claims[claimId].topic = _topic
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _claims[claimId].scheme = _scheme
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _claims[claimId].signature = _signature
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _claims[claimId].data = _data
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _claims[claimId].uri = _uri
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _claims[claimId].issuer != _issuer
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _claimsByTopic[_topic].push(claimId)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _claims[claimId].issuer = _issuer
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: ClaimAdded(claimId,_topic,_scheme,_issuer,_signature,_data,_uri)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: ClaimChanged(claimId,_topic,_scheme,_issuer,_signature,_data,_uri)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: claimId
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: delegatedOnly()
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: onlyClaimKey()
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: claimRequestId
+
+Edges:
+  0 -> 17
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 14
+  11 -> 12
+  12 -> 13
+  13 -> 15
+  14 -> 15
+  15 -> 16
+  17 -> 18
+  18 -> 1
+
+Function: removeClaim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _topic = _claims[_claimId].topic
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _topic == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(NonExisting: There is no claim with this ID)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: claimIndex = 0
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: arrayLength = _claimsByTopic[_topic].length
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: _claimsByTopic[_topic][claimIndex] != _claimId
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: claimIndex ++
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: claimIndex >= arrayLength
+
+  ID: 11
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _claimsByTopic[_topic][claimIndex] = _claimsByTopic[_topic][arrayLength - 1]
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: _claimsByTopic[_topic].pop()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: ClaimRemoved(_claimId,_topic,_claims[_claimId].scheme,_claims[_claimId].issuer,_claims[_claimId].signature,_claims[_claimId].data,_claims[_claimId].uri)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: delete _claims[_claimId]
+
+  ID: 18
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: delegatedOnly()
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: onlyClaimKey()
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 19
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 13
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 13
+  12 -> 8
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  19 -> 20
+  20 -> 1
+
+Function: getClaim
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (_claims[_claimId].topic,_claims[_claimId].scheme,_claims[_claimId].issuer,_claims[_claimId].signature,_claims[_claimId].data,_claims[_claimId].uri)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (topic,scheme,issuer,signature,data,uri)
+
+Edges:
+  0 -> 1
+
+Function: keyHasPurpose
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: key = _keys[_key]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: key.key == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: keyPurposeIndex = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: keyPurposeIndex < key.purposes.length
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: purpose = key.purposes[keyPurposeIndex]
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: purpose == 1 || purpose == _purpose
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: keyPurposeIndex ++
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 14
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  12 -> 13
+  13 -> 8
+
+Function: isClaimValid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: dataHash = keccak256(bytes)(abi.encode(_identity,claimTopic,data))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: prefixedHash = keccak256(bytes)(abi.encodePacked(Ethereum Signed Message:
+32,dataHash))
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: recovered = getRecoveredAddress(sig,prefixedHash)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: hashedAddr = keccak256(bytes)(abi.encode(recovered))
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: keyHasPurpose(hashedAddr,3)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: claimValid
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: getRecoveredAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: sig.length != 65
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: address(0)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ra = mload(uint256)(sig + 32)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: sa = mload(uint256)(sig + 64)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: va = byte(uint256,uint256)(0,mload(uint256)(sig + 96))
+
+  ID: 11
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: va < 27
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: va += 27
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: recoveredAddress = ecrecover(bytes32,uint8,bytes32,bytes32)(dataHash,va,ra,sa)
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: (recoveredAddress)
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: addr
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+
+Function: __Identity_init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! _initialized || _isConstructor(),Initial key was already setup.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _initialized = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _canInteract = true
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: _key = keccak256(bytes)(abi.encode(initialManagementKey))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].key = _key
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].purposes = (1)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _keys[_key].keyType = 1
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _keysByPurpose[1].push(_key)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: KeyAdded(_key,1,1)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: _isConstructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: self = address(this)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: cs = extcodesize(uint256)(self)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: cs == 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _initialized = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _canInteract = false
+
+Edges:
+  0 -> 1
+
+

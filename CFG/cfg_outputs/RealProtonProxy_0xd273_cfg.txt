@@ -1,0 +1,127 @@
+Contract: IImplementationAuthority
+==================================================
+
+
+Contract: RealProtonProxy
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: implementationAuthority = _implementationAuthority
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: logic = IImplementationAuthority(implementationAuthority).getImplementation()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = logic.delegatecall(abi.encodeWithSignature(init(address,address,string,string,uint8,address,uint256),_identityRegistry,_compliance,_name,_symbol,_decimals,_onchainID,amount))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,Initialization failed.)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: logic = IImplementationAuthority(implementationAuthority).getImplementation()
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: calldatacopy(uint256,uint256,uint256)(0x0,0x0,calldatasize()())
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: success_fallback_asm_0 = delegatecall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()() - 10000,logic,0x0,calldatasize()(),0,0)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: retSz_fallback_asm_0 = returndatasize()()
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(0,0,retSz_fallback_asm_0)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: switch_expr_1739_187_0_fallback_asm_0 = success_fallback_asm_0
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: switch_expr_1739_187_0_fallback_asm_0 == 0
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0,retSz_fallback_asm_0)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: return(uint256,uint256)(0,retSz_fallback_asm_0)
+
+  ID: 15
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 13
+  11 -> 14
+  12 -> 15
+  13 -> 12
+  14 -> 12
+
+

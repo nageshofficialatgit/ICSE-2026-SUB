@@ -1,0 +1,2203 @@
+Contract: WinMatrix
+==================================================
+
+
+Contract: SmartRouletteToken
+==================================================
+
+
+Contract: SmartAffiliate
+==================================================
+
+
+Contract: SmartRoulette
+==================================================
+
+Function: SmartRoulette
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: developer = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: operator = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: winMatrix = WinMatrix(0x073D6621E9150bFf9d1D450caAd3c790b6F071F2)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: winMatrix.getBetsProcessed() != maxTypeBets
+
+  ID: 5
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: smartToken = SmartRouletteToken(0xcced5b8288086be8c38e23567e684c3740be4d48)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: currentMaxBet = 2560000000000000000
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: BlockDelay = 1
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: maxGamblesPerBlock = 5
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: ContractState = true
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: bankrolLimit = 277000000000000000000
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: profitLimit = 50000000000000000000
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: CoefPlayerEmission = 100
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: changeSettings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: BlockDelay = newBlockDelay
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newMaxBet = newMaxBet / 2560000000000000000 * 2560000000000000000
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: newMaxBet != currentMaxBet
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: currentMaxBet = newMaxBet
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: SettingsChanged()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 6
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: getDistributeProfitsInfo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: lastProfit = lastDistributedProfit
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lastDate = lastDateDistributedProfit
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (lastProfit,lastDate)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: setProfitDistributionContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: profitDistributionContract > 0
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: profitDistributionContract = contractAddress
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: setSmartAffiliateContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: address(smartAffiliateContract) > 0
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: smartAffiliateContract = SmartAffiliate(contractAddress)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: distributeProfits
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: profitDistributionContract > 0 && this.balance >= (bankrolLimit + profitLimit)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: diff = this.balance - bankrolLimit
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: address(profitDistributionContract).call.gas(gasValue).value(diff)() == false
+
+  ID: 4
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: lastDistributedProfit = diff
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: lastDateDistributedProfit = block.timestamp
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloperOrOperator()
+
+Edges:
+  0 -> 9
+  1 -> 2
+  1 -> 8
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  9 -> 1
+
+Function: getTokenSettings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Coef_player = CoefPlayerEmission
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: BankrolLimit = bankrolLimit
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ProfitLimit = profitLimit
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (Coef_player,BankrolLimit,ProfitLimit)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: changeTokenSettings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: CoefPlayerEmission = newCoef_player
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: bankrolLimit = newBankrolLimit
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: profitLimit = newProfitLimit
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: changeMinBet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < 157
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: value[i] > 0
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: value[i] == 255
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: minCreditsOnBet[i] = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: minCreditsOnBet[i] = value[i]
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: SettingsChanged()
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 13
+  1 -> 4
+  2 -> 12
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 10
+  6 -> 7
+  6 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 4
+  13 -> 3
+
+Function: changeMaxBet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < 157
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: value[i] > 0
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: value[i] == 255
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: maxCreditsOnBet[i] = 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: maxCreditsOnBet[i] = 255 - value[i]
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: SettingsChanged()
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 13
+  1 -> 4
+  2 -> 12
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 10
+  6 -> 7
+  6 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 4
+  13 -> 3
+
+Function: deleteContract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: suicide(address)(msg.sender)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: isBitSet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: ret
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: ret
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (bet + 1) * 256 + (wheelResult + 1)
+
+Edges:
+  0 -> 1
+
+Function: getBetValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bet = uint256(values[32 - n]) + 1
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: bet < uint256(minCreditsOnBet[nBit] + 1)
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: bet > uint256(256 - maxCreditsOnBet[nBit])
+
+  ID: 6
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: currentMaxBet * bet / 256
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: getBetValueByGamble
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: n <= 32
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: getBetValue(gamble.values,n,nBit)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: n <= 64
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: getBetValue(gamble.values2,n - 32,nBit)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.THROW
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+
+Function: totalGames
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: gambles.length
+
+Edges:
+  0 -> 1
+
+Function: getSettings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: maxBet = currentMaxBet
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oneCredit = currentMaxBet / 256
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: blockDelay = BlockDelay
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < maxTypeBets
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _minCreditsOnBet[i] = minCreditsOnBet[i] + 1
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _maxCreditsOnBet[i] = 255 - maxCreditsOnBet[i]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: contractState = ContractState
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: (maxBet,oneCredit,_minCreditsOnBet,_maxCreditsOnBet,blockDelay,contractState)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 11
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 7
+  11 -> 12
+
+Function: disableBetting_only_Dev
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ContractState = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloperOrOperator()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: changeOperator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: operator = newOperator
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: enableBetting_only_Dev
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ContractState = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloperOrOperator()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: totalBetValue
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: totalBetsValue = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: nPlayerBetNo = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: betsCount = uint8(bytes32(g.bets)[0])
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < maxTypeBets
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: isBitSet(g.bets,i)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalBetsValue += getBetValueByGamble(g,nPlayerBetNo + 1,i)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: nPlayerBetNo ++
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: betsCount == 1
+
+  ID: 12
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: betsCount --
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: totalBetsValue
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 17
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 15
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 5
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 7
+
+Function: totalBetCount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: totalBets = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < maxTypeBets
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: isBitSet(g.bets,i)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalBets ++
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: totalBets
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 10
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 5
+
+Function: placeBet
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ContractState == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,ContractDisabled)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: msg.sender.send(msg.value) == false
+
+  ID: 4
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: gamblesLength = gambles.length
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: gamblesLength > 0
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: gamblesCountInCurrentBlock = 0
+
+  ID: 11
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: i = gamblesLength - 1
+
+  ID: 14
+  Type: NodeType.IFLOOP
+  Expression: i > 0
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: gambles[i].blockNumber == block.number
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: gambles[i].player == msg.sender
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,Play twice the same block)
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: msg.sender.send(msg.value) == false
+
+  ID: 19
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: gamblesCountInCurrentBlock ++
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: gamblesCountInCurrentBlock >= maxGamblesPerBlock
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,maxGamblesPerBlock)
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: msg.sender.send(msg.value) == false
+
+  ID: 27
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 32
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 35
+  Type: NodeType.VARIABLE
+  Expression: _currentMaxBet = currentMaxBet
+
+  ID: 36
+  Type: NodeType.IF
+  Expression: msg.value < _currentMaxBet / 256 || bets == 0
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,Wrong bet value)
+
+  ID: 38
+  Type: NodeType.IF
+  Expression: msg.sender.send(msg.value) == false
+
+  ID: 39
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 40
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 41
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 42
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 43
+  Type: NodeType.IF
+  Expression: msg.value > _currentMaxBet
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,Limit for table)
+
+  ID: 45
+  Type: NodeType.IF
+  Expression: msg.sender.send(msg.value) == false
+
+  ID: 46
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 47
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 48
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 49
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 50
+  Type: NodeType.VARIABLE
+  Expression: g = GameInfo(msg.sender,block.number,37,bets,values1,values2)
+
+  ID: 51
+  Type: NodeType.IF
+  Expression: totalBetValue(g) != msg.value
+
+  ID: 52
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,Wrong bet value)
+
+  ID: 53
+  Type: NodeType.IF
+  Expression: msg.sender.send(msg.value) == false
+
+  ID: 54
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 55
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 56
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 57
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 58
+  Type: NodeType.VARIABLE
+  Expression: affiliate = 0
+
+  ID: 59
+  Type: NodeType.VARIABLE
+  Expression: coef_affiliate = 0
+
+  ID: 60
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 61
+  Type: NodeType.IF
+  Expression: address(smartAffiliateContract) > 0
+
+  ID: 62
+  Type: NodeType.EXPRESSION
+  Expression: (affiliate,coef_affiliate,coef_player) = smartAffiliateContract.getAffiliateInfo(msg.sender)
+
+  ID: 63
+  Type: NodeType.EXPRESSION
+  Expression: coef_player = CoefPlayerEmission
+
+  ID: 64
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 65
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 66
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 67
+  Type: NodeType.EXPRESSION
+  Expression: (playerTokens,errorCodeEmission) = smartToken.emission(msg.sender,affiliate,msg.value,coef_player,coef_affiliate)
+
+  ID: 68
+  Type: NodeType.IF
+  Expression: errorCodeEmission != 0
+
+  ID: 69
+  Type: NodeType.IF
+  Expression: errorCodeEmission == 1
+
+  ID: 70
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,token operations stopped)
+
+  ID: 71
+  Type: NodeType.IF
+  Expression: errorCodeEmission == 2
+
+  ID: 72
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,contract is not in a games list)
+
+  ID: 73
+  Type: NodeType.IF
+  Expression: errorCodeEmission == 3
+
+  ID: 74
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,incorect player address)
+
+  ID: 75
+  Type: NodeType.IF
+  Expression: errorCodeEmission == 4
+
+  ID: 76
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,incorect value bet)
+
+  ID: 77
+  Type: NodeType.IF
+  Expression: errorCodeEmission == 5
+
+  ID: 78
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,incorect Coefficient emissions)
+
+  ID: 79
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 80
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 81
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 82
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 83
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 84
+  Type: NodeType.IF
+  Expression: msg.sender.send(msg.value) == false
+
+  ID: 85
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 86
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 87
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 88
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 89
+  Type: NodeType.EXPRESSION
+  Expression: gambles.push(g)
+
+  ID: 90
+  Type: NodeType.EXPRESSION
+  Expression: PlayerBet(gamblesLength,playerTokens)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 7
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 6
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 34
+  10 -> 13
+  11 -> 14
+  12 -> 34
+  13 -> 11
+  14 -> 15
+  14 -> 12
+  15 -> 16
+  15 -> 31
+  16 -> 17
+  16 -> 22
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  20 -> 21
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  24 -> 30
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  28 -> 29
+  30 -> 32
+  31 -> 12
+  32 -> 33
+  33 -> 14
+  34 -> 35
+  35 -> 36
+  36 -> 37
+  36 -> 42
+  37 -> 38
+  38 -> 39
+  38 -> 40
+  40 -> 41
+  42 -> 43
+  43 -> 44
+  43 -> 49
+  44 -> 45
+  45 -> 46
+  45 -> 47
+  47 -> 48
+  49 -> 50
+  50 -> 51
+  51 -> 52
+  51 -> 57
+  52 -> 53
+  53 -> 54
+  53 -> 55
+  55 -> 56
+  57 -> 58
+  58 -> 59
+  59 -> 60
+  60 -> 61
+  61 -> 62
+  61 -> 63
+  62 -> 64
+  63 -> 64
+  64 -> 65
+  65 -> 66
+  66 -> 67
+  67 -> 68
+  68 -> 69
+  68 -> 88
+  69 -> 70
+  69 -> 71
+  70 -> 83
+  71 -> 72
+  71 -> 73
+  72 -> 82
+  73 -> 74
+  73 -> 75
+  74 -> 81
+  75 -> 76
+  75 -> 77
+  76 -> 80
+  77 -> 78
+  77 -> 79
+  78 -> 79
+  79 -> 80
+  80 -> 81
+  81 -> 82
+  82 -> 83
+  83 -> 84
+  84 -> 85
+  84 -> 86
+  86 -> 87
+  88 -> 89
+  89 -> 90
+
+Function: Invest
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloper()
+
+Edges:
+  0 -> 1
+
+Function: GetGameIndexesToProcess
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: index = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = int256(gambles.length) - 1
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i >= 0
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: g = gambles[uint256(i)]
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: block.number - g.blockNumber >= 256
+
+  ID: 8
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: g.wheelResult == 37 && block.number >= g.blockNumber + BlockDelay
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: gameIndexes[index ++] = uint256(i + 1)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: gameIndexes
+
+Edges:
+  0 -> 1
+  1 -> 4
+  2 -> 5
+  3 -> 14
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 3
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 5
+
+Function: ProcessGames
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! simulate
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: lastBlockGamesProcessed == block.number
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: lastBlockGamesProcessed = block.number
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: delay = BlockDelay
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: length = gameIndexes.length
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: success = false
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 13
+  Type: NodeType.IFLOOP
+  Expression: i < length
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: ProcessGame(gameIndexes[i],delay) == GameStatus.Success
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: success = true
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: simulate && ! success
+
+  ID: 19
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 12
+  10 -> 13
+  11 -> 18
+  12 -> 10
+  13 -> 14
+  13 -> 11
+  14 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 17
+  17 -> 13
+  18 -> 19
+  18 -> 20
+
+Function: ProcessGameExt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ProcessGame(index,BlockDelay)
+
+Edges:
+  0 -> 1
+
+Function: ProcessGame
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: g = gambles[index]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: block.number - g.blockNumber >= 256
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: GameStatus.Stop
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: g.wheelResult == 37 && block.number > g.blockNumber + delay
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: gambles[index].wheelResult = getRandomNumber(g.player,g.blockNumber)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: playerWinnings = getGameResult(gambles[index])
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: playerWinnings > 0
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: g.player.send(playerWinnings) == false
+
+  ID: 10
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: EndGame(g.player,gambles[index].wheelResult,index)
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: GameStatus.Success
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: GameStatus.Skipped
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 15
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 12
+  9 -> 10
+  9 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 16
+
+Function: getRandomNumber
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: blockHash = block.blockhash(playerblock + BlockDelay)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: blockHash == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ErrorLog(msg.sender,Cannot generate random number)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: wheelResult = 200
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: shaPlayer = sha3()(player,blockHash)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: wheelResult = uint8(uint256(shaPlayer) % 37)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: wheelResult
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 7
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: calculateRandomNumberByBlockhash
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: shaPlayer = sha3()(player,blockHash)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: wheelResult = uint8(uint256(shaPlayer) % 37)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: wheelResult
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: emergencyFixGameResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: gamble = gambles[gambleId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: gamble.wheelResult != 200
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: gambles[gambleId].wheelResult = calculateRandomNumberByBlockhash(blockHash,gamble.player)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: playerWinnings = getGameResult(gambles[gambleId])
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: playerWinnings > 0
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: gamble.player.send(playerWinnings) == false
+
+  ID: 9
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: EndGame(gamble.player,gamble.wheelResult,gambleId)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: onlyDeveloperOrOperator()
+
+Edges:
+  0 -> 13
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 11
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 12
+  13 -> 1
+
+Function: preliminaryGameResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: g = gambles[uint256(gambleIndex)]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: g.wheelResult == 37 && block.number > g.blockNumber + BlockDelay
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: gambles[gambleIndex].wheelResult = getRandomNumber(g.player,g.blockNumber)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: getGame(gambleIndex)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: (gambleId,player,blockNumber,totalWin,wheelResult,bets,values1,values2,nTotalBetValue,nTotalBetCount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  5 -> 6
+
+Function: calcRandomNumberAndGetPreliminaryGameResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: g = gambles[uint256(gambleIndex)]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: g.wheelResult = calculateRandomNumberByBlockhash(blockHash,g.player)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: gambleId = gambleIndex
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: player = g.player
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: wheelResult = g.wheelResult
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: totalWin = getGameResult(g)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: blockNumber = g.blockNumber
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: nTotalBetValue = totalBetValue(g)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nTotalBetCount = totalBetCount(g)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: bets = g.bets
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: values1 = uint256(g.values)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: values2 = uint256(g.values2)
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (gambleId,player,blockNumber,totalWin,wheelResult,bets,values1,values2,nTotalBetValue,nTotalBetCount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: getGameResult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalWin = 0
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: nPlayerBetNo = 0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: betsCount = uint8(bytes32(game.bets)[0])
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < maxTypeBets
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: isBitSet(game.bets,i)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: winMul = winMatrix.getCoeff(getIndex(i,game.wheelResult))
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: winMul > 0
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: winMul ++
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: totalWin += winMul * getBetValueByGamble(game,nPlayerBetNo + 1,i)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: nPlayerBetNo ++
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: betsCount == 1
+
+  ID: 16
+  Type: NodeType.BREAK
+  Expression: 
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: betsCount --
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: totalWin
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 21
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  8 -> 19
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 5
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 7
+
+Function: getGame
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: gambleId = index
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: player = gambles[index].player
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalWin = getGameResult(gambles[index])
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: blockNumber = gambles[index].blockNumber
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: wheelResult = gambles[index].wheelResult
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nTotalBetValue = totalBetValue(gambles[index])
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nTotalBetCount = totalBetCount(gambles[index])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: bets = gambles[index].bets
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: values1 = uint256(gambles[index].values)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: values2 = uint256(gambles[index].values2)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (gambleId,player,blockNumber,totalWin,wheelResult,bets,values1,values2,nTotalBetValue,nTotalBetCount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.THROW
+  Expression: 
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: maxTypeBets = 157
+
+Edges:
+
+

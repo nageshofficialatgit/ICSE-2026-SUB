@@ -1,0 +1,236 @@
+Contract: ArrayLib
+==================================================
+
+Function: insertInPlace
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: insertingIndex = 0
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.IFLOOP
+  Expression: self.length > 0 && insertingIndex < self.length && self[insertingIndex] < n
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: insertingIndex += 1
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: self.length += 1
+
+  ID: 7
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: i = uint8(self.length) - 1
+
+  ID: 10
+  Type: NodeType.IFLOOP
+  Expression: i > insertingIndex
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: self[i] = self[i - 1]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: i --
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: self[insertingIndex] = n
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 3
+  5 -> 6
+  6 -> 9
+  7 -> 10
+  8 -> 13
+  9 -> 7
+  10 -> 11
+  10 -> 8
+  11 -> 12
+  12 -> 10
+
+
+Contract: DeckLib
+==================================================
+
+Function: init
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: self.usedCards = new uint8[](0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: self.player = msg.sender
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: self.gameID = gameID
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getCard
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: cardIndex = self.usedCards.length
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: cardIndex >= totalCards
+
+  ID: 3
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: r = uint8(getRandomNumber(blockNumber,self.player,self.gameID,cardIndex,totalCards - cardIndex))
+
+  ID: 6
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: i < cardIndex
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: self.usedCards[i] <= r
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: r += 1
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: self.usedCards.insertInPlace(r)
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: r
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 8
+  6 -> 9
+  7 -> 14
+  8 -> 6
+  9 -> 10
+  9 -> 7
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 9
+  14 -> 15
+
+Function: cardDescription
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (DeckLib.Suit(self / cardsPerSuit),cardFacevalue(self))
+
+Edges:
+  0 -> 1
+
+Function: cardEmojified
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: (suit,number) = cardDescription(self)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: suit == Suit.Clubs
+
+  ID: 6
+  Type: NodeType.EXPRESSION

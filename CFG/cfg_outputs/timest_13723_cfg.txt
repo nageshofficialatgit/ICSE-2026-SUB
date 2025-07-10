@@ -1,0 +1,53 @@
+Contract: SPCoin
+==================================================
+
+Function: bonuscalpre
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bon = 30
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: bonusCalculationFactor = (block.timestamp - (pre_startdate)) / (86400)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: bonusCalculationFactor == 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: bon = 30
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: bon -= bonusCalculationFactor * 2
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: bon
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: cp
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+

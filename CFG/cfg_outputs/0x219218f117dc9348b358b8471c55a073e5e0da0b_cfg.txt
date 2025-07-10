@@ -1,0 +1,1138 @@
+Contract: owned
+==================================================
+
+Function: owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[msg.sender] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: makeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins[newAdmin] = isAdmin
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: tokenRecipient
+==================================================
+
+
+Contract: GRX
+==================================================
+
+Function: owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: admins[msg.sender] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: makeAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admins[newAdmin] = isAdmin
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: GRX
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: initialSupply = 20000000000000000000000000
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] = initialSupply
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = initialSupply
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: name = Gold Reward Token
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: symbol = GRX
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: decimals = 18
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: minBalanceForAccounts = 1000000000000000
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: usersCanTrade = false
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: usersCanUnfreeze = false
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: admin[msg.sender] = true
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: canTrade[msg.sender] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: increaseTotalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[target] += increaseBy
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply += increaseBy
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(0,owner,increaseBy)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(owner,target,increaseBy)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: usersCanUnFreeze
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: usersCanUnfreeze = can
+
+Edges:
+  0 -> 1
+
+Function: setMinBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: minBalanceForAccounts = minimumBalanceInWei
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferAndFreeze
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,target,amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: freeze(target,true)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: _freeze
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: frozen[target] = froze
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Frozen(target,froze)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: freeze
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: froze || (! froze && ! usersCanUnfreeze)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(admin[msg.sender])
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _freeze(target,froze)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != 0x0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! frozen[_from])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[_from] >= _value)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[_to] + _value > balanceOf[_to])
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! frozen[msg.sender])
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: msg.sender.balance < minBalanceForAccounts
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: sell((minBalanceForAccounts - msg.sender.balance) * sellPrice)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,_to,_value)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: notICO()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: reward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_to != 0x0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! frozen[msg.sender])
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: msg.sender.balance < minBalanceForAccounts
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: sell((minBalanceForAccounts - msg.sender.balance) * sellPrice)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! locked
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,_to,_value)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= _value)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalLockedRewardsOf[_to] + _value > totalLockedRewardsOf[_to])
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _value
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: totalLockedRewardsOf[_to] += _value
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: lockedRewardsOf[_to][msg.sender] += _value
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: userRewardCount[_to][msg.sender] == 0
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: userRewarderCount[_to] += 1
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: userRewarders[_to][userRewarderCount[_to]] = msg.sender
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: userRewardCount[_to][msg.sender] += 1
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: totalRewardIssuedOut[msg.sender] += _value
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: Reward(msg.sender,_to,_value,data,now)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 20
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 16
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+
+Function: transferReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! frozen[msg.sender])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(lockedRewardsOf[msg.sender][_to] >= _value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalLockedRewardsOf[msg.sender] >= _value)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: msg.sender.balance < minBalanceForAccounts
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: sell((minBalanceForAccounts - msg.sender.balance) * sellPrice)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: totalLockedRewardsOf[msg.sender] -= _value
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: lockedRewardsOf[msg.sender][_to] -= _value
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_to] += _value
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: unlockReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(totalLockedRewardsOf[addr] > _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(lockedRewardsOf[addr][msg.sender] >= _value)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: _value == 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _value = lockedRewardsOf[addr][msg.sender]
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: msg.sender.balance < minBalanceForAccounts
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: sell((minBalanceForAccounts - msg.sender.balance) * sellPrice)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalLockedRewardsOf[addr] -= _value
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: lockedRewardsOf[addr][msg.sender] -= _value
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[addr] += _value
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: Unlock(addr,msg.sender,_value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! frozen[_from])
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_value <= allowance[_from][msg.sender])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(_from,_to,_value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowance[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = tokenRecipient(_spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: approve(_spender,_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: spender.receiveApproval(msg.sender,_value,this,_extraData)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  5 -> 7
+  6 -> 1
+
+Function: burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Burn(msg.sender,_value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: burnFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[_from] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_value <= allowance[_from][msg.sender])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[_from] -= _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: allowance[_from][msg.sender] -= _value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply -= _value
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Burn(_from,_value)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: setPrices
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: sellPrice = newSellPrice
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: buyPrice = newBuyPrice
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setUsersCanTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: usersCanTrade = trade
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setCanTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: canTrade[addr] = trade
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: buy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! usersCanTrade && ! canTrade[msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: amount = msg.value * buyPrice
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[this] >= amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] += amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[this] -= amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(this,msg.sender,amount)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: amount
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: sell
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(! frozen[msg.sender])
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! usersCanTrade && ! canTrade[msg.sender]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(minBalanceForAccounts > amount / sellPrice)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf[msg.sender] >= amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[this] += amount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: balanceOf[msg.sender] -= amount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revenue = amount / sellPrice
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender.send(revenue))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,this,amount)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: revenue
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: revenue
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: target.transfer(amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(target,amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setAdmin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admin[addr] = enabled
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setICO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ico = enabled
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ico = true
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: sellPrice = 608
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: buyPrice = 760
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,460 @@
+Contract: ContractBounty
+==================================================
+
+Function: getBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(id >= 0 && id < bountyCounter,Invalid bounty id.)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: bounties[id]
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+
+Function: setOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Not owner.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getMinimumBountyAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: minimumBountyAmount
+
+Edges:
+  0 -> 1
+
+Function: setMinimumBountyAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Not owner.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: minimumBountyAmount = amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getFeeAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: feeAddress
+
+Edges:
+  0 -> 1
+
+Function: setFeeAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Not owner.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: feeAddress = newAddress
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getFees
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (CANCEL_FEE_PERCENTAGE,COMPLETE_FEE_PERCENTAGE)
+
+Edges:
+  0 -> 1
+
+Function: setFees
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Not owner.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: CANCEL_FEE_PERCENTAGE = cancelFee
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: COMPLETE_FEE_PERCENTAGE = completeFee
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getLastBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: id = bountyCounter - 1
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(id >= 0,No bounties yet.)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: bounties[id]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: bountyCounter = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Not owner.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(receiver).transfer(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: createBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= minimumBountyAmount,Bounty amount must be greater or equal than minimum bounty value.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: id = bountyCounter
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: bounties[id] = Bounty({creator:msg.sender,acceptor:address(0),ethAmount:msg.value,creatorAccepted:false,acceptorAccepted:false,disabled:false})
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: bountyCounter ++
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: BountyCreated(id,msg.sender,msg.value)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: id
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: cancelBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(id >= 0 && id < bountyCounter,Invalid bounty id.)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: bounty = bounties[id]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bounty.creator == msg.sender || bounty.acceptor == msg.sender,Only the bounty creator/acceptor can cancel it.)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! bounty.disabled,This bounty was already disabled.)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! bounty.creatorAccepted,Cannot cancel this bounty because it is accepted by creator.)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: bounty.creator == msg.sender
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: bounty.disabled = true
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: payout = bounty.ethAmount - ((bounty.ethAmount * CANCEL_FEE_PERCENTAGE) / 100)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: address(bounty.creator).transfer(payout)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: address(feeAddress).transfer(bounty.ethAmount - payout)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: BountyCanceled(id,msg.sender,address(0))
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: bounty.acceptor == msg.sender
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: bounty.acceptor = address(0)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: bounty.creatorAccepted = false
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: bounty.acceptorAccepted = false
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: BountyCanceled(id,address(0),msg.sender)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 12
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 18
+  12 -> 13
+  12 -> 17
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+
+Function: takeAndAcceptBounty
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(id >= 0 && id < bountyCounter,Invalid bounty id.)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: bounty = bounties[id]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! bounty.disabled,This bounty is not active.)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bounty.creator == msg.sender,Only the bounty creator can cancel it.)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(acceptor != bounty.creator && acceptor != address(0),Invalid acceptor.)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: bounty.acceptor = acceptor
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: bounty.acceptorAccepted = true
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: bounty.creatorAccepted = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: bounty.disabled = true
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: payout = bounty.ethAmount - ((bounty.ethAmount * COMPLETE_FEE_PERCENTAGE) / 100)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: address(bounty.acceptor).transfer(payout)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: address(feeAddress).transfer(bounty.ethAmount - payout)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: BountyTakenAndResolved(id,acceptor)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: minimumBountyAmount = 10000000000000000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: feeAddress = 0x6a200508b49743C3Df1Ad079be0be57a4Cc0048C
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CANCEL_FEE_PERCENTAGE = 5
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: COMPLETE_FEE_PERCENTAGE = 5
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

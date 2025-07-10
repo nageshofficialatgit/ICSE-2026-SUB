@@ -1,0 +1,53 @@
+Contract: Roulette
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value == 10000000000000000000)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(now != pastBlockTime)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: pastBlockTime = now
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: now % 15 == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(this.balance)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+
+

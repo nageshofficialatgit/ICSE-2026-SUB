@@ -1,0 +1,310 @@
+Contract: Hurricane
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(deposits[_note].depositor == address(0),Note already used)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: netAmount = msg.value - feeAmount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(netAmount > 0,Deposit amount must be greater than the fee)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: deposits[_note] = Deposit(msg.sender,netAmount,false)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Deposited(msg.sender,netAmount,_note)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: depositWithReferral
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(deposits[_note].depositor == address(0),Note already used)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: netAmount = msg.value - feeAmount - referralAmount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(netAmount > 0,Deposit amount must be greater than the fee)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: deposits[_note] = Deposit(msg.sender,netAmount,false)
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: referrals[referralAddress].referralAddress != address(0)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: referrals[referralAddress].amount += referralAmount
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: ReferralBonusAdded(referralAddress,referralAmount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: referrals[referralAddress] = Referral(msg.sender,referralAmount)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: ReferralCreated(referralAddress,referralAmount)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: Deposited(msg.sender,netAmount,_note)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 10
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userDeposit = deposits[_note]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(userDeposit.depositor != address(0),Note not found)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == userDeposit.depositor,Not your deposit)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! userDeposit.withdrawn,Already withdrawn)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_to != address(0),Invalid withdrawal address)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: userDeposit.withdrawn = true
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _to.transfer(userDeposit.amount)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(msg.sender,userDeposit.amount,_to,_note)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: withdrawReferral
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: bonusAmount = referrals[msg.sender].amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bonusAmount > 0,No referral bonus to withdraw)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: referrals[msg.sender].amount = 0
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: sender = address(msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: sender.transfer(bonusAmount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawal(msg.sender,bonusAmount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getReferralBonus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: referrals[user].amount
+
+Edges:
+  0 -> 1
+
+Function: getDeposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userDeposit = deposits[_note]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (userDeposit.depositor,userDeposit.amount,userDeposit.withdrawn)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: updateFeeAmount
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: feeAmount = _newFeeAmount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: FeeAmountUpdated(_newFeeAmount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: ownerWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balance = address(this).balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,No funds available)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: OwnerWithdrawn(owner,balance)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: feeAmount = 3000000000000000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: referralAmount = 500000000000000
+
+Edges:
+  0 -> 1
+
+

@@ -1,0 +1,50 @@
+Contract: TokenBank
+==================================================
+
+Function: WithdrawToHolder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: Holders[msg.sender] > 0
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: Holders[_addr] >= _wei
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _addr.call.value(_wei)()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Holders[_addr] -= _wei
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  2 -> 5
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+

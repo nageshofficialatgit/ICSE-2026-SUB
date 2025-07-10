@@ -1,0 +1,28 @@
+Contract: Ownable
+==================================================
+
+Function: setupDisbursement
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp < _timestamp)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalAmount = totalAmount + _value
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: totalAmount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

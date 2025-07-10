@@ -1,0 +1,43 @@
+Contract: FreezableToken
+==================================================
+
+Function: releaseAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IFLOOP
+  Expression: release > block.timestamp
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.call.value(tokens)
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: tokens
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: tokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 2
+  4 -> 5
+
+

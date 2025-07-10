@@ -1,0 +1,1631 @@
+Contract: Money20
+==================================================
+
+
+Contract: AnySwap
+==================================================
+
+
+Contract: SmartOTC
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: minVolumes[_maxquery] = 30000
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: texts[_sym] = ETH
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: texts[_help] = https://cryptop.dev/ for cross-chain swap. v1.0.4
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: help
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: txt = texts[_help]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: txt
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: sym = texts[_sym]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: sym
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: false
+
+Edges:
+  0 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: type()(uint256).max
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: account.balance
+
+Edges:
+  0 -> 1
+
+Function: queryOrders
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: market = markets[money][chainCoin]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: start == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: start = market[0].amount8
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: limit > 200
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: limit = 200
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: keys = new uint256[](limit * 10)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 12
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: orderkey = start
+
+  ID: 15
+  Type: NodeType.IFLOOP
+  Expression: orderkey > end && ind < (limit * 10)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: uo = market[orderkey]
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: uo.amount8 == 0
+
+  ID: 18
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: queryType == 1
+
+  ID: 21
+  Type: NodeType.IF
+  Expression: uo.buyer != address(0)
+
+  ID: 22
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.IF
+  Expression: queryType == 2
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: uo.seller != address(0)
+
+  ID: 26
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: queryType == 12
+
+  ID: 29
+  Type: NodeType.IF
+  Expression: uo.seller != address(0) && uo.buyer != address(0)
+
+  ID: 30
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 31
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 32
+  Type: NodeType.IF
+  Expression: queryType == 10
+
+  ID: 33
+  Type: NodeType.IF
+  Expression: uo.seller == address(0) || uo.buyer == address(0)
+
+  ID: 34
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 35
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 36
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 37
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 38
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 39
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 40
+  Type: NodeType.IF
+  Expression: user != address(0) && uo.buyer != user && uo.seller != user
+
+  ID: 41
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 42
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 43
+  Type: NodeType.IF
+  Expression: gtMoneyAmt > 0 && (uo.moneyAmt * uo.times) < gtMoneyAmt
+
+  ID: 44
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 45
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 46
+  Type: NodeType.IF
+  Expression: ltMoneyAmt > 0 && (uo.moneyAmt * uo.times) > ltMoneyAmt
+
+  ID: 47
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 48
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 49
+  Type: NodeType.IF
+  Expression: ltPrice18 > 0 && (uint256(uo.moneyAmt) * 100000000 / uo.amount8) > ltPrice18
+
+  ID: 50
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 51
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 52
+  Type: NodeType.IF
+  Expression: gtPrice18 > 0 && (uint256(uo.moneyAmt) * 100000000 / uo.amount8) < gtPrice18
+
+  ID: 53
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 54
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 55
+  Type: NodeType.IF
+  Expression: timeBefore > 0
+
+  ID: 56
+  Type: NodeType.IF
+  Expression: uo.timeSell > timeBefore || uo.timeBuy > timeBefore
+
+  ID: 57
+  Type: NodeType.CONTINUE
+  Expression: 
+
+  ID: 58
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 59
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 60
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind] = orderkey
+
+  ID: 61
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 1] = uint160(uo.seller)
+
+  ID: 62
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 1] = (keys[ind + 1] << 64) + uo.timeSell
+
+  ID: 63
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 2] = uo.amount8
+
+  ID: 64
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 3] = uint160(uo.buyer)
+
+  ID: 65
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 3] = (keys[ind + 3] << 64) + uo.timeBuy
+
+  ID: 66
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 4] = uo.moneyAmt
+
+  ID: 67
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 5] = uo.times
+
+  ID: 68
+  Type: NodeType.VARIABLE
+  Expression: byts = bytes(uo.buyerCoinAddress)
+
+  ID: 69
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 6] = uint256(bytes32(byts))
+
+  ID: 70
+  Type: NodeType.IF
+  Expression: byts.length > 32
+
+  ID: 71
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 7] = uint256(bytes32(bytesSlice(byts,32,64)))
+
+  ID: 72
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 73
+  Type: NodeType.IF
+  Expression: byts.length > 64
+
+  ID: 74
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 8] = uint256(bytes32(bytesSlice(byts,64,96)))
+
+  ID: 75
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 76
+  Type: NodeType.IF
+  Expression: byts.length > 96
+
+  ID: 77
+  Type: NodeType.EXPRESSION
+  Expression: keys[ind + 9] = uint256(bytes32(bytesSlice(byts,96,128)))
+
+  ID: 78
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 79
+  Type: NodeType.EXPRESSION
+  Expression: ind += 10
+
+  ID: 80
+  Type: NodeType.EXPRESSION
+  Expression: orderkey -= 1
+
+  ID: 81
+  Type: NodeType.EXPRESSION
+  Expression: keyvalues = new uint256[](ind)
+
+  ID: 82
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 83
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 84
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 85
+  Type: NodeType.IFLOOP
+  Expression: i < ind
+
+  ID: 86
+  Type: NodeType.EXPRESSION
+  Expression: keyvalues[i] = keys[i]
+
+  ID: 87
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 88
+  Type: NodeType.IF
+  Expression: (start > minVolumes[_maxquery])
+
+  ID: 89
+  Type: NodeType.EXPRESSION
+  Expression: end = (start - minVolumes[_maxquery])
+
+  ID: 90
+  Type: NodeType.EXPRESSION
+  Expression: end = 0
+
+  ID: 91
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 92
+  Type: NodeType.RETURN
+  Expression: keyvalues
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 88
+  10 -> 11
+  11 -> 14
+  12 -> 15
+  13 -> 81
+  14 -> 12
+  15 -> 16
+  15 -> 13
+  16 -> 17
+  17 -> 18
+  17 -> 19
+  18 -> 80
+  19 -> 20
+  20 -> 21
+  20 -> 24
+  21 -> 22
+  21 -> 23
+  22 -> 80
+  23 -> 39
+  24 -> 25
+  24 -> 28
+  25 -> 26
+  25 -> 27
+  26 -> 80
+  27 -> 38
+  28 -> 29
+  28 -> 32
+  29 -> 30
+  29 -> 31
+  30 -> 80
+  31 -> 37
+  32 -> 33
+  32 -> 36
+  33 -> 34
+  33 -> 35
+  34 -> 80
+  35 -> 36
+  36 -> 37
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  40 -> 42
+  41 -> 80
+  42 -> 43
+  43 -> 44
+  43 -> 45
+  44 -> 80
+  45 -> 46
+  46 -> 47
+  46 -> 48
+  47 -> 80
+  48 -> 49
+  49 -> 50
+  49 -> 51
+  50 -> 80
+  51 -> 52
+  52 -> 53
+  52 -> 54
+  53 -> 80
+  54 -> 55
+  55 -> 56
+  55 -> 59
+  56 -> 57
+  56 -> 58
+  57 -> 80
+  58 -> 59
+  59 -> 60
+  60 -> 61
+  61 -> 62
+  62 -> 63
+  63 -> 64
+  64 -> 65
+  65 -> 66
+  66 -> 67
+  67 -> 68
+  68 -> 69
+  69 -> 70
+  70 -> 71
+  70 -> 72
+  71 -> 72
+  72 -> 73
+  73 -> 74
+  73 -> 75
+  74 -> 75
+  75 -> 76
+  76 -> 77
+  76 -> 78
+  77 -> 78
+  78 -> 79
+  79 -> 80
+  80 -> 15
+  81 -> 84
+  82 -> 85
+  83 -> 92
+  84 -> 82
+  85 -> 86
+  85 -> 83
+  86 -> 87
+  87 -> 85
+  88 -> 89
+  88 -> 90
+  89 -> 91
+  90 -> 91
+  91 -> 10
+
+Function: bytesSlice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = start
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < byts.length && i < end
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: newbyts = bytes.concat(newbyts,byts[i])
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: newbyts
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+
+Function: orderDeposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: money == address(this)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value >= amount,Deposit failed0)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: msg.value > amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(from).transfer(msg.value - amount)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value == 0,Deposit failed1)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: (success,data) = money.call(abi.encodeWithSelector(0x23b872dd,from,address(this),amount))
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),Deposit failed2)
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 6
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 11
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+
+Function: addBuyOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(buyerCoinAddress).length < 129,Address too long)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: minvol = minVolumes[money]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(minvol > 1,Money invalid)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(times > 0,Zero times)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount8 > 0,Zero amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(moneyAmt >= minvol,Tiny order)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: orderDeposit(money,msg.sender,moneyAmt + moneyAmt)
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: market = markets[money][chainCoin]
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: orderkey = market[0].amount8
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: orderkey += 1
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: market[0].amount8 = uint96(orderkey)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: ord = market[orderkey]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: ord.amount8 = uint96(amount8)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: ord.moneyAmt = uint136(moneyAmt)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: ord.times = times
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: ord.buyer = msg.sender
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: ord.timeBuy = uint64(block.timestamp)
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: bytes(buyerCoinAddress).length > 0
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: ord.buyerCoinAddress = buyerCoinAddress
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: AddBuyOrder(msg.sender,money,chainCoin,orderkey)
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: orderkey
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: lockBuyOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: uo = markets[money][chainCoin][orderkey]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: uo.seller == address(0) && uo.buyer != address(0)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: mamount = uo.moneyAmt
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(mamount > 0,Missed order)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: orderDeposit(money,msg.sender,mamount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: uo.seller = msg.sender
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: uo.timeSell = uint64(block.timestamp)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: succ = true
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: LockBuyOrder(msg.sender,money,chainCoin,orderkey,mamount,uo.buyer)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Others locked)
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: succ
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 10
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 11
+  10 -> 11
+  11 -> 12
+
+Function: buyerReceivedCoins
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: market = markets[money][chainCoin]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: uo = market[orderkey]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender != address(0) && uo.buyer == msg.sender,Not buyer)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(uo.seller != address(0),Unlocked)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: buyeramt = uo.moneyAmt
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: selleramt = uo.moneyAmt + uo.moneyAmt
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: servfee = uo.moneyAmt / 100
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: uo.makerFlag == 0
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: selleramt -= servfee
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: buyeramt -= servfee
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: delete market[orderkey]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: succSeller = moneySend(money,uo.seller,selleramt)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: succBuyer = moneySend(money,uo.buyer,buyeramt)
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: ! succSeller
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: servfee += selleramt
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.IF
+  Expression: ! succBuyer
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: servfee += buyeramt
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: serviceFees[money] += servfee
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: (succSeller && succBuyer)
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: BuyerReceivedCoins(msg.sender,money,chainCoin,orderkey,uo.moneyAmt,uo.seller,succSeller,succBuyer,)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: BuyerReceivedCoins(msg.sender,money,chainCoin,orderkey,uo.moneyAmt,uo.seller,succSeller,succBuyer,Failed funds to admin)
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.RETURN
+  Expression: (succSeller,succBuyer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  18 -> 20
+  19 -> 20
+  20 -> 21
+  21 -> 23
+  23 -> 24
+  23 -> 25
+  24 -> 26
+  25 -> 26
+  26 -> 27
+
+Function: moneySend
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: token == address(this)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: address(rcv).send(amt)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,rcv,amt))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: succ = success && (data.length == 0 || abi.decode(data,(bool)))
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: succ
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: addSellOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: minvol = minVolumes[money]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(minvol > 1,Money invalid)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(times > 0,Zero times)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount8 > 0,Zero amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(moneyAmt >= minvol,Tiny order)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: orderDeposit(money,msg.sender,moneyAmt)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: market = markets[money][chainCoin]
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: orderkey = market[0].amount8
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: orderkey += 1
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: market[0].amount8 = uint96(orderkey)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: ord = market[orderkey]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: ord.amount8 = uint96(amount8)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: ord.moneyAmt = uint136(moneyAmt)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: ord.times = times
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: ord.makerFlag = 1
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: ord.seller = msg.sender
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: ord.timeSell = uint64(block.timestamp)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: AddSellOrder(msg.sender,money,chainCoin,orderkey)
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: orderkey
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+
+Function: lockSellOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(bytes(buyerCoinAddress).length < 129,Address too long)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: uo = markets[money][chainCoin][orderkey]
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: uo.buyer == address(0) && uo.seller != address(0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: mamount = uo.moneyAmt
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(mamount > 0,Missed order)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: orderDeposit(money,msg.sender,mamount + mamount)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: uo.buyer = msg.sender
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: uo.timeBuy = uint64(block.timestamp)
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: bytes(buyerCoinAddress).length > 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: uo.buyerCoinAddress = buyerCoinAddress
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: succ = true
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: LockSellOrder(msg.sender,money,chainCoin,orderkey,mamount,uo.seller)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Others locked)
+
+  ID: 15
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: succ
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 14
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 15
+  14 -> 15
+  15 -> 16
+
+Function: cancelOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender != address(0),Unknown user)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: market = markets[money][chainCoin]
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: uo = market[orderkey]
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: refundamt = uo.moneyAmt
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(refundamt > 0,Zero amount)
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: uo.buyer == address(0)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(uo.seller == msg.sender,Not seller)
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: uo.seller == address(0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(uo.buyer == msg.sender,Not buyer)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: refundamt += refundamt
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(string)(Order locked)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: delete market[orderkey]
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: succ = moneySend(money,msg.sender,refundamt)
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: ! succ
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: serviceFees[money] += refundamt
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: txt = Failed funds to admin
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: CancelOrder(msg.sender,money,chainCoin,orderkey,succ,txt)
+
+  ID: 22
+  Type: NodeType.RETURN
+  Expression: succ
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 13
+  8 -> 9
+  8 -> 11
+  9 -> 10
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 20
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+
+Function: getOrder
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: uo = markets[money][chainCoin][orderkey]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: seller = uo.seller
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: amount8 = uo.amount8
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: buyer = uo.buyer
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: moneyAmt = uo.moneyAmt
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: times = uo.times
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: coinAddr = uo.buyerCoinAddress
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: sellTime = uo.timeSell
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: buyTime = uo.timeBuy
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: (seller,amount8,buyer,moneyAmt,times,coinAddr,sellTime,buyTime)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+Function: string2hex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: bytes(str)
+
+Edges:
+  0 -> 1
+
+Function: hex2string
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: string(byts)
+
+Edges:
+  0 -> 1
+
+Function: setMinVolume
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: minVolumes[money] = vol
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: setText
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: texts[key] = txt
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: withdrawServiceFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: fee = serviceFees[money]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: remain = fee / 10
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(remain > 0,Tiny order)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: serviceFees[money] = remain
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: succ = moneySend(money,msg.sender,fee - remain)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(succ,Failed funds to admin)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _maxquery = address(0x5f6d6178)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _admin = address(0x5f61646d696e)
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _help = 0x5f68656c70
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _sym = 0x5f73796d
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: decimals = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

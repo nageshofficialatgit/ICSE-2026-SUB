@@ -1,0 +1,62 @@
+Contract: AdminInterface
+==================================================
+
+Function: Set
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: callee = dataBase
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: addOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: newAddr = callee
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: msg.value > Limit
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: newAddr.delegatecall(bytes4(keccak256()(AddToWangDB(address))),msg.sender)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: Limit = 10
+
+Edges:
+
+

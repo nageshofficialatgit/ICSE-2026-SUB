@@ -1,0 +1,23 @@
+Contract: AppProxyBase
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(users[addr] >= msg.value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: addr.delegatecall(msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

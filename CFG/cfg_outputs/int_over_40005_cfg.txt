@@ -1,0 +1,49 @@
+Contract: PPBC_API
+==================================================
+
+Function: createRandomNumber
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: cnt = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: cnt < lastRandom % 5
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: lastBlock = lastBlock - block.timestamp
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: cnt ++
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: lastBlock
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+
+

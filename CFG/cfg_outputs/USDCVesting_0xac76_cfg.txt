@@ -1,0 +1,279 @@
+Contract: IERC20
+==================================================
+
+
+Contract: ReentrancyGuard
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = _NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: _ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: USDCVesting
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: startTime = block.timestamp
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentTime = block.timestamp
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: balance = usdcToken.balanceOf(address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balance > 0,Contract balance is empty)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: currentTime >= startTime + 2592000
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcToken.transfer(owner,balance),USDC transfer failed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(owner,balance,currentTime)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(lastWithdrawTime == 0 || currentTime >= lastWithdrawTime + INTERVAL,Must wait 23 hours between withdrawals)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: lastWithdrawTime = currentTime
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(usdcToken.transfer(owner,amount),USDC transfer failed)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawn(owner,amount,currentTime)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: balance >= WITHDRAW_AMOUNT
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: amount = WITHDRAW_AMOUNT
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: amount = balance
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 8
+  5 -> 6
+  6 -> 7
+  8 -> 9
+  9 -> 16
+  11 -> 12
+  12 -> 13
+  14 -> 15
+  15 -> 1
+  16 -> 17
+  16 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 11
+
+Function: getContractBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: usdcToken.balanceOf(address(this))
+
+Edges:
+  0 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_newOwner != address(0),New owner cannot be zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: pendingOwner = _newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferInitiated(owner,_newOwner)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: acceptOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == pendingOwner,Caller is not pending owner)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = pendingOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: pendingOwner = address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: usdcToken = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WITHDRAW_AMOUNT = 300 * 10 ** 6
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INTERVAL = 82800
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,3007 @@
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+
+Contract: Ownable
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: initialOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(initialOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner() != _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableUnauthorizedAccount(address)(_msgSender())
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: BeforeSwapDeltaLibrary
+==================================================
+
+Function: getSpecifiedDelta
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: deltaSpecified = delta >>' 128
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: deltaSpecified
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getUnspecifiedDelta
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: deltaUnspecified = signextend(uint256,uint256)(15,delta)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: deltaUnspecified
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ZERO_DELTA = BeforeSwapDelta.wrap(0)
+
+Edges:
+
+
+Contract: CustomRevert
+==================================================
+
+Function: revertWith
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: fmp_revertWith_asm_0 = mload(uint256)(0x40)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_revertWith_asm_0,selector)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_revertWith_asm_0 + 0x04,value1 & 0xffffffffffffffffffffffffffffffffffffffff)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_revertWith_asm_0 + 0x24,value2 & 0xffffffffffffffffffffffffffffffffffffffff)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(fmp_revertWith_asm_0,0x44)
+
+  ID: 8
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: bubbleUpAndRevertWith
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: wrappedErrorSelector = revert WrappedError(address,bytes4,bytes,bytes).selector
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: encodedDataSize_bubbleUpAndRevertWith_asm_0 = returndatasize()() + 31 / 32 * 32
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: fmp_bubbleUpAndRevertWith_asm_0 = mload(uint256)(0x40)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0,wrappedErrorSelector)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0x04,revertingContract & 0xffffffffffffffffffffffffffffffffffffffff)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0x24,revertingFunctionSelector & 0xffffffff00000000000000000000000000000000000000000000000000000000)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0x44,0x80)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0x64,0xa0 + encodedDataSize_bubbleUpAndRevertWith_asm_0)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0x84,returndatasize()())
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0xa4,0,returndatasize()())
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0xa4 + encodedDataSize_bubbleUpAndRevertWith_asm_0,0x04)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0 + 0xc4 + encodedDataSize_bubbleUpAndRevertWith_asm_0,additionalContext & 0xffffffff00000000000000000000000000000000000000000000000000000000)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(fmp_bubbleUpAndRevertWith_asm_0,0xe4 + encodedDataSize_bubbleUpAndRevertWith_asm_0)
+
+  ID: 17
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+
+
+Contract: SafeCast
+==================================================
+
+Function: toUint160
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: y = uint160(x)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: y != x
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflow().selector.revertWith()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: y
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toUint128
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: x < 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflow().selector.revertWith()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: y = uint128(x)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: y
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: toInt128
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: x >= 1 << 127
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflow().selector.revertWith()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: int128(int256(x))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toInt256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: y = int256(x)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: y < 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflow().selector.revertWith()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: y
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+
+Contract: BalanceDeltaLibrary
+==================================================
+
+Function: amount0
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _amount0 = balanceDelta >>' 128
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _amount0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: amount1
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _amount1 = signextend(uint256,uint256)(15,balanceDelta)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: _amount1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ZERO_DELTA = BalanceDelta.wrap(0)
+
+Edges:
+
+
+Contract: PoolIdLibrary
+==================================================
+
+Function: toId
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: poolId = keccak256(uint256,uint256)(poolKey,0xa0)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: poolId
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: IExtsload
+==================================================
+
+
+Contract: IExttload
+==================================================
+
+
+Contract: CurrencyLibrary
+==================================================
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currency.isAddressZero()
+
+  ID: 3
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),to,amount,0,0,0,0)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: CustomRevert.bubbleUpAndRevertWith(to,bytes4(0),revert NativeTransferFailed().selector)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: fmp_transfer_asm_1 = mload(uint256)(0x40)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_transfer_asm_1,0xa9059cbb00000000000000000000000000000000000000000000000000000000)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_transfer_asm_1 + 4,to & 0xffffffffffffffffffffffffffffffffffffffff)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_transfer_asm_1 + 36,amount)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: success = mload(uint256)(0) == 1 & returndatasize()() > 31 | ! returndatasize()() & call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),currency,0,fmp_transfer_asm_1,68,0,32)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_transfer_asm_1,0)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_transfer_asm_1 + 0x20,0)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(fmp_transfer_asm_1 + 0x40,0)
+
+  ID: 19
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: CustomRevert.bubbleUpAndRevertWith(Currency.unwrap(currency),IERC20Minimal.transfer.selector,revert ERC20TransferFailed().selector)
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 9
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 23
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 22
+  22 -> 23
+
+Function: balanceOfSelf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: currency.isAddressZero()
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: IERC20Minimal(Currency.unwrap(currency)).balanceOf(address(this))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: currency.isAddressZero()
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: owner.balance
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: IERC20Minimal(Currency.unwrap(currency)).balanceOf(owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+Function: isAddressZero
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Currency.unwrap(currency) == Currency.unwrap(ADDRESS_ZERO)
+
+Edges:
+  0 -> 1
+
+Function: toId
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint160(Currency.unwrap(currency))
+
+Edges:
+  0 -> 1
+
+Function: fromId
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Currency.wrap(address(uint160(id)))
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ADDRESS_ZERO = Currency.wrap(address(0))
+
+Edges:
+
+
+Contract: IProtocolFees
+==================================================
+
+
+Contract: IERC20Minimal
+==================================================
+
+
+Contract: IERC6909Claims
+==================================================
+
+
+Contract: IPoolManager
+==================================================
+
+
+Contract: ParseBytes
+==================================================
+
+Function: parseSelector
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: selector = mload(uint256)(result + 0x20)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: selector
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: parseFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lpFee = mload(uint256)(result + 0x60)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: lpFee
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: parseReturnDelta
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: hookReturn = mload(uint256)(result + 0x40)
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: hookReturn
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: LPFeeLibrary
+==================================================
+
+Function: isDynamicFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self == DYNAMIC_FEE_FLAG
+
+Edges:
+  0 -> 1
+
+Function: isValid
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self <= MAX_LP_FEE
+
+Edges:
+  0 -> 1
+
+Function: validate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! self.isValid()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert LPFeeTooLarge(uint24).selector.revertWith(self)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: getInitialLPFee
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: self.isDynamicFee()
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: self.validate()
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: self
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: isOverride
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self & OVERRIDE_FEE_FLAG != 0
+
+Edges:
+  0 -> 1
+
+Function: removeOverrideFlag
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: self & REMOVE_OVERRIDE_MASK
+
+Edges:
+  0 -> 1
+
+Function: removeOverrideFlagAndValidate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: fee = self.removeOverrideFlag()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: fee.validate()
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: fee
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DYNAMIC_FEE_FLAG = 0x800000
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: OVERRIDE_FEE_FLAG = 0x400000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: REMOVE_OVERRIDE_MASK = 0xBFFFFF
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_LP_FEE = 1000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IHooks
+==================================================
+
+
+Contract: Hooks
+==================================================
+
+Function: validateHookPermissions
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: permissions.beforeInitialize != self.hasPermission(BEFORE_INITIALIZE_FLAG) || permissions.afterInitialize != self.hasPermission(AFTER_INITIALIZE_FLAG) || permissions.beforeAddLiquidity != self.hasPermission(BEFORE_ADD_LIQUIDITY_FLAG) || permissions.afterAddLiquidity != self.hasPermission(AFTER_ADD_LIQUIDITY_FLAG) || permissions.beforeRemoveLiquidity != self.hasPermission(BEFORE_REMOVE_LIQUIDITY_FLAG) || permissions.afterRemoveLiquidity != self.hasPermission(AFTER_REMOVE_LIQUIDITY_FLAG) || permissions.beforeSwap != self.hasPermission(BEFORE_SWAP_FLAG) || permissions.afterSwap != self.hasPermission(AFTER_SWAP_FLAG) || permissions.beforeDonate != self.hasPermission(BEFORE_DONATE_FLAG) || permissions.afterDonate != self.hasPermission(AFTER_DONATE_FLAG) || permissions.beforeSwapReturnDelta != self.hasPermission(BEFORE_SWAP_RETURNS_DELTA_FLAG) || permissions.afterSwapReturnDelta != self.hasPermission(AFTER_SWAP_RETURNS_DELTA_FLAG) || permissions.afterAddLiquidityReturnDelta != self.hasPermission(AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG) || permissions.afterRemoveLiquidityReturnDelta != self.hasPermission(AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert HookAddressNotValid(address).selector.revertWith(address(self))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: isValidHookAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! self.hasPermission(BEFORE_SWAP_FLAG) && self.hasPermission(BEFORE_SWAP_RETURNS_DELTA_FLAG)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! self.hasPermission(AFTER_SWAP_FLAG) && self.hasPermission(AFTER_SWAP_RETURNS_DELTA_FLAG)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: ! self.hasPermission(AFTER_ADD_LIQUIDITY_FLAG) && self.hasPermission(AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: ! self.hasPermission(AFTER_REMOVE_LIQUIDITY_FLAG) && self.hasPermission(AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: address(self) == address(0)
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: ! fee.isDynamicFee()
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: (uint160(address(self)) & ALL_HOOK_MASK > 0 || fee.isDynamicFee())
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  12 -> 14
+  14 -> 15
+  14 -> 16
+
+Function: callHook
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: success = call(uint256,uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),self,0,data + 0x20,mload(uint256)(data),0,0)
+
+  ID: 4
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: CustomRevert.bubbleUpAndRevertWith(address(self),bytes4(data),revert HookCallFailed().selector)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: result = mload(uint256)(0x40)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,result + returndatasize()() + 0x3f & ~ 0x1f)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(result,returndatasize()())
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: returndatacopy(uint256,uint256,uint256)(result + 0x20,0,returndatasize()())
+
+  ID: 13
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: result.length < 32 || result.parseSelector() != data.parseSelector()
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidHookResponse().selector.revertWith()
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  15 -> 16
+  16 -> 17
+
+Function: callHookWithReturnDelta
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = callHook(self,data)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: ! parseReturn
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: result.length != 64
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidHookResponse().selector.revertWith()
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: result.parseReturnDelta()
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+
+Function: beforeInitialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: self.hasPermission(BEFORE_INITIALIZE_FLAG)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: self.callHook(abi.encodeCall(IHooks.beforeInitialize,(msg.sender,key,sqrtPriceX96)))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noSelfCall(self)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: afterInitialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: self.hasPermission(AFTER_INITIALIZE_FLAG)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: self.callHook(abi.encodeCall(IHooks.afterInitialize,(msg.sender,key,sqrtPriceX96,tick)))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noSelfCall(self)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: beforeModifyLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: params.liquidityDelta > 0 && self.hasPermission(BEFORE_ADD_LIQUIDITY_FLAG)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: self.callHook(abi.encodeCall(IHooks.beforeAddLiquidity,(msg.sender,key,params,hookData)))
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: params.liquidityDelta <= 0 && self.hasPermission(BEFORE_REMOVE_LIQUIDITY_FLAG)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: self.callHook(abi.encodeCall(IHooks.beforeRemoveLiquidity,(msg.sender,key,params,hookData)))
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: noSelfCall(self)
+
+Edges:
+  0 -> 7
+  1 -> 2
+  1 -> 3
+  2 -> 6
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: afterModifyLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender == address(self)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (delta,BalanceDeltaLibrary.ZERO_DELTA)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: callerDelta = delta
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: params.liquidityDelta > 0
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: self.hasPermission(AFTER_ADD_LIQUIDITY_FLAG)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: hookDelta = BalanceDelta.wrap(self.callHookWithReturnDelta(abi.encodeCall(IHooks.afterAddLiquidity,(msg.sender,key,params,delta,feesAccrued,hookData)),self.hasPermission(AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG)))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: callerDelta = sub(callerDelta,hookDelta)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: self.hasPermission(AFTER_REMOVE_LIQUIDITY_FLAG)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: hookDelta = BalanceDelta.wrap(self.callHookWithReturnDelta(abi.encodeCall(IHooks.afterRemoveLiquidity,(msg.sender,key,params,delta,feesAccrued,hookData)),self.hasPermission(AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG)))
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: callerDelta = sub(callerDelta,hookDelta)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: (callerDelta,hookDelta)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 10
+  6 -> 7
+  6 -> 9
+  7 -> 8
+  8 -> 9
+  9 -> 14
+  10 -> 11
+  10 -> 13
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: beforeSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: amountToSwap = params.amountSpecified
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: msg.sender == address(self)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (amountToSwap,BeforeSwapDeltaLibrary.ZERO_DELTA,lpFeeOverride)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: self.hasPermission(BEFORE_SWAP_FLAG)
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: result = callHook(self,abi.encodeCall(IHooks.beforeSwap,(msg.sender,key,params,hookData)))
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: result.length != 96
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidHookResponse().selector.revertWith()
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: key.fee.isDynamicFee()
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: lpFeeOverride = result.parseFee()
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: self.hasPermission(BEFORE_SWAP_RETURNS_DELTA_FLAG)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: hookReturn = BeforeSwapDelta.wrap(result.parseReturnDelta())
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: hookDeltaSpecified = hookReturn.getSpecifiedDelta()
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: hookDeltaSpecified != 0
+
+  ID: 17
+  Type: NodeType.VARIABLE
+  Expression: exactInput = amountToSwap < 0
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: amountToSwap += hookDeltaSpecified
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: revert HookDeltaExceedsSwapAmount().selector.revertWith()
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.IF
+  Expression: exactInput
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: amountToSwap > 0
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: amountToSwap < 0
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: (amountToSwap,hookReturn,lpFeeOverride)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 24
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 23
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 22
+  17 -> 18
+  18 -> 25
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 29
+  25 -> 26
+  25 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 20
+  28 -> 21
+
+Function: afterSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: msg.sender == address(self)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (swapDelta,BalanceDeltaLibrary.ZERO_DELTA)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: hookDeltaSpecified = beforeSwapHookReturn.getSpecifiedDelta()
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: hookDeltaUnspecified = beforeSwapHookReturn.getUnspecifiedDelta()
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: self.hasPermission(AFTER_SWAP_FLAG)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: hookDeltaUnspecified += self.callHookWithReturnDelta(abi.encodeCall(IHooks.afterSwap,(msg.sender,key,params,swapDelta,hookData)),self.hasPermission(AFTER_SWAP_RETURNS_DELTA_FLAG)).toInt128()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: hookDeltaUnspecified != 0 || hookDeltaSpecified != 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: swapDelta = sub(swapDelta,hookDelta)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (swapDelta,hookDelta)
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: (params.amountSpecified < 0 == params.zeroForOne)
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: hookDelta = toBalanceDelta(hookDeltaSpecified,hookDeltaUnspecified)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: hookDelta = toBalanceDelta(hookDeltaUnspecified,hookDeltaSpecified)
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 15
+  10 -> 13
+  12 -> 13
+  13 -> 14
+  15 -> 16
+  15 -> 17
+  16 -> 18
+  17 -> 18
+  18 -> 12
+
+Function: beforeDonate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: self.hasPermission(BEFORE_DONATE_FLAG)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: self.callHook(abi.encodeCall(IHooks.beforeDonate,(msg.sender,key,amount0,amount1,hookData)))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noSelfCall(self)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: afterDonate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: self.hasPermission(AFTER_DONATE_FLAG)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: self.callHook(abi.encodeCall(IHooks.afterDonate,(msg.sender,key,amount0,amount1,hookData)))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: noSelfCall(self)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: hasPermission
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint160(address(self)) & flag != 0
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ALL_HOOK_MASK = uint160((1 << 14) - 1)
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BEFORE_INITIALIZE_FLAG = 1 << 13
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_INITIALIZE_FLAG = 1 << 12
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BEFORE_ADD_LIQUIDITY_FLAG = 1 << 11
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_ADD_LIQUIDITY_FLAG = 1 << 10
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BEFORE_REMOVE_LIQUIDITY_FLAG = 1 << 9
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_REMOVE_LIQUIDITY_FLAG = 1 << 8
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BEFORE_SWAP_FLAG = 1 << 7
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_SWAP_FLAG = 1 << 6
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BEFORE_DONATE_FLAG = 1 << 5
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_DONATE_FLAG = 1 << 4
+
+  ID: 11
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: BEFORE_SWAP_RETURNS_DELTA_FLAG = 1 << 3
+
+  ID: 12
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_SWAP_RETURNS_DELTA_FLAG = 1 << 2
+
+  ID: 13
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG = 1 << 1
+
+  ID: 14
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG = 1 << 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+
+Contract: IImmutableState
+==================================================
+
+
+Contract: ImmutableState
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: poolManager = _poolManager
+
+Edges:
+  0 -> 1
+
+
+Contract: IUnlockCallback
+==================================================
+
+
+Contract: SafeCallback
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ImmutableState(_poolManager)
+
+Edges:
+  0 -> 1
+
+Function: unlockCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _unlockCallback(data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyPoolManager()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+
+Contract: BaseHook
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: validateHookAddress(this)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: SafeCallback(_manager)
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unlockCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _unlockCallback(data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyPoolManager()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: validateHookAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Hooks.validateHookPermissions(_this,getHookPermissions())
+
+Edges:
+  0 -> 1
+
+Function: _unlockCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returnData) = address(this).call(data)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: returnData
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: returnData.length == 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert LockFailure()()
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(returnData + 32,mload(uint256)(returnData))
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: beforeInitialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterInitialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: beforeAddLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: beforeRemoveLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterAddLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterRemoveLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: beforeSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: beforeDonate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterDonate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+
+Contract: FairTradeHook
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: BaseHook(manager)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Ownable(initialOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: owner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+
+Function: _checkOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner() != _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableUnauthorizedAccount(address)(_msgSender())
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: renounceOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert OwnableInvalidOwner(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferOwnership(newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = _owner
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _owner = newOwner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(oldOwner,newOwner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: validateHookAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: Hooks.validateHookPermissions(_this,getHookPermissions())
+
+Edges:
+  0 -> 1
+
+Function: _unlockCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,returnData) = address(this).call(data)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: success
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: returnData
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: returnData.length == 0
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert LockFailure()()
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(returnData + 32,mload(uint256)(returnData))
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: beforeInitialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterInitialize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: beforeAddLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: BaseHook.beforeAddLiquidity.selector
+
+Edges:
+  0 -> 1
+
+Function: beforeRemoveLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: BaseHook.beforeRemoveLiquidity.selector
+
+Edges:
+  0 -> 1
+
+Function: afterAddLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterRemoveLiquidity
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: beforeSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentBlock = block.number
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: previousBlock = lastSwapBlock[sender]
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: blockedAddresses[sender]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert BotBlocked()()
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: previousBlock == currentBlock
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: revert SandwichDetected()()
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: block.timestamp < lastSwapTimestamp[sender] + swapCooldown
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: revert CooldownNotMet()()
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: lastSwapBlock[sender] = currentBlock
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: lastSwapTimestamp[sender] = block.timestamp
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: (BaseHook.beforeSwap.selector,BeforeSwapDeltaLibrary.ZERO_DELTA,0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+
+Function: afterSwap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (BaseHook.afterSwap.selector,0)
+
+Edges:
+  0 -> 1
+
+Function: beforeDonate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: afterDonate
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert HookNotImplemented()()
+
+Edges:
+  0 -> 1
+
+Function: unlockCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _unlockCallback(data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyPoolManager()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getHookPermissions
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Hooks.Permissions({beforeInitialize:false,afterInitialize:false,beforeAddLiquidity:true,afterAddLiquidity:false,beforeRemoveLiquidity:true,afterRemoveLiquidity:false,beforeSwap:true,afterSwap:true,beforeDonate:false,afterDonate:false,beforeSwapReturnDelta:false,afterSwapReturnDelta:false,afterAddLiquidityReturnDelta:false,afterRemoveLiquidityReturnDelta:false})
+
+Edges:
+  0 -> 1
+
+Function: updateBlockedAddress
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: blockedAddresses[addr] = blocked
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: updateBlockedAddresses
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < addresses.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: blockedAddresses[addresses[i]] = blocked
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 7
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 3
+
+Function: updateCooldown
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(cooldown <= 60,Cooldown too high)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: swapCooldown = cooldown
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: swapCooldown = 15
+
+Edges:
+
+

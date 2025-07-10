@@ -1,0 +1,28 @@
+Contract: LOTT
+==================================================
+
+Function: place
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: rand1 += uint256(msg.sender) + block.timestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: rand2 -= uint8(msg.sender)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: rand2 + rand2
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+

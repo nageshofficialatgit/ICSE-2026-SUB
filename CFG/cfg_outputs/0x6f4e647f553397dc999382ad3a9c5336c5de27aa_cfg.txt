@@ -1,0 +1,3847 @@
+Contract: SafeMath
+==================================================
+
+Function: mul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c / a == b)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: div
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a / b
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: sub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(b <= a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: a - b
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: add
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(c >= a)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: c
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: Owned
+==================================================
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setCEO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCEO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = _newCEO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setCOO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCOO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = _newCOO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: acceptCeoOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCeoAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCeoAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = newCeoAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: acceptCooOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCooAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCooAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = newCooAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: YouCollectBase
+==================================================
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setCEO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCEO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = _newCEO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setCOO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCOO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = _newCOO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: acceptCeoOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCeoAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCeoAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = newCeoAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: acceptCooOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCooAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCooAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = newCooAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: DECIMALS
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[_from] >= _value && allowance >= _value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] -= _value
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: allowance < MAX_UINT256
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] -= _value
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_spender.call(bytes4(bytes32(sha3()(receiveApproval(address,uint256,address,bytes)))),msg.sender,_value,this,_extraData))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: amount > this.balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: amount = this.balance
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _payout(_to,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCLevel()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress.transfer(amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _to.transfer(amount)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = Crypto - YouCollect
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = CYC
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DECIMALS = 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_UINT256 = 2 ** 256 - 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: ERC721YC
+==================================================
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: DECIMALS
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[_from] >= _value && allowance >= _value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] -= _value
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: allowance < MAX_UINT256
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] -= _value
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_spender.call(bytes4(bytes32(sha3()(receiveApproval(address,uint256,address,bytes)))),msg.sender,_value,this,_extraData))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: amount > this.balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: amount = this.balance
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _payout(_to,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCLevel()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress.transfer(amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _to.transfer(amount)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setCEO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCEO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = _newCEO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setCOO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCOO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = _newCOO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: acceptCeoOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCeoAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCeoAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = newCeoAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: acceptCooOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCooAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCooAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = newCooAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: approveToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_ownsToken(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToApproved[_tokenId] = _to
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalToken(msg.sender,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getTotalTokenSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokens.length
+
+Edges:
+  0 -> 1
+
+Function: implementsERC721YC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = tokenIndexToOwner[_tokenId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: priceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: price = tokenIndexToPrice[_tokenId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: price == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: price = getInitialPriceOfToken(_tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: price
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: takeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: newOwner = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = tokenIndexToOwner[_tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(newOwner))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_approved(newOwner,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(oldOwner,newOwner,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transferToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_ownsToken(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(_to))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(msg.sender,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferTokenFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_ownsToken(_from,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_approved(_to,_tokenId))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(_to))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _addressNotNull
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _to != address(0)
+
+Edges:
+  0 -> 1
+
+Function: _approved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokenIndexToApproved[_tokenId] == _to
+
+Edges:
+  0 -> 1
+
+Function: _createCollectible
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToPrice[tokenId] = _price
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Birth(tokenId,_price)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokens.push(tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: unlocked[tokenId] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _ownsToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: claimant == tokenIndexToOwner[_tokenId]
+
+Edges:
+  0 -> 1
+
+Function: changeTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_ownsToken(msg.sender,_tokenId) && ! isTokenChangePriceLocked) || (_ownsToken(address(0),_tokenId) && msg.sender == cooAddress))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newPrice < tokenIndexToPrice[_tokenId])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToPrice[_tokenId] = newPrice
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: unlockToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: unlocked[tokenId] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unlockTokenPriceChange
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isTokenChangePriceLocked = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: isChangePriceLocked
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: isTokenChangePriceLocked
+
+Edges:
+  0 -> 1
+
+Function: createPromoCollectible
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenIndexToOwner[tokenId] == address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: collectibleOwner = _owner
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: collectibleOwner == address(0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: collectibleOwner = cooAddress
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _price <= 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _price = getInitialPriceOfToken(tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _createCollectible(tokenId,_price)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(address(0),collectibleOwner,tokenId)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: tokenBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: totalTokens = tokens.length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: result = 0
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: tokenIndex < totalTokens
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: tokenId = tokens[tokenIndex]
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: tokenIndexToOwner[tokenId] == _owner
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: result = result.add(1)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex ++
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 14
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 8
+
+Function: _transferToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToOwner[_tokenId] = _to
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete tokenIndexToApproved[_tokenId]
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TransferToken(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokenCount = balanceOf(_owner)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: tokenCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: new uint256[](0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: result = new uint256[](tokenCount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: totalTokens = getTotalTokenSupply()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: resultIndex = 0
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex = 0
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: tokenIndex < totalTokens
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: tokenId = tokens[tokenIndex]
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: tokenIndexToOwner[tokenId] == _owner
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: result[resultIndex] = tokenId
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: resultIndex = resultIndex.add(1)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex ++
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: ownerTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 19
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 12
+
+Function: getTokenIds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokens
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isTokenChangePriceLocked = true
+
+Edges:
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = Crypto - YouCollect
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = CYC
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DECIMALS = 18
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: CollectibleToken
+==================================================
+
+Function: approveToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_ownsToken(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToApproved[_tokenId] = _to
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ApprovalToken(msg.sender,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getTotalTokenSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokens.length
+
+Edges:
+  0 -> 1
+
+Function: implementsERC721YC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = tokenIndexToOwner[_tokenId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: priceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: price = tokenIndexToPrice[_tokenId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: price == 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: price = getInitialPriceOfToken(_tokenId)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: price
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: takeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: newOwner = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = tokenIndexToOwner[_tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(newOwner))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_approved(newOwner,_tokenId))
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(oldOwner,newOwner,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transferToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_ownsToken(msg.sender,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(_to))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(msg.sender,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferTokenFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_ownsToken(_from,_tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_approved(_to,_tokenId))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_addressNotNull(_to))
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _addressNotNull
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _to != address(0)
+
+Edges:
+  0 -> 1
+
+Function: _approved
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokenIndexToApproved[_tokenId] == _to
+
+Edges:
+  0 -> 1
+
+Function: _createCollectible
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToPrice[tokenId] = _price
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Birth(tokenId,_price)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokens.push(tokenId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: unlocked[tokenId] = true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _ownsToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: claimant == tokenIndexToOwner[_tokenId]
+
+Edges:
+  0 -> 1
+
+Function: changeTokenPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)((_ownsToken(msg.sender,_tokenId) && ! isTokenChangePriceLocked) || (_ownsToken(address(0),_tokenId) && msg.sender == cooAddress))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(newPrice < tokenIndexToPrice[_tokenId])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToPrice[_tokenId] = newPrice
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: unlockToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: unlocked[tokenId] = true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: unlockTokenPriceChange
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isTokenChangePriceLocked = false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: isChangePriceLocked
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: isTokenChangePriceLocked
+
+Edges:
+  0 -> 1
+
+Function: createPromoCollectible
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenIndexToOwner[tokenId] == address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: collectibleOwner = _owner
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: collectibleOwner == address(0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: collectibleOwner = cooAddress
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _price <= 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _price = getInitialPriceOfToken(tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _createCollectible(tokenId,_price)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(address(0),collectibleOwner,tokenId)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 11
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  11 -> 1
+
+Function: tokenBalanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: totalTokens = tokens.length
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: result = 0
+
+  ID: 5
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex = 0
+
+  ID: 8
+  Type: NodeType.IFLOOP
+  Expression: tokenIndex < totalTokens
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: tokenId = tokens[tokenIndex]
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: tokenIndexToOwner[tokenId] == _owner
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: result = result.add(1)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex ++
+
+  ID: 14
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 7
+  5 -> 8
+  6 -> 14
+  7 -> 5
+  8 -> 9
+  8 -> 6
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 8
+
+Function: _transferToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToOwner[_tokenId] = _to
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _from != address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: delete tokenIndexToApproved[_tokenId]
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: TransferToken(_from,_to,_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: tokensOfOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tokenCount = balanceOf(_owner)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: tokenCount == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: new uint256[](0)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: result = new uint256[](tokenCount)
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: totalTokens = getTotalTokenSupply()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: resultIndex = 0
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 10
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex = 0
+
+  ID: 12
+  Type: NodeType.IFLOOP
+  Expression: tokenIndex < totalTokens
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: tokenId = tokens[tokenIndex]
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: tokenIndexToOwner[tokenId] == _owner
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: result[resultIndex] = tokenId
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: resultIndex = resultIndex.add(1)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndex ++
+
+  ID: 19
+  Type: NodeType.RETURN
+  Expression: result
+
+  ID: 21
+  Type: NodeType.RETURN
+  Expression: ownerTokens
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 11
+  9 -> 12
+  10 -> 19
+  11 -> 9
+  12 -> 13
+  12 -> 10
+  13 -> 14
+  14 -> 15
+  14 -> 17
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 12
+
+Function: getTokenIds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: tokens
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: NAME
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: SYMBOL
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: DECIMALS
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[msg.sender] >= _value)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= _value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,_to,_value)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: allowance = allowed[_from][msg.sender]
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[_from] >= _value && allowance >= _value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[_to] += _value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[_from] -= _value
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: allowance < MAX_UINT256
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: allowed[_from][msg.sender] -= _value
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(_from,_to,_value)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[_owner]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: balance
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: approveAndCall
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: allowed[msg.sender][_spender] = _value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Approval(msg.sender,_spender,_value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_spender.call(bytes4(bytes32(sha3()(receiveApproval(address,uint256,address,bytes)))),msg.sender,_value,this,_extraData))
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: success
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: allowed[_owner][_spender]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: remaining
+
+Edges:
+  0 -> 1
+
+Function: payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: amount > this.balance
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: amount = this.balance
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _payout(_to,amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCLevel()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: _payout
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _to == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress.transfer(amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _to.transfer(amount)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 4
+  3 -> 4
+
+Function: Owned
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = msg.sender
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: setCEO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCEO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = _newCEO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: setCOO
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_newCOO != address(0))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = _newCOO
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCEO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: acceptCeoOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCeoAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCeoAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ceoAddress = newCeoAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCeoAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: acceptCooOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender == newCooAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(address(0) != newCooAddress)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: cooAddress = newCooAddress
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: newCooAddress = address(0)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: CollectibleToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] = 10000000000000000000
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = 10000000000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getInitialPriceOfToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _tokenId > 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: STARTING_PRICE
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 10000000000000000000
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: getNextPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: sellingPrice < FIRST_STEP_LIMIT
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: sellingPrice.mul(200).div(93)
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: sellingPrice < SECOND_STEP_LIMIT
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: sellingPrice.mul(120).div(93)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: sellingPrice.mul(115).div(93)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  3 -> 5
+
+Function: getCollectible
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: tokenId = _tokenId
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sellingPrice = tokenIndexToPrice[_tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = tokenIndexToOwner[_tokenId]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: sellingPrice == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: sellingPrice = getInitialPriceOfToken(_tokenId)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nextSellingPrice = getNextPrice(sellingPrice)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (tokenId,sellingPrice,owner,nextSellingPrice)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: purchase
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: oldOwner = tokenIndexToOwner[_tokenId]
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: sellingPrice = tokenIndexToPrice[_tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(oldOwner != msg.sender || sellingPrice > 1000000000000000000)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: sellingPrice == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: sellingPrice = getInitialPriceOfToken(_tokenId)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.sender != address(0))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(msg.value >= sellingPrice)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: purchaseExcess = msg.value.sub(sellingPrice)
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: payment = sellingPrice.mul(93).div(100)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: feeOnce = sellingPrice.sub(payment).div(7)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToPrice[_tokenId] = getNextPrice(sellingPrice)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToOwner[_tokenId] = msg.sender
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: TokenSold(_tokenId,sellingPrice,oldOwner,msg.sender)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: TransferToken(oldOwner,msg.sender,_tokenId)
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: oldOwner != address(0)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: delete tokenIndexToApproved[_tokenId]
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _payoutMining(_tokenId,oldOwner,msg.sender)
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: sellingPrice > 3000000000000000000
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: levelUpMining(_tokenId)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: oldOwner.transfer(payment)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(unlocked[_tokenId])
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: Birth(_tokenId,sellingPrice)
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: tokens.push(_tokenId)
+
+  ID: 26
+  Type: NodeType.EXPRESSION
+  Expression: createMineForToken(_tokenId)
+
+  ID: 27
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 28
+  Type: NodeType.IF
+  Expression: _tokenId > 0 && tokenIndexToOwner[MASTER_TOKEN_ID] != address(0)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: tokenIndexToOwner[MASTER_TOKEN_ID].transfer(feeOnce)
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: purchaseExcess > 0
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: msg.sender.transfer(purchaseExcess)
+
+  ID: 33
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 23
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 22
+  22 -> 27
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  27 -> 28
+  28 -> 29
+  28 -> 30
+  29 -> 30
+  30 -> 31
+  31 -> 32
+  31 -> 33
+  32 -> 33
+
+Function: changeEarnings
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: earningsEachBlock = amount
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(earningsEachBlock > 0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: createMineForToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: miningPower[tokenId] = power
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: miningPushed[tokenId] = xp
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: miningNextLevelBreak[tokenId] = nextLevelBreak
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: miningLastPayoutBlock[tokenId] = block.number
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: upgradeMining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balanceOf(msg.sender) >= coins)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: nextLevelBreak = miningNextLevelBreak[tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= coins
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: xp = miningPushed[tokenId] + coins
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: xp > nextLevelBreak
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: power = miningPower[tokenId]
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: miningLastPayoutBlock[tokenId] < block.number
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _payoutMining(tokenId,ownerOf(tokenId))
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: xp > nextLevelBreak
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: nextLevelBreak = nextLevelBreak.mul(13).div(4)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: power = power.mul(2)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: MiningLevelup(msg.sender,tokenId,power)
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: miningNextLevelBreak[tokenId] = nextLevelBreak
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: miningPower[tokenId] = power
+
+  ID: 18
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: miningPushed[tokenId] = xp
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,this,coins)
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: MiningUpgrade(msg.sender,tokenId,coins)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 18
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  14 -> 11
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+
+Function: levelUpMining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: diffToNextLevel = getCostToNextLevel(tokenId)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: miningNextLevelBreak[tokenId] = miningNextLevelBreak[tokenId].mul(13).div(4)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: miningPushed[tokenId] = miningNextLevelBreak[tokenId].sub(diffToNextLevel)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: miningPower[tokenId] = miningPower[tokenId].mul(2)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: MiningLevelup(msg.sender,tokenId,miningPower[tokenId])
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: payoutMining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_ownsToken(msg.sender,tokenId))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(miningLastPayoutBlock[tokenId] < block.number)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _payoutMining(tokenId,msg.sender)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: _payoutMining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: coinsMinedHalf = block.number.sub(miningLastPayoutBlock[tokenId]).mul(earningsEachBlock).mul(miningPower[tokenId]).div(2)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: miningLastPayoutBlock[tokenId] = block.number
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[owner] = balances[owner].add(coinsMinedHalf)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[newOwner] = balances[newOwner].add(coinsMinedHalf)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: totalSupply = totalSupply.add(coinsMinedHalf.mul(2))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: MiningStolenPayout(newOwner,owner,tokenId,coinsMinedHalf)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getCostToNextLevel
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: miningNextLevelBreak[tokenId] - miningPushed[tokenId]
+
+Edges:
+  0 -> 1
+
+Function: getMiningMeta
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: earnEachBlock = miningPower[tokenId].mul(earningsEachBlock)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mined = block.number.sub(miningLastPayoutBlock[tokenId]).mul(earningsEachBlock).mul(miningPower[tokenId])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: xp = miningPushed[tokenId]
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: nextLevelUp = miningNextLevelBreak[tokenId]
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: lastPayoutBlock = miningLastPayoutBlock[tokenId]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: power = miningPower[tokenId]
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: (earnEachBlock,mined,xp,nextLevelUp,lastPayoutBlock,power)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: getCollectibleWithMeta
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _tokenId = tokenId
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: sellingPrice = tokenIndexToPrice[tokenId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: owner = tokenIndexToOwner[tokenId]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: sellingPrice == 0
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: sellingPrice = getInitialPriceOfToken(tokenId)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: nextSellingPrice = getNextPrice(sellingPrice)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: earnEachBlock = miningPower[tokenId].mul(earningsEachBlock)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: lastMinedBlock = miningLastPayoutBlock[tokenId]
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mined = block.number.sub(lastMinedBlock).mul(earningsEachBlock).mul(miningPower[tokenId])
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: xp = miningPushed[tokenId]
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: nextLevelUp = miningNextLevelBreak[tokenId]
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: lastPayoutBlock = miningLastPayoutBlock[tokenId]
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: power = miningPower[tokenId]
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: (_tokenId,sellingPrice,owner,nextSellingPrice,earnEachBlock,mined,xp,nextLevelUp,lastPayoutBlock,power)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+
+Function: getEarnEachBlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: earningsEachBlock
+
+Edges:
+  0 -> 1
+
+Function: createPromoCollectibleWithMining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenIndexToOwner[tokenId] == address(0))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: collectibleOwner = _owner
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: collectibleOwner == address(0)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: collectibleOwner = cooAddress
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.IF
+  Expression: _price <= 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _price = getInitialPriceOfToken(tokenId)
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _createCollectible(tokenId,_price)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: createMineForToken(tokenId,power,xp,nextLevelBreak)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(address(0),collectibleOwner,tokenId)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 12
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  12 -> 1
+
+Function: createPromoCollectiblesWithMining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: i < tokenId.length
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(tokenIndexToOwner[tokenId[i]] == address(0))
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: collectibleOwner = _owner[i]
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: collectibleOwner == address(0)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: collectibleOwner = cooAddress
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: _price[i] <= 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: _createCollectible(tokenId[i],getInitialPriceOfToken(tokenId[i]))
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _createCollectible(tokenId[i],_price[i])
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: createMineForToken(tokenId[i],power[i],xp[i],nextLevelBreak[i])
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: _transferToken(address(0),collectibleOwner,tokenId[i])
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: onlyCOO()
+
+Edges:
+  0 -> 18
+  1 -> 4
+  2 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 3
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 5
+  18 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isTokenChangePriceLocked = true
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: earningsEachBlock = 173611111111111
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FIRST_MINING_LEVEL_COST = 1333333333333333333
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NAME = Crypto - YouCollect
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SYMBOL = CYC
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DECIMALS = 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: STARTING_PRICE = 1000000000000000
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FIRST_STEP_LIMIT = 53613000000000000
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: SECOND_STEP_LIMIT = 564957000000000000
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MASTER_TOKEN_ID = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

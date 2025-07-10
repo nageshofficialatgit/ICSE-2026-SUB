@@ -1,0 +1,742 @@
+Contract: SafeMath
+==================================================
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z >= x) && (z >= y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSubtract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x >= y)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: z = x - y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeMult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((x == 0) || (z / x == y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: BasicAccessControl
+==================================================
+
+Function: BasicAccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: ChangeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: AddModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_newModerator] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_newModerator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: RemoveModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_oldModerator] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_oldModerator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: UpdateMaintaining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintaining = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalModerators = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintaining = true
+
+Edges:
+  0 -> 1
+
+
+Contract: EtheremonEnum
+==================================================
+
+
+Contract: EtheremonTransformData
+==================================================
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z >= x) && (z >= y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSubtract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x >= y)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: z = x - y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeMult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((x == 0) || (z / x == y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: BasicAccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: ChangeOwner
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _newOwner != address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: owner = _newOwner
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  4 -> 1
+
+Function: AddModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_newModerator] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_newModerator] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: RemoveModerator
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: moderators[_oldModerator] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: moderators[_oldModerator] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalModerators -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: UpdateMaintaining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintaining = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: addEgg
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: totalEgg += 1
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: egg = eggs[totalEgg]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: egg.objId = _objId
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: egg.eggId = totalEgg
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: egg.classId = _classId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: egg.trainer = _trainer
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: egg.hatchTime = _hatchTime
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: egg.newObjId = 0
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: hatchingEggs[_trainer] = totalEgg
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: _objId > 0
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: eggList[_objId].push(totalEgg)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: totalEgg
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  14 -> 1
+
+Function: setHatchedEgg
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: egg = eggs[_eggId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: egg.eggId != _eggId
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: egg.newObjId = _newObjId
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: hatchingEggs[egg.trainer] = 0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 7
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  7 -> 1
+
+Function: setHatchTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: egg = eggs[_eggId]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: egg.eggId != _eggId
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: egg.hatchTime = _hatchTime
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: setTranformed
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: transformed[_objId] = _newObjId
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyModerators()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: getHatchingEggId
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: hatchingEggs[_trainer]
+
+Edges:
+  0 -> 1
+
+Function: getEggDataById
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: egg = eggs[_eggId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (egg.eggId,egg.objId,egg.classId,egg.trainer,egg.hatchTime,egg.newObjId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getHatchingEggData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: egg = eggs[hatchingEggs[_trainer]]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (egg.eggId,egg.objId,egg.classId,egg.trainer,egg.hatchTime,egg.newObjId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getTranformedId
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: transformed[_objId]
+
+Edges:
+  0 -> 1
+
+Function: countEgg
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: eggList[_objId].length
+
+Edges:
+  0 -> 1
+
+Function: getEggIdByObjId
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: egg = eggs[eggList[_objId][_index]]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (egg.eggId,egg.objId,egg.classId,egg.trainer,egg.hatchTime,egg.newObjId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalModerators = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintaining = true
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalEgg = 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

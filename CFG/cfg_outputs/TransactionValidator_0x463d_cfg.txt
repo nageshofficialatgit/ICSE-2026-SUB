@@ -1,0 +1,147 @@
+Contract: LinkTokenInterface
+==================================================
+
+
+Contract: TransactionValidator
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: oracle = _oracle
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: jobId = _jobId
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: fee = _fee
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: linkToken = LinkTokenInterface(_linkToken)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: depositValidated
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == oracle,Only the designated Chainlink oracle can validate deposits)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! processedTxs[txHash],Transaction has already been processed)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: processedTxs[txHash] = true
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: totalDeposited += amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(tx.origin,amount)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: TransactionValidated(txHash,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= amount,Insufficient balance in the contract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Withdrawal(owner,amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: getContractBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: getLinkBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: linkToken.balanceOf(address(this))
+
+Edges:
+  0 -> 1
+
+

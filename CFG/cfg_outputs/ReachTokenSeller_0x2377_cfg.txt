@@ -1,0 +1,428 @@
+Contract: IAggregator
+==================================================
+
+
+Contract: IReachToken
+==================================================
+
+
+Contract: ReachTokenSeller
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_priceFeed != address(0),Invalid price feed)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_token != address(0),Invalid token address)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_treasury != address(0),Invalid treasury address)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: priceFeed = IAggregator(_priceFeed)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: reachToken = IReachToken(_token)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: treasury = _treasury
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: togglePause
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: paused = ! paused
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: PauseToggled(paused,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getLatestPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,answer,None,updatedAt,None) = priceFeed.latestRoundData()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(answer > 0,Invalid price data)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(block.timestamp - updatedAt < 3600,Price data is stale)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: uint256(answer) * 1e10
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: buyTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! paused,Paused)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,ETH required)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: price = getLatestPrice()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: price < floorPrice
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: price = floorPrice
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: decimals = reachToken.decimals()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: tokensToSend = (msg.value * price * (10 ** decimals)) / ONE_ETHER / ONE_ETHER
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokensToSend >= minTokens,Slippage exceeded)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(reachToken.balanceOf(treasury) >= tokensToSend,Insufficient token supply)
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: sent = reachToken.transferFrom(treasury,msg.sender,tokensToSend)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sent,Token transfer failed)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: TokensBought(msg.sender,msg.value,tokensToSend,price,block.timestamp)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 14
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 1
+
+Function: sellTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! paused,Paused)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(tokenAmount > 0,Token amount > 0)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: price = getLatestPrice()
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: price < floorPrice
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: price = floorPrice
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: decimals = reachToken.decimals()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: ethAmount = (tokenAmount * ONE_ETHER) / price / (10 ** decimals)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(ethAmount <= maxEth,Slippage exceeded)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(address(this).balance >= ethAmount,Not enough ETH)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(reachToken.allowance(msg.sender,address(this)) >= tokenAmount,Allowance too low)
+
+  ID: 12
+  Type: NodeType.VARIABLE
+  Expression: transferred = reachToken.transferFrom(msg.sender,treasury,tokenAmount)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(transferred,Token transfer failed)
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = msg.sender.call{value: ethAmount}()
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETH transfer failed)
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: TokensSold(msg.sender,tokenAmount,ethAmount,price,block.timestamp)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 18
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  18 -> 1
+
+Function: setTreasury
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_treasury != address(0),Zero address)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: TreasuryUpdated(treasury,_treasury,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: treasury = _treasury
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateFloorPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(newPrice > 0,Price must be > 0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: FloorPriceUpdated(floorPrice,newPrice,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: floorPrice = newPrice
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: withdrawETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount <= address(this).balance,Not enough balance)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (sent,None) = address(owner).call{value: amount}()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(sent,Withdraw failed)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 6
+  6 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: paused = false
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: floorPrice = 27 * 1e18
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ONE_ETHER = 1e18
+
+Edges:
+
+

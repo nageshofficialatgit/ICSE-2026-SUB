@@ -1,0 +1,33 @@
+Contract: VernamWhiteListDeposit
+==================================================
+
+Function: fallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp <= deadLine)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: isWhiteList[msg.sender] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: participants.push(msg.sender)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

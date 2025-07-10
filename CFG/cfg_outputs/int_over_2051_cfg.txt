@@ -1,0 +1,28 @@
+Contract: EcroContract
+==================================================
+
+Function: withdrawInvestments
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: amount = block.timestamp
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+

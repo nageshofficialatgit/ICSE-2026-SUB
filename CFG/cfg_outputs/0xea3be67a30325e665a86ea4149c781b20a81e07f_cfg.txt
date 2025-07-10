@@ -1,0 +1,628 @@
+Contract: SafeMath
+==================================================
+
+Function: safeAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x + y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((z >= x) && (z >= y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeSubtract
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)(x >= y)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: z = x - y
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: safeMult
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: z = x * y
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: assert(bool)((x == 0) || (z / x == y))
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: z
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getRandomNumber
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: genNum = uint256(block.blockhash(block.number - 1)) + uint256(privateAddress)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: uint8(genNum % (maxRandom - min + 1) + min)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+
+Contract: Enums
+==================================================
+
+
+Contract: AccessControl
+==================================================
+
+Function: AccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: creatorAddress = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: addSERAPHIM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: seraphims[_newSeraphim] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: seraphims[_newSeraphim] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSeraphims += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: removeSERAPHIM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: seraphims[_oldSeraphim] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: seraphims[_oldSeraphim] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSeraphims -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: updateMaintenanceMode
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintenanceMode = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalSeraphims = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintenanceMode = true
+
+Edges:
+  0 -> 1
+
+
+Contract: IAccessoryData
+==================================================
+
+Function: AccessControl
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: creatorAddress = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: addSERAPHIM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: seraphims[_newSeraphim] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: seraphims[_newSeraphim] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSeraphims += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: removeSERAPHIM
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: seraphims[_oldSeraphim] == true
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: seraphims[_oldSeraphim] = false
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalSeraphims -= 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: updateMaintenanceMode
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: isMaintenanceMode = _isMaintaining
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalSeraphims = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: isMaintenanceMode = true
+
+Edges:
+  0 -> 1
+
+
+Contract: AccessoryWrapper721
+==================================================
+
+Function: AcceessoryWrapper721
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: creatorAddress = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: addMARKETPLACE
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: marketplaces[_newMarketplace] == false
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: marketplaces[_newMarketplace] = true
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: totalMarketplaces += 1
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: SetAccessoryDataContact
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: accessoryDataContract = _accessoryDataContract
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: onlyCREATOR()
+
+Edges:
+  0 -> 2
+  2 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: accessoryData = IAccessoryData(accessoryDataContract)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: accessoryData.getOwnerAccessoryCount(_owner)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _balance
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: ownerOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: accessoryData = IAccessoryData(accessoryDataContract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,owner) = accessoryData.getAccessory(_tokenId)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: owner
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: _owner
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getTokenByIndex
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: accessoryData = IAccessoryData(accessoryDataContract)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: uint64(accessoryData.getAccessoryByIndex(_owner,index))
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getAccessory
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: accessoryData = IAccessoryData(accessoryDataContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: (accessoryID,AccessorySeriesID,owner) = accessoryData.getAccessory(_accessoryId)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (accessoryID,AccessorySeriesID,owner)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: getTokenLockStatus
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: accessoryData = IAccessoryData(accessoryDataContract)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: accessoryData.getAccessoryLockStatus(_tokenId)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: accessoryData = IAccessoryData(accessoryDataContract)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,owner) = accessoryData.getAccessory(_tokenId)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: (marketplaces[msg.sender] == true) || (owner == msg.sender)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: accessoryData.transferAccessory(owner,_to,uint64(_tokenId))
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(owner,_to,_tokenId)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: MarketplaceTransfer(owner,_to,_tokenId,msg.sender)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 8
+  5 -> 6
+  6 -> 7
+  7 -> 9
+  8 -> 9
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: takeOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: revert()()
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: totalMarketplaces = 0
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: accessoryDataContract = 0x466c44812835f57b736ef9F63582b8a6693A14D0
+
+Edges:
+  0 -> 1
+
+

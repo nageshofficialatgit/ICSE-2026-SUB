@@ -1,0 +1,23 @@
+Contract: BaseWallet
+==================================================
+
+Function: invoke
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: success = _target.call.value(_value)(_data)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(success)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

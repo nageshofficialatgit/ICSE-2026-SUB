@@ -1,0 +1,162 @@
+Contract: ETHPayment
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,Must send ETH)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] += msg.value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Deposited(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: authorize
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= amount,Insufficient balance to authorize)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: authorizations[msg.sender][agent] = amount
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Authorized(msg.sender,agent,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[from] >= amount,Insufficient balance)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(authorizations[from][msg.sender] >= amount,Not authorized for this amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[from] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: authorizations[from][msg.sender] -= amount
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = to.call{value: amount}()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(success,ETH transfer failed)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: TransferredFromAuthorized(from,to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[user]
+
+Edges:
+  0 -> 1
+
+Function: getAuthorization
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: authorizations[owner_][agent]
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] += msg.value
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Deposited(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

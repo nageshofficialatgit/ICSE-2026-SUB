@@ -1,0 +1,23 @@
+Contract: EthTeamContract
+==================================================
+
+Function: finish
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(block.timestamp >= finishTime)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: feeOwner.transfer(address(this).balance)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+

@@ -1,0 +1,32 @@
+Contract: FreyrTokenLocker
+==================================================
+
+Function: secondsRemaining
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: block.timestamp < releaseTime
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: releaseTime
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: timestamp
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+
+

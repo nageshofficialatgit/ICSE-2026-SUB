@@ -1,0 +1,38 @@
+Contract: NinjaToken
+==================================================
+
+Function: buy
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: ! fundingAccount.call.value(msg.value)()
+
+  ID: 2
+  Type: NodeType.THROW
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[fundingAccount] -= msg.value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: commit[msg.sender] = _commit
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+
+

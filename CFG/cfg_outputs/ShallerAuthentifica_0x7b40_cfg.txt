@@ -1,0 +1,373 @@
+Contract: ShallerAuthentifica
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: admin = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: registerProduct
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(! products[productId].exists,Product ID already registered)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: products[productId] = Product({name:name,productType:productType,description:description,createdAt:block.timestamp,dimensions:dimensions,serialNumber:serialNumber,media:media,owner:msg.sender,history:,exists:true})
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ProductRegistered(productId,name,productType,msg.sender,block.timestamp)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyAdmin()
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 1
+
+Function: updateName
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].name = newName
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ProductUpdated(productId,name,newName,msg.sender,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwnerOrAdmin(productId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: updateProductType
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].productType = newType
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ProductUpdated(productId,productType,newType,msg.sender,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwnerOrAdmin(productId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: updateDescription
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].description = newDescription
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ProductUpdated(productId,description,newDescription,msg.sender,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwnerOrAdmin(productId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: updateDimensions
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].dimensions = newDimensions
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ProductUpdated(productId,dimensions,newDimensions,msg.sender,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwnerOrAdmin(productId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: updateSerialNumber
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].serialNumber = newSerialNumber
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: ProductUpdated(productId,serialNumber,newSerialNumber,msg.sender,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwnerOrAdmin(productId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: updateMedia
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(index < 4,Invalid media index)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].media[index] = newMedia
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: ProductUpdated(productId,string(abi.encodePacked(media,index)),newMedia,msg.sender,block.timestamp)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwnerOrAdmin(productId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 4
+  1 -> 2
+  2 -> 3
+  4 -> 5
+  5 -> 1
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == products[productId].owner,Only owner can transfer ownership)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: previousOwner = products[productId].owner
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].owner = newOwner
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(productId,previousOwner,newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: addToHistory
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: products[productId].history = string(abi.encodePacked(products[productId].history, | ,newEntry))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: HistoryUpdated(productId,newEntry,msg.sender,block.timestamp)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwnerOrAdmin(productId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 4
+  4 -> 1
+
+Function: getProductBasicInfo
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: p = products[productId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (p.name,p.productType,p.description,p.createdAt)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (name,productType,description,createdAt)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getProductDetails
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: p = products[productId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (p.dimensions,p.serialNumber,p.owner,p.history)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (dimensions,serialNumber,owner,history)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+Function: getProductMedia
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: p = products[productId]
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (p.media[0],p.media[1],p.media[2],p.media[3])
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: productExists(productId)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (media1,media2,media3,media4)
+
+Edges:
+  0 -> 3
+  1 -> 2
+  3 -> 1
+
+

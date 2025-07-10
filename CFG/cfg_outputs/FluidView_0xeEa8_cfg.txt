@@ -1,0 +1,1715 @@
+Contract: IFluidVaultResolver
+==================================================
+
+
+Contract: FluidDexModel
+==================================================
+
+
+Contract: MainnetFluidAddresses
+==================================================
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_VAULT_RESOLVER = 0x814c8C7ceb1411B364c2940c4b9380e739e06686
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_DEX_RESOLVER = 0x71783F64719899319B56BdA4F27E1219d9AF9a3d
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_LENDING_RESOLVER = 0xC215485C572365AE87f908ad35233EC2572A3BEC
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: F_WETH_TOKEN_ADDR = 0x90551c1795392094FE6D29B758EcCD233cFAa260
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_ADDR = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_MERKLE_DISTRIBUTOR = 0x7060FE0Dd3E31be01EFAc6B28C8D38018fD163B0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: FluidHelper
+==================================================
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_VAULT_RESOLVER = 0x814c8C7ceb1411B364c2940c4b9380e739e06686
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_DEX_RESOLVER = 0x71783F64719899319B56BdA4F27E1219d9AF9a3d
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_LENDING_RESOLVER = 0xC215485C572365AE87f908ad35233EC2572A3BEC
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: F_WETH_TOKEN_ADDR = 0x90551c1795392094FE6D29B758EcCD233cFAa260
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_ADDR = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_MERKLE_DISTRIBUTOR = 0x7060FE0Dd3E31be01EFAc6B28C8D38018fD163B0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+
+Contract: FluidRatioHelper
+==================================================
+
+Function: getRatio
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (userPosition,vaultData) = IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionByNftId(_nftId)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: userPosition.borrow == 0 || userPosition.supply == 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: uint256(0)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: collAmountInDebtToken = (userPosition.supply * vaultData.configs.oraclePriceOperate) / PRICE_SCALER
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ratio = collAmountInDebtToken * WAD / userPosition.borrow
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: ratio
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_VAULT_RESOLVER = 0x814c8C7ceb1411B364c2940c4b9380e739e06686
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_DEX_RESOLVER = 0x71783F64719899319B56BdA4F27E1219d9AF9a3d
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_LENDING_RESOLVER = 0xC215485C572365AE87f908ad35233EC2572A3BEC
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: F_WETH_TOKEN_ADDR = 0x90551c1795392094FE6D29B758EcCD233cFAa260
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_ADDR = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_MERKLE_DISTRIBUTOR = 0x7060FE0Dd3E31be01EFAc6B28C8D38018fD163B0
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PRICE_SCALER = 1e27
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WAD = 1e18
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+
+Contract: IFluidDexT1
+==================================================
+
+
+Contract: IFluidLiquidityResolverStructs
+==================================================
+
+
+Contract: IFluidDexResolver
+==================================================
+
+
+Contract: FluidVaultTypes
+==================================================
+
+Function: requireLiquidityCollateral
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _vaultType != T1_VAULT_TYPE && _vaultType != T3_VAULT_TYPE
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidVaultType(uint256)(_vaultType)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: requireLiquidityDebt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _vaultType != T1_VAULT_TYPE && _vaultType != T2_VAULT_TYPE
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidVaultType(uint256)(_vaultType)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: requireSmartCollateral
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _vaultType != T2_VAULT_TYPE && _vaultType != T4_VAULT_TYPE
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidVaultType(uint256)(_vaultType)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: requireSmartDebt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _vaultType != T3_VAULT_TYPE && _vaultType != T4_VAULT_TYPE
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidVaultType(uint256)(_vaultType)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: requireDexVault
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _vaultType != T2_VAULT_TYPE && _vaultType != T3_VAULT_TYPE && _vaultType != T4_VAULT_TYPE
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert InvalidVaultType(uint256)(_vaultType)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+
+Function: isT1Vault
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _vaultType == T1_VAULT_TYPE
+
+Edges:
+  0 -> 1
+
+Function: isT2Vault
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _vaultType == T2_VAULT_TYPE
+
+Edges:
+  0 -> 1
+
+Function: isT3Vault
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _vaultType == T3_VAULT_TYPE
+
+Edges:
+  0 -> 1
+
+Function: isT4Vault
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _vaultType == T4_VAULT_TYPE
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: T1_VAULT_TYPE = 1e4
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: T2_VAULT_TYPE = 2e4
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: T3_VAULT_TYPE = 3e4
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: T4_VAULT_TYPE = 4e4
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+
+Contract: IDexSmartCollOracle
+==================================================
+
+
+Contract: IDexSmartDebtOracle
+==================================================
+
+
+Contract: IFluidLendingResolver
+==================================================
+
+
+Contract: IFluidVault
+==================================================
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: FluidView
+==================================================
+
+Function: getRatio
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (userPosition,vaultData) = IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionByNftId(_nftId)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: userPosition.borrow == 0 || userPosition.supply == 0
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: uint256(0)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: collAmountInDebtToken = (userPosition.supply * vaultData.configs.oraclePriceOperate) / PRICE_SCALER
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ratio = collAmountInDebtToken * WAD / userPosition.borrow
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: ratio
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+Function: getUserPositions
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: nftIds = IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionsNftIdOfUser(_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: positions = new FluidView.UserPosition[](nftIds.length)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: vaults = new FluidView.VaultData[](nftIds.length)
+
+  ID: 4
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 7
+  Type: NodeType.IFLOOP
+  Expression: i < nftIds.length
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: (positions[i],vaults[i]) = getPositionByNftId(nftIds[i])
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 10
+  Type: NodeType.RETURN
+  Expression: (positions,vaults)
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: (positions,vaults)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 6
+  4 -> 7
+  5 -> 10
+  6 -> 4
+  7 -> 8
+  7 -> 5
+  8 -> 9
+  9 -> 7
+
+Function: getUserNftIds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionsNftIdOfUser(_user)
+
+Edges:
+  0 -> 1
+
+Function: getUserNftIdsWithVaultIds
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: nftIds = IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionsNftIdOfUser(_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: retVal = new FluidView.NftWithVault[](nftIds.length)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < nftIds.length
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: vaultByNft = IFluidVaultResolver(FLUID_VAULT_RESOLVER).vaultByNftId(nftIds[i])
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: vaultId = IFluidVaultResolver(FLUID_VAULT_RESOLVER).getVaultId(vaultByNft)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: retVal[i] = NftWithVault({nftId:nftIds[i],vaultId:vaultId,vaultAddr:vaultByNft})
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 11
+  Type: NodeType.RETURN
+  Expression: retVal
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 11
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 6
+
+Function: getPositionByNftId
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (userPosition,vaultData) = IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionByNftId(_nftId)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: position = UserPosition({nftId:userPosition.nftId,owner:userPosition.owner,isLiquidated:userPosition.isLiquidated,isSupplyPosition:userPosition.isSupplyPosition,supply:userPosition.supply,borrow:userPosition.borrow,ratio:getRatio(userPosition.nftId),tick:userPosition.tick,tickId:userPosition.tickId})
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: vault = getVaultData(vaultData.vault)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (position,vault)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getVaultData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: data = IFluidVaultResolver(FLUID_VAULT_RESOLVER).getVaultEntireData(_vault)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: supplyToken0 = data.constantVariables.supplyToken.token0
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: supplyToken1 = data.constantVariables.supplyToken.token1
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: borrowToken0 = data.constantVariables.borrowToken.token0
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: borrowToken1 = data.constantVariables.borrowToken.token1
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: vaultData.vaultType.isT2Vault()
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: dexData = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexEntireData(data.constantVariables.supply)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: vaultData.dexSupplyData = _fillDexSupplyData(dexData,vaultData.oracle,vaultData.withdrawable)
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: vaultData.vaultType.isT3Vault()
+
+  ID: 14
+  Type: NodeType.VARIABLE
+  Expression: dexData_scope_0 = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexEntireData(data.constantVariables.borrow)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: vaultData.dexBorrowData = _fillDexBorrowData(dexData_scope_0,vaultData.oracle,vaultData.borrowable)
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.IF
+  Expression: vaultData.vaultType.isT4Vault()
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: dexData_scope_1 = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexEntireData(data.constantVariables.supply)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: vaultData.dexSupplyData = _fillDexSupplyData(dexData_scope_1,_getSmartCollateralDexOracle(vaultData.oracle),vaultData.withdrawable)
+
+  ID: 20
+  Type: NodeType.IF
+  Expression: data.constantVariables.borrow == data.constantVariables.supply
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: vaultData.dexBorrowData = _fillDexBorrowData(dexData_scope_1,vaultData.oracle,vaultData.borrowable)
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: dexData_scope_1 = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexEntireData(data.constantVariables.borrow)
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: vaultData.dexBorrowData = _fillDexBorrowData(dexData_scope_1,vaultData.oracle,vaultData.borrowable)
+
+  ID: 24
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: vaultData.dexBorrowData.quoteTokensPerShare = 1e54 / vaultData.dexBorrowData.quoteTokensPerShare
+
+  ID: 26
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 27
+  Type: NodeType.IF
+  Expression: borrowToken1 != address(0)
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: vaultData = VaultData({vault:_vault,vaultId:data.constantVariables.vaultId,vaultType:data.constantVariables.vaultType,isSmartColl:data.isSmartCol,isSmartDebt:data.isSmartDebt,supplyToken0:supplyToken0,supplyToken1:supplyToken1,borrowToken0:borrowToken0,borrowToken1:borrowToken1,supplyToken0Decimals:18,supplyToken1Decimals:0,borrowToken0Decimals:18,borrowToken1Decimals:0,collateralFactor:data.configs.collateralFactor,liquidationThreshold:data.configs.liquidationThreshold,liquidationMaxLimit:data.configs.liquidationMaxLimit,withdrawalGap:data.configs.withdrawalGap,liquidationPenalty:data.configs.liquidationPenalty,borrowFee:data.configs.borrowFee,oracle:data.configs.oracle,oraclePriceOperate:data.configs.oraclePriceOperate,oraclePriceLiquidate:data.configs.oraclePriceLiquidate,vaultSupplyExchangePrice:data.exchangePricesAndRates.vaultSupplyExchangePrice,vaultBorrowExchangePrice:data.exchangePricesAndRates.vaultBorrowExchangePrice,supplyRateVault:data.exchangePricesAndRates.supplyRateVault,borrowRateVault:data.exchangePricesAndRates.borrowRateVault,rewardsOrFeeRateSupply:data.exchangePricesAndRates.rewardsOrFeeRateSupply,rewardsOrFeeRateBorrow:data.exchangePricesAndRates.rewardsOrFeeRateBorrow,totalPositions:data.vaultState.totalPositions,totalSupplyVault:data.totalSupplyAndBorrow.totalSupplyVault,totalBorrowVault:data.totalSupplyAndBorrow.totalBorrowVault,withdrawalLimit:data.liquidityUserSupplyData.withdrawalLimit,withdrawableUntilLimit:data.liquidityUserSupplyData.withdrawableUntilLimit,withdrawable:data.liquidityUserSupplyData.withdrawable,baseWithdrawalLimit:data.liquidityUserSupplyData.baseWithdrawalLimit,withdrawExpandPercent:data.liquidityUserSupplyData.expandPercent,withdrawExpandDuration:data.liquidityUserSupplyData.expandDuration,borrowLimit:data.liquidityUserBorrowData.borrowLimit,borrowableUntilLimit:data.liquidityUserBorrowData.borrowableUntilLimit,borrowable:data.liquidityUserBorrowData.borrowable,borrowLimitUtilization:data.liquidityUserBorrowData.borrowLimitUtilization,maxBorrowLimit:data.liquidityUserBorrowData.maxBorrowLimit,borrowExpandPercent:data.liquidityUserBorrowData.expandPercent,borrowExpandDuration:data.liquidityUserBorrowData.expandDuration,baseBorrowLimit:data.liquidityUserBorrowData.baseBorrowLimit,minimumBorrowing:data.limitsAndAvailability.minimumBorrowing,dexSupplyData:dexSupplyData,dexBorrowData:dexBorrowData})
+
+  ID: 30
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 31
+  Type: NodeType.IF
+  Expression: borrowToken1 != ETH_ADDR
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: vaultData = VaultData({vault:_vault,vaultId:data.constantVariables.vaultId,vaultType:data.constantVariables.vaultType,isSmartColl:data.isSmartCol,isSmartDebt:data.isSmartDebt,supplyToken0:supplyToken0,supplyToken1:supplyToken1,borrowToken0:borrowToken0,borrowToken1:borrowToken1,supplyToken0Decimals:IERC20(supplyToken0).decimals(),supplyToken1Decimals:IERC20(supplyToken1).decimals(),borrowToken0Decimals:IERC20(borrowToken0).decimals(),borrowToken1Decimals:IERC20(borrowToken1).decimals(),collateralFactor:data.configs.collateralFactor,liquidationThreshold:data.configs.liquidationThreshold,liquidationMaxLimit:data.configs.liquidationMaxLimit,withdrawalGap:data.configs.withdrawalGap,liquidationPenalty:data.configs.liquidationPenalty,borrowFee:data.configs.borrowFee,oracle:data.configs.oracle,oraclePriceOperate:data.configs.oraclePriceOperate,oraclePriceLiquidate:data.configs.oraclePriceLiquidate,vaultSupplyExchangePrice:data.exchangePricesAndRates.vaultSupplyExchangePrice,vaultBorrowExchangePrice:data.exchangePricesAndRates.vaultBorrowExchangePrice,supplyRateVault:data.exchangePricesAndRates.supplyRateVault,borrowRateVault:data.exchangePricesAndRates.borrowRateVault,rewardsOrFeeRateSupply:data.exchangePricesAndRates.rewardsOrFeeRateSupply,rewardsOrFeeRateBorrow:data.exchangePricesAndRates.rewardsOrFeeRateBorrow,totalPositions:data.vaultState.totalPositions,totalSupplyVault:data.totalSupplyAndBorrow.totalSupplyVault,totalBorrowVault:data.totalSupplyAndBorrow.totalBorrowVault,withdrawalLimit:data.liquidityUserSupplyData.withdrawalLimit,withdrawableUntilLimit:data.liquidityUserSupplyData.withdrawableUntilLimit,withdrawable:data.liquidityUserSupplyData.withdrawable,baseWithdrawalLimit:data.liquidityUserSupplyData.baseWithdrawalLimit,withdrawExpandPercent:data.liquidityUserSupplyData.expandPercent,withdrawExpandDuration:data.liquidityUserSupplyData.expandDuration,borrowLimit:data.liquidityUserBorrowData.borrowLimit,borrowableUntilLimit:data.liquidityUserBorrowData.borrowableUntilLimit,borrowable:data.liquidityUserBorrowData.borrowable,borrowLimitUtilization:data.liquidityUserBorrowData.borrowLimitUtilization,maxBorrowLimit:data.liquidityUserBorrowData.maxBorrowLimit,borrowExpandPercent:data.liquidityUserBorrowData.expandPercent,borrowExpandDuration:data.liquidityUserBorrowData.expandDuration,baseBorrowLimit:data.liquidityUserBorrowData.baseBorrowLimit,minimumBorrowing:data.limitsAndAvailability.minimumBorrowing,dexSupplyData:dexSupplyData,dexBorrowData:dexBorrowData})
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: vaultData = VaultData({vault:_vault,vaultId:data.constantVariables.vaultId,vaultType:data.constantVariables.vaultType,isSmartColl:data.isSmartCol,isSmartDebt:data.isSmartDebt,supplyToken0:supplyToken0,supplyToken1:supplyToken1,borrowToken0:borrowToken0,borrowToken1:borrowToken1,supplyToken0Decimals:IERC20(supplyToken0).decimals(),supplyToken1Decimals:18,borrowToken0Decimals:IERC20(borrowToken0).decimals(),borrowToken1Decimals:18,collateralFactor:data.configs.collateralFactor,liquidationThreshold:data.configs.liquidationThreshold,liquidationMaxLimit:data.configs.liquidationMaxLimit,withdrawalGap:data.configs.withdrawalGap,liquidationPenalty:data.configs.liquidationPenalty,borrowFee:data.configs.borrowFee,oracle:data.configs.oracle,oraclePriceOperate:data.configs.oraclePriceOperate,oraclePriceLiquidate:data.configs.oraclePriceLiquidate,vaultSupplyExchangePrice:data.exchangePricesAndRates.vaultSupplyExchangePrice,vaultBorrowExchangePrice:data.exchangePricesAndRates.vaultBorrowExchangePrice,supplyRateVault:data.exchangePricesAndRates.supplyRateVault,borrowRateVault:data.exchangePricesAndRates.borrowRateVault,rewardsOrFeeRateSupply:data.exchangePricesAndRates.rewardsOrFeeRateSupply,rewardsOrFeeRateBorrow:data.exchangePricesAndRates.rewardsOrFeeRateBorrow,totalPositions:data.vaultState.totalPositions,totalSupplyVault:data.totalSupplyAndBorrow.totalSupplyVault,totalBorrowVault:data.totalSupplyAndBorrow.totalBorrowVault,withdrawalLimit:data.liquidityUserSupplyData.withdrawalLimit,withdrawableUntilLimit:data.liquidityUserSupplyData.withdrawableUntilLimit,withdrawable:data.liquidityUserSupplyData.withdrawable,baseWithdrawalLimit:data.liquidityUserSupplyData.baseWithdrawalLimit,withdrawExpandPercent:data.liquidityUserSupplyData.expandPercent,withdrawExpandDuration:data.liquidityUserSupplyData.expandDuration,borrowLimit:data.liquidityUserBorrowData.borrowLimit,borrowableUntilLimit:data.liquidityUserBorrowData.borrowableUntilLimit,borrowable:data.liquidityUserBorrowData.borrowable,borrowLimitUtilization:data.liquidityUserBorrowData.borrowLimitUtilization,maxBorrowLimit:data.liquidityUserBorrowData.maxBorrowLimit,borrowExpandPercent:data.liquidityUserBorrowData.expandPercent,borrowExpandDuration:data.liquidityUserBorrowData.expandDuration,baseBorrowLimit:data.liquidityUserBorrowData.baseBorrowLimit,minimumBorrowing:data.limitsAndAvailability.minimumBorrowing,dexSupplyData:dexSupplyData,dexBorrowData:dexBorrowData})
+
+  ID: 34
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 35
+  Type: NodeType.RETURN
+  Expression: vaultData
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 27
+  9 -> 10
+  9 -> 12
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 16
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  17 -> 26
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  20 -> 22
+  21 -> 24
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 35
+  27 -> 31
+  27 -> 29
+  29 -> 30
+  30 -> 9
+  31 -> 32
+  31 -> 33
+  32 -> 34
+  33 -> 34
+  34 -> 30
+
+Function: getDexShareRates
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: vaultData = IFluidVault(_vault).constantsView()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: vaultData.vaultType.isT2Vault()
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: dexData = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexState(vaultData.supply)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: token0PerSupplyShare = dexData.token0PerSupplyShare
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: token1PerSupplyShare = dexData.token1PerSupplyShare
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: vaultData.vaultType.isT3Vault()
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: dexData_scope_0 = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexState(vaultData.borrow)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: token0PerBorrowShare = dexData_scope_0.token0PerBorrowShare
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: token1PerBorrowShare = dexData_scope_0.token1PerBorrowShare
+
+  ID: 11
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: vaultData.vaultType.isT4Vault()
+
+  ID: 13
+  Type: NodeType.VARIABLE
+  Expression: dexData_scope_1 = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexState(vaultData.supply)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: token0PerSupplyShare = dexData_scope_1.token0PerSupplyShare
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: token1PerSupplyShare = dexData_scope_1.token1PerSupplyShare
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: vaultData.borrow == vaultData.supply
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: token0PerBorrowShare = dexData_scope_1.token0PerBorrowShare
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: token1PerBorrowShare = dexData_scope_1.token1PerBorrowShare
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: dexData_scope_1 = IFluidDexResolver(FLUID_DEX_RESOLVER).getDexState(vaultData.borrow)
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: token0PerBorrowShare = dexData_scope_1.token0PerBorrowShare
+
+  ID: 21
+  Type: NodeType.EXPRESSION
+  Expression: token1PerBorrowShare = dexData_scope_1.token1PerBorrowShare
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 24
+  Type: NodeType.RETURN
+  Expression: (token0PerSupplyShare,token1PerSupplyShare,token0PerBorrowShare,token1PerBorrowShare)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 6
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 23
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  16 -> 19
+  17 -> 18
+  18 -> 22
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+
+Function: estimateDeposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: constants = IFluidVault(_vault).constantsView()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: shares = IFluidDexResolver(FLUID_DEX_RESOLVER).estimateDeposit(constants.supply,_token0Amount,_token1Amount,_minSharesAmount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: shares
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: estimateWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: constants = IFluidVault(_vault).constantsView()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: shares = IFluidDexResolver(FLUID_DEX_RESOLVER).estimateWithdraw(constants.supply,_token0Amount,_token1Amount,_maxSharesAmount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: shares
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: estimateBorrow
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: constants = IFluidVault(_vault).constantsView()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: shares = IFluidDexResolver(FLUID_DEX_RESOLVER).estimateBorrow(constants.borrow,_token0Amount,_token1Amount,_maxSharesAmount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: shares
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: estimatePayback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: constants = IFluidVault(_vault).constantsView()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: shares = IFluidDexResolver(FLUID_DEX_RESOLVER).estimatePayback(constants.borrow,_token0Amount,_token1Amount,_minSharesAmount)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: shares
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: estimateDexPositionCollateralInOneToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_minToken0AmountToAccept > 0 || _minToken1AmountToAccept > 0)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _minToken0AmountToAccept > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _minToken1AmountToAccept = 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _minToken1AmountToAccept > 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _minToken0AmountToAccept = 0
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (userPosition,vaultData) = IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionByNftId(_nftId)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: collateral = IFluidDexResolver(FLUID_DEX_RESOLVER).estimateWithdrawPerfectInOneToken(vaultData.constantVariables.supply,userPosition.supply,_minToken0AmountToAccept,_minToken1AmountToAccept)
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: collateral
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: estimateDexPositionDebtInOneToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_maxToken0AmountToPayback > 0 || _maxToken1AmountToPayback > 0)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _maxToken0AmountToPayback > 0
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _maxToken1AmountToPayback = 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _maxToken1AmountToPayback > 0
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _maxToken0AmountToPayback = 0
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: (userPosition,vaultData) = IFluidVaultResolver(FLUID_VAULT_RESOLVER).positionByNftId(_nftId)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: debt = IFluidDexResolver(FLUID_DEX_RESOLVER).estimatePaybackPerfectInOneToken(vaultData.constantVariables.borrow,userPosition.borrow,_maxToken0AmountToPayback,_maxToken1AmountToPayback)
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: debt
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+
+Function: getAllFTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: IFluidLendingResolver(FLUID_LENDING_RESOLVER).getAllFTokens()
+
+Edges:
+  0 -> 1
+
+Function: getFTokenData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: _fToken == F_WETH_TOKEN_ADDR && block.chainid != 42161
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: details = IFluidLendingResolver(FLUID_LENDING_RESOLVER).getFTokenDetails{gas: 9_000_000}(_fToken)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: details = IFluidLendingResolver(FLUID_LENDING_RESOLVER).getFTokenDetails(_fToken)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: fTokenData = _filterFTokenData(details)
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: fTokenData
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: getAllFTokensData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: fTokens = IFluidLendingResolver(FLUID_LENDING_RESOLVER).getAllFTokens()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: fTokenData = new FluidView.FTokenData[](fTokens.length)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < fTokens.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: fTokenData[i] = getFTokenData(fTokens[i])
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: fTokenData
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+Function: getUserEarnPosition
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: data = IFluidLendingResolver(FLUID_LENDING_RESOLVER).getUserPosition(_fToken,_user)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: UserEarnPosition({fTokenShares:data.fTokenShares,underlyingAssets:data.underlyingAssets,underlyingBalance:data.underlyingBalance,allowance:data.allowance})
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: getUserEarnPositionWithFToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: userData = IFluidLendingResolver(FLUID_LENDING_RESOLVER).getUserPosition(_fToken,_user)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: userPosition = UserEarnPosition({fTokenShares:userData.fTokenShares,underlyingAssets:userData.underlyingAssets,underlyingBalance:userData.underlyingBalance,allowance:userData.allowance})
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: fTokenData = getFTokenData(_fToken)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (userPosition,fTokenData)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: getAllUserEarnPositionsWithFTokens
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: fTokensData = getAllFTokensData()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: userPositions = new FluidView.UserEarnPosition[](fTokensData.length)
+
+  ID: 3
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 4
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 6
+  Type: NodeType.IFLOOP
+  Expression: i < fTokensData.length
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: userPositions[i] = getUserEarnPosition(fTokensData[i].tokenAddress,_user)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: (userPositions,fTokensData)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 5
+  3 -> 6
+  4 -> 9
+  5 -> 3
+  6 -> 7
+  6 -> 4
+  7 -> 8
+  8 -> 6
+
+Function: _getSmartCollateralDexOracle
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.TRY
+  Expression: () = IDexSmartCollOracle(_vaultOracle).dexSmartColSharesRates()
+
+  ID: 2
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _vaultOracle
+
+  ID: 4
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (smartCollOracle,None) = IDexSmartDebtOracle(_vaultOracle).getDexColDebtOracleData()
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: smartCollOracle
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+
+Function: _fillDexSupplyData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (quoteTokensPerShare,None) = IDexSmartCollOracle(_oracle).dexSmartColSharesRates()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dexSupplyData = DexSupplyData({dexPool:_dexData.dex,dexId:_dexData.constantViews.dexId,fee:_dexData.configs.fee,lastStoredPrice:_dexData.dexState.lastStoredPrice,centerPrice:_dexData.dexState.centerPrice,token0Utilization:_dexData.limitsAndAvailability.liquidityTokenData0.lastStoredUtilization,token1Utilization:_dexData.limitsAndAvailability.liquidityTokenData1.lastStoredUtilization,totalSupplyShares:_dexData.dexState.totalSupplyShares,maxSupplyShares:_dexData.configs.maxSupplyShares,token0Supplied:_dexData.dexState.totalSupplyShares * _dexData.dexState.token0PerSupplyShare / 1e18,token1Supplied:_dexData.dexState.totalSupplyShares * _dexData.dexState.token1PerSupplyShare / 1e18,sharesWithdrawable:_sharesWithdrawable,token0Withdrawable:_sharesWithdrawable * _dexData.dexState.token0PerSupplyShare / 1e18,token1Withdrawable:_sharesWithdrawable * _dexData.dexState.token1PerSupplyShare / 1e18,token0PerSupplyShare:_dexData.dexState.token0PerSupplyShare,token1PerSupplyShare:_dexData.dexState.token1PerSupplyShare,token0SupplyRate:_dexData.limitsAndAvailability.liquidityTokenData0.supplyRate,token1SupplyRate:_dexData.limitsAndAvailability.liquidityTokenData1.supplyRate,quoteToken:quoteToken,quoteTokensPerShare:quoteTokensPerShare,supplyToken0Reserves:_dexData.colReserves.token0RealReserves,supplyToken1Reserves:_dexData.colReserves.token1RealReserves})
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _isQuoteInToken0ForSmartCollOracle(_oracle)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: quoteToken = _dexData.constantViews.token0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: quoteToken = _dexData.constantViews.token1
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: dexSupplyData
+
+Edges:
+  0 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 9
+  5 -> 6
+  5 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 2
+
+Function: _fillDexBorrowData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (quoteTokensPerShare,None) = IDexSmartDebtOracle(_oracle).dexSmartDebtSharesRates()
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: dexBorrowData = DexBorrowData({dexPool:_dexData.dex,dexId:_dexData.constantViews.dexId,fee:_dexData.configs.fee,lastStoredPrice:_dexData.dexState.lastStoredPrice,centerPrice:_dexData.dexState.centerPrice,token0Utilization:_dexData.limitsAndAvailability.liquidityTokenData0.lastStoredUtilization,token1Utilization:_dexData.limitsAndAvailability.liquidityTokenData1.lastStoredUtilization,totalBorrowShares:_dexData.dexState.totalBorrowShares,maxBorrowShares:_dexData.configs.maxBorrowShares,token0Borrowed:_dexData.dexState.totalBorrowShares * _dexData.dexState.token0PerBorrowShare / 1e18,token1Borrowed:_dexData.dexState.totalBorrowShares * _dexData.dexState.token1PerBorrowShare / 1e18,sharesBorrowable:_sharesBorrowable,token0Borrowable:_sharesBorrowable * _dexData.dexState.token0PerBorrowShare / 1e18,token1Borrowable:_sharesBorrowable * _dexData.dexState.token1PerBorrowShare / 1e18,token0PerBorrowShare:_dexData.dexState.token0PerBorrowShare,token1PerBorrowShare:_dexData.dexState.token1PerBorrowShare,token0BorrowRate:_dexData.limitsAndAvailability.liquidityTokenData0.borrowRate,token1BorrowRate:_dexData.limitsAndAvailability.liquidityTokenData1.borrowRate,quoteToken:quoteToken,quoteTokensPerShare:quoteTokensPerShare,borrowToken0Reserves:_dexData.debtReserves.token0RealReserves,borrowToken1Reserves:_dexData.debtReserves.token1RealReserves})
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: _isQuoteInToken0ForSmartDebtOracle(_oracle)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: quoteToken = _dexData.constantViews.token0
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: quoteToken = _dexData.constantViews.token1
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: dexBorrowData
+
+Edges:
+  0 -> 5
+  2 -> 3
+  3 -> 4
+  4 -> 9
+  5 -> 6
+  5 -> 7
+  6 -> 8
+  7 -> 8
+  8 -> 2
+
+Function: _isQuoteInToken0ForSmartCollOracle
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.TRY
+  Expression: (_quoteInToken0) = IDexSmartCollOracle(_oracle).dexOracleData()
+
+  ID: 2
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _quoteInToken0
+
+  ID: 4
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,None,None,None,None,None,quoteInToken0) = IDexSmartCollOracle(_oracle).dexSmartColOracleData()
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: quoteInToken0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+
+Function: _isQuoteInToken0ForSmartDebtOracle
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.TRY
+  Expression: (_quoteInToken0) = IDexSmartDebtOracle(_oracle).dexOracleData()
+
+  ID: 2
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: _quoteInToken0
+
+  ID: 4
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: (None,None,None,None,None,None,None,None,None,quoteInToken0) = IDexSmartDebtOracle(_oracle).dexSmartDebtOracleData()
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: quoteInToken0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 4
+  2 -> 3
+  4 -> 5
+  5 -> 6
+
+Function: _filterFTokenData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: fTokenData = FTokenData({tokenAddress:_details.tokenAddress,isNativeUnderlying:_details.isNativeUnderlying,name:_details.name,symbol:_details.symbol,decimals:_details.decimals,asset:_details.asset,totalAssets:_details.totalAssets,totalSupply:_details.totalSupply,convertToShares:_details.convertToShares,convertToAssets:_details.convertToAssets,rewardsRate:_details.rewardsRate,supplyRate:_details.supplyRate,withdrawable:_details.liquidityUserSupplyData.withdrawable,modeWithInterest:_details.liquidityUserSupplyData.modeWithInterest,expandPercent:_details.liquidityUserSupplyData.expandPercent,expandDuration:_details.liquidityUserSupplyData.expandDuration})
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: fTokenData
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_VAULT_RESOLVER = 0x814c8C7ceb1411B364c2940c4b9380e739e06686
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_DEX_RESOLVER = 0x71783F64719899319B56BdA4F27E1219d9AF9a3d
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_LENDING_RESOLVER = 0xC215485C572365AE87f908ad35233EC2572A3BEC
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: F_WETH_TOKEN_ADDR = 0x90551c1795392094FE6D29B758EcCD233cFAa260
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ETH_ADDR = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: FLUID_MERKLE_DISTRIBUTOR = 0x7060FE0Dd3E31be01EFAc6B28C8D38018fD163B0
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PRICE_SCALER = 1e27
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: WAD = 1e18
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+

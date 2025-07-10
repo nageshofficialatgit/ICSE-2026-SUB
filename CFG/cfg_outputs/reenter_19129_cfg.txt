@@ -1,0 +1,47 @@
+Contract: HODLWallet
+==================================================
+
+Function: doWithdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(amount <= MAX_WITHDRAWAL)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(balances[from] >= amount)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[from] = balances[from] - amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: from.call.value(amount)()
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MAX_WITHDRAWAL = 0.002 * 1000000000000000000
+
+Edges:
+
+

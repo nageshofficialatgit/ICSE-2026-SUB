@@ -1,0 +1,33 @@
+Contract: EllipseMarketMaker
+==================================================
+
+Function: EllipseMarketMaker
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: argsSize = 3 * 32
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: dataSize = 4 + argsSize
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: m_data = new bytes(dataSize)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: require(bool)(_mmLib.delegatecall(m_data))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+

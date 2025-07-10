@@ -1,0 +1,220 @@
+Contract: IXTokenIssuing
+==================================================
+
+
+Contract: IXTokenCallback
+==================================================
+
+
+Contract: IXTokenRollbackCallback
+==================================================
+
+
+Contract: IXKTONLockBox
+==================================================
+
+
+Contract: IERC165
+==================================================
+
+
+Contract: ERC165
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IERC165).interfaceId
+
+Edges:
+  0 -> 1
+
+
+Contract: IERC20
+==================================================
+
+
+Contract: XKTONConvertor
+==================================================
+
+Function: supportsInterface
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: interfaceId == type()(IXTokenCallback).interfaceId || interfaceId == type()(IXTokenRollbackCallback).interfaceId || super.supportsInterface(interfaceId)
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+Edges:
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: KTON = _kton
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: XKTON = _xKTON
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: lockBox = IXKTONLockBox(_lockBox)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: xTokenIssuing = IXTokenIssuing(_xTokenIssuing)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_kton).approve(_lockBox,type()(uint256).max)
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_xKTON).approve(_lockBox,type()(uint256).max)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(_xKTON).approve(_xTokenIssuing,type()(uint256).max)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: xTokenCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: recipient = address(bytes20(extData))
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_xToken == XKTON,invalid xtoken)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: lockBox.depositFor(recipient,_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: IssueKTON(_transferId,recipient,_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyXTokenIssuingAuthorized()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: xTokenRollbackCallback
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(_xToken == XKTON,invalid xtoken)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: originalSender = senders[_transferId]
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: lockBox.depositFor(originalSender,_amount)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: RollbackBurn(_transferId,originalSender,_amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: onlyXTokenIssuing()
+
+Edges:
+  0 -> 5
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  5 -> 1
+
+Function: burnAndXUnlock
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: IERC20(KTON).transferFrom(msg.sender,address(this),_amount)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: lockBox.withdraw(_amount)
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: transferId = xTokenIssuing.burnAndXUnlock{value: msg.value}(XKTON,_recipient,_rollbackAccount,_amount,_nonce,_extData,_extParams)
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: id = uint256(transferId)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: senders[id] = msg.sender
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: BurnAndXUnlock(id,msg.sender,_recipient,_amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+

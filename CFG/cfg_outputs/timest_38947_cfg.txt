@@ -1,0 +1,28 @@
+Contract: TimeSource
+==================================================
+
+Function: currentTime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: mockNow > 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: mockNow
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint32(block.timestamp)
+
+Edges:
+  0 -> 2
+  2 -> 3
+  2 -> 4
+
+

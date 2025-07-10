@@ -1,0 +1,186 @@
+Contract: EtherWallet
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+Edges:
+  0 -> 1
+
+Function: deposit
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.value > 0,Deposit must be greater than 0.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] += msg.value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: Deposit(msg.sender,msg.value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: withdraw
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Withdraw amount must be greater than 0.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= amount,Insufficient balance.)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= amount
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(amount)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Withdraw(msg.sender,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(to != address(0),Cannot transfer to zero address.)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,Transfer amount must be greater than 0.)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(balances[msg.sender] >= amount,Insufficient balance.)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: balances[msg.sender] -= amount
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: balances[to] += amount
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(msg.sender,to,amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+
+Function: getBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: balances[user]
+
+Edges:
+  0 -> 1
+
+Function: getContractBalance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: address(this).balance
+
+Edges:
+  0 -> 1
+
+Function: withdrawAll
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(msg.sender == owner,Only owner can withdraw all funds.)
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: amount = address(this).balance
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: require(bool,string)(amount > 0,No funds available.)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: address(owner).transfer(amount)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: deposit()
+
+Edges:
+  0 -> 1
+
+

@@ -1,0 +1,5375 @@
+Contract: IERC20
+==================================================
+
+
+Contract: IERC20Metadata
+==================================================
+
+
+Contract: Context
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+
+Contract: IERC20Errors
+==================================================
+
+
+Contract: IERC721Errors
+==================================================
+
+
+Contract: IERC1155Errors
+==================================================
+
+
+Contract: ERC20
+==================================================
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _name = name_
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _symbol = symbol_
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 18
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(owner,to,value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _spendAllowance(from,spender,value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: from == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidSender(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidReceiver(address)(address(0))
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _update(from,to,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: _update
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: from == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply += value
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: fromBalance = _balances[from]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: fromBalance < value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InsufficientBalance(address,uint256,uint256)(from,fromBalance,value)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = fromBalance - value
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply -= value
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += value
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 8
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: account == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _update(address(0),account,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: account == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidSender(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _update(account,address(0),value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidApprover(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: spender == address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidSpender(address)(address(0))
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = value
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: emitEvent
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,value)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+
+Function: _spendAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currentAllowance < type()(uint256).max
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: currentAllowance < value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InsufficientAllowance(address,uint256,uint256)(spender,currentAllowance,value)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - value,false)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+
+Contract: ReentrancyGuard
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _status == ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrancyGuardReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _status = ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == ENTERED
+
+Edges:
+  0 -> 1
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: NOT_ENTERED = 1
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ENTERED = 2
+
+Edges:
+  0 -> 1
+
+
+Contract: Panic
+==================================================
+
+Function: panic
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x00,0x4e487b71)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x20,code)
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert(uint256,uint256)(0x1c,0x24)
+
+  ID: 5
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+
+Function: slitherConstructorConstantVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GENERIC = 0x00
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ASSERT = 0x01
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: UNDER_OVERFLOW = 0x11
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: DIVISION_BY_ZERO = 0x12
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ENUM_CONVERSION_ERROR = 0x21
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: STORAGE_ENCODING_ERROR = 0x22
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: EMPTY_ARRAY_POP = 0x31
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: ARRAY_OUT_OF_BOUNDS = 0x32
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: RESOURCE_ERROR = 0x41
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: INVALID_INTERNAL_FUNCTION = 0x51
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+
+
+Contract: SafeCast
+==================================================
+
+Function: toUint248
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint248).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(248,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint248(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint240
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint240).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(240,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint240(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint232
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint232).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(232,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint232(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint224
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint224).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(224,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint224(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint216
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint216).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(216,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint216(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint208
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint208).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(208,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint208(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint200
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint200).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(200,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint200(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint192
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint192).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(192,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint192(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint184
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint184).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(184,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint184(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint176
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint176).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(176,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint176(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint168
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint168).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(168,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint168(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint160
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint160).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(160,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint160(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint152
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint152).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(152,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint152(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint144
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint144).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(144,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint144(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint136
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint136).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(136,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint136(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint128
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint128).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(128,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint128(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint120
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint120).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(120,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint120(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint112
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint112).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(112,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint112(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint104
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint104).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(104,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint104(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint96
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint96).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(96,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint96(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint88
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint88).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(88,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint88(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint80
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint80).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(80,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint80(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint72
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint72).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(72,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint72(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint64
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint64).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(64,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint64(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint56
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint56).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(56,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint56(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint48
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint48).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(48,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint48(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint40
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint40).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(40,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint40(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint32).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(32,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint32(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint24
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint24).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(24,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint24(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint16
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint16).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(16,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint16(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint8
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > type()(uint8).max
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintDowncast(uint8,uint256)(8,value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint8(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value < 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntToUint(int256)(value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: uint256(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toInt248
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int248(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(248,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt240
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int240(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(240,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt232
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int232(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(232,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt224
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int224(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(224,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt216
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int216(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(216,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt208
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int208(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(208,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt200
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int200(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(200,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt192
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int192(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(192,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt184
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int184(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(184,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt176
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int176(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(176,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt168
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int168(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(168,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt160
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int160(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(160,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt152
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int152(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(152,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt144
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int144(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(144,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt136
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int136(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(136,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt128
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int128(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(128,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt120
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int120(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(120,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt112
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int112(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(112,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt104
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int104(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(104,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt96
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int96(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(96,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt88
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int88(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(88,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt80
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int80(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(80,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt72
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int72(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(72,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt64
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int64(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(64,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt56
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int56(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(56,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt48
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int48(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(48,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt40
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int40(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(40,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt32
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int32(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(32,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt24
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int24(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(24,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt16
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int16(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(16,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt8
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: downcasted = int8(value)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: downcasted != value
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedIntDowncast(uint8,int256)(8,value)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: downcasted
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+
+Function: toInt256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: value > uint256(type()(int256).max)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert SafeCastOverflowedUintToInt(uint256)(value)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: int256(value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: toUint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: u = ! ! b
+
+  ID: 3
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: u
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+
+Contract: Math
+==================================================
+
+Function: tryAdd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: c = a + b
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: c < a
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (true,c)
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+
+Function: trySub
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b > a
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a - b)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: tryMul
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: a == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (true,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: c = a * b
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: c / a != b
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.RETURN
+  Expression: (true,c)
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+
+Function: tryDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a / b)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: tryMod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,0)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: (true,a % b)
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: ternary
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: b ^ ((a ^ b) * SafeCast.toUint(condition))
+
+Edges:
+  0 -> 1
+
+Function: max
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ternary(a > b,a,b)
+
+Edges:
+  0 -> 1
+
+Function: min
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: ternary(a < b,a,b)
+
+Edges:
+  0 -> 1
+
+Function: average
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: (a & b) + (a ^ b) / 2
+
+Edges:
+  0 -> 1
+
+Function: ceilDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: b == 0
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: Panic.panic(Panic.DIVISION_BY_ZERO)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: SafeCast.toUint(a > 0) * ((a - 1) / b + 1)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: mulDiv
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: mulDiv(x,y,denominator) + SafeCast.toUint(unsignedRoundsUp(rounding) && mulmod(uint256,uint256,uint256)(x,y,denominator) > 0)
+
+Edges:
+  0 -> 1
+
+Function: invMod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: n == 0
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: remainder = a % n
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: gcd = n
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: x = 0
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: y = 1
+
+  ID: 8
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IFLOOP
+  Expression: remainder != 0
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: quotient = gcd / remainder
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: (gcd,remainder) = (remainder,gcd - remainder * quotient)
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: (x,y) = (y,x - y * int256(quotient))
+
+  ID: 13
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: gcd != 1
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: ternary(x < 0,n - uint256(- x),uint256(x))
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 13
+  10 -> 11
+  11 -> 12
+  12 -> 9
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+
+Function: invModPrime
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: Math.modExp(a,p - 2,p)
+
+Edges:
+  0 -> 1
+
+Function: modExp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: (success,result) = tryModExp(b,e,m)
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: Panic.panic(Panic.DIVISION_BY_ZERO)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: result
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: tryModExp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _zeroBytes(m)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: (false,new bytes(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: mLen = m.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: result = abi.encodePacked(b.length,e.length,mLen,b,e,m)
+
+  ID: 6
+  Type: NodeType.ASSEMBLY
+  Expression: 
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: dataPtr_tryModExp_asm_0 = result + 0x20
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: success = staticcall(uint256,uint256,uint256,uint256,uint256,uint256)(gas()(),0x05,dataPtr_tryModExp_asm_0,mload(uint256)(result),dataPtr_tryModExp_asm_0,mLen)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(result,mLen)
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: mstore(uint256,uint256)(0x40,dataPtr_tryModExp_asm_0 + mLen)
+
+  ID: 12
+  Type: NodeType.ENDASSEMBLY
+  Expression: 
+
+  ID: 13
+  Type: NodeType.RETURN
+  Expression: (success,result)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+
+Function: _zeroBytes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < byteArray.length
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: byteArray[i] != 0
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: false
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: ++ i
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 3
+  1 -> 4
+  2 -> 9
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 4
+
+Function: sqrt
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = sqrt(a)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && result * result < a)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: log2
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log2(value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && 1 << result < value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: log10
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log10(value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && 10 ** result < value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: log256
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: result = log256(value)
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: result + SafeCast.toUint(unsignedRoundsUp(rounding) && 1 << (result << 3) < value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+
+Function: unsignedRoundsUp
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: uint8(rounding) % 2 == 1
+
+Edges:
+  0 -> 1
+
+
+Contract: NNN5
+==================================================
+
+Function: constructor
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _treasury == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(1,E001: INVALID_TREASURY_ADDRESS)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: treasury = _treasury
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: REFERENCE_START = block.timestamp
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: owner = msg.sender
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: currentPrice = GENESIS_PRICE
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: dailySupply = GENESIS_EMISSION
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: _mint(address(this),GENESIS_EMISSION)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: totalEmitted = GENESIS_EMISSION
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: lastAdjustmentTime = block.timestamp
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: lastTimestamp = uint64(block.timestamp)
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: currentPeriodStart = uint64(block.timestamp)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: ERC20(NNN5,NNN5)
+
+Edges:
+  0 -> 14
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  14 -> 1
+
+Function: _nonReentrantBefore
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: _status == ENTERED
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ReentrancyGuardReentrantCall()()
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _status = ENTERED
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _nonReentrantAfter
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: _status = NOT_ENTERED
+
+Edges:
+  0 -> 1
+
+Function: _reentrancyGuardEntered
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _status == ENTERED
+
+Edges:
+  0 -> 1
+
+Function: name
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _name
+
+Edges:
+  0 -> 1
+
+Function: symbol
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _symbol
+
+Edges:
+  0 -> 1
+
+Function: decimals
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 18
+
+Edges:
+  0 -> 1
+
+Function: totalSupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _totalSupply
+
+Edges:
+  0 -> 1
+
+Function: balanceOf
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _balances[account]
+
+Edges:
+  0 -> 1
+
+Function: transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: checkAndTriggerPeriodEnd()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(12,E012: INVALID_RECIPIENT)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: integerPart = amount / 10 ** 18
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: fractionalPart = (amount % 10 ** 18) / 10 ** 16
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: fractionalPart == VOTE_CODE
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: integerPart * 10 ** 18 < MIN_VOTE_AMOUNT
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(13,E013: INSUFFICIENT_VOTE_AMOUNT)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: to == msg.sender
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(14,E014: CANNOT_VOTE_FOR_SELF)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,address(this),amount)
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: burnAmount = Math.mulDiv(amount,9100,10000)
+
+  ID: 16
+  Type: NodeType.VARIABLE
+  Expression: treasuryAmount = amount - burnAmount
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _burn(address(this),burnAmount)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(address(this),treasury,treasuryAmount)
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: totalBurned += burnAmount
+
+  ID: 20
+  Type: NodeType.VARIABLE
+  Expression: effectiveVotes = calculateEffectiveVotes(integerPart * 10 ** 18)
+
+  ID: 21
+  Type: NodeType.VARIABLE
+  Expression: localPeriod = currentPeriod
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: votes[to][localPeriod].totalVotes += effectiveVotes
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: periodTotalEffectiveVotes[localPeriod] += effectiveVotes
+
+  ID: 24
+  Type: NodeType.EXPRESSION
+  Expression: VoteRegistered(msg.sender,to,integerPart * 10 ** 18,effectiveVotes,localPeriod)
+
+  ID: 25
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: to == address(this)
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(msg.sender,treasury,amount)
+
+  ID: 28
+  Type: NodeType.EXPRESSION
+  Expression: ExcessBAGIRedirected(msg.sender,amount)
+
+  ID: 29
+  Type: NodeType.RETURN
+  Expression: true
+
+  ID: 30
+  Type: NodeType.RETURN
+  Expression: super.transfer(to,amount)
+
+  ID: 33
+  Type: NodeType.EXPRESSION
+  Expression: onlyEOA()
+
+  ID: 34
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 33
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 26
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  26 -> 27
+  26 -> 30
+  27 -> 28
+  28 -> 29
+  33 -> 34
+  34 -> 1
+
+Function: allowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: _allowances[owner][spender]
+
+Edges:
+  0 -> 1
+
+Function: approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: owner = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,value)
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+
+Function: transferFrom
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: spender = _msgSender()
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _spendAllowance(from,spender,value)
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(from,to,value)
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: true
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+
+Function: _transfer
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: from == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidSender(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidReceiver(address)(address(0))
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _update(from,to,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+
+Function: _update
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: from == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply += value
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: fromBalance = _balances[from]
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: fromBalance < value
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InsufficientBalance(address,uint256,uint256)(from,fromBalance,value)
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _balances[from] = fromBalance - value
+
+  ID: 8
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 9
+  Type: NodeType.IF
+  Expression: to == address(0)
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: _totalSupply -= value
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: _balances[to] += value
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: Transfer(from,to,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 8
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  9 -> 11
+  10 -> 12
+  11 -> 12
+  12 -> 13
+
+Function: _mint
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: account == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidReceiver(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _update(address(0),account,value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _burn
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: account == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidSender(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: _update(account,address(0),value)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+
+Function: _approve
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: owner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidApprover(address)(address(0))
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: spender == address(0)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InvalidSpender(address)(address(0))
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: _allowances[owner][spender] = value
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: emitEvent
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: Approval(owner,spender,value)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+
+Function: _spendAllowance
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentAllowance = allowance(owner,spender)
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: currentAllowance < type()(uint256).max
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: currentAllowance < value
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert ERC20InsufficientAllowance(address,uint256,uint256)(spender,currentAllowance,value)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: _approve(owner,spender,currentAllowance - value,false)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 7
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: _msgSender
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.sender
+
+Edges:
+  0 -> 1
+
+Function: _msgData
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: msg.data
+
+Edges:
+  0 -> 1
+
+Function: _contextSuffixLength
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+
+Function: receive
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: checkAndTriggerPeriodEnd()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: msg.value < MIN_PURCHASE_AMOUNT
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(4,E004: INSUFFICIENT_PURCHASE_AMOUNT)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: purchaseBAGI()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: onlyEOA()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  6 -> 7
+  7 -> 1
+
+Function: purchaseBAGI
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: checkAndTriggerPeriodEnd()
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: msg.value < MIN_PURCHASE_AMOUNT
+
+  ID: 3
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(4,E004: INSUFFICIENT_PURCHASE_AMOUNT)
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: updateDailyState()
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: bagiAmount = Math.mulDiv(msg.value,1000000000000000000,currentPrice)
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: balanceOf(address(this)) < bagiAmount
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(5,E005: INSUFFICIENT_BAGI_BALANCE_IN_CONTRACT)
+
+  ID: 9
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 10
+  Type: NodeType.VARIABLE
+  Expression: localPeriod = currentPeriod
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: periodPool[localPeriod] += msg.value
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: dailySold += bagiAmount
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: _transfer(address(this),msg.sender,bagiAmount)
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: PurchaseDetails(msg.sender,msg.value,bagiAmount,dailySupply)
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: bagiAmount
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: onlyEOA()
+
+Edges:
+  0 -> 16
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 9
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  14 -> 15
+  16 -> 17
+  17 -> 1
+
+Function: claimSONIC
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.EXPRESSION
+  Expression: checkAndTriggerPeriodEnd()
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: periodToClaim = currentPeriod - 1
+
+  ID: 3
+  Type: NodeType.IF
+  Expression: periodToClaim == 0
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(6,E006: NO_PAST_PERIOD_TO_CLAIM)
+
+  ID: 5
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: periodStart = currentPeriodStart - PERIOD_DURATION
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: claimWindowEnd = periodStart + PERIOD_DURATION + CLAIM_WINDOW
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: block.timestamp >= claimWindowEnd
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(7,E007: CLAIM_WINDOW_CLOSED)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.VARIABLE
+  Expression: candidateData = votes[msg.sender][periodToClaim]
+
+  ID: 12
+  Type: NodeType.IF
+  Expression: candidateData.claimed
+
+  ID: 13
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(8,E008: ALREADY_CLAIMED)
+
+  ID: 14
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 15
+  Type: NodeType.IF
+  Expression: candidateData.totalVotes < MIN_VOTE_THRESHOLD
+
+  ID: 16
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(9,E009: INSUFFICIENT_VOTES_TO_CLAIM)
+
+  ID: 17
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 18
+  Type: NodeType.VARIABLE
+  Expression: reward = calculateCandidateReward(msg.sender,periodToClaim)
+
+  ID: 19
+  Type: NodeType.IF
+  Expression: reward == 0
+
+  ID: 20
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(10,E010: NO_REWARD_TO_CLAIM)
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.EXPRESSION
+  Expression: candidateData.claimed = true
+
+  ID: 23
+  Type: NodeType.EXPRESSION
+  Expression: periodClaimedAmount[periodToClaim] += reward
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: 
+
+  ID: 25
+  Type: NodeType.EXPRESSION
+  Expression: (success,None) = msg.sender.call{value: reward}()
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: ! success
+
+  ID: 27
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(11,E011: ETHER_TRANSFER_FAILED)
+
+  ID: 28
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 29
+  Type: NodeType.EXPRESSION
+  Expression: SONICClaimed(msg.sender,periodToClaim,reward)
+
+  ID: 30
+  Type: NodeType.RETURN
+  Expression: reward
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 32
+  Type: NodeType.EXPRESSION
+  Expression: onlyEOA()
+
+Edges:
+  0 -> 31
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  10 -> 11
+  11 -> 12
+  12 -> 13
+  12 -> 14
+  13 -> 14
+  14 -> 15
+  15 -> 16
+  15 -> 17
+  16 -> 17
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  19 -> 21
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 28
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  31 -> 32
+  32 -> 1
+
+Function: endPeriod
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: previousPeriod = currentPeriod
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: previousPeriodStart = currentPeriodStart
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: poolAmount = periodPool[previousPeriod]
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: claimedAmount = periodClaimedAmount[previousPeriod]
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: currentPeriod = uint64(previousPeriod + 1)
+
+  ID: 7
+  Type: NodeType.EXPRESSION
+  Expression: currentPeriodStart = uint64(previousPeriodStart + PERIOD_DURATION)
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: lastTimestamp = uint64(block.timestamp)
+
+  ID: 9
+  Type: NodeType.VARIABLE
+  Expression: claimWindowEnd = previousPeriodStart + PERIOD_DURATION + CLAIM_WINDOW
+
+  ID: 10
+  Type: NodeType.IF
+  Expression: unclaimedTotal > 0 && block.timestamp >= claimWindowEnd
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: periodPool[currentPeriod] += unclaimedTotal
+
+  ID: 12
+  Type: NodeType.EXPRESSION
+  Expression: UnclaimedRedistributed(previousPeriod,unclaimedTotal)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.EXPRESSION
+  Expression: PeriodEnded(previousPeriod,poolAmount)
+
+  ID: 15
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: poolAmount > claimedAmount
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: unclaimedTotal = poolAmount - claimedAmount
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: unclaimedTotal = 0
+
+  ID: 19
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 15
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 16
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+  10 -> 11
+  10 -> 13
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  15 -> 1
+  16 -> 17
+  16 -> 18
+  17 -> 19
+  18 -> 19
+  19 -> 6
+
+Function: updateDailyState
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: block.timestamp < lastAdjustmentTime + 86400
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: localDailySupply = dailySupply
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: soldToday = dailySold
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: mintedToday = false
+
+  ID: 7
+  Type: NodeType.IF
+  Expression: totalEmitted + localDailySupply <= TOTAL_SUPPLY
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: _mint(address(this),localDailySupply)
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: totalEmitted += localDailySupply
+
+  ID: 10
+  Type: NodeType.EXPRESSION
+  Expression: mintedToday = true
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: localDailySupply = 0
+
+  ID: 12
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 13
+  Type: NodeType.IF
+  Expression: mintedToday && localDailySupply > 0
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: localDailySupply > soldToday
+
+  ID: 15
+  Type: NodeType.VARIABLE
+  Expression: unsoldAmount = localDailySupply - soldToday
+
+  ID: 16
+  Type: NodeType.IF
+  Expression: balanceOf(address(this)) >= unsoldAmount
+
+  ID: 17
+  Type: NodeType.EXPRESSION
+  Expression: _burn(address(this),unsoldAmount)
+
+  ID: 18
+  Type: NodeType.EXPRESSION
+  Expression: totalBurned += unsoldAmount
+
+  ID: 19
+  Type: NodeType.EXPRESSION
+  Expression: UnsoldBurned(unsoldAmount)
+
+  ID: 20
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 21
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 22
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 23
+  Type: NodeType.IF
+  Expression: localDailySupply > 0
+
+  ID: 24
+  Type: NodeType.VARIABLE
+  Expression: percentageSoldScaled = Math.mulDiv(soldToday,100 * 10 ** 18,localDailySupply)
+
+  ID: 25
+  Type: NodeType.VARIABLE
+  Expression: fiftyPercentScaled = 50 * 10 ** 18
+
+  ID: 26
+  Type: NodeType.IF
+  Expression: percentageSoldScaled > fiftyPercentScaled
+
+  ID: 27
+  Type: NodeType.VARIABLE
+  Expression: increaseScaled = percentageSoldScaled - fiftyPercentScaled
+
+  ID: 28
+  Type: NodeType.VARIABLE
+  Expression: supplyIncrease = Math.mulDiv(localDailySupply,increaseScaled,100 * 10 ** 18)
+
+  ID: 29
+  Type: NodeType.VARIABLE
+  Expression: priceIncrease = Math.mulDiv(currentPrice,increaseScaled,100 * 10 ** 18)
+
+  ID: 30
+  Type: NodeType.EXPRESSION
+  Expression: dailySupply = localDailySupply + supplyIncrease
+
+  ID: 31
+  Type: NodeType.EXPRESSION
+  Expression: currentPrice = currentPrice + priceIncrease
+
+  ID: 32
+  Type: NodeType.VARIABLE
+  Expression: decreaseScaled = fiftyPercentScaled - percentageSoldScaled
+
+  ID: 33
+  Type: NodeType.VARIABLE
+  Expression: supplyDecrease = Math.mulDiv(localDailySupply,decreaseScaled,100 * 10 ** 18)
+
+  ID: 34
+  Type: NodeType.VARIABLE
+  Expression: newDailySupply = localDailySupply - supplyDecrease
+
+  ID: 35
+  Type: NodeType.IF
+  Expression: newDailySupply < MIN_EMISSION
+
+  ID: 36
+  Type: NodeType.EXPRESSION
+  Expression: dailySupply = MIN_EMISSION
+
+  ID: 37
+  Type: NodeType.EXPRESSION
+  Expression: dailySupply = newDailySupply
+
+  ID: 38
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 39
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 40
+  Type: NodeType.EXPRESSION
+  Expression: StateUpdated(dailySupply,currentPrice)
+
+  ID: 41
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 42
+  Type: NodeType.EXPRESSION
+  Expression: dailySold = 0
+
+  ID: 43
+  Type: NodeType.EXPRESSION
+  Expression: lastAdjustmentTime = block.timestamp
+
+  ID: 44
+  Type: NodeType.EXPRESSION
+  Expression: lastTimestamp = uint64(block.timestamp)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  7 -> 11
+  8 -> 9
+  9 -> 10
+  10 -> 12
+  11 -> 12
+  12 -> 13
+  13 -> 14
+  13 -> 22
+  14 -> 15
+  14 -> 21
+  15 -> 16
+  16 -> 17
+  16 -> 20
+  17 -> 18
+  18 -> 19
+  19 -> 20
+  20 -> 21
+  21 -> 22
+  22 -> 23
+  23 -> 24
+  23 -> 41
+  24 -> 25
+  25 -> 26
+  26 -> 27
+  26 -> 32
+  27 -> 28
+  28 -> 29
+  29 -> 30
+  30 -> 31
+  31 -> 39
+  32 -> 33
+  33 -> 34
+  34 -> 35
+  35 -> 36
+  35 -> 37
+  36 -> 38
+  37 -> 38
+  38 -> 39
+  39 -> 40
+  40 -> 41
+  41 -> 42
+  42 -> 43
+  43 -> 44
+
+Function: calculateEffectiveVotes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: block.timestamp < currentPeriodStart
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: amount * 3
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.VARIABLE
+  Expression: daysElapsed = (block.timestamp - currentPeriodStart) / 86400
+
+  ID: 5
+  Type: NodeType.IF
+  Expression: daysElapsed < 1
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: (amount * 3)
+
+  ID: 7
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: daysElapsed < 2
+
+  ID: 9
+  Type: NodeType.RETURN
+  Expression: (amount * 25) / 10
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.IF
+  Expression: daysElapsed < 3
+
+  ID: 12
+  Type: NodeType.RETURN
+  Expression: (amount * 2)
+
+  ID: 13
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 14
+  Type: NodeType.IF
+  Expression: daysElapsed < 4
+
+  ID: 15
+  Type: NodeType.RETURN
+  Expression: (amount * 15) / 10
+
+  ID: 16
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 17
+  Type: NodeType.RETURN
+  Expression: amount
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  5 -> 7
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  10 -> 11
+  11 -> 12
+  11 -> 13
+  13 -> 14
+  14 -> 15
+  14 -> 16
+  16 -> 17
+
+Function: calculateCandidateReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: totalEffectiveVotes = periodTotalEffectiveVotes[period]
+
+  ID: 2
+  Type: NodeType.IF
+  Expression: totalEffectiveVotes == 0
+
+  ID: 3
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 4
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 5
+  Type: NodeType.VARIABLE
+  Expression: candidateVotes = votes[candidate][period].totalVotes
+
+  ID: 6
+  Type: NodeType.VARIABLE
+  Expression: pool = periodPool[period]
+
+  ID: 7
+  Type: NodeType.RETURN
+  Expression: Math.mulDiv(pool,candidateVotes,totalEffectiveVotes)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  2 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+
+Function: checkAndTriggerPeriodEnd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: block.timestamp < lastTimestamp
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(15,E015: TIMESTAMP_TOO_EARLY)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: block.timestamp >= currentPeriodStart + PERIOD_DURATION
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: endPeriod()
+
+  ID: 6
+  Type: NodeType.ENDIF
+  Expression: 
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  4 -> 6
+  5 -> 6
+
+Function: transferOwnership
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: newOwner == address(0)
+
+  ID: 2
+  Type: NodeType.EXPRESSION
+  Expression: revert BAGIError(uint256,string)(16,E016: INVALID_NEW_OWNER_ADDRESS)
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.EXPRESSION
+  Expression: OwnershipTransferred(owner,newOwner)
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: owner = newOwner
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: onlyOwner()
+
+Edges:
+  0 -> 6
+  1 -> 2
+  1 -> 3
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  6 -> 1
+
+Function: getRemainingDailySupply
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.VARIABLE
+  Expression: currentDailyTarget = dailySupply
+
+  ID: 2
+  Type: NodeType.VARIABLE
+  Expression: soldToday = dailySold
+
+  ID: 4
+  Type: NodeType.IF
+  Expression: currentDailyTarget > soldToday
+
+  ID: 5
+  Type: NodeType.RETURN
+  Expression: currentDailyTarget - soldToday
+
+  ID: 6
+  Type: NodeType.RETURN
+  Expression: 0
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 4
+  4 -> 5
+  4 -> 6
+
+Function: getCurrentPeriodEnd
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: currentPeriodStart + PERIOD_DURATION
+
+Edges:
+  0 -> 1
+
+Function: getCandidateReward
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: period == 0 || period >= currentPeriod
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: calculateCandidateReward(candidate,period)
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: getCurrentPrice
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.RETURN
+  Expression: currentPrice
+
+Edges:
+  0 -> 1
+
+Function: getUserVotes
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.IF
+  Expression: period == 0 || period > currentPeriod
+
+  ID: 2
+  Type: NodeType.RETURN
+  Expression: 0
+
+  ID: 3
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 4
+  Type: NodeType.RETURN
+  Expression: votes[user][period].totalVotes
+
+Edges:
+  0 -> 1
+  1 -> 2
+  1 -> 3
+  3 -> 4
+
+Function: slitherConstructorVariables
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: TOTAL_SUPPLY = 256_000_000_000_000 * 10 ** 18
+
+  ID: 1
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GENESIS_EMISSION = 256_000_000_000 * 10 ** 18
+
+  ID: 2
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_EMISSION = 25_600_000 * 10 ** 18
+
+  ID: 3
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: GENESIS_PRICE = 1
+
+  ID: 4
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: CLAIM_WINDOW = 604800
+
+  ID: 5
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: VOTE_CODE = 123
+
+  ID: 6
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_VOTE_AMOUNT = 10 * 10 ** 18
+
+  ID: 7
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: PERIOD_DURATION = 604800
+
+  ID: 8
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_VOTE_THRESHOLD = 1
+
+  ID: 9
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: MIN_PURCHASE_AMOUNT = 10000
+
+  ID: 10
+  Type: NodeType.OTHER_ENTRYPOINT
+  Expression: currentPeriod = 1
+
+Edges:
+  0 -> 1
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  4 -> 5
+  5 -> 6
+  6 -> 7
+  7 -> 8
+  8 -> 9
+  9 -> 10
+
+

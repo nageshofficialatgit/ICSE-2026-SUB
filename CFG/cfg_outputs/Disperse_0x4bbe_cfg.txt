@@ -1,0 +1,131 @@
+Contract: IERC20
+==================================================
+
+
+Contract: Disperse
+==================================================
+
+Function: disperseEther
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < recipients.length
+
+  ID: 5
+  Type: NodeType.EXPRESSION
+  Expression: recipients[i].call{gas: 87700,value: values[i]}()
+
+  ID: 6
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 7
+  Type: NodeType.VARIABLE
+  Expression: balance = address(this).balance
+
+  ID: 8
+  Type: NodeType.IF
+  Expression: balance > 0
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: address(msg.sender).transfer(balance)
+
+  ID: 10
+  Type: NodeType.ENDIF
+  Expression: 
+
+  ID: 11
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 11
+  1 -> 4
+  2 -> 7
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  6 -> 4
+  7 -> 8
+  8 -> 9
+  8 -> 10
+  9 -> 10
+  11 -> 3
+
+Function: disperseToken
+------------------------------
+Nodes:
+  ID: 0
+  Type: NodeType.ENTRYPOINT
+  Expression: 
+
+  ID: 1
+  Type: NodeType.STARTLOOP
+  Expression: 
+
+  ID: 2
+  Type: NodeType.ENDLOOP
+  Expression: 
+
+  ID: 3
+  Type: NodeType.VARIABLE
+  Expression: i = 0
+
+  ID: 4
+  Type: NodeType.IFLOOP
+  Expression: i < recipients.length
+
+  ID: 5
+  Type: NodeType.TRY
+  Expression: token.transferFrom{gas: gasLimit}(msg.sender,recipients[i],values[i])
+
+  ID: 6
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 7
+  Type: NodeType.CATCH
+  Expression: 
+
+  ID: 8
+  Type: NodeType.EXPRESSION
+  Expression: i ++
+
+  ID: 9
+  Type: NodeType.EXPRESSION
+  Expression: nonReentrant()
+
+Edges:
+  0 -> 9
+  1 -> 4
+  3 -> 1
+  4 -> 5
+  4 -> 2
+  5 -> 6
+  5 -> 7
+  5 -> 8
+  6 -> 8
+  7 -> 8
+  8 -> 4
+  9 -> 3
+
+
