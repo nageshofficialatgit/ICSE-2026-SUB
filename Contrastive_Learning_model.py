@@ -17,17 +17,19 @@ from combine_embeddings import MultiModalFusion, load_embeddings
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class VulnerabilityDataset(Dataset):
-    def __init__(self, ast_emb, byte_emb, cfg_emb, labels):
+    def __init__(self, ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels):
         self.ast_emb = torch.FloatTensor(ast_emb)
         self.byte_emb = torch.FloatTensor(byte_emb)
         self.cfg_emb = torch.FloatTensor(cfg_emb)
+        self.ccfg_emb = torch.FloatTensor(ccfg_emb)
+        self.dfg_emb = torch.FloatTensor(dfg_emb)
         self.labels = torch.LongTensor(labels)
         
     def __len__(self):
         return len(self.labels)
     
     def __getitem__(self, idx):
-        return self.ast_emb[idx], self.byte_emb[idx], self.cfg_emb[idx], self.labels[idx]
+        return (self.ast_emb[idx], self.byte_emb[idx], self.cfg_emb[idx], self.ccfg_emb[idx], self.dfg_emb[idx], self.labels[idx])
 
 class MemoryBank:
     def __init__(self, size, feature_dim):
@@ -126,21 +128,23 @@ def train_epoch(attention_model, contrastive_model, dataloader, memory_bank, cri
     contrastive_model.train()
     total_loss = 0
     
-    for ast_emb, byte_emb, cfg_emb, labels in dataloader:
+    for ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels in dataloader:
         ast_emb = ast_emb.to(device)
         byte_emb = byte_emb.to(device)
         cfg_emb = cfg_emb.to(device)
+        ccfg_emb = ccfg_emb.to(device)
+        dfg_emb = dfg_emb.to(device)
         labels = labels.to(device)
         
         # Calculating L1 i.e. Loss without Attention
-        embeddings = attention_model(ast_emb, byte_emb, cfg_emb, apply_attention=False)
+        embeddings = attention_model(ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, apply_attention=False)
         features, projections = contrastive_model(embeddings)
         ptr = memory_bank.update(projections.detach())
         
         loss1 = criterion(projections, memory_bank.get_all_features().to(device), labels)
 
         # Calculating L2 i.e. Loss with Attention
-        attended_emb = attention_model(ast_emb, byte_emb, cfg_emb, apply_attention=True)
+        attended_emb = attention_model(ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, apply_attention=True)
         features, projections = contrastive_model(attended_emb)
         memory_bank.update(projections.detach(), ptr)
 
@@ -152,14 +156,14 @@ def train_epoch(attention_model, contrastive_model, dataloader, memory_bank, cri
         contrastive_optimizer.step()
         
         # Calculating L1 i.e. Loss without Attention
-        embeddings = attention_model(ast_emb, byte_emb, cfg_emb, apply_attention=False)
+        embeddings = attention_model(ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, apply_attention=False)
         features, projections = contrastive_model(embeddings)
         memory_bank.update(projections.detach(), ptr)
         
         loss1 = criterion(projections, memory_bank.get_all_features().to(device), labels)
 
         # Calculating L2 i.e. Loss with Attention
-        attended_emb = attention_model(ast_emb, byte_emb, cfg_emb, apply_attention=True)
+        attended_emb = attention_model(ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, apply_attention=True)
         features, projections = contrastive_model(attended_emb)
         memory_bank.update(projections.detach(), ptr)
 
@@ -180,13 +184,15 @@ def validate(attention_model, contrastive_model, dataloader, memory_bank, criter
     total_loss = 0
     
     with torch.no_grad():
-        for ast_emb, byte_emb, cfg_emb, labels in dataloader:
+        for ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels in dataloader:
             ast_emb = ast_emb.to(device)
             byte_emb = byte_emb.to(device)
             cfg_emb = cfg_emb.to(device)
+            ccfg_emb = ccfg_emb.to(device)
+            dfg_emb = dfg_emb.to(device)
             labels = labels.to(device)
             
-            embeddings = attention_model(ast_emb, byte_emb, cfg_emb, apply_attention=True)
+            embeddings = attention_model(ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, apply_attention=True)
             features, projections = contrastive_model(embeddings)
 
             loss = criterion(projections, memory_bank.get_all_features().to(device), labels)
@@ -195,7 +201,7 @@ def validate(attention_model, contrastive_model, dataloader, memory_bank, criter
     
     return total_loss / len(dataloader)
 
-def objective(trial, ast_emb, byte_emb, cfg_emb, labels):
+def objective(trial, ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels):
     # Define hyperparameters to optimize
     params = {
         'embed_dim': trial.suggest_int('embed_dim', 64, 128),
@@ -208,11 +214,11 @@ def objective(trial, ast_emb, byte_emb, cfg_emb, labels):
     }
     
     # Split data
-    X_ast_train, X_ast_val, X_byte_train, X_byte_val, X_cfg_train, X_cfg_val, y_train, y_val = train_test_split(ast_emb, byte_emb, cfg_emb, labels, test_size=0.2, random_state=42)
+    X_ast_train, X_ast_val, X_byte_train, X_byte_val, X_cfg_train, X_cfg_val, X_ccfg_train, X_ccfg_val, X_dfg_train, X_dfg_val, y_train, y_val = train_test_split(ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels, test_size=0.2, random_state=42)
     
     # Create datasets
-    train_dataset = VulnerabilityDataset(X_ast_train, X_byte_train, X_cfg_train, y_train)
-    val_dataset = VulnerabilityDataset(X_ast_val, X_byte_val, X_cfg_val, y_val)
+    train_dataset = VulnerabilityDataset(X_ast_train, X_byte_train, X_cfg_train, X_ccfg_train, X_dfg_train, y_train)
+    val_dataset = VulnerabilityDataset(X_ast_val, X_byte_val, X_cfg_val, X_ccfg_val, X_dfg_val, y_val)
     
     train_loader = DataLoader(train_dataset, batch_size=params['batch_size'], shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=params['batch_size'])
@@ -222,6 +228,8 @@ def objective(trial, ast_emb, byte_emb, cfg_emb, labels):
         d1=ast_emb.shape[1],
         d2=byte_emb.shape[1],
         d3=cfg_emb.shape[1],
+        d4=ccfg_emb.shape[1],
+        d5=dfg_emb.shape[1],
         d=params['embed_dim']
     ).to(device)
     contrastive_model = ContrastiveModel(params['embed_dim'], params['hidden_dim'], params['output_dim']).to(device)
@@ -248,13 +256,17 @@ def main():
     ast_path = 'embeddings_ast/ast_embeddings.npz'
     byte_path = 'embeddings_bytecode/bytecode_embeddings.npz'
     cfg_path = 'embeddings_cfg/cfg_embeddings.npz'
+    ccfg_path = r'D:\acadmics\sem 5\Innovation paper\Paper_GNN_CL\submission\embeddings_ccfg\ccfg_embeddings.npz'
+    dfg_path = r'D:\acadmics\sem 5\Innovation paper\Paper_GNN_CL\submission\embeddings_dfg\dfg_embeddings.npz'
     labels_path = 'dataset/pure_vul_test/Labels.csv'
     
     output_dir = Path('attended_embeddings')
     
     # Load embeddings
     print("Loading embeddings...")
-    ast_emb, byte_emb, cfg_emb, labels, filenames = load_embeddings(ast_path, byte_path, cfg_path, labels_path)
+    ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels, filenames = load_embeddings(
+        ast_path, byte_path, cfg_path, ccfg_path, dfg_path, labels_path
+    )
     
     """
     # Run hyperparameter optimization
@@ -310,18 +322,18 @@ def main():
     # """
     
     # Split data
-    X_ast_train, X_ast_temp, X_byte_train, X_byte_temp, X_cfg_train, X_cfg_temp, y_train, y_temp = train_test_split(
-        ast_emb, byte_emb, cfg_emb, labels, test_size=0.2, random_state=42
+    X_ast_train, X_ast_temp, X_byte_train, X_byte_temp, X_cfg_train, X_cfg_temp, X_ccfg_train, X_ccfg_temp, X_dfg_train, X_dfg_temp, y_train, y_temp = train_test_split(
+        ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels, test_size=0.2, random_state=42
     )
-    X_ast_val, X_ast_test, X_byte_val, X_byte_test, X_cfg_val, X_cfg_test, y_val, y_test = train_test_split(
-        X_ast_temp, X_byte_temp, X_cfg_temp, y_temp, test_size=0.5, random_state=42
+    X_ast_val, X_ast_test, X_byte_val, X_byte_test, X_cfg_val, X_cfg_test, X_ccfg_val, X_ccfg_test, X_dfg_val, X_dfg_test, y_val, y_test = train_test_split(
+        X_ast_temp, X_byte_temp, X_cfg_temp, X_ccfg_temp, X_dfg_temp, y_temp, test_size=0.5, random_state=42
     )
     
     # Create datasets
-    train_dataset = VulnerabilityDataset(X_ast_train, X_byte_train, X_cfg_train, y_train)
-    val_dataset = VulnerabilityDataset(X_ast_val, X_byte_val, X_cfg_val, y_val)
-    test_dataset = VulnerabilityDataset(X_ast_test, X_byte_test, X_cfg_test, y_test)
-    complete_dataset = VulnerabilityDataset(ast_emb, byte_emb, cfg_emb, labels)
+    train_dataset = VulnerabilityDataset(X_ast_train, X_byte_train, X_cfg_train, X_ccfg_train, X_dfg_train, y_train)
+    val_dataset = VulnerabilityDataset(X_ast_val, X_byte_val, X_cfg_val, X_ccfg_val, X_dfg_val, y_val)
+    test_dataset = VulnerabilityDataset(X_ast_test, X_byte_test, X_cfg_test, X_ccfg_test, X_dfg_test, y_test)
+    complete_dataset = VulnerabilityDataset(ast_emb, byte_emb, cfg_emb, ccfg_emb, dfg_emb, labels)
     
     # Create data loaders with optimized batch size
     train_loader = DataLoader(train_dataset, batch_size=best_params['batch_size'], shuffle=True)
@@ -334,6 +346,8 @@ def main():
         d1=ast_emb.shape[1],
         d2=byte_emb.shape[1],
         d3=cfg_emb.shape[1],
+        d4=ccfg_emb.shape[1],
+        d5=dfg_emb.shape[1],
         d=best_params['embed_dim']
     ).to(device)
     
@@ -372,13 +386,15 @@ def main():
         with torch.no_grad():
             all_features = []
             all_labels = []
-            for ast_emb_temp, byte_emb_temp, cfg_emb_temp, labels_temp in complete_loader:
+            for ast_emb_temp, byte_emb_temp, cfg_emb_temp, ccfg_emb_temp, dfg_emb_temp, labels_temp in complete_loader:
                 ast_emb_temp = ast_emb_temp.to(device)
                 byte_emb_temp = byte_emb_temp.to(device)
                 cfg_emb_temp = cfg_emb_temp.to(device)
+                ccfg_emb_temp = ccfg_emb_temp.to(device)
+                dfg_emb_temp = dfg_emb_temp.to(device)
                 labels_temp = labels_temp.to(device)
                 
-                embeddings = attention_model(ast_emb_temp, byte_emb_temp, cfg_emb_temp, apply_attention=True)
+                embeddings = attention_model(ast_emb_temp, byte_emb_temp, cfg_emb_temp, ccfg_emb_temp, dfg_emb_temp, apply_attention=True)
                 features, projections = contrastive_model(embeddings)
                 all_features.append(features)
                 all_labels.append(labels_temp)
@@ -410,10 +426,12 @@ def main():
     ast_tensor = torch.Tensor(ast_emb).to(device)
     byte_tensor = torch.Tensor(byte_emb).to(device)
     cfg_tensor = torch.Tensor(cfg_emb).to(device)
+    ccfg_tensor = torch.Tensor(ccfg_emb).to(device)
+    dfg_tensor = torch.Tensor(dfg_emb).to(device)
     
     attention_model.eval()
     with torch.no_grad():
-        attended_emb = attention_model.forward(ast_tensor, byte_tensor, cfg_tensor)
+        attended_emb = attention_model.forward(ast_tensor, byte_tensor, cfg_tensor, ccfg_tensor, dfg_tensor)
         _, contrasted_emb = contrastive_model.forward(attended_emb)
         attended_emb = attended_emb.cpu().numpy()
         contrasted_emb = contrasted_emb.cpu().numpy()

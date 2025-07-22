@@ -369,6 +369,8 @@ def optimize_hyperparameters(processed_dir: str, output_dir: str, n_trials: int 
 def main():
 	global source
 	#source = 'CFG'
+	#source = 'CCFG'
+	#source = 'DFG'
 	source = 'AST'
 	processed_dir = f"./{source}/processed_{source.lower()}_data"
 	output_dir = "./embeddings_" + source.lower()
