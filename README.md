@@ -1,6 +1,5 @@
 # ICSE-2026-SUB
 
-A multi-representational framework for smart contract analysis using contrastive learning. This pipeline utilizes CFG, DFG, CCFG, AST, and Bytecode representations to extract embeddings that are aligned and contrasted using a co-attention-driven contrastive model.
 
 ---
 
@@ -36,12 +35,13 @@ The processed representations are passed through dedicated encoders using `gat_f
 Bytecode embeddings are generated separately using a masked language model (`mlm.py`):
 
 - `Embeddings-Bytecode/` – Bytecode-level embeddings
+- `Embeddings-Sourcecode/` – Sourcecode-level embeddings 
 
 ---
 
 ## 🔁 Contrastive Learning
 
-All five embeddings are input to the contrastive learning pipeline defined in `Contrastive_Learning_model.py`, consisting of:
+All six embeddings are input to the contrastive learning pipeline defined in `Contrastive_Learning_model.py`, consisting of:
 
 - **Co-Attention Layer** – Learns cross-view alignment between different representations
 - **Contrastive Loss Module** – Encourages similarity across views of the same contract and dissimilarity between unrelated ones
@@ -79,3 +79,5 @@ All major modules (except the initial raw processors) accept a CSV file as input
    
    Place all your Solidity files in the `dataset/` directory.
    Place your CSV file (in `File,Label` format) in dataset folder along Solidity files .
+
+
