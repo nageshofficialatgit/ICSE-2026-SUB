@@ -76,6 +76,6 @@ All major modules (except the initial raw processors) accept a CSV file as input
 ## 🚀 Getting Started
 
 1. **Prepare the Dataset**
-   ```bash
+   
    Place all your Solidity files in the `dataset/` directory.
-   Place your CSV file (in `File,Label` format) in the root or input directory.
+   Place your CSV file (in `File,Label` format) in dataset folder along Solidity files .
